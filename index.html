@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>InterviewPrep Hub</title>
+  <meta name="description" content="Interview questions and answers for backend developers: Python, FastAPI, Django, SQL, Redis, PHP, JavaScript, AWS and more. Track progress, mark important questions and practise in interview mode.">
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+
+  <!-- PWA: app name, icons, launch URL and colours -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#262624">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="InterviewPrep">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Apply the saved theme before the page paints (avoids a flash of the wrong theme) -->
+  <script>
+    try {
+      var savedTheme = localStorage.getItem("iph.theme");
+      var prefersLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+      var startTheme = savedTheme || (prefersLight ? "light" : "dark");
+      document.documentElement.setAttribute("data-theme", startTheme);
+      document.querySelector('meta[name="theme-color"]').setAttribute("content", startTheme === "light" ? "#faf9f5" : "#262624");
+    } catch (e) { /* storage blocked: keep the default */ }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+
+  <!-- Syntax colours for code examples (the app still works without them, e.g. offline) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js" onload="window.IPH && IPH.onHighlighterReady && IPH.onHighlighterReady()"></script>
+
+  <link rel="stylesheet" href="css/dark-theme.css">
+  <link rel="stylesheet" href="css/light-theme.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app">
+    <!-- ================= Sidebar ================= -->
+    <aside class="sidebar" id="sidebar" aria-label="Subjects">
+      <div class="brand">
+        <img src="assets/icons/favicon.svg" alt="" width="28" height="28">
+        <div>
+          <div class="brand-name">InterviewPrep Hub</div>
+          <div class="brand-sub">Backend interview revision</div>
+        </div>
+      </div>
+
+      <div class="side-search">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <input id="navSearch" type="search" placeholder="Search subjects" aria-label="Search subjects" autocomplete="off">
+      </div>
+
+      <nav class="nav" id="nav"></nav>
+
+      <button class="btn btn-accent install-btn" id="installBtn" type="button" hidden>⬇ Install app</button>
+      <div class="side-footer">
+        <button class="link-btn" id="exportBtn" type="button">⤓ Export progress</button>
+        <button class="link-btn" id="importBtn" type="button">⤒ Import progress</button>
+        <input id="importFile" type="file" accept="application/json" hidden>
+      </div>
+    </aside>
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- ================= Main ================= -->
+    <main class="main">
+      <header class="topbar">
+        <button class="icon-btn mobile-only" id="menuBtn" type="button" aria-label="Open menu">☰</button>
+        <div class="top-title">
+          <h1 id="viewTitle">Dashboard</h1>
+          <span class="muted" id="viewCount"></span>
+        </div>
+        <div class="search">
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input id="search" type="search" placeholder="Search questions & answers…  ( / )" aria-label="Search questions and answers" autocomplete="off">
+        </div>
+        <button class="btn btn-accent" id="interviewBtn" type="button" title="Practise like a real interview">🎤 Interview mode</button>
+        <button class="icon-btn" id="themeBtn" type="button" aria-label="Toggle theme" title="Toggle theme">◐</button>
+      </header>
+
+      <div class="filterbar" id="filterbar">
+        <label class="filter">
+          <span>Level</span>
+          <select id="levelFilter">
+            <option value="all">All levels</option>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </label>
+        <label class="filter">
+          <span>Status</span>
+          <select id="statusFilter">
+            <option value="all">All questions</option>
+            <option value="todo">Not completed</option>
+            <option value="done">Completed</option>
+            <option value="important">Important</option>
+            <option value="revision">Need revision</option>
+            <option value="notes">Has notes</option>
+          </select>
+        </label>
+        <button class="link-btn" id="clearFilters" type="button">Clear filters</button>
+        <span class="spacer"></span>
+        <button class="link-btn" id="collapseAll" type="button">Hide all answers</button>
+      </div>
+
+      <section id="content" aria-live="polite"></section>
+      <div id="loadMore"></div>
+    </main>
+  </div>
+
+  <!-- ================= Interview mode ================= -->
+  <div class="modal" id="interviewModal" role="dialog" aria-modal="true" aria-labelledby="imTitle" hidden>
+    <div class="modal-box">
+      <button class="modal-close" id="imClose" type="button" aria-label="Close interview mode">×</button>
+      <div id="imBody"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" hidden></div>
+
+  <div class="update-banner" id="updateBanner" role="status" hidden>
+    <span>A new version of InterviewPrep Hub is available.</span>
+    <button class="btn btn-accent btn-small" id="updateBtn" type="button">Refresh</button>
+  </div>
+
+  <script src="js/theme.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/notes.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/interview-mode.js"></script>
+  <script src="js/pwa.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- PWA: register the service worker for offline support (needs http/https, not file://) -->
+  <script>
+    if ("serviceWorker" in navigator && location.protocol !== "file:") {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+          .then(registration => window.IPH && IPH.pwa && IPH.pwa.watchUpdates(registration))
+          .catch(error => console.warn("Service worker registration failed:", error));
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+/* Dark theme: warm charcoal (default) */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --bg: #262624;
+  --side: #1f1e1d;
+  --side-hover: #2b2a27;
+  --side-active: #353431;
+  --card: #262624;
+  --soft: #30302e;
+  --text: #f5f4ef;
+  --body: #e8e6dc;
+  --muted: #a6a39a;
+  --line: #3b3a36;
+
+  --accent: #d97757;
+  --accent-soft: #3a2a23;
+  --accent-text: #ffffff;
+
+  --green: #8fc59a;
+  --green-soft: #24302a;
+  --amber: #e6b873;
+  --amber-soft: #352d20;
+  --purple: #a99cf7;
+  --purple-soft: #2c2940;
+  --blue: #8ab4f8;
+  --blue-soft: #1f2a3b;
+  --star: #f5b301;
+
+  --code-bg: #1a1918;
+  --code-text: #e8e6dc;
+  --code-head: #a9b1bb;
+  --chip-code-bg: #1f1e1d;
+  --chip-code-text: #ec8a78;
+
+  --overlay: rgba(0, 0, 0, .6);
+  --shadow: 0 20px 60px rgba(0, 0, 0, .45);
+}

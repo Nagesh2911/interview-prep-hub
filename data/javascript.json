@@ -1,0 +1,983 @@
+[
+  {
+    "id": "javascript-d0ab0264",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is JavaScript?",
+    "answer": "JavaScript is the programming language of the web browser. It makes pages interactive: button clicks, form checks, loading data without refreshing the page (AJAX). With Node.js it can also run on the server.",
+    "points": [
+      "Browser language",
+      "Interactive pages",
+      "AJAX",
+      "Node.js"
+    ],
+    "code": "",
+    "memory": "Remember: HTML = structure, CSS = style, JS = action",
+    "tip": "As a backend developer, say you used JS for AJAX, jQuery and form handling."
+  },
+  {
+    "id": "javascript-fc596e86",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "var vs let vs const?",
+    "answer": "var: function-scoped, can be re-declared, and is hoisted (old style; avoid it). let: block-scoped and can be changed. const: block-scoped and cannot be reassigned. Use const by default, and let when the value must change.",
+    "points": [
+      "var = old, function scope",
+      "let = block, can change",
+      "const = block, no reassign"
+    ],
+    "code": "const rate = 18;\nlet total = 100;\ntotal = total + 10;      // OK\n\n// rate = 20;            // Error: cannot reassign const\n\nconst user = { name: \"Ravi\" };\nuser.name = \"Amit\";      // OK: changing a property, not reassigning",
+    "memory": "Remember: const first, let if needed, never var",
+    "tip": "const objects can still have their properties changed."
+  },
+  {
+    "id": "javascript-dce47609",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What are the data types in JavaScript?",
+    "answer": "Primitive types: string, number, bigint, boolean, undefined, null, symbol. Everything else is an object, including arrays and functions.",
+    "points": [
+      "7 primitives",
+      "object",
+      "Array is object",
+      "Function is object"
+    ],
+    "code": "",
+    "memory": "Remember: Primitives + Object",
+    "tip": "typeof null returns 'object'; this is an old JS bug."
+  },
+  {
+    "id": "javascript-e90a3af9",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "== vs === in JavaScript?",
+    "answer": "== converts types before comparing (loose). === compares value and type (strict). Always use ===.",
+    "points": [
+      "== loose",
+      "=== strict",
+      "Always ==="
+    ],
+    "code": "console.log(\"5\" == 5);    // true\nconsole.log(\"5\" === 5);   // false\nconsole.log(null == undefined);   // true\nconsole.log(null === undefined);  // false",
+    "memory": "Remember: Same as PHP: three = strict",
+    "tip": "Example: '5' == 5 is true, '5' === 5 is false."
+  },
+  {
+    "id": "javascript-c6adb89f",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "null vs undefined?",
+    "answer": "undefined means a variable was declared but no value was given. null means 'no value' set on purpose by the developer.",
+    "points": [
+      "undefined = not set",
+      "null = empty on purpose"
+    ],
+    "code": "",
+    "memory": "Remember: undefined by JS, null by you",
+    "tip": "Use ?? to give a default for both."
+  },
+  {
+    "id": "javascript-08ad74ce",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is hoisting?",
+    "answer": "JavaScript moves declarations to the top of their scope before running the code. var variables are hoisted as undefined. let and const are hoisted but cannot be used before the line where they are declared (temporal dead zone). Function declarations are fully hoisted.",
+    "points": [
+      "var → undefined",
+      "let/const → error before line",
+      "Functions fully hoisted"
+    ],
+    "code": "console.log(a);   // undefined (var hoisted)\nvar a = 5;\n\n// console.log(b); // ReferenceError\nlet b = 5;\n\nsayHi();          // works: function is hoisted\nfunction sayHi() { console.log(\"Hi\"); }",
+    "memory": "Remember: Declarations go up, values do not",
+    "tip": "Declare variables at the top to avoid confusion."
+  },
+  {
+    "id": "javascript-a75a95e3",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is scope in JavaScript?",
+    "answer": "Scope decides where a variable can be used. Global scope: everywhere. Function scope: only inside the function. Block scope: only inside { } (for let and const).",
+    "points": [
+      "Global",
+      "Function",
+      "Block { }"
+    ],
+    "code": "",
+    "memory": "Remember: let/const live inside { }",
+    "tip": "Avoid global variables; they can clash with other scripts."
+  },
+  {
+    "id": "javascript-cdc89405",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is a closure in JavaScript?",
+    "answer": "A closure is a function that remembers variables from where it was created, even after the outer function has finished. It is used for private variables and counters.",
+    "points": [
+      "Inner function",
+      "Remembers outer variables",
+      "Private data"
+    ],
+    "code": "function makeCounter() {\n  let count = 0;            // private\n  return function () {\n    count++;\n    return count;\n  };\n}\n\nconst next = makeCounter();\nnext();   // 1\nnext();   // 2",
+    "memory": "Remember: Function + its memory",
+    "tip": "Same idea as closures in Python."
+  },
+  {
+    "id": "javascript-9b3106d1",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is 'this' in JavaScript?",
+    "answer": "'this' refers to the object that is calling the function. In an object method, 'this' is that object. In a normal function, it is undefined (strict mode) or window. Arrow functions do not have their own 'this'; they use 'this' from outside.",
+    "points": [
+      "Depends on who calls",
+      "Method → object",
+      "Arrow → outer this"
+    ],
+    "code": "const cart = {\n  items: 3,\n  show() {\n    console.log(this.items);          // 3\n    setTimeout(() => {\n      console.log(this.items);        // 3 (arrow keeps outer this)\n    }, 100);\n  },\n};\ncart.show();",
+    "memory": "Remember: Who called me? That is 'this'",
+    "tip": "This is why arrow functions are useful inside callbacks."
+  },
+  {
+    "id": "javascript-0fa417da",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "Arrow function vs normal function?",
+    "answer": "Arrow functions are shorter, do not have their own 'this' or 'arguments', and cannot be used with 'new'. Normal functions have their own 'this'. Use arrow functions for callbacks, and normal functions for object methods and constructors.",
+    "points": [
+      "Short syntax",
+      "No own this",
+      "No 'new'",
+      "Good for callbacks"
+    ],
+    "code": "function add(a, b) {\n  return a + b;\n}\n\nconst add2 = (a, b) => a + b;     // returns automatically\n\n[1, 2, 3].map(x => x * 2);         // [2, 4, 6]",
+    "memory": "Remember: Arrow = short + borrowed this",
+    "tip": "One-line arrow functions return the value automatically."
+  },
+  {
+    "id": "javascript-107e47b7",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is a callback function?",
+    "answer": "A callback is a function passed to another function, to be called later, for example after a click or after data loads. Too many nested callbacks make 'callback hell', which is why promises and async/await came.",
+    "points": [
+      "Function as argument",
+      "Called later",
+      "Callback hell"
+    ],
+    "code": "function loadData(callback) {\n  setTimeout(() => callback({ price: 2500 }), 1000);\n}\n\nloadData(function (data) {\n  console.log(\"Price:\", data.price);\n});",
+    "memory": "Remember: Callback = call me back when done",
+    "tip": "Event listeners and setTimeout use callbacks."
+  },
+  {
+    "id": "javascript-7b08068b",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is a Promise?",
+    "answer": "A Promise is an object for a value that will come in the future, like an API response. It has three states: pending, fulfilled (success) and rejected (error). Use .then() for success and .catch() for errors.",
+    "points": [
+      "pending",
+      "fulfilled",
+      "rejected",
+      "then",
+      "catch"
+    ],
+    "code": "const p = new Promise((resolve, reject) => {\n  const ok = true;\n  setTimeout(() => ok ? resolve(\"done\") : reject(\"failed\"), 1000);\n});\n\np.then(result => console.log(result))\n .catch(err => console.error(err))\n .finally(() => console.log(\"finished\"));",
+    "memory": "Remember: Promise = 'I will give you the result later'",
+    "tip": "fetch() returns a Promise."
+  },
+  {
+    "id": "javascript-5b68f8a4",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is async / await?",
+    "answer": "async / await is an easier way to write Promise code. It looks like normal step-by-step code. await waits for a Promise inside an async function. Use try / catch for errors.",
+    "points": [
+      "async function",
+      "await Promise",
+      "try / catch",
+      "Readable"
+    ],
+    "code": "async function getPrice(crop) {\n  try {\n    const res = await fetch(\"/api/prices?crop=\" + crop);\n    if (!res.ok) throw new Error(\"HTTP \" + res.status);\n    const data = await res.json();\n    return data.price;\n  } catch (err) {\n    console.error(\"Failed:\", err);\n    return null;\n  }\n}",
+    "memory": "Remember: await = wait for the promise",
+    "tip": "Same idea as Python's async / await."
+  },
+  {
+    "id": "javascript-2c5eb5c0",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is the event loop?",
+    "answer": "JavaScript runs one thing at a time (single-threaded). Slow work like timers and network calls is handled outside. When it finishes, its callback waits in a queue. The event loop takes callbacks from the queue and runs them when the main code is free. Promises (microtasks) run before timers (macrotasks).",
+    "points": [
+      "Single thread",
+      "Call stack",
+      "Queue",
+      "Microtasks before macrotasks"
+    ],
+    "code": "",
+    "memory": "Remember: Stack empty → take from queue",
+    "tip": "Classic question: the order of console.log with setTimeout and Promise."
+  },
+  {
+    "id": "javascript-c453073f",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "What is the output? (setTimeout vs Promise)",
+    "answer": "Normal code runs first: 1, then 4. Then microtasks (Promise): 3. Then macrotasks (setTimeout): 2. So the output is 1, 4, 3, 2. setTimeout with 0 ms still waits for the stack to be empty.",
+    "points": [
+      "Sync first",
+      "Promise (microtask) next",
+      "setTimeout last"
+    ],
+    "code": "console.log(1);\nsetTimeout(() => console.log(2), 0);\nPromise.resolve().then(() => console.log(3));\nconsole.log(4);\n\n// Output: 1, 4, 3, 2",
+    "memory": "Remember: Sync → Promise → Timeout",
+    "tip": "Very common interview trick question."
+  },
+  {
+    "id": "javascript-1caff26c",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "How do you call an API with fetch?",
+    "answer": "fetch(url, options) returns a Promise. For POST, set method, headers and body (JSON.stringify). Note: fetch does not throw on 404 or 500; check res.ok yourself.",
+    "points": [
+      "fetch",
+      "method / headers / body",
+      "res.ok",
+      "res.json()"
+    ],
+    "code": "async function createOrder(order) {\n  const res = await fetch(\"/api/orders\", {\n    method: \"POST\",\n    headers: { \"Content-Type\": \"application/json\" },\n    body: JSON.stringify(order),\n  });\n  if (!res.ok) throw new Error(\"Failed: \" + res.status);\n  return res.json();\n}",
+    "memory": "Remember: fetch → check ok → json",
+    "tip": "fetch only rejects on network failure, not on HTTP errors."
+  },
+  {
+    "id": "javascript-5d7f8619",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "What is AJAX? Show a jQuery example.",
+    "answer": "AJAX means loading or sending data without refreshing the whole page. jQuery's $.ajax made this easy. Today fetch is common, but many older projects still use jQuery.",
+    "points": [
+      "No page refresh",
+      "$.ajax",
+      "success / error",
+      "JSON"
+    ],
+    "code": "$.ajax({\n  url: \"/api/vehicles\",\n  method: \"GET\",\n  data: { type: \"truck\" },\n  dataType: \"json\",\n  success: function (data) {\n    $(\"#count\").text(data.length + \" vehicles\");\n  },\n  error: function (xhr) {\n    alert(\"Error: \" + xhr.status);\n  },\n});",
+    "memory": "Remember: AJAX = talk to server in the background",
+    "tip": "Your resume lists AJAX and jQuery, so be ready for this."
+  },
+  {
+    "id": "javascript-2a3bd352",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "JSON.parse vs JSON.stringify?",
+    "answer": "JSON.stringify turns a JavaScript object into a JSON string, for sending to a server or saving. JSON.parse turns a JSON string back into an object.",
+    "points": [
+      "stringify = object → string",
+      "parse = string → object"
+    ],
+    "code": "const order = { id: 1, amount: 499 };\nconst text = JSON.stringify(order);   // '{\"id\":1,\"amount\":499}'\nconst back = JSON.parse(text);        // object again",
+    "memory": "Remember: Stringify to send, parse to read",
+    "tip": "JSON.parse throws an error on invalid JSON, so wrap it in try / catch."
+  },
+  {
+    "id": "javascript-38502257",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "map, filter and reduce on arrays?",
+    "answer": "map: makes a new array by changing every item. filter: makes a new array with only matching items. reduce: combines all items into one value, like a total.",
+    "points": [
+      "map = change all",
+      "filter = keep some",
+      "reduce = one value"
+    ],
+    "code": "const orders = [{ amount: 100 }, { amount: 250 }, { amount: 40 }];\n\nconst amounts = orders.map(o => o.amount);           // [100, 250, 40]\nconst big     = orders.filter(o => o.amount > 50);   // 2 orders\nconst total   = orders.reduce((sum, o) => sum + o.amount, 0);  // 390",
+    "memory": "Remember: Change, Keep, Combine",
+    "tip": "They do not change the original array."
+  },
+  {
+    "id": "javascript-73bc48b7",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "find vs filter? forEach vs map?",
+    "answer": "find returns the first matching item (or undefined). filter returns an array of all matching items. forEach just loops and returns nothing. map loops and returns a new array.",
+    "points": [
+      "find = first one",
+      "filter = all",
+      "forEach = no return",
+      "map = new array"
+    ],
+    "code": "const users = [{ id: 1, city: \"Pune\" }, { id: 2, city: \"Pune\" }];\n\nusers.find(u => u.city === \"Pune\");     // {id: 1, ...}\nusers.filter(u => u.city === \"Pune\");   // both users\n\nusers.forEach(u => console.log(u.id));  // returns undefined\nconst ids = users.map(u => u.id);       // [1, 2]",
+    "memory": "Remember: Need one? find. Need a new array? map/filter",
+    "tip": "Do not use map if you do not use the returned array."
+  },
+  {
+    "id": "javascript-9331de40",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "Spread vs rest operator (...)?",
+    "answer": "Both use three dots. Spread expands an array or object into separate items, for example to copy or merge. Rest collects many items into one array, for example in function parameters.",
+    "points": [
+      "Spread = expand",
+      "Rest = collect",
+      "Copy / merge"
+    ],
+    "code": "const a = [1, 2];\nconst b = [...a, 3];                    // [1, 2, 3]  spread\n\nconst base = { city: \"Pune\" };\nconst user = { ...base, name: \"Ravi\" }; // merge objects\n\nfunction sum(...nums) {                 // rest\n  return nums.reduce((s, n) => s + n, 0);\n}\nsum(1, 2, 3);   // 6",
+    "memory": "Remember: Spread opens, rest packs",
+    "tip": "Spread makes only a shallow copy."
+  },
+  {
+    "id": "javascript-f8ef2f8c",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is destructuring?",
+    "answer": "Destructuring takes values out of an array or object into variables in one line. You can also give default values and rename.",
+    "points": [
+      "Object destructuring",
+      "Array destructuring",
+      "Defaults",
+      "Rename"
+    ],
+    "code": "const user = { name: \"Ravi\", city: \"Pune\" };\nconst { name, city, phone = \"N/A\" } = user;\n\nconst [first, second] = [10, 20];\n\nfunction show({ name, city }) {\n  console.log(name, city);\n}",
+    "memory": "Remember: Unpack in one line",
+    "tip": "Very common with API responses and function parameters."
+  },
+  {
+    "id": "javascript-d0aae951",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What are template literals?",
+    "answer": "Template literals use backticks instead of quotes. You can put variables inside with ${ } and write strings on many lines.",
+    "points": [
+      "Backticks",
+      "${ variable }",
+      "Multi-line"
+    ],
+    "code": "const name = \"Ravi\";\nconst points = 2500;\n\nconst msg = `${name} has ${points} points`;\n\nconst html = `\n  <li>${name}</li>\n`;",
+    "memory": "Remember: Backtick + ${ }",
+    "tip": "Same idea as f-strings in Python."
+  },
+  {
+    "id": "javascript-c9b607b1",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "How do you copy an object? Shallow vs deep.",
+    "answer": "Spread ({...obj}) and Object.assign make a shallow copy: inner objects are still shared. structuredClone(obj) makes a deep copy. The old trick JSON.parse(JSON.stringify(obj)) also works but loses dates and functions.",
+    "points": [
+      "Spread = shallow",
+      "structuredClone = deep",
+      "JSON trick has limits"
+    ],
+    "code": "const order = { id: 1, items: [\"rice\"] };\n\nconst shallow = { ...order };\nshallow.items.push(\"dal\");       // changes order.items too!\n\nconst deep = structuredClone(order);\ndeep.items.push(\"oil\");          // order not changed",
+    "memory": "Remember: Nested data? Use structuredClone",
+    "tip": "Same concept as Python copy vs deepcopy."
+  },
+  {
+    "id": "javascript-802777c3",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is typeof? What are truthy and falsy values?",
+    "answer": "typeof tells the type of a value as a string. Falsy values are: false, 0, '' (empty string), null, undefined and NaN. Everything else is truthy, including '0', [] and {}.",
+    "points": [
+      "typeof",
+      "6 falsy values",
+      "[] and {} are truthy"
+    ],
+    "code": "typeof \"hi\";        // \"string\"\ntypeof 5;           // \"number\"\ntypeof [];          // \"object\"\ntypeof null;        // \"object\" (old bug)\n\nif ([]) console.log(\"runs\");   // [] is truthy",
+    "memory": "Remember: false, 0, '', null, undefined, NaN",
+    "tip": "Empty array [] is truthy: a common trap."
+  },
+  {
+    "id": "javascript-ff6fa841",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What are optional chaining (?.) and nullish coalescing (??)?",
+    "answer": "?. stops and returns undefined if something in the chain is null or undefined, instead of throwing an error. ?? gives a default only when the value is null or undefined. || also gives a default for 0 and '', which can be a bug.",
+    "points": [
+      "?. = safe access",
+      "?? = default for null/undefined",
+      "OR operator also replaces 0 and ''"
+    ],
+    "code": "const city = user?.address?.city;      // no error if missing\n\nconst qty1 = 0 || 10;   // 10  (wrong if 0 is valid)\nconst qty2 = 0 ?? 10;   // 0   (correct)",
+    "memory": "Remember: ?. safe read, ?? safe default",
+    "tip": "Use ?? when 0 is a valid value."
+  },
+  {
+    "id": "javascript-fdc23acc",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "How do you select elements and handle events in the DOM?",
+    "answer": "Use document.querySelector (first match) or querySelectorAll (all matches) with CSS selectors. Use addEventListener to run code on events like click, input or submit.",
+    "points": [
+      "querySelector",
+      "querySelectorAll",
+      "addEventListener",
+      "textContent"
+    ],
+    "code": "const btn = document.querySelector(\"#saveBtn\");\nconst msg = document.querySelector(\".message\");\n\nbtn.addEventListener(\"click\", () => {\n  msg.textContent = \"Saved!\";\n  msg.classList.add(\"success\");\n});",
+    "memory": "Remember: Select → Listen → Act",
+    "tip": "Use textContent (not innerHTML) for user text, to avoid XSS."
+  },
+  {
+    "id": "javascript-7738a27d",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What are event bubbling and event delegation?",
+    "answer": "Bubbling: an event on a child element also goes up to its parents. Delegation: instead of adding a listener to every child, add one listener to the parent and check event.target. This works even for elements added later.",
+    "points": [
+      "Bubbling = goes up",
+      "Delegation = one parent listener",
+      "event.target"
+    ],
+    "code": "document.querySelector(\"#orderTable\").addEventListener(\"click\", (e) => {\n  const btn = e.target.closest(\".delete-btn\");\n  if (!btn) return;\n  const id = btn.dataset.id;\n  console.log(\"Delete order\", id);\n});",
+    "memory": "Remember: Listen on parent, check the child",
+    "tip": "Delegation is great for long tables and lists."
+  },
+  {
+    "id": "javascript-4864baaf",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "preventDefault vs stopPropagation?",
+    "answer": "preventDefault stops the browser's default action, like submitting a form or opening a link. stopPropagation stops the event from bubbling up to parent elements.",
+    "points": [
+      "preventDefault = stop default action",
+      "stopPropagation = stop bubbling"
+    ],
+    "code": "document.querySelector(\"#orderForm\").addEventListener(\"submit\", async (e) => {\n  e.preventDefault();          // do not reload the page\n  const data = Object.fromEntries(new FormData(e.target));\n  await createOrder(data);\n});",
+    "memory": "Remember: Default action vs going up",
+    "tip": "Use preventDefault when you submit a form with AJAX."
+  },
+  {
+    "id": "javascript-56ac8563",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "localStorage vs sessionStorage vs cookies?",
+    "answer": "localStorage: stays until deleted, about 5 MB, only the browser reads it. sessionStorage: cleared when the tab closes. Cookies: small (4 KB), sent to the server with every request, and can have expiry and HttpOnly. Do not store tokens or secrets in localStorage if XSS is possible.",
+    "points": [
+      "localStorage = permanent",
+      "sessionStorage = per tab",
+      "Cookie = sent to server"
+    ],
+    "code": "localStorage.setItem(\"theme\", \"dark\");\nlocalStorage.getItem(\"theme\");      // \"dark\"\n\nsessionStorage.setItem(\"step\", \"2\");",
+    "memory": "Remember: Cookie travels, storage stays",
+    "tip": "HttpOnly cookies cannot be read by JavaScript, which makes them safer for sessions."
+  },
+  {
+    "id": "javascript-8888cb2e",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is debounce? Write it.",
+    "answer": "Debounce waits until the user stops doing something (like typing) for a short time, and then runs the function once. It reduces API calls, for example in a search box.",
+    "points": [
+      "Wait for pause",
+      "Run once",
+      "Search box",
+      "Fewer API calls"
+    ],
+    "code": "function debounce(fn, delay) {\n  let timer;\n  return function (...args) {\n    clearTimeout(timer);\n    timer = setTimeout(() => fn.apply(this, args), delay);\n  };\n}\n\nconst search = debounce((text) => {\n  fetch(\"/api/search?q=\" + encodeURIComponent(text));\n}, 300);\n\ninput.addEventListener(\"input\", (e) => search(e.target.value));",
+    "memory": "Remember: Debounce = wait until they stop",
+    "tip": "Throttle is different: it runs at most once every X ms."
+  },
+  {
+    "id": "javascript-49479dd1",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is throttle?",
+    "answer": "Throttle makes sure a function runs at most once in a time period, for example once every 200 ms, even if the event fires many times. It is used for scroll and resize events.",
+    "points": [
+      "Max once per period",
+      "Scroll / resize",
+      "Different from debounce"
+    ],
+    "code": "function throttle(fn, limit) {\n  let waiting = false;\n  return function (...args) {\n    if (waiting) return;\n    fn.apply(this, args);\n    waiting = true;\n    setTimeout(() => (waiting = false), limit);\n  };\n}\n\nwindow.addEventListener(\"scroll\", throttle(() => console.log(\"scroll\"), 200));",
+    "memory": "Remember: Throttle = regular pace, Debounce = after a pause",
+    "tip": "Both are performance techniques."
+  },
+  {
+    "id": "javascript-c917ab81",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "Classes in JavaScript?",
+    "answer": "class is a cleaner way to create objects and use inheritance. constructor sets the data, methods are shared, extends makes a child class, and super calls the parent. Private fields start with #.",
+    "points": [
+      "class",
+      "constructor",
+      "extends",
+      "super",
+      "#private"
+    ],
+    "code": "class Vehicle {\n  #km = 0;                         // private field\n  constructor(number) {\n    this.number = number;\n  }\n  addTrip(km) {\n    this.#km += km;\n  }\n  get km() {\n    return this.#km;\n  }\n}\n\nclass Truck extends Vehicle {\n  constructor(number, load) {\n    super(number);\n    this.load = load;\n  }\n}",
+    "memory": "Remember: Same idea as Python classes",
+    "tip": "Under the hood, JS classes use prototypes."
+  },
+  {
+    "id": "javascript-cad42f66",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is a prototype?",
+    "answer": "Every JavaScript object has a hidden link to another object called its prototype. If a property is not found on the object, JS looks in the prototype, then its prototype, and so on (prototype chain). Classes are built on this.",
+    "points": [
+      "Hidden link",
+      "Prototype chain",
+      "Shared methods",
+      "Classes use it"
+    ],
+    "code": "",
+    "memory": "Remember: Not found? Look in the prototype",
+    "tip": "Methods on Array.prototype (like map) are shared by all arrays."
+  },
+  {
+    "id": "javascript-72011b43",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What are ES modules (import / export)?",
+    "answer": "Modules split code into files. export makes something available; import uses it in another file. Named exports use { }, and a file can have one default export.",
+    "points": [
+      "export / import",
+      "Named { }",
+      "Default export",
+      "type='module'"
+    ],
+    "code": "// prices.js\nexport const GST = 0.18;\nexport function withGst(p) { return p * (1 + GST); }\nexport default function format(p) { return \"Rs \" + p.toFixed(2); }\n\n// app.js\nimport format, { withGst } from \"./prices.js\";\nconsole.log(format(withGst(100)));   // Rs 118.00",
+    "memory": "Remember: Export from one file, import in another",
+    "tip": "In the browser use <script type='module'>."
+  },
+  {
+    "id": "javascript-a63de341",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "Promise.all vs allSettled vs race vs any?",
+    "answer": "Promise.all: waits for all; fails if any one fails. allSettled: waits for all and gives each result (success or failure). race: gives the first one to finish (success or failure). any: gives the first success.",
+    "points": [
+      "all = all must pass",
+      "allSettled = all results",
+      "race = first finished",
+      "any = first success"
+    ],
+    "code": "const [prices, stock] = await Promise.all([\n  fetch(\"/api/prices\").then(r => r.json()),\n  fetch(\"/api/stock\").then(r => r.json()),\n]);\n\nconst results = await Promise.allSettled([p1, p2]);\nresults.forEach(r => console.log(r.status));   // fulfilled / rejected",
+    "memory": "Remember: all / allSettled / race / any",
+    "tip": "Use allSettled when some calls are allowed to fail."
+  },
+  {
+    "id": "javascript-5db35f42",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is CORS?",
+    "answer": "CORS (Cross-Origin Resource Sharing) is a browser security rule. A page from one domain cannot call an API on another domain unless the API sends headers like Access-Control-Allow-Origin. It is fixed on the server, not in JavaScript.",
+    "points": [
+      "Browser rule",
+      "Different domain",
+      "Server sends headers",
+      "Preflight OPTIONS"
+    ],
+    "code": "# FastAPI (backend)\nfrom fastapi.middleware.cors import CORSMiddleware\n\napp.add_middleware(\n    CORSMiddleware,\n    allow_origins=[\"https://myapp.com\"],\n    allow_methods=[\"*\"],\n    allow_headers=[\"*\"],\n)",
+    "memory": "Remember: CORS is fixed on the backend",
+    "tip": "In FastAPI use CORSMiddleware; in Laravel, the cors config."
+  },
+  {
+    "id": "javascript-210a14e0",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "What is the output? (var vs let in a loop with setTimeout)",
+    "answer": "With var there is only one shared i, and by the time the timers run, the loop has finished, so it prints 3, 3, 3. With let, each loop round gets its own i, so it prints 0, 1, 2.",
+    "points": [
+      "var = one shared i",
+      "let = new i each round"
+    ],
+    "code": "for (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);   // 3 3 3\n}\n\nfor (let j = 0; j < 3; j++) {\n  setTimeout(() => console.log(j), 0);   // 0 1 2\n}",
+    "memory": "Remember: let in loops = safe",
+    "tip": "Classic trick question about closures and scope."
+  },
+  {
+    "id": "javascript-a69f9e88",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "Coding: remove duplicates from an array.",
+    "answer": "Put the array into a Set (which keeps only unique values) and spread it back into an array. For arrays of objects, use a Map or filter with a seen set.",
+    "points": [
+      "new Set",
+      "Spread back",
+      "Objects → Map by key"
+    ],
+    "code": "const nums = [1, 2, 2, 3, 3];\nconst unique = [...new Set(nums)];   // [1, 2, 3]\n\n// unique objects by id\nconst users = [{ id: 1 }, { id: 1 }, { id: 2 }];\nconst byId = [...new Map(users.map(u => [u.id, u])).values()];",
+    "memory": "Remember: [...new Set(arr)]",
+    "tip": "Same idea as set() in Python."
+  },
+  {
+    "id": "javascript-759f9022",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "Coding: reverse a string and check palindrome.",
+    "answer": "Split the string into characters, reverse the array, and join it back. A palindrome is the same as its reverse.",
+    "points": [
+      "split",
+      "reverse",
+      "join",
+      "Compare"
+    ],
+    "code": "const reverse = s => s.split(\"\").reverse().join(\"\");\n\nfunction isPalindrome(s) {\n  const clean = s.toLowerCase().replace(/[^a-z0-9]/g, \"\");\n  return clean === reverse(clean);\n}\n\nisPalindrome(\"Madam\");   // true",
+    "memory": "Remember: split → reverse → join",
+    "tip": "Lowercase the text first."
+  },
+  {
+    "id": "javascript-d168b727",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "Why does [10, 1, 5].sort() give the wrong order?",
+    "answer": "By default sort() compares items as strings, so '10' comes before '5'. For numbers, pass a compare function: (a, b) => a - b. Also, sort changes the original array.",
+    "points": [
+      "Default = string sort",
+      "(a, b) => a - b",
+      "Changes original"
+    ],
+    "code": "[10, 1, 5].sort();                  // [1, 10, 5]  wrong\n[10, 1, 5].sort((a, b) => a - b);  // [1, 5, 10]  correct\n[10, 1, 5].sort((a, b) => b - a);  // [10, 5, 1]  descending",
+    "memory": "Remember: Numbers need a compare function",
+    "tip": "Use [...arr].sort() or toSorted() to keep the original."
+  },
+  {
+    "id": "javascript-400b3fa7",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is 'use strict'?",
+    "answer": "Strict mode makes JavaScript safer by turning silent mistakes into errors, for example using a variable that was never declared. ES modules and classes are strict automatically.",
+    "points": [
+      "Catches mistakes",
+      "No undeclared variables",
+      "Modules are strict"
+    ],
+    "code": "",
+    "memory": "Remember: Strict = fewer silent bugs",
+    "tip": "Add 'use strict'; at the top of old script files."
+  },
+  {
+    "id": "javascript-fc5c0fae",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "How do you handle errors in async JavaScript?",
+    "answer": "With async / await, use try / catch. With promises, use .catch(). Also add a global handler (window 'unhandledrejection') to log errors you missed. Show a friendly message to the user.",
+    "points": [
+      "try / catch",
+      ".catch()",
+      "unhandledrejection",
+      "User message"
+    ],
+    "code": "window.addEventListener(\"unhandledrejection\", (e) => {\n  console.error(\"Unhandled:\", e.reason);\n});\n\nasync function load() {\n  try {\n    const data = await getPrice(\"onion\");\n    render(data);\n  } catch (err) {\n    showMessage(\"Something went wrong, please try again\");\n  }\n}",
+    "memory": "Remember: Every await needs a catch somewhere",
+    "tip": "Log errors to the server for production debugging."
+  },
+  {
+    "id": "javascript-41d1553c",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "jQuery basics: document ready, selectors and events?",
+    "answer": "$(document).ready (or $(function(){})) runs code after the page loads. $('#id'), $('.class') select elements. .on('click', ...) adds events. .val() reads input values, .text() and .html() change content, .show() / .hide() toggle visibility.",
+    "points": [
+      "$(function(){})",
+      "$('#id')",
+      ".on()",
+      ".val()",
+      ".text()"
+    ],
+    "code": "$(function () {\n  $(\"#saveBtn\").on(\"click\", function () {\n    const name = $(\"#name\").val().trim();\n    if (!name) {\n      $(\"#error\").text(\"Name is required\").show();\n      return;\n    }\n    $(\"#error\").hide();\n  });\n});",
+    "memory": "Remember: $ = select, then do",
+    "tip": "jQuery is older but still common in PHP projects."
+  },
+  {
+    "id": "javascript-eb9ed6b1",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "How do you validate a form with JavaScript?",
+    "answer": "Check the values when the form is submitted: required fields, length, email or phone format. Show clear error messages. Remember: JavaScript validation is only for user experience. The server must validate again, because users can skip JavaScript.",
+    "points": [
+      "Check on submit",
+      "Clear messages",
+      "Regex for format",
+      "Server must also validate"
+    ],
+    "code": "form.addEventListener(\"submit\", (e) => {\n  const phone = form.phone.value.trim();\n  if (!/^[6-9][0-9]{9}$/.test(phone)) {\n    e.preventDefault();\n    showError(\"Enter a valid 10-digit mobile number\");\n  }\n});",
+    "memory": "Remember: Client check = convenience, server check = security",
+    "tip": "HTML attributes like required and type='email' also help."
+  },
+  {
+    "id": "javascript-5430cf2e",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What is Node.js?",
+    "answer": "Node.js runs JavaScript on the server, outside the browser. It is good for APIs and real-time apps because it handles many connections with non-blocking I/O. npm is its package manager. Express is a popular Node.js web framework.",
+    "points": [
+      "JS on server",
+      "Non-blocking I/O",
+      "npm",
+      "Express"
+    ],
+    "code": "",
+    "memory": "Remember: Node = JavaScript backend",
+    "tip": "You can say: 'I mainly use Python and PHP for backend, and I know Node.js basics.'"
+  },
+  {
+    "id": "javascript-151cc133",
+    "subject": "JavaScript",
+    "level": "Beginner",
+    "question": "What are npm and package.json?",
+    "answer": "npm installs JavaScript packages. package.json lists the project's packages and scripts; package-lock.json saves the exact versions. node_modules holds the installed code and is never committed to Git.",
+    "points": [
+      "npm install",
+      "package.json",
+      "package-lock.json",
+      "node_modules not in Git"
+    ],
+    "code": "",
+    "memory": "Remember: package.json = requirements.txt of JS",
+    "tip": "npm run build runs the 'build' script in package.json."
+  },
+  {
+    "id": "javascript-2b5cfb57",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "What is the difference between innerHTML and textContent?",
+    "answer": "innerHTML reads or writes HTML, so tags are processed. textContent reads or writes only plain text. Use textContent for user data to avoid XSS attacks.",
+    "points": [
+      "innerHTML = HTML",
+      "textContent = plain text",
+      "XSS risk"
+    ],
+    "code": "",
+    "memory": "Remember: User data → textContent",
+    "tip": "This is a security point that interviewers like."
+  },
+  {
+    "id": "javascript-6628df0c",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "What is the difference between synchronous and asynchronous code?",
+    "answer": "Synchronous code runs line by line; each line waits for the previous one. Asynchronous code starts a slow task (like an API call) and continues with other work; the result is handled later with a callback, promise or await.",
+    "points": [
+      "Sync = wait each line",
+      "Async = do other work while waiting"
+    ],
+    "code": "",
+    "memory": "Remember: Async = do not block",
+    "tip": "The browser UI freezes if you run long synchronous code."
+  },
+  {
+    "id": "javascript-14bb05b0",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "What is the difference between let x = [] and const x = []?",
+    "answer": "With let you can assign a new array to x later. With const you cannot assign a new array, but you can still push, pop or change items, because the array itself is not frozen. Use Object.freeze to make it truly unchangeable.",
+    "points": [
+      "let = reassign OK",
+      "const = no reassign",
+      "Contents can change",
+      "Object.freeze"
+    ],
+    "code": "",
+    "memory": "Remember: const protects the name, not the content",
+    "tip": "Very common follow-up to the var / let / const question."
+  },
+  {
+    "id": "javascript-c556dbbb",
+    "subject": "JavaScript",
+    "level": "Intermediate",
+    "question": "How do you make an element show a list from an API?",
+    "answer": "Fetch the data, loop through it, create elements (or build an HTML string carefully), and add them to the page. Use a DocumentFragment or one innerHTML update to keep it fast, and textContent for user text.",
+    "points": [
+      "fetch",
+      "Loop",
+      "createElement",
+      "textContent",
+      "One DOM update"
+    ],
+    "code": "async function showVehicles() {\n  const res = await fetch(\"/api/vehicles\");\n  const vehicles = await res.json();\n\n  const list = document.querySelector(\"#vehicleList\");\n  const frag = document.createDocumentFragment();\n  vehicles.forEach(v => {\n    const li = document.createElement(\"li\");\n    li.textContent = v.number + \" (\" + v.type + \")\";\n    frag.appendChild(li);\n  });\n  list.replaceChildren(frag);\n}",
+    "memory": "Remember: Get data → build → add once",
+    "tip": "Updating the DOM many times in a loop is slow."
+  },
+  {
+    "id": "html-css-ad8d0aa1",
+    "subject": "HTML & CSS",
+    "level": "Beginner",
+    "question": "What is semantic HTML? Why does it matter?",
+    "answer": "Semantic HTML means using tags that describe the meaning of the content, not only its look: header, nav, main, article, section, aside, footer, button, label and table, instead of using div and span for everything. Why it matters: screen readers understand the page (accessibility), search engines understand it better (SEO), the code is easier to read and maintain, and you get built-in behaviour for free (a button works with the keyboard, a label focuses its input).",
+    "points": [
+      "Tags with meaning",
+      "header, nav, main, article, footer",
+      "Accessibility (screen readers)",
+      "Better SEO",
+      "Readable code",
+      "Built-in behaviour (button, label)"
+    ],
+    "code": "<header>\n  <nav>\n    <a href=\"/\">Home</a>\n    <a href=\"/orders\">Orders</a>\n  </nav>\n</header>\n\n<main>\n  <article>\n    <h1>Monthly rewards report</h1>\n    <section>\n      <h2>Top customers</h2>\n      <p>Ravi earned 1200 points this month.</p>\n    </section>\n  </article>\n  <aside>Tip: points expire after 12 months.</aside>\n</main>\n\n<footer>© 2026 Loyalty Inc.</footer>\n\n<!-- Bad: <div onclick=\"save()\">Save</div>   Good: -->\n<button type=\"button\" onclick=\"save()\">Save</button>",
+    "memory": "Remember: Use the tag that says what it is",
+    "tip": "Mention that a clickable div is a common mistake; a real button is keyboard accessible by default."
+  },
+  {
+    "id": "html-css-81634cae",
+    "subject": "HTML & CSS",
+    "level": "Intermediate",
+    "question": "Block vs inline vs inline-block elements?",
+    "answer": "A block element (div, p, h1, section, ul) starts on a new line and takes the full width; you can set width, height, margin and padding. An inline element (span, a, strong, img) stays in the line of text and takes only the width of its content; width and height do not apply, and vertical margin does not push other lines. inline-block stays in the line like inline, but accepts width, height and all margins like a block, which is useful for buttons and badges. You can change any element's behaviour with the CSS display property.",
+    "points": [
+      "block = new line, full width",
+      "inline = in text, content width",
+      "inline: no width / height",
+      "inline-block = in line + size",
+      "display property changes it"
+    ],
+    "code": "<div>Block: full width, new line</div>\n<span>Inline</span> <span>stays in the same line</span>\n\n<style>\n  .badge {\n    display: inline-block;   /* stays in line, but width/padding work */\n    padding: 4px 10px;\n    border-radius: 999px;\n    background: #e3f3ec;\n  }\n  .hidden    { display: none; }        /* no space taken */\n  .invisible { visibility: hidden; }   /* space kept */\n</style>\n\n<p>Status: <span class=\"badge\">Paid</span></p>",
+    "memory": "Remember: Block stacks, inline flows, inline-block flows with a size",
+    "tip": "Follow-up: display: none removes the element from layout; visibility: hidden keeps its space."
+  },
+  {
+    "id": "html-css-a16fae19",
+    "subject": "HTML & CSS",
+    "level": "Beginner",
+    "question": "What is the CSS box model? What does box-sizing: border-box do?",
+    "answer": "Every element is a box made of four layers: content, padding (space inside the border), border, and margin (space outside the border). By default (box-sizing: content-box), width sets only the content, so padding and border are added on top: width 200px + padding 20px each side + border 1px each side = 242px. With box-sizing: border-box, width includes padding and border, so the box stays exactly 200px. Most projects set border-box on everything because sizes become predictable.",
+    "points": [
+      "content → padding → border → margin",
+      "content-box: width = content only",
+      "border-box: width includes padding + border",
+      "Set border-box globally"
+    ],
+    "code": "/* Use border-box everywhere */\n*, *::before, *::after {\n  box-sizing: border-box;\n}\n\n.card {\n  width: 200px;\n  padding: 20px;          /* inside the border */\n  border: 1px solid #ddd;\n  margin: 16px auto;      /* outside; auto centres horizontally */\n}\n/* content-box: total width = 200 + 40 + 2 = 242px\n   border-box:  total width = 200px (content shrinks to 158px) */",
+    "memory": "Remember: Margin outside, padding inside, border in between",
+    "tip": "Margin collapse: vertical margins between two blocks merge into the larger one; a common follow-up."
+  },
+  {
+    "id": "html-css-547e17f9",
+    "subject": "HTML & CSS",
+    "level": "Intermediate",
+    "question": "CSS specificity: which rule wins?",
+    "answer": "When several rules style the same element, the browser picks the one with the highest specificity. Order from strongest to weakest: inline style (style=\"...\"), then ID selectors (#id), then classes, attributes and pseudo-classes (.btn, [type], :hover), then element and pseudo-element selectors (p, ::before). Count them like a score (IDs, classes, elements); the higher score wins. If the score is equal, the rule written later wins. !important beats all normal rules, so avoid it except to override third-party CSS.",
+    "points": [
+      "inline > #id > .class / [attr] / :hover > element",
+      "Score (ids, classes, elements)",
+      "Equal score → later rule wins",
+      "!important overrides (avoid)"
+    ],
+    "code": "<p id=\"intro\" class=\"lead\">Hello</p>\n\n<style>\n  p              { color: black; }   /* (0,0,1) */\n  .lead          { color: blue;  }   /* (0,1,0)  beats p */\n  p.lead         { color: green; }   /* (0,1,1)  beats .lead */\n  #intro         { color: red;   }   /* (1,0,0)  beats all above */\n  .lead          { color: orange !important; }   /* wins, but avoid */\n</style>\n<!-- An inline style=\"color: purple\" beats everything except !important -->",
+    "memory": "Remember: Inline, ID, Class, Element; ties go to the last rule",
+    "tip": "Keep specificity low (mostly single classes) so styles are easy to override; that's why Bootstrap uses classes."
+  },
+  {
+    "id": "html-css-9d3a3a27",
+    "subject": "HTML & CSS",
+    "level": "Intermediate",
+    "question": "Flexbox vs CSS Grid: when to use which?",
+    "answer": "Flexbox is one-dimensional: it lays items out in a row or a column, and is great for navbars, button groups, centring something, and spacing items in a line. Grid is two-dimensional: rows and columns together, and is great for page layouts, dashboards and card grids. Common combination: Grid for the overall page structure, Flexbox inside each component. Key flex properties: display: flex, justify-content (main axis), align-items (cross axis), gap, flex-wrap. Key grid properties: grid-template-columns, gap, grid-area, repeat(auto-fill, minmax()).",
+    "points": [
+      "Flexbox = one direction (row or column)",
+      "Grid = rows + columns",
+      "Flex: navbars, centring, toolbars",
+      "Grid: page layout, dashboards, cards",
+      "Use both together"
+    ],
+    "code": "/* Flexbox: navbar with logo left and links right */\n.navbar {\n  display: flex;\n  justify-content: space-between;   /* main axis */\n  align-items: center;              /* cross axis */\n  gap: 16px;\n}\n\n/* Flexbox: perfectly centre anything */\n.center {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  min-height: 100vh;\n}\n\n/* Grid: responsive card grid, no media queries needed */\n.cards {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));\n  gap: 16px;\n}\n\n/* Grid: page layout */\n.page {\n  display: grid;\n  grid-template-columns: 240px 1fr;\n  grid-template-rows: 60px 1fr;\n  grid-template-areas: \"side top\" \"side main\";\n}",
+    "memory": "Remember: Flex for a line, Grid for a table-like layout",
+    "tip": "Show the 3-line centring trick with flexbox; interviewers love it."
+  },
+  {
+    "id": "html-css-aa059f5f",
+    "subject": "HTML & CSS",
+    "level": "Intermediate",
+    "question": "CSS position: static, relative, absolute, fixed and sticky?",
+    "answer": "static: the default, normal page flow; top/left do nothing. relative: stays in the flow but can be shifted with top/left, and becomes the reference point for absolute children. absolute: removed from the flow and placed relative to the nearest positioned parent (relative, absolute, fixed or sticky); used for badges, dropdowns and tooltips. fixed: placed relative to the browser window and stays there while scrolling (floating chat button, top bar). sticky: acts like relative until you scroll to a point, then sticks like fixed inside its parent (sticky table headers). z-index controls which positioned element is on top.",
+    "points": [
+      "static = default flow",
+      "relative = shift + parent for absolute",
+      "absolute = to nearest positioned parent",
+      "fixed = to the window",
+      "sticky = sticks on scroll",
+      "z-index for stacking"
+    ],
+    "code": ".card {\n  position: relative;          /* reference for the badge */\n}\n.card .badge {\n  position: absolute;          /* corner of the card */\n  top: 8px;\n  right: 8px;\n}\n\n.chat-button {\n  position: fixed;             /* always bottom-right of the window */\n  right: 20px;\n  bottom: 20px;\n  z-index: 100;\n}\n\nthead th {\n  position: sticky;            /* table header stays visible */\n  top: 0;\n  background: white;\n}",
+    "memory": "Remember: relative parent + absolute child",
+    "tip": "A sticky header is a nice real example: this Q&A page uses position: sticky for the top bar."
+  },
+  {
+    "id": "html-css-89232a7a",
+    "subject": "HTML & CSS",
+    "level": "Intermediate",
+    "question": "How do you make a web page responsive? What is mobile-first?",
+    "answer": "1) Add the viewport meta tag so phones don't zoom out. 2) Use flexible layouts (Flexbox, Grid, percentages) instead of fixed pixel widths. 3) Use media queries to change the layout at breakpoints. 4) Make images flexible with max-width: 100%. 5) Use relative units (rem, %, vw) for sizes. Mobile-first means writing the base CSS for small screens and adding min-width media queries for bigger screens. It keeps phone CSS simple and loads less on mobile. Test in the browser's device mode and on real phones.",
+    "points": [
+      "Viewport meta tag",
+      "Flex / Grid, no fixed widths",
+      "Media queries at breakpoints",
+      "img max-width: 100%",
+      "rem, %, vw units",
+      "Mobile-first = min-width queries"
+    ],
+    "code": "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\n<style>\n  /* Mobile-first: base styles for phones */\n  .layout {\n    display: grid;\n    grid-template-columns: 1fr;       /* one column */\n    gap: 12px;\n    padding: 16px;\n  }\n  img { max-width: 100%; height: auto; }\n\n  /* Tablets and up */\n  @media (min-width: 768px) {\n    .layout { grid-template-columns: 1fr 1fr; }\n  }\n\n  /* Desktops and up */\n  @media (min-width: 1200px) {\n    .layout { grid-template-columns: 240px 1fr 1fr; }\n  }\n</style>",
+    "memory": "Remember: Viewport + flexible layout + media queries",
+    "tip": "Say you test with Chrome DevTools device mode; it shows practical experience."
+  },
+  {
+    "id": "html-css-a345030f",
+    "subject": "HTML & CSS",
+    "level": "Intermediate",
+    "question": "px vs em vs rem vs % vs vh/vw: which CSS unit when?",
+    "answer": "px is a fixed size. em is relative to the font size of the parent element, so nested em values multiply (can be confusing). rem is relative to the root (html) font size, usually 16px, so 1.5rem = 24px everywhere; it is great for font sizes and spacing because users who increase their browser font size get a bigger page. % is relative to the parent's size (often width). vh and vw are percentages of the window height and width (100vh = full screen height). Common choice: rem for fonts and spacing, % or fr for layout widths, px for borders.",
+    "points": [
+      "px = fixed",
+      "em = parent font size (multiplies)",
+      "rem = root font size (predictable)",
+      "% = parent size",
+      "vh / vw = window size",
+      "rem for fonts, px for borders"
+    ],
+    "code": "html { font-size: 16px; }          /* 1rem = 16px */\n\nh1      { font-size: 2rem; }       /* 32px */\n.card   { padding: 1.25rem; }      /* 20px */\n.sidebar{ width: 25%; }            /* quarter of the parent */\n.hero   { min-height: 100vh; }     /* full screen height */\n.table  { border: 1px solid #ddd; }\n\n/* em multiplies when nested */\n.parent { font-size: 1.2em; }      /* 19.2px */\n.parent .child { font-size: 1.2em; }   /* 23.04px! */",
+    "memory": "Remember: rem for text, % for layout, px for hairlines",
+    "tip": "Using rem respects users' browser font settings; good accessibility point."
+  },
+  {
+    "id": "html-css-66c26c98",
+    "subject": "HTML & CSS",
+    "level": "Intermediate",
+    "question": "What is Bootstrap? How does its grid system work?",
+    "answer": "Bootstrap is a popular CSS (and JS) framework with ready-made, responsive components: grid, navbar, buttons, forms, cards, modals, alerts and utility classes for spacing and colours. Its grid has 12 columns inside a .container and .row. You choose how many of the 12 columns an item takes at each screen size using breakpoint classes: col-12 (all screens), col-md-6 (half width from 768px), col-lg-4 (a third from 992px). Breakpoints: sm 576px, md 768px, lg 992px, xl 1200px, xxl 1400px. Because it is mobile-first, columns stack on small screens and sit side by side on bigger ones.",
+    "points": [
+      "CSS framework, ready components",
+      "container → row → col",
+      "12 columns",
+      "Breakpoints sm, md, lg, xl, xxl",
+      "Mobile-first: stacks on phones",
+      "Utility classes (mt-3, text-center)"
+    ],
+    "code": "<link href=\"https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n\n<div class=\"container\">\n  <div class=\"row g-3\">\n    <!-- phone: full width; tablet: half; desktop: one third -->\n    <div class=\"col-12 col-md-6 col-lg-4\">\n      <div class=\"card p-3\">Vehicles: 120</div>\n    </div>\n    <div class=\"col-12 col-md-6 col-lg-4\">\n      <div class=\"card p-3\">Open work orders: 8</div>\n    </div>\n    <div class=\"col-12 col-md-12 col-lg-4\">\n      <div class=\"card p-3\">Fuel this month: 4,500 L</div>\n    </div>\n  </div>\n\n  <button class=\"btn btn-primary mt-3\">Add vehicle</button>\n  <div class=\"alert alert-success mt-3\">Saved successfully</div>\n</div>",
+    "memory": "Remember: Container, Row, Columns out of 12",
+    "tip": "Mention where you used Bootstrap with jQuery, for example in admin dashboards."
+  },
+  {
+    "id": "html-css-0a696c51",
+    "subject": "HTML & CSS",
+    "level": "Intermediate",
+    "question": "How do you build and validate a form in HTML (with Bootstrap)?",
+    "answer": "Use proper form elements: label linked to each input (for and id), the right input types (email, number, tel, date) so phones show the correct keyboard, and built-in validation attributes: required, minlength, maxlength, min, max and pattern. The browser blocks submission until rules pass. Bootstrap adds styles: is-invalid and invalid-feedback show the error under the field. Important: browser validation is only for user experience. Always validate again on the server (PHP, FastAPI with Pydantic), because users can skip the browser checks.",
+    "points": [
+      "label + id for each input",
+      "Correct input types",
+      "required, minlength, pattern",
+      "Bootstrap is-invalid + invalid-feedback",
+      "Always validate on the server too"
+    ],
+    "code": "<form id=\"signup\" class=\"needs-validation\" novalidate>\n  <div class=\"mb-3\">\n    <label for=\"email\" class=\"form-label\">Email</label>\n    <input type=\"email\" class=\"form-control\" id=\"email\" name=\"email\" required>\n    <div class=\"invalid-feedback\">Please enter a valid email.</div>\n  </div>\n\n  <div class=\"mb-3\">\n    <label for=\"mobile\" class=\"form-label\">Mobile</label>\n    <input type=\"tel\" class=\"form-control\" id=\"mobile\" name=\"mobile\"\n           pattern=\"[6-9][0-9]{9}\" required>\n    <div class=\"invalid-feedback\">Enter a 10-digit Indian mobile number.</div>\n  </div>\n\n  <button class=\"btn btn-primary\" type=\"submit\">Sign up</button>\n</form>\n\n<script>\n  document.getElementById(\"signup\").addEventListener(\"submit\", function (e) {\n    if (!this.checkValidity()) {\n      e.preventDefault();\n      e.stopPropagation();\n    }\n    this.classList.add(\"was-validated\");   // shows Bootstrap error styles\n  });\n</script>",
+    "memory": "Remember: Validate in the browser for UX, on the server for safety",
+    "tip": "Interviewers often ask 'is HTML validation enough?' The answer is always no."
+  },
+  {
+    "id": "html-css-2ec51fff",
+    "subject": "HTML & CSS",
+    "level": "Intermediate",
+    "question": "How do you improve web page speed and accessibility?",
+    "answer": "Speed: load scripts with defer (or at the end of the body) so they don't block rendering; minify and compress CSS and JS (gzip or brotli); lazy-load images below the fold with loading=\"lazy\"; use modern image formats (WebP) at the right size; cache static files with long cache headers and a CDN; reduce the number of requests. Accessibility: alt text on images, labels on inputs, enough colour contrast, keyboard navigation with a visible focus outline, semantic tags, and aria attributes only when native HTML is not enough. Check both with Chrome Lighthouse.",
+    "points": [
+      "defer scripts",
+      "Minify + compress",
+      "loading=\"lazy\" images",
+      "WebP, right size",
+      "Cache + CDN",
+      "alt, labels, contrast, keyboard focus",
+      "Lighthouse to measure"
+    ],
+    "code": "<head>\n  <link rel=\"stylesheet\" href=\"/css/app.min.css\">\n  <script src=\"/js/app.min.js\" defer></script>   <!-- doesn't block rendering -->\n</head>\n\n<img src=\"/img/truck.webp\" alt=\"Truck MH12 AB 1234 in workshop\"\n     width=\"640\" height=\"360\" loading=\"lazy\">\n\n<label for=\"search\">Search vehicles</label>\n<input id=\"search\" type=\"search\">\n\n<button aria-label=\"Close dialog\">✕</button>\n\n<style>\n  :focus-visible { outline: 3px solid #2563eb; }   /* keyboard users see focus */\n</style>",
+    "memory": "Remember: Load less, load later; label everything",
+    "tip": "Mention a Lighthouse score you improved, if you have one."
+  }
+]

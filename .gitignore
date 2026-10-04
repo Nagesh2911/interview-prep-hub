@@ -1,0 +1,18 @@
+# OS / editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# Python (tools/)
+__pycache__/
+*.pyc
+.venv/
+
+# Exported progress backups (personal data)
+interviewprep-progress-*.json
+
+# Private questions (salary, personal answers, resume story): never publish
+data/private/

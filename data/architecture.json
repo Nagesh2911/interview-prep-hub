@@ -1,0 +1,1138 @@
+[
+  {
+    "id": "scenario-a6d377b7",
+    "subject": "Scenario",
+    "level": "Intermediate",
+    "question": "An API is suddenly slow. What will you check?",
+    "answer": "I check logs, API response time, CPU/memory, database performance, external services and network issues. I identify the bottleneck first, then fix and verify the result.",
+    "points": [
+      "Logs",
+      "Metrics",
+      "DB",
+      "External service",
+      "Server"
+    ],
+    "code": "",
+    "memory": "Remember: App → DB → Network → Server",
+    "tip": "Do not randomly increase server size before finding the cause."
+  },
+  {
+    "id": "scenario-c78731c7",
+    "subject": "Scenario",
+    "level": "Advanced",
+    "question": "A production API returns 500 errors. What will you do?",
+    "answer": "I check logs and the exact exception first. I check deployment, database, configuration and external services. If needed I rollback safely, fix the root cause, test it and redeploy.",
+    "points": [
+      "Logs",
+      "Root cause",
+      "Rollback",
+      "Fix",
+      "Test"
+    ],
+    "code": "",
+    "memory": "Remember: Detect → Protect → Fix → Verify",
+    "tip": "Production stability comes first."
+  },
+  {
+    "id": "system-desig-4de2189b",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What steps should I follow in a 45-minute design round?",
+    "answer": "1) Clarify requirements: features, users, latency, consistency. 2) Estimate scale: users, requests per second, storage, read vs write. 3) Define the API. 4) Design the data model and choose SQL or NoSQL. 5) Draw the high-level design: client, load balancer, services, cache, database, queue. 6) Deep dive on the hardest 1-2 parts. 7) Wrap up with tradeoffs, monitoring and what changes at 10x scale.",
+    "points": [
+      "Requirements",
+      "Estimate",
+      "API",
+      "Data model",
+      "High-level",
+      "Deep dive",
+      "Tradeoffs"
+    ],
+    "code": "",
+    "memory": "Remember: Ask → Estimate → API → Data → Draw → Deep dive → Tradeoffs",
+    "tip": "Never start drawing before asking questions."
+  },
+  {
+    "id": "system-desig-b7643683",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What do interviewers score in a design round?",
+    "answer": "They check whether you drive the discussion yourself, give a reason for every choice, and adjust when they add new constraints. Common mistakes are drawing before asking questions, over-engineering early, naming tools you cannot explain, and ignoring failure cases.",
+    "points": [
+      "Drive discussion",
+      "Reasons",
+      "Adapt",
+      "Failure cases"
+    ],
+    "code": "",
+    "memory": "Remember: X because Y, at the cost of Z",
+    "tip": "Say your tradeoffs out loud."
+  },
+  {
+    "id": "system-desig-e850308d",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Vertical vs horizontal scaling?",
+    "answer": "Vertical scaling means a bigger machine with more CPU and RAM. It is simple but has a hard limit and a single point of failure. Horizontal scaling means adding more machines behind a load balancer. It needs stateless services but scales much further.",
+    "points": [
+      "Vertical = bigger machine",
+      "Horizontal = more machines",
+      "Stateless"
+    ],
+    "code": "",
+    "memory": "Remember: Up vs Out",
+    "tip": "Mention that sessions should move to Redis for horizontal scaling."
+  },
+  {
+    "id": "system-desig-10fc3626",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What does a load balancer do?",
+    "answer": "It spreads requests across servers and removes unhealthy servers using health checks. Common methods are round robin, least connections and IP hash. L4 balances by IP and port; L7 balances by URL, headers or cookies.",
+    "points": [
+      "Distribute traffic",
+      "Health checks",
+      "Round robin",
+      "L4 vs L7"
+    ],
+    "code": "",
+    "memory": "Remember: Spread + Check health",
+    "tip": "Nginx, HAProxy and AWS ALB are common examples."
+  },
+  {
+    "id": "system-desig-655a4866",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What is caching and which strategies exist?",
+    "answer": "A cache keeps hot data in memory, for example Redis, to reduce database load and latency. Cache-aside: read cache, on a miss read the database and fill the cache (most common). Write-through: write cache and database together. Write-back: write cache first and flush to the database later. Eviction is usually LRU with a TTL.",
+    "points": [
+      "Cache-aside",
+      "Write-through",
+      "Write-back",
+      "LRU",
+      "TTL"
+    ],
+    "code": "",
+    "memory": "Remember: Hot data in memory",
+    "tip": "Always mention how the cache is invalidated."
+  },
+  {
+    "id": "system-desig-6fd43fe1",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What is a cache stampede and how do you stop it?",
+    "answer": "When a hot key expires, many requests hit the database at the same time. Fix it with a lock so only one request rebuilds the key, random TTL jitter, or refreshing the key before it expires.",
+    "points": [
+      "Hot key expiry",
+      "Lock",
+      "TTL jitter",
+      "Early refresh"
+    ],
+    "code": "",
+    "memory": "Remember: One rebuilds, others wait",
+    "tip": "Good follow-up point after explaining caching."
+  },
+  {
+    "id": "system-desig-8c4fe09a",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "SQL or NoSQL: how do you choose?",
+    "answer": "Use SQL (MySQL, PostgreSQL) for relations, joins and transactions, such as orders and payments. Use NoSQL (MongoDB, Cassandra, DynamoDB) for huge scale, flexible schema or simple key lookups, such as chat messages or logs.",
+    "points": [
+      "SQL = relations + transactions",
+      "NoSQL = scale + flexible"
+    ],
+    "code": "",
+    "memory": "Remember: Money in SQL, messages in NoSQL",
+    "tip": "Choose based on access pattern, not trend."
+  },
+  {
+    "id": "system-desig-c6ad50f8",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What is database replication?",
+    "answer": "One leader database takes writes and copies them to follower databases that serve reads. It improves read throughput and availability. The catch is replication lag, so a follower may return slightly old data.",
+    "points": [
+      "Leader",
+      "Followers",
+      "Read scaling",
+      "Replication lag"
+    ],
+    "code": "",
+    "memory": "Remember: Write one, read many",
+    "tip": "Read-your-own-writes can go to the leader."
+  },
+  {
+    "id": "system-desig-e3fb2f2d",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What is sharding?",
+    "answer": "Sharding splits data across several databases using a shard key such as user_id. Range sharding is simple but can create hot spots; hash sharding spreads load evenly. Downsides are cross-shard joins and rebalancing.",
+    "points": [
+      "Shard key",
+      "Range",
+      "Hash",
+      "Hot spots",
+      "Rebalancing"
+    ],
+    "code": "",
+    "memory": "Remember: Split data by key",
+    "tip": "Choose a shard key that matches the main query."
+  },
+  {
+    "id": "system-desig-b2a99a15",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What is consistent hashing?",
+    "answer": "Servers and keys are placed on a hash ring, and each key goes to the next server clockwise. Adding or removing a server moves only a small share of keys instead of almost all of them. It is used in caches and sharded stores.",
+    "points": [
+      "Hash ring",
+      "Minimal key movement",
+      "Virtual nodes"
+    ],
+    "code": "",
+    "memory": "Remember: Ring, move few keys",
+    "tip": "Mention virtual nodes for even distribution."
+  },
+  {
+    "id": "system-desig-4b6654c4",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Explain the CAP theorem.",
+    "answer": "During a network partition, a distributed system must choose Consistency (every read sees the latest write) or Availability (every request gets a response). Banking chooses consistency; a social feed chooses availability.",
+    "points": [
+      "Consistency",
+      "Availability",
+      "Partition tolerance"
+    ],
+    "code": "",
+    "memory": "Remember: Partition happens, pick C or A",
+    "tip": "Give a banking vs social media example."
+  },
+  {
+    "id": "system-desig-1d6877b7",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Strong vs eventual consistency?",
+    "answer": "Strong consistency: every read returns the latest write. Eventual consistency: reads may be stale for a short time, but all copies agree soon. Eventual consistency is faster and more available.",
+    "points": [
+      "Strong = latest",
+      "Eventual = soon"
+    ],
+    "code": "",
+    "memory": "Remember: Now vs Soon",
+    "tip": "Likes count can be eventual; bank balance must be strong."
+  },
+  {
+    "id": "system-desig-5e45e981",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Why use a message queue?",
+    "answer": "A queue decouples services and runs work in the background, such as sending emails or processing uploads. It absorbs traffic spikes and allows retries. Examples are Kafka, RabbitMQ and SQS.",
+    "points": [
+      "Decouple",
+      "Background",
+      "Spikes",
+      "Retries"
+    ],
+    "code": "",
+    "memory": "Remember: Producer → Queue → Consumer",
+    "tip": "Mention a dead-letter queue for failed messages."
+  },
+  {
+    "id": "system-desig-bc8c8e86",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What is idempotency and why does it matter?",
+    "answer": "An idempotent operation gives the same result if it is repeated. With retries, a request can arrive twice, so payments use an idempotency key to avoid charging twice.",
+    "points": [
+      "Same result",
+      "Retries",
+      "Idempotency key"
+    ],
+    "code": "",
+    "memory": "Remember: Twice = once",
+    "tip": "Use a payment example from your own project."
+  },
+  {
+    "id": "system-desig-5dcbae84",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "How does rate limiting work?",
+    "answer": "It caps requests per user or IP in a time window. Token bucket: tokens refill at a fixed rate and each request uses one, which allows short bursts. Sliding window counts requests in the last N seconds. Counters are stored in Redis so all servers share them. Return HTTP 429 when the limit is hit.",
+    "points": [
+      "Token bucket",
+      "Sliding window",
+      "Redis",
+      "429"
+    ],
+    "code": "",
+    "memory": "Remember: Count, limit, 429",
+    "tip": "You have built rate limiting in a real project; mention it."
+  },
+  {
+    "id": "system-desig-6225167d",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What is a CDN?",
+    "answer": "A CDN is a network of edge servers close to users that caches static files like images, CSS, JS and video. It reduces latency and load on your own servers.",
+    "points": [
+      "Edge servers",
+      "Static files",
+      "Low latency"
+    ],
+    "code": "",
+    "memory": "Remember: Content near the user",
+    "tip": "Cloudflare and CloudFront are examples."
+  },
+  {
+    "id": "system-desig-1efb6391",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "WebSockets vs long polling vs SSE?",
+    "answer": "WebSockets give two-way real-time communication, for chat or games. Long polling repeats HTTP requests that wait for data and is a simple fallback. SSE is one-way from server to client, for live scores or notifications.",
+    "points": [
+      "WebSocket = two-way",
+      "Long polling = fallback",
+      "SSE = one-way"
+    ],
+    "code": "",
+    "memory": "Remember: Chat = WebSocket",
+    "tip": "Pick based on direction of data."
+  },
+  {
+    "id": "system-desig-769e4cf1",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "What is a circuit breaker?",
+    "answer": "If a downstream service keeps failing, the breaker opens and fails fast instead of waiting. After a timeout it lets a few test requests through and closes again if they succeed. This stops one failure from spreading.",
+    "points": [
+      "Closed",
+      "Open",
+      "Half-open",
+      "Fail fast"
+    ],
+    "code": "",
+    "memory": "Remember: Stop calling a broken service",
+    "tip": "Combine with retries and timeouts."
+  },
+  {
+    "id": "system-desig-8b03b335",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "How do you generate unique IDs in a distributed system?",
+    "answer": "UUIDs need no coordination but are long and unordered. Snowflake IDs combine timestamp, machine ID and a sequence number, so they are 64-bit and roughly time-ordered.",
+    "points": [
+      "UUID",
+      "Snowflake",
+      "Time-ordered"
+    ],
+    "code": "",
+    "memory": "Remember: Time + Machine + Sequence",
+    "tip": "Auto-increment does not work well across shards."
+  },
+  {
+    "id": "system-desig-8866693a",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design a URL shortener (like bit.ly).",
+    "answer": "API: POST /shorten returns a short code; GET /{code} redirects with 301 or 302. Code: 7-character base62 string (about 3.5 trillion codes), made from an auto-increment ID or a hash. Storage: code, long_url, created_at, user_id in a key-value store or SQL. Reads are far more than writes, so cache popular codes in Redis and use a CDN. Extras: expiry, click analytics through a queue, rate limiting on creation.",
+    "points": [
+      "Base62",
+      "Redirect",
+      "Cache",
+      "Read heavy",
+      "Analytics"
+    ],
+    "code": "",
+    "memory": "Remember: Encode → Store → Cache → Redirect",
+    "tip": "Explain 301 vs 302 for analytics."
+  },
+  {
+    "id": "system-desig-768fff97",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design a rate limiter.",
+    "answer": "Place it in the API gateway or as middleware. Key by user ID, API key or IP. Use token bucket for bursts or sliding window for accuracy. Store counters in Redis with atomic INCR and EXPIRE so every server shares them. Return HTTP 429 with a Retry-After header. If Redis is down, decide to fail open or fail closed and explain why.",
+    "points": [
+      "Gateway",
+      "Key",
+      "Algorithm",
+      "Redis",
+      "429",
+      "Failure mode"
+    ],
+    "code": "",
+    "memory": "Remember: Where, Key, Algorithm, Store",
+    "tip": "Talk about fail open vs fail closed."
+  },
+  {
+    "id": "system-desig-fbc65c80",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design a chat app (like WhatsApp).",
+    "answer": "Clients keep a WebSocket connection to chat servers. A presence service in Redis tracks which server each user is on. A sent message is saved to the database, then routed to the receiver's server; if offline, send a push notification. Store messages in Cassandra partitioned by chat_id and sorted by time. Track sent, delivered and read states. Unique message IDs stop duplicates on retry. Large groups fan out through a queue.",
+    "points": [
+      "WebSocket",
+      "Presence",
+      "Cassandra",
+      "Push",
+      "Delivery status"
+    ],
+    "code": "",
+    "memory": "Remember: Connect → Store → Route → Notify",
+    "tip": "Explain what happens when the user is offline."
+  },
+  {
+    "id": "system-desig-f637a35e",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design a news feed (like Instagram or Twitter).",
+    "answer": "Fan-out on write: when a user posts, push the post ID into each follower's feed cache, so reads are fast. Fan-out on read: build the feed when the user opens the app, better for celebrities. Use a hybrid: push for normal users, pull for celebrities. Store feeds in Redis as lists of post IDs; media goes to object storage and a CDN. Paginate with a cursor.",
+    "points": [
+      "Fan-out write",
+      "Fan-out read",
+      "Hybrid",
+      "Redis",
+      "Cursor"
+    ],
+    "code": "",
+    "memory": "Remember: Push for normal, pull for celebrity",
+    "tip": "The celebrity problem is the key discussion point."
+  },
+  {
+    "id": "system-desig-6d32488c",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design a payment system.",
+    "answer": "Flow: create order, call the payment gateway (Razorpay or Stripe), receive the webhook, mark the order paid. Every request carries an idempotency key so retries never double-charge. Verify the webhook signature and never trust only the client's success message. Use SQL transactions and a double-entry ledger. Run a daily reconciliation job against the gateway settlement report. Handle stuck payments with status polling and timeouts.",
+    "points": [
+      "Idempotency",
+      "Webhook signature",
+      "Ledger",
+      "Reconciliation"
+    ],
+    "code": "",
+    "memory": "Remember: Order → Pay → Webhook → Verify → Reconcile",
+    "tip": "Use your Razorpay project as a real example."
+  },
+  {
+    "id": "system-desig-7a4ae6ef",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design a notification system.",
+    "answer": "Services send events to a queue; workers send them by channel: push (FCM or APNs), SMS or email. Store user preferences and opt-outs and check them before sending. Use templates, retries with backoff and a dead-letter queue. Rate limit per user so nobody is spammed.",
+    "points": [
+      "Queue",
+      "Channels",
+      "Preferences",
+      "Retries",
+      "Rate limit"
+    ],
+    "code": "",
+    "memory": "Remember: Event → Queue → Worker → Channel",
+    "tip": "Mention user preferences early."
+  },
+  {
+    "id": "system-desig-27c365a9",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design file storage (like Google Drive or Dropbox).",
+    "answer": "Split files into chunks of about 4 MB and store them in object storage such as S3. Keep metadata (name, chunk list, version, owner) in SQL. Upload only changed chunks and deduplicate by chunk hash. A sync service notifies the user's other devices. Share with permission records and signed URLs.",
+    "points": [
+      "Chunks",
+      "S3",
+      "Metadata",
+      "Dedup",
+      "Sync"
+    ],
+    "code": "",
+    "memory": "Remember: Chunk → Store → Metadata → Sync",
+    "tip": "Chunking makes resume and sync efficient."
+  },
+  {
+    "id": "system-desig-3fb52e56",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design a video platform (like YouTube).",
+    "answer": "Upload the raw video to object storage; a queue triggers transcoding into several resolutions. Serve with adaptive streaming (HLS or DASH) through a CDN. Keep metadata in SQL; view counts go through a queue and are batched. Search and recommendations are separate services.",
+    "points": [
+      "Upload",
+      "Transcode",
+      "HLS",
+      "CDN",
+      "Batched counts"
+    ],
+    "code": "",
+    "memory": "Remember: Upload → Transcode → CDN → Stream",
+    "tip": "CDN cost and bandwidth are the main concerns."
+  },
+  {
+    "id": "system-desig-be208995",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design a ride-sharing app (like Uber).",
+    "answer": "Drivers send their location every few seconds. Store live locations in a geo index such as geohash, quadtree or Redis GEO. Matching finds nearby available drivers, sends the offer and locks the driver so two riders cannot get the same one. Trip state machine: requested, accepted, started, completed, paid. Use WebSockets for live tracking.",
+    "points": [
+      "Location updates",
+      "Geo index",
+      "Matching",
+      "Lock",
+      "State machine"
+    ],
+    "code": "",
+    "memory": "Remember: Locate → Match → Lock → Track",
+    "tip": "Geo index is the key deep-dive topic."
+  },
+  {
+    "id": "system-desig-7f9bf7fe",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design search autocomplete.",
+    "answer": "Use a trie that stores the top 5-10 suggestions at each prefix node. Build it offline from search logs, for example hourly, and serve it from memory or cache. Clients debounce keystrokes and cache results. Shard by prefix if data is too large for one server.",
+    "points": [
+      "Trie",
+      "Top-K",
+      "Offline build",
+      "Debounce",
+      "Cache"
+    ],
+    "code": "",
+    "memory": "Remember: Prefix → Top suggestions",
+    "tip": "Latency target is under about 100 ms."
+  },
+  {
+    "id": "system-desig-d92923b7",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design an e-commerce marketplace.",
+    "answer": "Services: user, product catalog, search (Elasticsearch), cart, order, payment, inventory, notification. Reserve stock when checkout starts, with a timeout, to prevent overselling; use row locks or atomic decrements. Orders and payments in SQL; product listings cached and images on a CDN. Order events go to a queue for emails, invoices and seller updates.",
+    "points": [
+      "Services",
+      "Inventory lock",
+      "SQL orders",
+      "Cache",
+      "Queue"
+    ],
+    "code": "",
+    "memory": "Remember: Browse → Cart → Reserve → Pay → Notify",
+    "tip": "Overselling is the key problem to discuss."
+  },
+  {
+    "id": "system-desig-d9da082d",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Design a job scheduler.",
+    "answer": "Store jobs with their next run time in a database. Scheduler nodes pick due jobs with a lock (SELECT ... FOR UPDATE SKIP LOCKED) and push them to a queue. Workers run jobs, report status and retry with backoff. Jobs must be idempotent because at-least-once delivery means a job may run twice.",
+    "points": [
+      "Next run time",
+      "Lock",
+      "Queue",
+      "Workers",
+      "Idempotent"
+    ],
+    "code": "",
+    "memory": "Remember: Store → Pick → Queue → Run",
+    "tip": "Explain how two schedulers avoid picking the same job."
+  },
+  {
+    "id": "system-desig-ed8bfbe3",
+    "subject": "System Design",
+    "level": "Advanced",
+    "question": "Which numbers should I remember for estimates?",
+    "answer": "Memory read about 100 ns; SSD read about 100 µs; same-datacenter round trip about 0.5 ms; cross-continent round trip about 150 ms. A day has 86,400 seconds (about 10^5), so 1 million requests per day is about 12 per second. A single SQL database handles 1,000-10,000 queries per second; Redis about 100,000 operations per second. 1 KB × 1 million = 1 GB; 1 KB × 1 billion = 1 TB.",
+    "points": [
+      "100 ns",
+      "100 µs",
+      "0.5 ms",
+      "150 ms",
+      "10^5 sec/day",
+      "1M/day ≈ 12/s"
+    ],
+    "code": "",
+    "memory": "Remember: 1M per day ≈ 12 per second",
+    "tip": "Round numbers are fine; show your math."
+  },
+  {
+    "id": "process-5d546b0b",
+    "subject": "Process",
+    "level": "Intermediate",
+    "question": "What Git workflow do you follow?",
+    "answer": "I create a new branch for every feature or bug. I commit small changes with clear messages. Then I push and open a Pull Request. A teammate reviews it, and after approval it is merged into the main branch. I have used Git with Bitbucket.",
+    "points": [
+      "Feature branch",
+      "Small commits",
+      "Pull Request",
+      "Review",
+      "Merge"
+    ],
+    "code": "git checkout -b feature/coupon-api\ngit add .\ngit commit -m \"Add coupon API\"\ngit push origin feature/coupon-api\n# open a Pull Request -> code review -> merge into main",
+    "memory": "Remember: Branch → Commit → Push → PR → Review → Merge",
+    "tip": "Never push directly to main in a team project."
+  },
+  {
+    "id": "process-789c1a66",
+    "subject": "Process",
+    "level": "Intermediate",
+    "question": "What do you check in a code review?",
+    "answer": "1) Does the code do what the task asks? 2) Are errors handled? 3) Are there security problems, like SQL injection or passwords in code? 4) Are database queries efficient, for example no N+1 queries and correct indexes? 5) Is it easy to read: good names, no duplicate code? 6) Are there tests?",
+    "points": [
+      "Correct logic",
+      "Errors",
+      "Security",
+      "Performance",
+      "Readability",
+      "Tests"
+    ],
+    "code": "",
+    "memory": "Remember: Works, Safe, Fast, Clean, Tested",
+    "tip": "Say you give polite, helpful comments. Teamwork matters."
+  },
+  {
+    "id": "process-0537f3d3",
+    "subject": "Process",
+    "level": "Intermediate",
+    "question": "How does your Agile / Scrum sprint work?",
+    "answer": "We work in 2-week sprints. In sprint planning, we pick tasks from Jira and estimate them. Every day there is a short standup: what I did yesterday, what I will do today, and any blockers. At the end there is a demo (sprint review) and a retrospective, where we discuss what to improve.",
+    "points": [
+      "Sprint planning",
+      "Daily standup",
+      "Jira",
+      "Review",
+      "Retrospective"
+    ],
+    "code": "",
+    "memory": "Remember: Plan → Daily standup → Demo → Improve",
+    "tip": "Use the words 'standup' and 'blocker'. Interviewers expect them."
+  },
+  {
+    "id": "microservice-3d16df3a",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "What are microservices?",
+    "answer": "Microservices is an architecture where one application is built as many small, independent services. Each service does one business job (users, orders, payments, notifications), has its own code and usually its own database, and talks to others over APIs or messages. Each service can be developed, deployed and scaled independently, often by a separate small team.",
+    "points": [
+      "Small independent services",
+      "One business job each",
+      "Own database",
+      "Talk via API / messages",
+      "Deploy + scale independently"
+    ],
+    "code": "",
+    "memory": "Remember: Many small apps working as one system",
+    "tip": "Give an example from your work: for instance, separate services for loyalty points, rewards and notifications."
+  },
+  {
+    "id": "microservice-d70cfe79",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "Monolith vs microservices: pros and cons?",
+    "answer": "A monolith is one codebase and one deployment. It is simple to build, test, debug and deploy, has fast in-process calls and easy transactions, but it becomes hard to change and scale as it grows, and one bug can take everything down. Microservices allow independent deployment and scaling, fault isolation, separate teams and different technologies per service. But they add a lot of complexity: network calls and failures, distributed data and transactions, harder testing and debugging, and more DevOps work (CI/CD, monitoring, tracing).",
+    "points": [
+      "Monolith: simple, fast calls, easy transactions",
+      "Monolith: hard to scale and change when big",
+      "Micro: independent deploy + scale",
+      "Micro: network, data and ops complexity"
+    ],
+    "code": "",
+    "memory": "Remember: Monolith = simple but heavy, Microservices = flexible but complex",
+    "tip": "A modular monolith (clean modules in one app) is often the best first step."
+  },
+  {
+    "id": "microservice-07626ff2",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "When should you NOT use microservices?",
+    "answer": "Avoid them for a small team, an early product whose requirements change often, or when the domain boundaries are not clear yet. Also avoid them without good DevOps: automated CI/CD, containers, monitoring and tracing. Wrong boundaries create a 'distributed monolith': services that must always change and deploy together, which has the problems of both worlds. Start with a well-structured monolith and split out services when there is a clear reason, like a part that needs separate scaling or a separate team.",
+    "points": [
+      "Small team / early product",
+      "Unclear boundaries",
+      "No DevOps maturity",
+      "Distributed monolith risk",
+      "Start modular, split later"
+    ],
+    "code": "",
+    "memory": "Remember: Don't start with microservices; grow into them",
+    "tip": "Interviewers like candidates who know the costs, not just the hype."
+  },
+  {
+    "id": "microservice-42f34b81",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "How do microservices communicate with each other?",
+    "answer": "Synchronous: REST over HTTP (simple and common), gRPC (fast, binary, strict contracts with Protobuf, good for internal calls), or GraphQL for flexible reads. Asynchronous: messages and events through a broker like RabbitMQ, Kafka, AWS SQS/SNS or Redis Streams. Use sync when you need an immediate answer (check stock before payment), and async for things that can happen later (send email, update analytics), which also decouples services.",
+    "points": [
+      "Sync: REST, gRPC",
+      "Async: RabbitMQ, Kafka, SQS / SNS",
+      "Sync = immediate answer",
+      "Async = decoupled, later",
+      "Mix both"
+    ],
+    "code": "",
+    "memory": "Remember: Need the answer now? Sync. Can wait? Async.",
+    "tip": "Long chains of sync calls are fragile; each extra hop adds latency and failure risk."
+  },
+  {
+    "id": "microservice-ab9acee6",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "What is an API Gateway in microservices?",
+    "answer": "An API Gateway is the single entry point for clients. It routes each request to the right service and handles common jobs: authentication (JWT check), rate limiting, SSL, CORS, request logging, response caching and sometimes combining responses from several services. Clients don't need to know every service's address. Examples: Kong, AWS API Gateway, Nginx, Traefik, Azure APIM. A BFF (Backend for Frontend) is a gateway made for one client type, like mobile.",
+    "points": [
+      "Single entry point",
+      "Routing",
+      "Auth + rate limiting",
+      "SSL, CORS, logging",
+      "Kong, AWS API Gateway, Nginx",
+      "BFF per client"
+    ],
+    "code": "",
+    "memory": "Remember: Gateway = front door for all services",
+    "tip": "Keep business logic out of the gateway; it should stay thin."
+  },
+  {
+    "id": "microservice-6ccb5091",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "What is service discovery and load balancing?",
+    "answer": "Services run on many containers whose IP addresses change. Service discovery lets a service find another by name instead of a fixed IP. In Kubernetes, a Service gives a stable DNS name (like http://inventory) and load balances across its pods. On AWS ECS, use Cloud Map or an internal load balancer. Other tools: Consul, Eureka. Health checks make sure traffic goes only to healthy instances.",
+    "points": [
+      "Find services by name",
+      "IPs change often",
+      "Kubernetes Service DNS",
+      "ECS Cloud Map / ALB",
+      "Consul, Eureka",
+      "Health checks"
+    ],
+    "code": "",
+    "memory": "Remember: Call by name, not by IP",
+    "tip": "In Kubernetes this is built in, so you rarely need a separate discovery tool."
+  },
+  {
+    "id": "microservice-2bce3c7e",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "Why does each microservice have its own database? How do you share data?",
+    "answer": "Database per service keeps services independent: one team can change its schema, or choose a different database, without breaking others, and a slow query in one service does not hurt the rest. Other services must never read its tables directly. To share data: call its API, or listen to its events and keep a local copy of only the data you need (for example, the order service stores the customer name from 'CustomerUpdated' events). The trade-off is that data is eventually consistent, and reports need a separate data warehouse or read model.",
+    "points": [
+      "Independent schemas",
+      "No direct table access",
+      "Share via API",
+      "Or via events + local copy",
+      "Eventual consistency",
+      "Reports from a warehouse"
+    ],
+    "code": "",
+    "memory": "Remember: Own your data, share through APIs or events",
+    "tip": "A shared database between services is a common anti-pattern; say why."
+  },
+  {
+    "id": "microservice-597e9dda",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "How do you handle transactions across microservices? What is the Saga pattern?",
+    "answer": "You cannot use one database transaction across services. The Saga pattern splits the business transaction into local transactions, one per service. If a later step fails, it runs compensating actions to undo earlier steps. Example: create order → reserve stock → charge payment; if payment fails, release stock and cancel the order. Choreography: each service listens to events and reacts (simple, but the flow is hard to see). Orchestration: a central orchestrator (a service, or AWS Step Functions or Temporal) tells each service what to do (clear flow, easier to monitor). Two-phase commit (2PC) exists but is slow and fragile, so it is rarely used.",
+    "points": [
+      "No cross-service DB transaction",
+      "Saga = local transactions + compensation",
+      "Choreography = events",
+      "Orchestration = central coordinator",
+      "Avoid 2PC"
+    ],
+    "code": "# Orchestrated saga (simplified)\ndef place_order_saga(order):\n    order_id = orders.create(order, status=\"PENDING\")\n    try:\n        inventory.reserve(order_id, order[\"items\"])\n        try:\n            payments.charge(order_id, order[\"amount\"])\n        except PaymentFailed:\n            inventory.release(order_id)              # compensate step 2\n            raise\n        orders.update(order_id, status=\"CONFIRMED\")\n        events.publish(\"OrderConfirmed\", {\"order_id\": order_id})\n    except Exception:\n        orders.update(order_id, status=\"CANCELLED\")  # compensate step 1\n        raise",
+    "memory": "Remember: Do, do, do, and undo on failure",
+    "tip": "Every step and compensation must be idempotent, because messages can repeat."
+  },
+  {
+    "id": "microservice-b80878cb",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "What is event-driven architecture? What is the outbox pattern?",
+    "answer": "In event-driven architecture, services publish events when something happens (OrderPlaced, PaymentFailed), and other services subscribe and react. This decouples services: the order service does not need to know who sends emails. A common bug is saving to the database and then failing to publish the event (or the other way round). The outbox pattern fixes this: save the business data and the event in an 'outbox' table in the same database transaction, then a separate worker reads the outbox and publishes to the broker, marking rows as sent.",
+    "points": [
+      "Publish events, subscribers react",
+      "Loose coupling",
+      "Problem: DB save + publish not atomic",
+      "Outbox table in same transaction",
+      "Worker publishes later",
+      "Consumers must be idempotent"
+    ],
+    "code": "# Outbox pattern with SQLAlchemy\nwith session.begin():                                 # ONE transaction\n    order = Order(customer_id=42, total=499)\n    session.add(order)\n    session.flush()\n    session.add(Outbox(event_type=\"OrderPlaced\",\n                       payload={\"order_id\": order.id, \"total\": 499}))\n\n# Separate worker (Celery beat or a loop)\ndef publish_outbox():\n    rows = session.query(Outbox).filter_by(sent=False).limit(100).all()\n    for row in rows:\n        broker.publish(row.event_type, row.payload)  # RabbitMQ / SQS / Kafka\n        row.sent = True\n    session.commit()",
+    "memory": "Remember: Save the event with the data, publish it after",
+    "tip": "Delivery is at-least-once, so consumers must handle duplicates."
+  },
+  {
+    "id": "microservice-38c41123",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "How do you make microservices resilient (timeouts, retries, circuit breaker)?",
+    "answer": "Remote calls can be slow or fail, so: 1) Always set timeouts; never wait forever. 2) Retry only temporary errors (timeouts, 503), with exponential backoff and jitter, and only for idempotent calls. 3) Use a circuit breaker: after many failures, stop calling the broken service for a while and fail fast or use a fallback. 4) Bulkheads: separate connection pools so one slow dependency cannot use up all resources. 5) Fallbacks: cached data or a default response. 6) Rate limiting to protect services from overload.",
+    "points": [
+      "Timeouts always",
+      "Retry with backoff + jitter",
+      "Only idempotent retries",
+      "Circuit breaker",
+      "Bulkhead",
+      "Fallbacks"
+    ],
+    "code": "# pip install httpx tenacity\nimport httpx\nfrom tenacity import retry, stop_after_attempt, wait_exponential_jitter, retry_if_exception_type\n\nclient = httpx.Client(base_url=\"http://inventory\", timeout=httpx.Timeout(2.0))\n\n@retry(\n    retry=retry_if_exception_type((httpx.TimeoutException, httpx.ConnectError)),\n    wait=wait_exponential_jitter(initial=0.2, max=2),\n    stop=stop_after_attempt(3),\n)\ndef get_stock(product_id: int) -> int:\n    resp = client.get(f\"/stock/{product_id}\")\n    resp.raise_for_status()\n    return resp.json()[\"available\"]\n\ndef stock_or_fallback(product_id: int):\n    try:\n        return get_stock(product_id)\n    except Exception:\n        return cache.get(f\"stock:{product_id}\")   # fallback: last known value",
+    "memory": "Remember: Timeout, Retry, Break, Isolate, Fallback",
+    "tip": "Retries without backoff can turn a small outage into a big one (retry storm)."
+  },
+  {
+    "id": "microservice-e10be137",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "How do you secure communication between microservices?",
+    "answer": "External requests: the API gateway validates the user's JWT (or OAuth2 access token). Between services: pass the user's token or a signed internal token so each service knows who the user is and can check permissions; use service-to-service authentication with OAuth2 client credentials, mTLS (both sides show certificates), or cloud IAM roles. Keep services in private networks, allow only needed ports, store secrets in Vault or AWS Secrets Manager, and use HTTPS everywhere. A service mesh (Istio, Linkerd) can add mTLS automatically.",
+    "points": [
+      "Gateway validates JWT",
+      "Propagate user identity",
+      "Service auth: client credentials, mTLS",
+      "Private network",
+      "Secrets manager",
+      "Service mesh for mTLS"
+    ],
+    "code": "",
+    "memory": "Remember: Verify the user at the door, verify services inside too",
+    "tip": "'Zero trust': don't trust a request just because it comes from inside the network."
+  },
+  {
+    "id": "microservice-5e8e6f16",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "How do you monitor and debug microservices?",
+    "answer": "Use centralized logging (all services send JSON logs to Loki, ELK, CloudWatch or New Relic), a correlation or trace ID passed through every call and message, distributed tracing with OpenTelemetry to see the full path of a request, metrics and dashboards per service (RED: rate, errors, duration), health check endpoints (/health, /ready) used by Kubernetes or the load balancer, and alerts on SLOs. Without these, finding a bug across 10 services is almost impossible.",
+    "points": [
+      "Central logs",
+      "Correlation ID everywhere",
+      "Distributed tracing (OTel)",
+      "Metrics per service",
+      "Health endpoints",
+      "Alerts on SLOs"
+    ],
+    "code": "",
+    "memory": "Remember: Logs + traces + metrics, all linked by one ID",
+    "tip": "See the Monitoring subject for Grafana, New Relic and OpenTelemetry details."
+  },
+  {
+    "id": "microservice-937cc4bd",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "How do you deploy microservices?",
+    "answer": "Each service is packaged as a Docker image and has its own CI/CD pipeline: test, build the image, push it to a registry (ECR), and deploy to Kubernetes (EKS) or AWS ECS / Fargate. Configuration comes from environment variables and secrets from a secrets manager. Use rolling, blue-green or canary deployments for zero downtime, health checks for automatic restarts, auto-scaling per service, and infrastructure as code (Terraform, Helm). Services must be backward compatible so they can be deployed independently.",
+    "points": [
+      "Docker image per service",
+      "Own CI/CD pipeline",
+      "ECR → EKS / ECS",
+      "Config in env, secrets in a vault",
+      "Rolling / blue-green / canary",
+      "Health checks + auto-scaling"
+    ],
+    "code": "",
+    "memory": "Remember: Build, Push, Deploy, Check, Scale, per service",
+    "tip": "ECS Fargate is simpler than Kubernetes for small and medium teams."
+  },
+  {
+    "id": "microservice-bf998392",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "How do you version APIs and stay backward compatible?",
+    "answer": "Services deploy independently, so a change must not break existing clients. Rules: only add new optional fields, never remove or rename fields in place, and don't change field meaning. For breaking changes, create a new version (/api/v2/orders or a version header), run both versions for a while, tell consumers, and remove the old one later. For events, version the event schema too. Contract tests catch accidental breaks.",
+    "points": [
+      "Add, don't remove or rename",
+      "Optional new fields",
+      "/v1 and /v2 side by side",
+      "Deprecate with notice",
+      "Version events too",
+      "Contract tests"
+    ],
+    "code": "",
+    "memory": "Remember: Expand first, remove much later",
+    "tip": "This is the 'expand and contract' approach, also used for database changes."
+  },
+  {
+    "id": "microservice-8e123874",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "How do you test microservices?",
+    "answer": "Unit tests for logic inside each service. Integration tests for each service with its real database and broker, using Docker or Testcontainers. Contract tests (like Pact) check that a provider's API still matches what each consumer expects, without starting the whole system. A few end-to-end tests run on a staging environment for the most important flows (place order and pay). Mock other services in unit and integration tests, and use load tests for critical paths.",
+    "points": [
+      "Unit per service",
+      "Integration with Testcontainers",
+      "Contract tests (Pact)",
+      "Few E2E on staging",
+      "Mock other services",
+      "Load tests"
+    ],
+    "code": "# Integration test with a real PostgreSQL in Docker (pip install testcontainers)\nfrom testcontainers.postgres import PostgresContainer\nfrom sqlalchemy import create_engine, text\n\ndef test_inventory_repository():\n    with PostgresContainer(\"postgres:16\") as pg:\n        engine = create_engine(pg.get_connection_url())\n        with engine.begin() as conn:\n            conn.execute(text(\"CREATE TABLE stock (product_id INT, qty INT)\"))\n            conn.execute(text(\"INSERT INTO stock VALUES (1, 10)\"))\n            qty = conn.execute(text(\"SELECT qty FROM stock WHERE product_id = 1\")).scalar()\n        assert qty == 10",
+    "memory": "Remember: Test each service alone, test the contracts between them",
+    "tip": "Contract tests are the key microservices answer; many candidates miss them."
+  },
+  {
+    "id": "microservice-978b83c6",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "How do you move a monolith to microservices? (Strangler Fig pattern)",
+    "answer": "Don't rewrite everything at once. Use the Strangler Fig pattern: put a proxy or API gateway in front of the monolith, build one new service for a clear part (for example, notifications or reports), route that part's traffic to the new service, and keep the rest on the monolith. Repeat part by part, and remove old code as you go. Pick parts with clear boundaries and real benefits first. Handle data carefully: sync or migrate the data for that part, and use events to keep both sides updated during the move.",
+    "points": [
+      "No big-bang rewrite",
+      "Proxy / gateway in front",
+      "Extract one part at a time",
+      "Route traffic gradually",
+      "Remove old code",
+      "Careful data migration"
+    ],
+    "code": "",
+    "memory": "Remember: Replace slowly, piece by piece, like a vine around a tree",
+    "tip": "This matches your experience moving PHP modules to FastAPI. Tell that story with real modules and results."
+  },
+  {
+    "id": "microservice-72d933b0",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "Show a simple example of two microservices talking to each other.",
+    "answer": "Below, an Orders service (FastAPI) calls an Inventory service over HTTP to check stock before creating an order, with a timeout and clear error handling, then publishes an 'OrderPlaced' event for other services (like email or points) to react to asynchronously. Each service has its own database and runs in its own container.",
+    "points": [
+      "Two FastAPI services",
+      "Sync HTTP call with timeout",
+      "Handle downstream failure (503)",
+      "Async event after success",
+      "Own DB per service"
+    ],
+    "code": "# inventory_service/main.py   (runs at http://inventory:8000)\nfrom fastapi import FastAPI\napp = FastAPI()\nSTOCK = {1: 10, 2: 0}\n\n@app.get(\"/stock/{product_id}\")\ndef get_stock(product_id: int):\n    return {\"product_id\": product_id, \"available\": STOCK.get(product_id, 0)}\n\n# orders_service/main.py\nimport httpx\nfrom fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel\n\napp = FastAPI()\ninventory = httpx.AsyncClient(base_url=\"http://inventory:8000\", timeout=2.0)\n\nclass OrderIn(BaseModel):\n    product_id: int\n    qty: int\n\n@app.post(\"/orders\", status_code=201)\nasync def create_order(order: OrderIn):\n    try:\n        resp = await inventory.get(f\"/stock/{order.product_id}\")\n        resp.raise_for_status()\n    except httpx.HTTPError:\n        raise HTTPException(503, \"Inventory service unavailable, try again\")\n    if resp.json()[\"available\"] < order.qty:\n        raise HTTPException(409, \"Not enough stock\")\n    order_id = save_order(order)                       # orders DB\n    publish_event(\"OrderPlaced\", {\"order_id\": order_id, **order.model_dump()})   # SQS / RabbitMQ\n    return {\"order_id\": order_id, \"status\": \"PLACED\"}",
+    "memory": "Remember: Ask synchronously, announce asynchronously",
+    "tip": "Point out the failure handling; interviewers look for it."
+  },
+  {
+    "id": "microservice-2814c803",
+    "subject": "Microservices",
+    "level": "Advanced",
+    "question": "What is a service mesh?",
+    "answer": "A service mesh (Istio, Linkerd, AWS App Mesh) handles service-to-service communication outside your code, usually with a sidecar proxy (like Envoy) next to each service. It gives automatic mTLS encryption, retries, timeouts, circuit breaking, traffic splitting for canary releases, and metrics and tracing for every call, without changing application code. It adds operational complexity, so it suits larger Kubernetes setups with many services.",
+    "points": [
+      "Sidecar proxy (Envoy)",
+      "mTLS automatically",
+      "Retries, timeouts, circuit breaking",
+      "Traffic splitting",
+      "Metrics + tracing",
+      "Extra complexity"
+    ],
+    "code": "",
+    "memory": "Remember: Service mesh = network features without code changes",
+    "tip": "For a few services, libraries plus an API gateway are usually enough."
+  },
+  {
+    "id": "design-patte-2a9ac9b2",
+    "subject": "Design Patterns",
+    "level": "Beginner",
+    "question": "What are the SOLID principles? Explain with examples.",
+    "answer": "S, Single Responsibility: a class or function should have one reason to change (separate the API, business logic and database code). O, Open/Closed: open for extension, closed for modification; add new behaviour with new classes instead of editing a big if/else. L, Liskov Substitution: a child class must work anywhere its parent is expected, without surprises. I, Interface Segregation: many small, focused interfaces are better than one large one. D, Dependency Inversion: depend on abstractions, not concrete classes; pass dependencies in (FastAPI Depends and Laravel's service container do this), which also makes testing easy.",
+    "points": [
+      "S = one reason to change",
+      "O = extend, don't edit",
+      "L = child works like parent",
+      "I = small interfaces",
+      "D = depend on abstractions, inject"
+    ],
+    "code": "from abc import ABC, abstractmethod\n\n# O + D: new channels are added without editing NotificationService\nclass Notifier(ABC):                         # abstraction\n    @abstractmethod\n    def send(self, to: str, message: str) -> None: ...\n\nclass EmailNotifier(Notifier):\n    def send(self, to, message):\n        print(f\"Email to {to}: {message}\")\n\nclass SmsNotifier(Notifier):\n    def send(self, to, message):\n        print(f\"SMS to {to}: {message}\")\n\nclass NotificationService:                   # S: only decides WHAT to send\n    def __init__(self, notifier: Notifier):  # D: injected, easy to mock in tests\n        self.notifier = notifier\n\n    def points_earned(self, contact: str, points: int):\n        self.notifier.send(contact, f\"You earned {points} points!\")\n\nNotificationService(SmsNotifier()).points_earned(\"9876543210\", 120)\nNotificationService(EmailNotifier()).points_earned(\"ravi@example.com\", 120)",
+    "memory": "Remember: Single, Open, Liskov, Interface, Dependency",
+    "tip": "Use one connected example (notifications or payments) for all five; it's easier to follow."
+  },
+  {
+    "id": "design-patte-63fc5cf8",
+    "subject": "Design Patterns",
+    "level": "Beginner",
+    "question": "What is the Repository pattern?",
+    "answer": "The Repository pattern puts all database access for one entity behind a class with clear methods (get, list, add, update). The business code calls repo.get_by_email() instead of writing SQL or ORM queries everywhere. Benefits: business logic does not depend on the ORM or database details, queries live in one place (easy to optimise), and tests can swap the real repository for a fake in-memory one. It is common in FastAPI projects with SQLAlchemy; Laravel and Django developers often use the ORM directly, which is fine for small apps.",
+    "points": [
+      "DB access behind one class",
+      "Business code calls methods, not SQL",
+      "Queries in one place",
+      "Easy to fake in tests",
+      "Common with FastAPI + SQLAlchemy"
+    ],
+    "code": "from sqlalchemy import select\nfrom sqlalchemy.orm import Session\n\nclass CustomerRepository:\n    def __init__(self, db: Session):\n        self.db = db\n\n    def get(self, customer_id: int) -> Customer | None:\n        return self.db.get(Customer, customer_id)\n\n    def get_by_email(self, email: str) -> Customer | None:\n        return self.db.scalar(select(Customer).where(Customer.email == email))\n\n    def add(self, customer: Customer) -> Customer:\n        self.db.add(customer)\n        self.db.flush()\n        return customer\n\n# Fake repository for unit tests: no database needed\nclass FakeCustomerRepository:\n    def __init__(self):\n        self.items = {}\n    def get(self, customer_id):\n        return self.items.get(customer_id)\n    def get_by_email(self, email):\n        return next((c for c in self.items.values() if c.email == email), None)\n    def add(self, customer):\n        customer.id = len(self.items) + 1\n        self.items[customer.id] = customer\n        return customer",
+    "memory": "Remember: Repository = the only door to the table",
+    "tip": "Don't over-engineer: a repository is useful when logic grows; for tiny apps, direct ORM calls are fine."
+  },
+  {
+    "id": "design-patte-c8336ba4",
+    "subject": "Design Patterns",
+    "level": "Intermediate",
+    "question": "What is the service layer? How do you structure a FastAPI project?",
+    "answer": "Keep each layer focused. Routers (API layer) only handle HTTP: read the request, call a service, return a response. Services hold business rules (earn points, check tier, redeem), and are reusable from APIs, Celery tasks and scripts. Repositories handle database access. Schemas (Pydantic) define input and output. Models (SQLAlchemy) define tables. Core holds config, security and database setup. This keeps routers thin, makes the business logic testable without HTTP, and makes it easier to move or migrate code later, which matters a lot when you migrate PHP modules to FastAPI.",
+    "points": [
+      "Routers = HTTP only",
+      "Services = business rules",
+      "Repositories = database",
+      "Schemas = Pydantic in/out",
+      "Models = tables",
+      "Core = config, security, DB"
+    ],
+    "code": "app/\n├── main.py                 # create FastAPI app, include routers\n├── core/\n│   ├── config.py           # settings from env\n│   ├── database.py         # engine, SessionLocal, get_db\n│   └── security.py         # JWT, password hashing\n├── models/                 # SQLAlchemy tables\n│   └── customer.py\n├── schemas/                # Pydantic request / response\n│   └── customer.py\n├── repositories/\n│   └── customer_repo.py\n├── services/\n│   └── points_service.py   # business rules\n├── api/v1/\n│   └── customers.py        # routers (thin)\n├── tasks/                  # Celery tasks reuse services\n│   └── points_tasks.py\n└── tests/\n\n# api/v1/customers.py\n@router.post(\"/{customer_id}/points\")\ndef earn_points(customer_id: int, body: EarnIn, db: Session = Depends(get_db)):\n    service = PointsService(CustomerRepository(db))\n    return service.earn(customer_id, body.amount)     # all rules live in the service",
+    "memory": "Remember: Thin routers, smart services, quiet repositories",
+    "tip": "Explain that services were shared by the API and the Celery tasks in your project."
+  },
+  {
+    "id": "design-patte-5cfaf84f",
+    "subject": "Design Patterns",
+    "level": "Intermediate",
+    "question": "What is the Singleton pattern? How do you do it in Python?",
+    "answer": "A Singleton makes sure only one instance of something exists and is shared, for example app settings, a database engine, a Redis connection pool or a logger. In Python the simplest way is a module-level object: modules are imported once, so every import gets the same instance. You can also cache a factory function with functools.lru_cache (common for FastAPI settings), or override __new__ in a class. Be careful: singletons are global state, which makes testing harder, so prefer passing them in with dependency injection.",
+    "points": [
+      "Only one shared instance",
+      "Settings, DB engine, Redis pool, logger",
+      "Python: module-level object",
+      "lru_cache factory",
+      "__new__ (classic)",
+      "Global state: inject for tests"
+    ],
+    "code": "# 1) Module-level instance (most Pythonic)\n# app/core/redis_client.py\nimport redis\nredis_client = redis.Redis.from_url(\"redis://localhost:6379/0\")   # created once\n\n# 2) Cached factory (FastAPI settings)\nfrom functools import lru_cache\n\n@lru_cache\ndef get_settings() -> \"Settings\":\n    return Settings()           # built once, then the same object is returned\n\n# 3) Classic class-based singleton\nclass AppConfig:\n    _instance = None\n    def __new__(cls):\n        if cls._instance is None:\n            cls._instance = super().__new__(cls)\n        return cls._instance\n\nprint(AppConfig() is AppConfig())   # True",
+    "memory": "Remember: In Python, a module is already a singleton",
+    "tip": "Mention FastAPI's get_settings() with lru_cache; it's the practical Python answer."
+  },
+  {
+    "id": "design-patte-384b17f0",
+    "subject": "Design Patterns",
+    "level": "Beginner",
+    "question": "What is the Factory pattern?",
+    "answer": "A Factory creates objects for you, so the calling code doesn't need to know which exact class to build. You pass a type or a config value, and the factory returns the right object. Example: a payment factory returns a Razorpay, Stripe or PayU gateway based on settings or the customer's country; the rest of the code just calls gateway.charge(). Adding a new gateway means adding one class and one line in the factory, not changing every caller.",
+    "points": [
+      "Creates the right object for you",
+      "Caller doesn't know the concrete class",
+      "Choose by type or config",
+      "New type = one class + one mapping",
+      "Often paired with an interface"
+    ],
+    "code": "from abc import ABC, abstractmethod\n\nclass PaymentGateway(ABC):\n    @abstractmethod\n    def charge(self, amount: float) -> str: ...\n\nclass RazorpayGateway(PaymentGateway):\n    def charge(self, amount):\n        return f\"Razorpay charged {amount}\"\n\nclass StripeGateway(PaymentGateway):\n    def charge(self, amount):\n        return f\"Stripe charged {amount}\"\n\nGATEWAYS = {\"razorpay\": RazorpayGateway, \"stripe\": StripeGateway}\n\ndef get_gateway(name: str) -> PaymentGateway:\n    try:\n        return GATEWAYS[name]()\n    except KeyError:\n        raise ValueError(f\"Unknown payment gateway: {name}\")\n\ngateway = get_gateway(settings.payment_gateway)     # e.g. \"razorpay\"\nprint(gateway.charge(499))",
+    "memory": "Remember: Factory = 'give me the right one'",
+    "tip": "Combine with the Strategy pattern: the factory picks the strategy, the strategy does the work."
+  },
+  {
+    "id": "design-patte-36610983",
+    "subject": "Design Patterns",
+    "level": "Beginner",
+    "question": "What is the Strategy pattern? (example: loyalty point rules)",
+    "answer": "The Strategy pattern puts each variation of an algorithm in its own class with the same method, and chooses one at runtime, instead of writing a long if/elif chain. Example from a loyalty platform: each tier (Silver, Gold, Platinum) or campaign (double points weekend) has its own rule for calculating points. The service picks the right strategy and calls calculate(). New rules are added as new classes without touching existing ones (Open/Closed principle), and each rule is easy to unit test.",
+    "points": [
+      "Each algorithm in its own class",
+      "Same method name",
+      "Choose at runtime",
+      "Replaces long if/elif chains",
+      "Easy to add and test",
+      "Follows Open/Closed"
+    ],
+    "code": "from abc import ABC, abstractmethod\n\nclass PointsRule(ABC):\n    @abstractmethod\n    def calculate(self, amount: float) -> int: ...\n\nclass SilverRule(PointsRule):\n    def calculate(self, amount):\n        return int(amount // 100) * 1          # 1 point per 100\n\nclass GoldRule(PointsRule):\n    def calculate(self, amount):\n        return int(amount // 100) * 2\n\nclass DoublePointsCampaign(PointsRule):        # wraps another rule\n    def __init__(self, base: PointsRule):\n        self.base = base\n    def calculate(self, amount):\n        return self.base.calculate(amount) * 2\n\nRULES = {\"silver\": SilverRule(), \"gold\": GoldRule()}\n\ndef points_for(tier: str, amount: float, campaign_active: bool) -> int:\n    rule = RULES[tier]\n    if campaign_active:\n        rule = DoublePointsCampaign(rule)\n    return rule.calculate(amount)\n\nprint(points_for(\"gold\", 1250, campaign_active=True))   # 48",
+    "memory": "Remember: Strategy = swappable rule",
+    "tip": "This is a natural fit for loyalty tiers and campaign rules; use a real example from your own projects."
+  },
+  {
+    "id": "design-patte-5e4d35e4",
+    "subject": "Design Patterns",
+    "level": "Beginner",
+    "question": "What is the Observer pattern (events)?",
+    "answer": "In the Observer pattern, one object (the subject) keeps a list of listeners and notifies all of them when something happens, without knowing what they do. Example: when an order is placed, listeners send an email, add loyalty points and update analytics. The order code stays small and new reactions are added by registering a new listener. In real systems this is done with Django signals, Laravel events and listeners, or a message broker (Celery, SQS, Kafka) when listeners should run in the background or in other services.",
+    "points": [
+      "Subject notifies listeners",
+      "Loose coupling",
+      "Add reactions without changing the source",
+      "Django signals, Laravel events",
+      "Message brokers across services"
+    ],
+    "code": "from collections import defaultdict\n\nclass EventBus:\n    def __init__(self):\n        self.listeners = defaultdict(list)\n\n    def subscribe(self, event: str, handler):\n        self.listeners[event].append(handler)\n\n    def publish(self, event: str, data: dict):\n        for handler in self.listeners[event]:\n            handler(data)\n\nbus = EventBus()\nbus.subscribe(\"order_placed\", lambda d: print(\"Email receipt to\", d[\"email\"]))\nbus.subscribe(\"order_placed\", lambda d: print(\"Add\", d[\"total\"] // 100, \"points\"))\nbus.subscribe(\"order_placed\", lambda d: print(\"Update sales dashboard\"))\n\nbus.publish(\"order_placed\", {\"email\": \"ravi@example.com\", \"total\": 1250})",
+    "memory": "Remember: Observer = 'tell everyone who cares'",
+    "tip": "Heavy listeners (emails, external APIs) should run in background tasks, not inside the request."
+  },
+  {
+    "id": "design-patte-003ece41",
+    "subject": "Design Patterns",
+    "level": "Beginner",
+    "question": "What is the Adapter pattern? (example: legacy PHP API)",
+    "answer": "An Adapter wraps an existing class or service that has the wrong interface and makes it look like the interface your code expects. Examples: wrapping several SMS providers (each with a different API) behind one send_sms() method, or, during a PHP to FastAPI migration, wrapping the old PHP endpoint so new Python code can call it through a clean Python interface until that module is rewritten. When the new FastAPI implementation is ready, you swap the adapter and the calling code does not change.",
+    "points": [
+      "Wraps an incompatible interface",
+      "Callers use one clean interface",
+      "Many vendors behind one method",
+      "Bridge to legacy systems during migration",
+      "Swap later without changing callers"
+    ],
+    "code": "import requests\n\nclass CouponService:                         # interface the new code expects\n    def validate(self, code: str, customer_id: int) -> bool: ...\n\nclass LegacyPhpCouponAdapter(CouponService):\n    \"\"\"Calls the old PHP endpoint until the coupon module is migrated.\"\"\"\n    def validate(self, code, customer_id):\n        resp = requests.post(\"https://legacy.example.com/coupon/check.php\",\n                             data={\"coupon_code\": code, \"cust_id\": customer_id}, timeout=3)\n        return resp.json().get(\"status\") == \"VALID\"      # translate old format\n\nclass NewCouponService(CouponService):\n    def validate(self, code, customer_id):\n        return coupon_repo.is_valid(code, customer_id)   # new FastAPI + SQLAlchemy code\n\ncoupons: CouponService = LegacyPhpCouponAdapter()        # later: NewCouponService()\nprint(coupons.validate(\"DIWALI500\", 42))",
+    "memory": "Remember: Adapter = travel plug for code",
+    "tip": "Connect it to your migration story: adapters let new and old code live together safely."
+  },
+  {
+    "id": "design-patte-b827b1aa",
+    "subject": "Design Patterns",
+    "level": "Beginner",
+    "question": "What are DRY, KISS and YAGNI? What is clean code?",
+    "answer": "DRY (Don't Repeat Yourself): put shared logic in one place, so a fix happens once. KISS (Keep It Simple): choose the simplest solution that works; clever code is hard to maintain. YAGNI (You Aren't Gonna Need It): don't build features or abstractions until they are actually needed. Clean code: clear names, small functions that do one thing, early returns instead of deep nesting, no magic numbers (use named constants), consistent formatting (black, ruff, PHP-CS-Fixer), meaningful error handling, and tests. Code is read far more often than it is written.",
+    "points": [
+      "DRY = one place for shared logic",
+      "KISS = simplest working solution",
+      "YAGNI = build only what's needed",
+      "Clear names, small functions",
+      "Early returns",
+      "No magic numbers",
+      "Formatters + tests"
+    ],
+    "code": "# Before: nested, magic numbers\ndef calc(o):\n    if o:\n        if o[\"t\"] > 0:\n            if o[\"tier\"] == \"gold\":\n                return o[\"t\"] * 0.02\n            else:\n                return o[\"t\"] * 0.01\n    return 0\n\n# After: clear names, constants, early return\nPOINTS_RATE = {\"gold\": 0.02, \"silver\": 0.01}\n\ndef points_for_order(order: dict) -> float:\n    if not order or order[\"total\"] <= 0:\n        return 0\n    rate = POINTS_RATE.get(order[\"tier\"], 0.01)\n    return order[\"total\"] * rate",
+    "memory": "Remember: Don't repeat, keep simple, build only what's needed",
+    "tip": "These come up in code-review questions; show a quick before and after."
+  },
+  {
+    "id": "process-77fbbab8",
+    "subject": "Process",
+    "level": "Intermediate",
+    "question": "How do you estimate tasks? What are story points?",
+    "answer": "Story points measure relative effort and complexity, not hours: a 5-point story is more work than a 2-point one, including uncertainty. Teams usually use a Fibonacci-like scale (1, 2, 3, 5, 8, 13) and estimate together in planning poker, where everyone reveals a number at once and big differences are discussed (often someone knows a hidden risk). Over a few sprints, the team's velocity (points completed per sprint) helps plan how much fits in a sprint. Large stories (13 or more) should be split. For a single task in hours, I break it into steps (design, code, tests, review, deploy) and add a buffer for unknowns.",
+    "points": [
+      "Relative effort, not hours",
+      "Fibonacci scale",
+      "Planning poker",
+      "Discuss big differences",
+      "Velocity for planning",
+      "Split large stories",
+      "Break tasks into steps + buffer"
+    ],
+    "code": "",
+    "memory": "Remember: Points compare, velocity plans",
+    "tip": "Mention that estimates include testing and code review time, not just coding."
+  },
+  {
+    "id": "process-a2894a9a",
+    "subject": "Process",
+    "level": "Intermediate",
+    "question": "How do you handle requirement changes in the middle of a sprint?",
+    "answer": "First understand the change and its urgency with the product owner. If it is urgent (production bug, legal or critical business need), we add it and remove work of similar size from the sprint, so the sprint goal stays realistic, and the team agrees openly. If it can wait, it goes to the backlog for the next sprint planning. Small clarifications are normal and handled directly. I also design code to be flexible where change is likely (configurable rules instead of hard-coded values), which is exactly why loyalty campaigns were configurable.",
+    "points": [
+      "Understand change + urgency",
+      "Urgent: swap in, swap out equal work",
+      "Not urgent: backlog",
+      "Keep sprint goal realistic",
+      "Transparent with the team",
+      "Flexible design where change is likely"
+    ],
+    "code": "",
+    "memory": "Remember: Urgent swaps in, everything else waits for planning",
+    "tip": "Show balance: agile means welcoming change, but not chaos."
+  },
+  {
+    "id": "process-3ab68593",
+    "subject": "Process",
+    "level": "Beginner",
+    "question": "What is the Definition of Done? What happens in a sprint retrospective?",
+    "answer": "The Definition of Done (DoD) is the team's shared checklist for when a story is really finished, for example: code written and reviewed, unit and integration tests passing, documentation or API docs updated, deployed to staging and tested by QA, no new critical bugs, and the product owner accepted it. It stops 'done but not really done' work. A retrospective happens at the end of each sprint: the team discusses what went well, what didn't, and agrees on one to three concrete improvements to try in the next sprint (for example 'add API contract tests' or 'smaller pull requests'), then checks next time whether they helped.",
+    "points": [
+      "DoD = shared 'finished' checklist",
+      "Reviewed, tested, documented, deployed to staging",
+      "PO accepted",
+      "Retro: what went well, what didn't",
+      "1–3 concrete actions",
+      "Follow up next sprint"
+    ],
+    "code": "",
+    "memory": "Remember: Done means really done; retros improve the process",
+    "tip": "Give one real improvement your team made from a retrospective."
+  }
+]

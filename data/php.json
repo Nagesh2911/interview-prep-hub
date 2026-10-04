@@ -1,0 +1,2366 @@
+[
+  {
+    "id": "php-5d6f0d3a",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is PHP?",
+    "answer": "PHP is a server-side scripting language used to build websites and APIs. The PHP code runs on the server and sends HTML or JSON to the browser. It works well with MySQL and is used by WordPress, Laravel and CodeIgniter.",
+    "points": [
+      "Server-side",
+      "Web + APIs",
+      "MySQL",
+      "Laravel / CodeIgniter"
+    ],
+    "code": "<?php\n// hello.php  ->  run:  php -S localhost:8000   then open /hello.php\n$name   = \"Nagesh\";\n$skills = [\"PHP\", \"MySQL\", \"Laravel\"];\n?>\n<h1>Hello <?= htmlspecialchars($name) ?></h1>\n<ul>\n  <?php foreach ($skills as $skill): ?>\n    <li><?= $skill ?></li>\n  <?php endforeach; ?>\n</ul>",
+    "memory": "Remember: PHP runs on server, browser gets the result",
+    "tip": "Mention you have 10 years of PHP experience."
+  },
+  {
+    "id": "php-f6c9c798",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How does PHP work with a web server?",
+    "answer": "The browser sends a request to Nginx or Apache. For .php files, the web server passes the request to PHP-FPM, which runs the PHP code and returns the output. The web server sends that output back to the browser.",
+    "points": [
+      "Browser → Nginx/Apache → PHP-FPM → Response"
+    ],
+    "code": "",
+    "memory": "Remember: Nginx serves, PHP-FPM runs PHP",
+    "tip": "Static files (CSS, images) are served by Nginx directly."
+  },
+  {
+    "id": "php-646da729",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "echo vs print?",
+    "answer": "Both show output. echo can take many values and is a little faster. print takes one value and returns 1, so it can be used inside an expression. In practice, most people use echo.",
+    "points": [
+      "echo = many values",
+      "print = one value, returns 1"
+    ],
+    "code": "<?php\necho \"Hello\", \" \", \"World\";   // many values\nprint \"Hello\";                // only one value\n$r = print \"Hi\";              // print returns 1\necho \"<br>Total: \" . 100;     // . joins strings",
+    "memory": "Remember: Just use echo",
+    "tip": "Simple question: answer in one line."
+  },
+  {
+    "id": "php-7a199737",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "Single quotes vs double quotes in PHP?",
+    "answer": "Double quotes read variables and escape sequences like \\n inside the string. Single quotes print everything exactly as written, and are slightly faster. Use single quotes for plain text and SQL with placeholders.",
+    "points": [
+      "\" \" = reads variables",
+      "' ' = exact text",
+      "\\n only in double"
+    ],
+    "code": "<?php\n$name = \"Ravi\";\n$user = [\"city\" => \"Pune\"];\n\necho \"Hello $name\";           // Hello Ravi\necho 'Hello $name';           // Hello $name\necho \"City: {$user['city']}\"; // City: Pune\necho \"Line1\\nLine2\";          // new line works\necho 'Line1\\nLine2';          // prints \\n as text",
+    "memory": "Remember: Double quotes do the work, single quotes don't",
+    "tip": "Use {$arr['key']} for array values inside double quotes."
+  },
+  {
+    "id": "php-c5f5fb00",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "define() vs const?",
+    "answer": "Both create constants that cannot change. const is used at compile time and works inside classes; define() is a function and can be used inside if blocks or with dynamic names. Modern code mostly uses const.",
+    "points": [
+      "const = class + top level",
+      "define() = runtime",
+      "Cannot change"
+    ],
+    "code": "<?php\nconst GST_RATE = 18;\ndefine(\"APP_NAME\", \"FleetManager\");\n\nclass Tax\n{\n    const RATE = 0.18;\n\n    public static function add(float $p): float\n    {\n        return $p * (1 + self::RATE);\n    }\n}\n\necho GST_RATE, APP_NAME, Tax::RATE;",
+    "memory": "Remember: Prefer const",
+    "tip": "Class constants: self::RATE or ClassName::RATE."
+  },
+  {
+    "id": "php-75721ba7",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "== vs === in PHP?",
+    "answer": "== compares only values after converting types (loose). === compares both value and type (strict). Always prefer ===, because loose comparison can give surprising results.",
+    "points": [
+      "== loose",
+      "=== strict",
+      "Type juggling"
+    ],
+    "code": "<?php\nvar_dump(5 == \"5\");     // true  (value same)\nvar_dump(5 === \"5\");    // false (int vs string)\nvar_dump(0 == false);   // true\nvar_dump(0 === false);  // false",
+    "memory": "Remember: Three = also checks type",
+    "tip": "Show the '0' == false example."
+  },
+  {
+    "id": "php-a60ad6fb",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "isset vs empty vs is_null?",
+    "answer": "isset: true if the variable exists and is not null. empty: true if the variable is missing or has an 'empty' value like '', 0, '0', null, false or []. is_null: true only if the value is null.",
+    "points": [
+      "isset = exists, not null",
+      "empty = falsy",
+      "is_null = only null"
+    ],
+    "code": "<?php\n$a = \"\";\n$b = null;\n$c = \"0\";\n\nvar_dump(isset($a));    // true  (exists, not null)\nvar_dump(isset($b));    // false (null)\nvar_dump(empty($a));    // true  (\"\" is empty)\nvar_dump(empty($c));    // true  (\"0\" is empty!)\nvar_dump(is_null($b));  // true\nvar_dump(isset($x));    // false (not defined, no error)",
+    "memory": "Remember: isset asks 'is it there?', empty asks 'is it blank?'",
+    "tip": "Careful: empty('0') is true, which surprises many people."
+  },
+  {
+    "id": "php-452710a4",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are ?? and ?-> operators?",
+    "answer": "?? (null coalescing) gives a default when a value is null or missing. ?-> (nullsafe, PHP 8) stops the chain and returns null if an object is null, instead of an error.",
+    "points": [
+      "?? = default",
+      "?-> = safe chain",
+      "No errors on null"
+    ],
+    "code": "<?php\n$page = $_GET[\"page\"] ?? 1;          // 1 if not sent\n\n$city = $user?->address?->city;     // null if user or address is null",
+    "memory": "Remember: ?? default, ?-> safe call",
+    "tip": "Very useful with request data and optional relations."
+  },
+  {
+    "id": "php-108edb98",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is the match expression?",
+    "answer": "match is a cleaner version of switch. It returns a value, uses strict comparison (===), does not need break, and gives an error if no case matches.",
+    "points": [
+      "Returns value",
+      "Strict ===",
+      "No break",
+      "Error if no match"
+    ],
+    "code": "<?php\n$label = match ($status) {\n    \"placed\"    => \"Order placed\",\n    \"delivered\" => \"Delivered\",\n    \"cancelled\" => \"Cancelled\",\n    default     => \"Unknown\",\n};",
+    "memory": "Remember: match = short, strict switch",
+    "tip": "Good for status → label conversions."
+  },
+  {
+    "id": "php-dd9cb29d",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "Common PHP string functions?",
+    "answer": "strlen (length), strtolower / strtoupper, trim, explode (string to array), implode (array to string), str_replace, substr, strpos, and str_contains (PHP 8).",
+    "points": [
+      "strlen",
+      "trim",
+      "explode",
+      "implode",
+      "str_replace",
+      "str_contains"
+    ],
+    "code": "<?php\n$csv   = \"onion,potato,tomato\";\n$items = explode(\",\", $csv);     // array\n$back  = implode(\" | \", $items); // \"onion | potato | tomato\"\n\nif (str_contains($csv, \"onion\")) {\n    echo \"found\";\n}",
+    "memory": "Remember: explode splits, implode joins",
+    "tip": "Use mb_ functions for Hindi or Marathi text."
+  },
+  {
+    "id": "php-1ee0b42f",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you format numbers and money in PHP?",
+    "answer": "number_format adds thousands separators and decimals. For Indian style (lakhs), use NumberFormatter with the en_IN locale (intl extension). Never use float for exact money calculations; keep paise as integers or use bcmath.",
+    "points": [
+      "number_format",
+      "NumberFormatter en_IN",
+      "Avoid float math for money"
+    ],
+    "code": "<?php\necho number_format(1234567.891, 2);          // 1,234,567.89\n\n$fmt = new NumberFormatter(\"en_IN\", NumberFormatter::CURRENCY);\necho $fmt->formatCurrency(1234567.89, \"INR\"); // ₹12,34,567.89\n\n$totalPaise = 1999 + 2501;                   // safe integer math\necho number_format($totalPaise / 100, 2);    // 45.00",
+    "memory": "Remember: Store in paise, format on display",
+    "tip": "0.1 + 0.2 != 0.3 in float math."
+  },
+  {
+    "id": "php-187fd477",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you work with dates in PHP?",
+    "answer": "Use the DateTime (or DateTimeImmutable) class. It can format, add or subtract time, and find the difference between dates. Always set the timezone.",
+    "points": [
+      "DateTime",
+      "format",
+      "modify",
+      "diff",
+      "Timezone"
+    ],
+    "code": "<?php\n$date = new DateTime(\"now\", new DateTimeZone(\"Asia/Kolkata\"));\necho $date->format(\"Y-m-d H:i\");\n\n$expiry = (clone $date)->modify(\"+30 days\");\n$days = $date->diff($expiry)->days;   // 30",
+    "memory": "Remember: Use DateTime, not string math",
+    "tip": "Set date.timezone = Asia/Kolkata in php.ini."
+  },
+  {
+    "id": "php-5e760fa6",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are the types of arrays in PHP?",
+    "answer": "Indexed array: keys are numbers (0, 1, 2). Associative array: keys are names (strings). Multidimensional array: an array inside an array, like rows from a database.",
+    "points": [
+      "Indexed",
+      "Associative",
+      "Multidimensional"
+    ],
+    "code": "<?php\n$fruits = [\"apple\", \"mango\"];                     // indexed\n$user   = [\"name\" => \"Nagesh\", \"city\" => \"Pune\"]; // associative\n$rows   = [                                        // multidimensional\n    [\"id\" => 1, \"name\" => \"Ravi\"],\n    [\"id\" => 2, \"name\" => \"Amit\"],\n];\necho $rows[1][\"name\"];   // Amit",
+    "memory": "Remember: Number keys, Name keys, Array in array",
+    "tip": "Database results usually come as arrays of associative arrays."
+  },
+  {
+    "id": "php-982c85c1",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "Common PHP array functions?",
+    "answer": "count: size. in_array: is a value present. array_key_exists / isset: is a key present. array_merge: join arrays. array_map: change every item. array_filter: keep some items. array_column: take one column from rows. sort / usort: sort.",
+    "points": [
+      "count",
+      "in_array",
+      "array_merge",
+      "array_map",
+      "array_filter",
+      "array_column",
+      "usort"
+    ],
+    "code": "<?php\n$prices = [100, 40, 250];\n$withGst = array_map(fn($p) => $p * 1.18, $prices);\n$costly  = array_filter($prices, fn($p) => $p > 50);\n\n$rows  = [[\"id\" => 1, \"name\" => \"Ravi\"], [\"id\" => 2, \"name\" => \"Amit\"]];\n$names = array_column($rows, \"name\");          // [\"Ravi\", \"Amit\"]\nusort($rows, fn($a, $b) => $a[\"id\"] <=> $b[\"id\"]);",
+    "memory": "Remember: Map changes, Filter keeps",
+    "tip": "array_column is very useful with database rows."
+  },
+  {
+    "id": "php-40dd2c7b",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you sort arrays in PHP?",
+    "answer": "sort / rsort: sort values, keys are reset. asort / arsort: sort by value, keys kept. ksort / krsort: sort by key. usort: sort with your own compare function (use <=>).",
+    "points": [
+      "sort / rsort",
+      "asort / arsort (keep keys)",
+      "ksort",
+      "usort + <=>"
+    ],
+    "code": "<?php\n$prices = [\"onion\" => 25, \"tomato\" => 30, \"potato\" => 20];\n\nasort($prices);    // potato 20, onion 25, tomato 30 (keys kept)\narsort($prices);   // highest first\nksort($prices);    // by name: onion, potato, tomato\n\n$orders = [[\"id\" => 2, \"amt\" => 300], [\"id\" => 1, \"amt\" => 900]];\nusort($orders, fn($a, $b) => $b[\"amt\"] <=> $a[\"amt\"]);   // amount high to low",
+    "memory": "Remember: a = associative (keep keys), k = by key, u = user function",
+    "tip": "All of these change the original array."
+  },
+  {
+    "id": "php-ad63ed10",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "array_search, array_unique, array_slice and array_splice?",
+    "answer": "array_search finds the key of a value. array_unique removes duplicate values. array_slice returns part of an array without changing it. array_splice removes or replaces part of the array and changes it.",
+    "points": [
+      "array_search = find key",
+      "array_unique",
+      "array_slice = copy part",
+      "array_splice = cut part"
+    ],
+    "code": "<?php\n$crops = [\"onion\", \"rice\", \"onion\", \"dal\", \"oil\"];\n\n$key = array_search(\"dal\", $crops);         // 3\n$unique = array_unique($crops);             // onion, rice, dal, oil\n$firstTwo = array_slice($crops, 0, 2);      // onion, rice (original same)\narray_splice($crops, 1, 2);                 // removes rice, onion -> crops changed",
+    "memory": "Remember: slice copies, splice cuts",
+    "tip": "array_search returns false if not found; check with ===."
+  },
+  {
+    "id": "php-2c76ada7",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "Anonymous functions and arrow functions?",
+    "answer": "An anonymous function (closure) has no name and can be stored in a variable. Use 'use' to bring outside variables in. Arrow functions (fn) are shorter and take outside variables automatically.",
+    "points": [
+      "function() use ()",
+      "fn() =>",
+      "Callbacks"
+    ],
+    "code": "<?php\n$rate = 1.18;\n\n$addGst = function ($price) use ($rate) {\n    return $price * $rate;\n};\n\n$addGst2 = fn($price) => $price * $rate;   // short version",
+    "memory": "Remember: fn = short closure",
+    "tip": "Used often with array_map and array_filter."
+  },
+  {
+    "id": "php-1bd71be5",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "Pass by value vs pass by reference?",
+    "answer": "By default, PHP passes a copy of the variable (by value), so changes inside the function do not affect the original. With & (by reference), the function changes the original variable. Objects behave like references by default.",
+    "points": [
+      "Default = copy",
+      "& = original",
+      "Objects are handles"
+    ],
+    "code": "<?php\nfunction addTen($n)      { $n += 10; }\nfunction addTenRef(&$n)  { $n += 10; }\n\n$a = 5;\naddTen($a);     echo $a;   // 5  (copy changed)\naddTenRef($a);  echo $a;   // 15 (original changed)\n\n$prices = [10, 20];\nforeach ($prices as &$p) {\n    $p *= 2;               // changes the array\n}\nunset($p);                 // always unset after reference loop",
+    "memory": "Remember: & = change the original",
+    "tip": "Avoid references unless needed; they make code harder to follow."
+  },
+  {
+    "id": "php-29c48344",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do variables in functions work (scope)? What is a static variable?",
+    "answer": "Variables inside a function are local; they cannot see outside variables unless passed in (or using 'global', which is not recommended). A static variable inside a function keeps its value between calls.",
+    "points": [
+      "Local by default",
+      "global keyword (avoid)",
+      "static keeps value"
+    ],
+    "code": "<?php\n$rate = 18;\n\nfunction test() {\n    // echo $rate;    // Warning: undefined variable\n}\n\nfunction counter(): int\n{\n    static $count = 0;   // keeps value between calls\n    return ++$count;\n}\n\necho counter();   // 1\necho counter();   // 2",
+    "memory": "Remember: Functions see only their own variables",
+    "tip": "Pass values as parameters instead of using global."
+  },
+  {
+    "id": "php-a4e1ace4",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is declare(strict_types=1)?",
+    "answer": "By default PHP converts types automatically, for example '5' to 5. With strict_types=1 at the top of the file, PHP throws a TypeError if the wrong type is passed. This catches bugs early.",
+    "points": [
+      "Strict types",
+      "TypeError",
+      "First line of file"
+    ],
+    "code": "<?php\ndeclare(strict_types=1);   // must be the first statement\n\nfunction addPoints(int $points): int\n{\n    return $points + 10;\n}\n\necho addPoints(5);      // 15\necho addPoints(\"5\");    // TypeError (without strict_types it would work)",
+    "memory": "Remember: strict_types = no automatic type change",
+    "tip": "Use it with type declarations on parameters and return values."
+  },
+  {
+    "id": "php-4fefc863",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are superglobals?",
+    "answer": "Superglobals are built-in arrays available everywhere: $_GET (URL data), $_POST (form data), $_REQUEST (both), $_SESSION, $_COOKIE, $_FILES (uploads), $_SERVER (server and request info) and $_ENV.",
+    "points": [
+      "$_GET",
+      "$_POST",
+      "$_SESSION",
+      "$_COOKIE",
+      "$_FILES",
+      "$_SERVER"
+    ],
+    "code": "<?php\n// URL: /search.php?crop=onion\n$crop   = $_GET[\"crop\"] ?? \"\";\n$name   = $_POST[\"name\"] ?? \"\";\n$method = $_SERVER[\"REQUEST_METHOD\"];   // GET or POST\n$ip     = $_SERVER[\"REMOTE_ADDR\"];\n$photo  = $_FILES[\"photo\"] ?? null;\n\necho htmlspecialchars($crop);   // always escape before printing",
+    "memory": "Remember: Super = available everywhere",
+    "tip": "Never trust them directly; always validate input."
+  },
+  {
+    "id": "php-393542b7",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "What is the difference between GET and POST in PHP forms?",
+    "answer": "GET sends data in the URL ($_GET); it is visible, can be bookmarked, and should be used for reading or searching. POST sends data in the request body ($_POST); use it for creating or changing data, and for passwords.",
+    "points": [
+      "GET = URL, read",
+      "POST = body, change data",
+      "Passwords via POST"
+    ],
+    "code": "<!-- GET: data goes in the URL -> search.php?crop=onion -->\n<form method=\"get\" action=\"search.php\">\n  <input name=\"crop\">\n  <button>Search</button>\n</form>\n\n<!-- POST: data goes in the request body -->\n<form method=\"post\" action=\"login.php\">\n  <input name=\"email\">\n  <input name=\"password\" type=\"password\">\n  <button>Login</button>\n</form>\n\n<?php\n$crop  = $_GET[\"crop\"] ?? \"\";     // in search.php\n$email = $_POST[\"email\"] ?? \"\";   // in login.php",
+    "memory": "Remember: Search with GET, submit with POST",
+    "tip": "Neither is secure without HTTPS."
+  },
+  {
+    "id": "php-a295aeb6",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "include vs require (and _once)?",
+    "answer": "Both add another PHP file. If the file is missing, include gives a warning and continues; require gives a fatal error and stops. include_once / require_once add the file only one time, even if called again.",
+    "points": [
+      "include = warning",
+      "require = fatal",
+      "_once = only one time"
+    ],
+    "code": "<?php\nrequire_once \"config.php\";   // must exist, load only once\ninclude \"header.php\";        // optional: only a warning if missing\n\necho \"<p>Page content</p>\";\n\ninclude \"footer.php\";",
+    "memory": "Remember: require = required, must exist",
+    "tip": "Use require_once for config and class files."
+  },
+  {
+    "id": "php-437255a9",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "Session vs cookie?",
+    "answer": "A cookie is stored in the user's browser. A session is stored on the server; the browser only keeps a session ID in a cookie. Sessions are safer for important data like the logged-in user ID.",
+    "points": [
+      "Cookie = browser",
+      "Session = server",
+      "Session ID in cookie"
+    ],
+    "code": "<?php\nsession_start();\n$_SESSION[\"user_id\"] = 42;          // stored on server\n\nsetcookie(\"theme\", \"dark\", [\n    \"expires\"  => time() + 86400,\n    \"httponly\" => true,\n    \"secure\"   => true,\n]);\n\n// logout\nsession_unset();\nsession_destroy();",
+    "memory": "Remember: Sensitive data → session",
+    "tip": "Use HttpOnly and Secure flags on cookies."
+  },
+  {
+    "id": "php-ab6a6c22",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "session_unset vs session_destroy?",
+    "answer": "session_unset() clears all values in the current session, but the session still exists. session_destroy() deletes the session data on the server. For a full logout, do both and also delete the session cookie.",
+    "points": [
+      "unset = clear values",
+      "destroy = delete session",
+      "Delete cookie too"
+    ],
+    "code": "<?php\nsession_start();\nsession_unset();\nsession_destroy();\nsetcookie(session_name(), \"\", time() - 3600, \"/\");\nheader(\"Location: /login.php\");\nexit;",
+    "memory": "Remember: Logout = unset + destroy + cookie",
+    "tip": "Call session_regenerate_id(true) after login to prevent session fixation."
+  },
+  {
+    "id": "php-47c58d8e",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you redirect to another page in PHP?",
+    "answer": "Send a Location header with header() and then call exit, so no more code runs. No output (even spaces or HTML) can be sent before header().",
+    "points": [
+      "header('Location: ...')",
+      "exit after",
+      "No output before"
+    ],
+    "code": "<?php\nsession_start();\nif (empty($_SESSION[\"user_id\"])) {\n    header(\"Location: /login.php\");\n    exit;\n}\n\n// permanent redirect\nheader(\"Location: https://newsite.com/\", true, 301);\nexit;",
+    "memory": "Remember: header + exit",
+    "tip": "'Headers already sent' error means something was printed before header()."
+  },
+  {
+    "id": "php-a9aba039",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you upload a file safely in PHP?",
+    "answer": "Check for upload errors, limit the file size, check the real file type (not just the extension), give the file a new random name, and save it outside the public folder or in cloud storage like S3.",
+    "points": [
+      "Check error",
+      "Size limit",
+      "Real MIME type",
+      "Random name",
+      "Safe folder"
+    ],
+    "code": "<?php\n$file = $_FILES[\"receipt\"];\nif ($file[\"error\"] !== UPLOAD_ERR_OK) die(\"Upload failed\");\nif ($file[\"size\"] > 2 * 1024 * 1024) die(\"Max 2 MB\");\n\n$type = mime_content_type($file[\"tmp_name\"]);\nif (!in_array($type, [\"image/jpeg\", \"image/png\"])) die(\"Only images\");\n\n$name = bin2hex(random_bytes(16)) . \".jpg\";\nmove_uploaded_file($file[\"tmp_name\"], \"/var/uploads/\" . $name);",
+    "memory": "Remember: Never trust the file name",
+    "tip": "Never allow .php files to be uploaded and run."
+  },
+  {
+    "id": "php-7c6db34b",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you return a JSON API response in plain PHP?",
+    "answer": "Set the Content-Type header to application/json, set the HTTP status code, and use json_encode.",
+    "points": [
+      "header Content-Type",
+      "http_response_code",
+      "json_encode"
+    ],
+    "code": "<?php\nheader(\"Content-Type: application/json\");\n\n$id = (int) ($_GET[\"id\"] ?? 0);\nif ($id <= 0) {\n    http_response_code(400);\n    echo json_encode([\"error\" => \"Invalid id\"]);\n    exit;\n}\n\nhttp_response_code(200);\necho json_encode([\"id\" => $id, \"status\" => \"active\"]);",
+    "memory": "Remember: Header + Status + json_encode",
+    "tip": "Frameworks do this for you: return response()->json() in Laravel."
+  },
+  {
+    "id": "php-69db2f95",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you read a JSON request body in PHP?",
+    "answer": "For JSON requests, $_POST is empty. Read the raw body with file_get_contents('php://input') and decode it with json_decode(..., true) to get an array. Check for invalid JSON.",
+    "points": [
+      "php://input",
+      "json_decode(..., true)",
+      "Check errors",
+      "$_POST is empty for JSON"
+    ],
+    "code": "<?php\n$raw  = file_get_contents(\"php://input\");\n$data = json_decode($raw, true);\n\nif (json_last_error() !== JSON_ERROR_NONE) {\n    http_response_code(400);\n    echo json_encode([\"error\" => \"Invalid JSON\"]);\n    exit;\n}\n\n$name = $data[\"name\"] ?? \"\";",
+    "memory": "Remember: JSON body → php://input",
+    "tip": "Laravel does this automatically with $request->input()."
+  },
+  {
+    "id": "php-71ef5e00",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you call an external API with cURL?",
+    "answer": "Use curl_init, set options like URL, method, headers and timeout, run curl_exec, check the HTTP code, then close. Libraries like Guzzle make this easier.",
+    "points": [
+      "curl_init",
+      "CURLOPT_TIMEOUT",
+      "curl_exec",
+      "HTTP code",
+      "Guzzle"
+    ],
+    "code": "<?php\n$ch = curl_init(\"https://api.example.com/prices?crop=onion\");\ncurl_setopt_array($ch, [\n    CURLOPT_RETURNTRANSFER => true,\n    CURLOPT_TIMEOUT        => 5,\n    CURLOPT_HTTPHEADER     => [\"Accept: application/json\"],\n]);\n$body = curl_exec($ch);\n$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);\ncurl_close($ch);\n\nif ($body === false || $code !== 200) {\n    // log and handle error\n}\n$data = json_decode($body, true);",
+    "memory": "Remember: Init → Options → Exec → Check → Close",
+    "tip": "Always set a timeout."
+  },
+  {
+    "id": "php-8e4327c1",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you allow CORS in plain PHP?",
+    "answer": "Send the Access-Control-Allow-* headers. For OPTIONS (preflight) requests, reply with 204 and stop. Allow only trusted origins, not * in production when using cookies.",
+    "points": [
+      "Allow-Origin",
+      "Allow-Methods",
+      "Allow-Headers",
+      "OPTIONS → 204"
+    ],
+    "code": "<?php\n$allowed = [\"https://myapp.com\"];\n$origin  = $_SERVER[\"HTTP_ORIGIN\"] ?? \"\";\n\nif (in_array($origin, $allowed, true)) {\n    header(\"Access-Control-Allow-Origin: $origin\");\n    header(\"Access-Control-Allow-Methods: GET, POST, PUT, DELETE\");\n    header(\"Access-Control-Allow-Headers: Content-Type, Authorization\");\n}\n\nif ($_SERVER[\"REQUEST_METHOD\"] === \"OPTIONS\") {\n    http_response_code(204);\n    exit;\n}",
+    "memory": "Remember: CORS is fixed on the server",
+    "tip": "In Laravel, configure config/cors.php instead."
+  },
+  {
+    "id": "php-71142268",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you send email from PHP?",
+    "answer": "The simple mail() function depends on server settings and often lands in spam. In real projects, use a library like PHPMailer or Symfony Mailer with SMTP (Gmail, SES, SendGrid), and send emails in a background queue.",
+    "points": [
+      "mail() = basic",
+      "PHPMailer + SMTP",
+      "Use queue",
+      "SPF / DKIM"
+    ],
+    "code": "<?php\nuse PHPMailer\\PHPMailer\\PHPMailer;\n\n$mail = new PHPMailer(true);\n$mail->isSMTP();\n$mail->Host       = \"smtp.example.com\";\n$mail->SMTPAuth   = true;\n$mail->Username   = getenv(\"SMTP_USER\");\n$mail->Password   = getenv(\"SMTP_PASS\");\n$mail->Port       = 587;\n$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;\n\n$mail->setFrom(\"noreply@example.com\", \"Loyalty App\");\n$mail->addAddress(\"customer@example.com\");\n$mail->Subject = \"Points added\";\n$mail->Body    = \"You earned 100 points!\";\n$mail->send();",
+    "memory": "Remember: Real apps use SMTP library + queue",
+    "tip": "Laravel uses Mail::to()->queue()."
+  },
+  {
+    "id": "php-16e7966a",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "Class and object in PHP with constructor.",
+    "answer": "A class is a blueprint and an object is made with 'new'. The constructor (__construct) sets the data. In PHP 8 you can use constructor property promotion to write less code.",
+    "points": [
+      "class",
+      "new",
+      "__construct",
+      "$this",
+      "PHP 8 promotion"
+    ],
+    "code": "<?php\nclass Vehicle\n{\n    // PHP 8 constructor promotion\n    public function __construct(\n        private string $number,\n        private int $km = 0\n    ) {}\n\n    public function addTrip(int $distance): void\n    {\n        $this->km += $distance;\n    }\n\n    public function getKm(): int\n    {\n        return $this->km;\n    }\n}\n\n$truck = new Vehicle(\"MH12-AB-1234\");\n$truck->addTrip(250);\necho $truck->getKm();   // 250",
+    "memory": "Remember: $this = current object",
+    "tip": "Show the PHP 8 short style; it shows you know modern PHP."
+  },
+  {
+    "id": "php-39465e71",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "public, private and protected?",
+    "answer": "public: can be used from anywhere. protected: only inside the class and its child classes. private: only inside the same class.",
+    "points": [
+      "public = everyone",
+      "protected = class + children",
+      "private = only this class"
+    ],
+    "code": "<?php\nclass Account\n{\n    public string $owner = \"\";\n    protected float $balance = 0;\n    private string $pin = \"1234\";\n\n    public function deposit(float $amt): void\n    {\n        $this->balance += $amt;   // OK inside the class\n    }\n}\n\nclass SavingsAccount extends Account\n{\n    public function addInterest(): void\n    {\n        $this->balance *= 1.04;   // OK: protected is allowed in child\n        // $this->pin;            // Error: private\n    }\n}\n\n$acc = new Account();\n$acc->owner = \"Ravi\";             // OK: public\n// $acc->balance = 100;           // Error: protected",
+    "memory": "Remember: Public, Family, Personal",
+    "tip": "Keep properties private and use methods to change them (encapsulation)."
+  },
+  {
+    "id": "php-4c1acde4",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "Interface vs abstract class?",
+    "answer": "An interface only lists methods that a class must have; it has no code. A class can implement many interfaces. An abstract class can have some ready code and some abstract methods; a class can extend only one abstract class.",
+    "points": [
+      "Interface = rules only",
+      "Abstract = some code",
+      "Many interfaces",
+      "One parent"
+    ],
+    "code": "<?php\ninterface PaymentGateway\n{\n    public function pay(float $amount): bool;\n}\n\nabstract class BaseNotifier\n{\n    abstract protected function send(string $msg): void;\n\n    public function notify(string $msg): void\n    {\n        $this->send(\"[Alert] \" . $msg);   // shared code\n    }\n}\n\nclass RazorpayGateway implements PaymentGateway\n{\n    public function pay(float $amount): bool\n    {\n        return true;\n    }\n}",
+    "memory": "Remember: Interface = contract, Abstract = half-built class",
+    "tip": "Payment gateways are a good interface example."
+  },
+  {
+    "id": "php-e33be2ab",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is a trait?",
+    "answer": "A trait is a group of methods you can reuse in many classes, without inheritance. Use 'use TraitName;' inside a class. It solves the problem that PHP allows only one parent class.",
+    "points": [
+      "Reuse methods",
+      "use keyword",
+      "No inheritance needed"
+    ],
+    "code": "<?php\ntrait Loggable\n{\n    public function log(string $msg): void\n    {\n        error_log(static::class . \": \" . $msg);\n    }\n}\n\nclass OrderService\n{\n    use Loggable;\n\n    public function create(): void\n    {\n        $this->log(\"Order created\");\n    }\n}",
+    "memory": "Remember: Trait = copy-paste methods, but clean",
+    "tip": "Laravel uses traits a lot, for example HasFactory and SoftDeletes."
+  },
+  {
+    "id": "php-b1d69c3a",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are static properties and methods?",
+    "answer": "Static members belong to the class, not to an object. You call them with ClassName::method() and do not need 'new'. Use self:: inside the class. Useful for helper functions and counters.",
+    "points": [
+      "Belongs to class",
+      "ClassName::method()",
+      "self::"
+    ],
+    "code": "<?php\nclass Tax\n{\n    public static float $gst = 0.18;\n\n    public static function withGst(float $amount): float\n    {\n        return $amount * (1 + self::$gst);\n    }\n}\n\necho Tax::withGst(100);   // 118",
+    "memory": "Remember: Static = no object needed",
+    "tip": "Too many static methods make testing harder."
+  },
+  {
+    "id": "php-c6dece26",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "self vs $this vs static?",
+    "answer": "$this means the current object (instance). self:: means the class where the code is written. static:: means the class that was actually called (late static binding), which matters with inheritance.",
+    "points": [
+      "$this = object",
+      "self:: = this class",
+      "static:: = called class"
+    ],
+    "code": "<?php\nclass Model\n{\n    public static function create(): static\n    {\n        return new static();     // child class if called on child\n    }\n\n    public static function name(): string\n    {\n        return self::class;      // always \"Model\"\n    }\n}\n\nclass Order extends Model {}\n\nvar_dump(Order::create());   // object(Order)\necho Order::name();          // Model",
+    "memory": "Remember: self is fixed, static follows the child",
+    "tip": "Late static binding is used in factory methods like Model::create()."
+  },
+  {
+    "id": "php-85229d6c",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are magic methods in PHP?",
+    "answer": "Methods starting with __ that PHP calls automatically: __construct (create), __destruct (destroy), __get / __set (missing property), __call (missing method), __toString (object used as string).",
+    "points": [
+      "__construct",
+      "__get / __set",
+      "__call",
+      "__toString"
+    ],
+    "code": "<?php\nclass Config\n{\n    private array $data = [];\n\n    public function __get($name)         { return $this->data[$name] ?? null; }\n    public function __set($name, $value) { $this->data[$name] = $value; }\n    public function __toString(): string { return json_encode($this->data); }\n}\n\n$c = new Config();\n$c->db = \"mysql\";     // calls __set\necho $c->db;          // calls __get  -> mysql\necho $c;              // calls __toString -> {\"db\":\"mysql\"}",
+    "memory": "Remember: __ = PHP calls it for you",
+    "tip": "Laravel models use __get to read database columns."
+  },
+  {
+    "id": "php-b19d4240",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are enums in PHP 8.1?",
+    "answer": "An enum is a fixed list of possible values, like order statuses. Backed enums have a string or int value, so they can be stored in a database. They stop invalid values like 'delivred' (a typo).",
+    "points": [
+      "enum",
+      "Backed enum (string / int)",
+      "::from()",
+      "::cases()"
+    ],
+    "code": "<?php\nenum OrderStatus: string\n{\n    case Placed    = \"placed\";\n    case Delivered = \"delivered\";\n    case Cancelled = \"cancelled\";\n\n    public function label(): string\n    {\n        return ucfirst($this->value);\n    }\n}\n\n$s = OrderStatus::from(\"placed\");   // from DB value\necho $s->label();                   // Placed\necho count(OrderStatus::cases());   // 3",
+    "memory": "Remember: Enum = fixed set of choices",
+    "tip": "Better than plain strings for statuses."
+  },
+  {
+    "id": "php-89e23da7",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are readonly properties?",
+    "answer": "A readonly property (PHP 8.1) can be set only once, usually in the constructor. After that, any change throws an error. Good for value objects like Money or an ID.",
+    "points": [
+      "Set once",
+      "Error on change",
+      "PHP 8.1",
+      "Value objects"
+    ],
+    "code": "<?php\nclass Money\n{\n    public function __construct(\n        public readonly float $amount,\n        public readonly string $currency = \"INR\"\n    ) {}\n}\n\n$m = new Money(500);\necho $m->amount;     // 500\n// $m->amount = 600; // Error: cannot modify readonly property",
+    "memory": "Remember: readonly = write once",
+    "tip": "PHP 8.2 added readonly classes."
+  },
+  {
+    "id": "php-905d9109",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you handle exceptions in PHP?",
+    "answer": "Use try / catch / finally. Throw exceptions when something is wrong, catch specific exception types, log the error, and show a safe message to the user.",
+    "points": [
+      "try",
+      "catch",
+      "finally",
+      "throw",
+      "Custom exception"
+    ],
+    "code": "<?php\nclass InsufficientPointsException extends Exception {}\n\nfunction redeem(int $have, int $need): int\n{\n    if ($have < $need) {\n        throw new InsufficientPointsException(\"Not enough points\");\n    }\n    return $have - $need;\n}\n\ntry {\n    redeem(100, 500);\n} catch (InsufficientPointsException $e) {\n    echo $e->getMessage();\n} finally {\n    echo \" - done\";\n}",
+    "memory": "Remember: Throw problem, catch and handle",
+    "tip": "Do not show internal error details to users in production."
+  },
+  {
+    "id": "php-1ccf08b0",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are namespaces and autoloading?",
+    "answer": "Namespaces group classes and avoid name conflicts, like folders for classes. Autoloading loads a class file automatically when the class is used. Composer does this with PSR-4, so you do not need many require lines.",
+    "points": [
+      "Namespace = folder for classes",
+      "use",
+      "Autoload",
+      "PSR-4",
+      "Composer"
+    ],
+    "code": "<?php\n// file: src/Services/OrderService.php\nnamespace App\\Services;\n\nclass OrderService {}\n\n// another file\nrequire \"vendor/autoload.php\";\nuse App\\Services\\OrderService;\n\n$service = new OrderService();   // file loaded automatically",
+    "memory": "Remember: Namespace organizes, autoload loads",
+    "tip": "Mention composer dump-autoload."
+  },
+  {
+    "id": "php-9be9569e",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is Composer?",
+    "answer": "Composer is the package manager for PHP. It installs libraries listed in composer.json, saves exact versions in composer.lock, and creates the autoloader.",
+    "points": [
+      "composer.json",
+      "composer.lock",
+      "vendor folder",
+      "autoload"
+    ],
+    "code": "composer require guzzlehttp/guzzle\ncomposer install          # install from composer.lock\ncomposer update           # update packages\ncomposer dump-autoload    # rebuild autoloader",
+    "memory": "Remember: Composer = pip for PHP",
+    "tip": "Commit composer.lock so every server gets the same versions."
+  },
+  {
+    "id": "php-affa2689",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is PSR?",
+    "answer": "PSR (PHP Standards Recommendations) are common rules from PHP-FIG so code from different projects works together. PSR-1 and PSR-12: coding style. PSR-4: autoloading by namespace. PSR-3: logger interface. PSR-7: HTTP messages.",
+    "points": [
+      "PSR-1 / 12 = style",
+      "PSR-4 = autoload",
+      "PSR-3 = logging",
+      "PSR-7 = HTTP"
+    ],
+    "code": "",
+    "memory": "Remember: PSR = PHP's shared rulebook",
+    "tip": "Tools like PHP-CS-Fixer and PHP_CodeSniffer check PSR-12."
+  },
+  {
+    "id": "php-5a9529d7",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is new in PHP 8?",
+    "answer": "Main features: named arguments, match expression, nullsafe operator (?->), union types, constructor property promotion, attributes, and the JIT compiler. PHP 8.1 added enums and readonly properties.",
+    "points": [
+      "Named args",
+      "match",
+      "?->",
+      "Union types",
+      "Promotion",
+      "Enums (8.1)",
+      "JIT"
+    ],
+    "code": "<?php\n// named arguments\necho str_pad(string: \"5\", length: 3, pad_string: \"0\", pad_type: STR_PAD_LEFT);  // 005\n\n// union types\nfunction price(int|float $value): string\n{\n    return number_format($value, 2);\n}\n\n// nullsafe operator\n$city = $order?->customer?->city;\n\n// match\n$label = match ($status) { \"placed\" => \"New\", default => \"Other\" };",
+    "memory": "Remember: PHP 8 = cleaner and faster",
+    "tip": "Mention which version you used: PHP 8."
+  },
+  {
+    "id": "php-cd3b9011",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you use PDO with prepared statements?",
+    "answer": "PDO is the standard way to talk to databases in PHP. Prepared statements send the query and the values separately, so SQL injection is not possible. Always use them with user input.",
+    "points": [
+      "PDO",
+      "prepare",
+      "execute",
+      "Placeholders",
+      "No SQL injection"
+    ],
+    "code": "<?php\n$pdo = new PDO(\"mysql:host=localhost;dbname=fleet;charset=utf8mb4\",\n               \"user\", \"secret\",\n               [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);\n\n$stmt = $pdo->prepare(\"SELECT * FROM vehicles WHERE id = :id\");\n$stmt->execute([\"id\" => $_GET[\"id\"]]);\n$vehicle = $stmt->fetch(PDO::FETCH_ASSOC);",
+    "memory": "Remember: Prepare, then execute with values",
+    "tip": "Set ERRMODE_EXCEPTION so errors throw exceptions."
+  },
+  {
+    "id": "php-e07c23ed",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you run a transaction with PDO?",
+    "answer": "Use beginTransaction(), run the queries, then commit(). If any query fails, catch the exception and rollBack(), so either everything is saved or nothing is.",
+    "points": [
+      "beginTransaction",
+      "commit",
+      "rollBack",
+      "All or nothing"
+    ],
+    "code": "<?php\ntry {\n    $pdo->beginTransaction();\n\n    $pdo->prepare(\"UPDATE customers SET points = points - ? WHERE id = ?\")\n        ->execute([500, $fromId]);\n    $pdo->prepare(\"INSERT INTO redemptions (customer_id, points) VALUES (?, ?)\")\n        ->execute([$fromId, 500]);\n\n    $pdo->commit();\n} catch (Throwable $e) {\n    $pdo->rollBack();\n    error_log($e->getMessage());\n    throw $e;\n}",
+    "memory": "Remember: Begin → work → commit, or rollBack",
+    "tip": "Use for money or points transfers."
+  },
+  {
+    "id": "php-7027ebd0",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you store passwords safely in PHP?",
+    "answer": "Never store plain passwords or use md5/sha1. Use password_hash() to save and password_verify() to check. It adds a salt automatically and uses a strong algorithm like bcrypt.",
+    "points": [
+      "password_hash",
+      "password_verify",
+      "Never md5",
+      "Auto salt"
+    ],
+    "code": "<?php\n$hash = password_hash(\"MyPass@123\", PASSWORD_DEFAULT);   // save $hash\n\nif (password_verify($inputPassword, $hash)) {\n    echo \"Login OK\";\n}",
+    "memory": "Remember: Hash to save, verify to check",
+    "tip": "Same rule in Python: use bcrypt or passlib."
+  },
+  {
+    "id": "php-a8f0696d",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "What is XSS and how do you prevent it in PHP?",
+    "answer": "XSS (Cross-Site Scripting) is when an attacker puts JavaScript into your page through user input. Prevent it by escaping output with htmlspecialchars(), validating input, and using a Content-Security-Policy header. Template engines like Blade escape automatically.",
+    "points": [
+      "Script injection",
+      "htmlspecialchars",
+      "Escape output",
+      "CSP"
+    ],
+    "code": "<?php\n$comment = $_POST[\"comment\"];\necho htmlspecialchars($comment, ENT_QUOTES, \"UTF-8\");\n// <script> becomes &lt;script&gt; and does not run",
+    "memory": "Remember: Escape everything you print",
+    "tip": "SQL injection = database attack; XSS = browser attack."
+  },
+  {
+    "id": "php-7ade7250",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "What is CSRF and how do you prevent it?",
+    "answer": "CSRF is when another website tricks a logged-in user's browser into sending a request to your site. Prevent it with a secret CSRF token in every form, checked on the server. Laravel and CodeIgniter have CSRF protection built in. SameSite cookies also help.",
+    "points": [
+      "Fake request from other site",
+      "CSRF token",
+      "SameSite cookie"
+    ],
+    "code": "<?php\n// form.php\nsession_start();\nif (empty($_SESSION[\"csrf\"])) {\n    $_SESSION[\"csrf\"] = bin2hex(random_bytes(32));\n}\n?>\n<form method=\"post\" action=\"save.php\">\n  <input type=\"hidden\" name=\"csrf\" value=\"<?= $_SESSION['csrf'] ?>\">\n  <button>Save</button>\n</form>\n\n<?php\n// save.php\nsession_start();\nif (!hash_equals($_SESSION[\"csrf\"] ?? \"\", $_POST[\"csrf\"] ?? \"\")) {\n    http_response_code(403);\n    exit(\"Invalid CSRF token\");\n}",
+    "memory": "Remember: Token proves the form is yours",
+    "tip": "Laravel: @csrf in Blade forms."
+  },
+  {
+    "id": "php-07bc3e5c",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 1: Your first PHP page",
+    "answer": "PHP code is written inside <?php ... ?>. echo prints output. Every statement ends with a semicolon. Run it with XAMPP (put the file in htdocs and open localhost/hello.php) or with the built-in server: php -S localhost:8000.",
+    "points": [
+      "<?php ?>",
+      "echo",
+      "; at end",
+      "XAMPP / php -S"
+    ],
+    "code": "<?php\n// hello.php\necho \"Hello, World!\";\necho \"<br>\";\necho \"Today is \" . date(\"d-m-Y\");   // . joins strings\n?>\n<p>This is normal HTML after PHP.</p>\n\n<!-- run:  php -S localhost:8000   then open  http://localhost:8000/hello.php -->",
+    "memory": "Remember: PHP runs on the server, browser sees HTML",
+    "tip": "Practice: make a page that shows your name, city and today's date."
+  },
+  {
+    "id": "php-e7d128f4",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 2: Variables and data types",
+    "answer": "Variables start with $. PHP finds the type automatically. Main types: string, int, float, bool, array, null. var_dump() shows the type and value; gettype() returns the type name.",
+    "points": [
+      "$name",
+      "string, int, float, bool, array, null",
+      "var_dump()",
+      "gettype()"
+    ],
+    "code": "<?php\n$name   = \"Ravi\";      // string\n$age    = 28;          // int\n$salary = 55000.50;    // float\n$active = true;        // bool\n$skills = [\"PHP\", \"MySQL\"];   // array\n$phone  = null;        // null\n\nvar_dump($age);        // int(28)\necho gettype($salary); // double\necho \"<br>$name is $age years old\";   // variables inside double quotes",
+    "memory": "Remember: Every variable starts with $",
+    "tip": "Practice: create 5 variables of different types and var_dump each one."
+  },
+  {
+    "id": "php-24f87844",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 3: Strings",
+    "answer": "Join strings with a dot (.). Double quotes replace variables inside the text; single quotes do not. Useful functions: strlen, strtoupper, strtolower, ucfirst, trim, str_replace, substr, explode, implode.",
+    "points": [
+      "Dot to join",
+      "\" \" reads variables",
+      "' ' plain text",
+      "String functions"
+    ],
+    "code": "<?php\n$first = \"nagesh\";\n$last  = \"gavhane\";\n\n$full = ucfirst($first) . \" \" . ucfirst($last);   // Nagesh Gavhane\necho \"Name: $full\";        // double quotes: variable works\necho 'Name: $full';        // single quotes: prints $full literally\n\necho strlen($full);                          // 14\necho strtoupper($full);                      // NAGESH GAVHANE\necho str_replace(\"Gavhane\", \"G.\", $full);    // Nagesh G.\necho substr($full, 0, 6);                    // Nagesh\n\n$initials = strtoupper($first[0]) . \".\" . strtoupper($last[0]) . \".\";",
+    "memory": "Remember: Dot joins, double quotes read variables",
+    "tip": "Practice: from 'nagesh gavhane', print 'Nagesh Gavhane' and the initials 'N.G.'."
+  },
+  {
+    "id": "php-cdceaa70",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 4: Operators",
+    "answer": "Arithmetic: + - * / % (remainder) ** (power). Assignment: = += -= .= (add text). Comparison: == === != !== > < <=> (spaceship). Logical: && || !.",
+    "points": [
+      "+ - * / % **",
+      ".= adds text",
+      "=== strict",
+      "&& || !",
+      "<=>"
+    ],
+    "code": "<?php\n$a = 17; $b = 5;\n\necho $a % $b;        // 2\necho $a ** 2;        // 289\necho intdiv($a, $b); // 3\n\n$msg = \"Hello\";\n$msg .= \" World\";    // Hello World\n\nvar_dump($a > $b && $b > 0);   // true\necho 1 <=> 2;                  // -1 (used in sorting)\n\n$year = 2024;\n$leap = ($year % 4 == 0 && $year % 100 != 0) || $year % 400 == 0;",
+    "memory": "Remember: Use === for comparing",
+    "tip": "Practice: check if a year is a leap year."
+  },
+  {
+    "id": "php-836b08b3",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 5: if / else, switch and match",
+    "answer": "if runs code when a condition is true; elseif checks another; else is the default. switch compares one value with many cases (remember break). match (PHP 8) is shorter, strict, and returns a value.",
+    "points": [
+      "if / elseif / else",
+      "switch + break",
+      "match (PHP 8)",
+      "Ternary ?:"
+    ],
+    "code": "<?php\n$points = 2300;\n\nif ($points >= 5000) {\n    $tier = \"Platinum\";\n} elseif ($points >= 2000) {\n    $tier = \"Gold\";\n} else {\n    $tier = \"Basic\";\n}\n\n$status = \"delivered\";\n$label = match ($status) {\n    \"placed\"    => \"Order placed\",\n    \"delivered\" => \"Delivered\",\n    default     => \"Unknown\",\n};\n\n$type = $points > 1000 ? \"VIP\" : \"Normal\";   // ternary",
+    "memory": "Remember: Many fixed values? Use match",
+    "tip": "Practice: show a loyalty tier based on points."
+  },
+  {
+    "id": "php-b1489748",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 6: Loops: for, while, foreach",
+    "answer": "for: when you know how many times. while: repeat while a condition is true. foreach: loop over every item of an array (most used). break stops the loop; continue skips to the next round.",
+    "points": [
+      "for",
+      "while",
+      "foreach ($arr as $k => $v)",
+      "break / continue"
+    ],
+    "code": "<?php\nfor ($i = 1; $i <= 5; $i++) {\n    echo $i . \" \";\n}\n\n$n = 1;\nwhile ($n <= 3) {\n    echo \"Round $n<br>\";\n    $n++;\n}\n\n$prices = [\"onion\" => 25, \"potato\" => 20, \"tomato\" => 30];\nforeach ($prices as $crop => $price) {\n    echo \"$crop costs Rs $price<br>\";\n}",
+    "memory": "Remember: Arrays → foreach",
+    "tip": "Practice: print the multiplication table of 7 using for."
+  },
+  {
+    "id": "php-d3d74580",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 7: Arrays",
+    "answer": "Indexed arrays use number keys. Associative arrays use names as keys (like a Python dict). Multidimensional arrays hold arrays inside, like rows from a database. Add items with $arr[] = value.",
+    "points": [
+      "Indexed [0,1]",
+      "Associative [\"key\" => v]",
+      "Multidimensional",
+      "$arr[] = add",
+      "count()"
+    ],
+    "code": "<?php\n$fruits = [\"apple\", \"mango\"];\n$fruits[] = \"banana\";            // add\necho $fruits[0];                 // apple\necho count($fruits);             // 3\n\n$user = [\"name\" => \"Ravi\", \"city\" => \"Pune\"];\n$user[\"points\"] = 1200;          // add key\necho $user[\"name\"];\n\n$customers = [\n    [\"name\" => \"Ravi\", \"points\" => 1200],\n    [\"name\" => \"Amit\", \"points\" => 3400],\n];\nforeach ($customers as $c) {\n    echo $c[\"name\"] . \": \" . $c[\"points\"] . \"<br>\";\n}",
+    "memory": "Remember: Database rows = array of associative arrays",
+    "tip": "Practice: make an array of 3 customers (name, city, points) and print them in an HTML table."
+  },
+  {
+    "id": "php-a8f5c4d9",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 8: Useful array functions",
+    "answer": "in_array (value present?), array_key_exists (key present?), array_push / array_pop, array_merge, sort / rsort (values), asort / arsort (keep keys), ksort (by key), array_map, array_filter, array_sum, array_column.",
+    "points": [
+      "in_array",
+      "array_merge",
+      "sort / asort / ksort",
+      "array_map",
+      "array_filter",
+      "array_sum",
+      "array_column"
+    ],
+    "code": "<?php\n$orders = [\n    [\"id\" => 1, \"amount\" => 250],\n    [\"id\" => 2, \"amount\" => 900],\n    [\"id\" => 3, \"amount\" => 600],\n];\n\n$amounts = array_column($orders, \"amount\");      // [250, 900, 600]\necho array_sum($amounts);                         // 1750\n\n$big = array_filter($orders, fn($o) => $o[\"amount\"] > 500);\n$bigIds = array_column($big, \"id\");               // [2, 3]\n\n$prices = [\"onion\" => 25, \"tomato\" => 30, \"potato\" => 20];\narsort($prices);    // highest first, keys kept\nprint_r($prices);",
+    "memory": "Remember: asort keeps keys, sort does not",
+    "tip": "Practice: from a list of orders, get the total amount and the list of order IDs above Rs 500."
+  },
+  {
+    "id": "php-9348ae19",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 9: Functions",
+    "answer": "Define functions with 'function'. Add type declarations for parameters and return values. Parameters can have default values. Use return to send a result back.",
+    "points": [
+      "function name()",
+      "Type declarations",
+      "Default values",
+      "return"
+    ],
+    "code": "<?php\nfunction calculateGst(float $amount, float $rate = 18): float\n{\n    return $amount + ($amount * $rate / 100);\n}\n\necho calculateGst(1000);        // 1180\necho calculateGst(1000, 5);     // 1050\n\nfunction greet(string $name, string $city = \"Pune\"): string\n{\n    return \"Hello $name from $city\";\n}\n\necho greet(city: \"Mumbai\", name: \"Amit\");   // named arguments (PHP 8)",
+    "memory": "Remember: Small functions, clear names",
+    "tip": "Practice: write calculateGst(float $amount, float $rate = 18): float."
+  },
+  {
+    "id": "php-4b63fcee",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 10: Handling forms (GET and POST)",
+    "answer": "An HTML form sends data to a PHP file. Read it from $_POST or $_GET. Always check the request method, trim the input, and escape output with htmlspecialchars to prevent XSS.",
+    "points": [
+      "<form method=\"post\">",
+      "$_POST",
+      "REQUEST_METHOD",
+      "trim",
+      "htmlspecialchars"
+    ],
+    "code": "<?php\n$name = \"\";\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $name = trim($_POST[\"name\"] ?? \"\");\n}\n?>\n<form method=\"post\">\n  <input name=\"name\" placeholder=\"Your name\">\n  <button>Send</button>\n</form>\n\n<?php if ($name !== \"\"): ?>\n  <p>Thank you, <?= htmlspecialchars($name) ?>!</p>\n<?php endif; ?>",
+    "memory": "Remember: Read → Clean → Escape on output",
+    "tip": "Practice: make a contact form that shows a thank-you message with the user's name."
+  },
+  {
+    "id": "php-506f30b4",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 11: Form validation",
+    "answer": "Check every field on the server: required, length, format (email with filter_var, phone with a regex). Collect errors in an array and show them. Keep the user's old values in the form.",
+    "points": [
+      "Required",
+      "filter_var email",
+      "preg_match phone",
+      "Errors array",
+      "Keep old values"
+    ],
+    "code": "<?php\n$errors = [];\n$email = trim($_POST[\"email\"] ?? \"\");\n$phone = trim($_POST[\"phone\"] ?? \"\");\n\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    if ($email === \"\") {\n        $errors[] = \"Email is required\";\n    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {\n        $errors[] = \"Email is not valid\";\n    }\n    if (!preg_match('/^[6-9][0-9]{9}$/', $phone)) {\n        $errors[] = \"Enter a valid 10-digit mobile number\";\n    }\n    if (!$errors) {\n        echo \"Saved!\";\n    }\n}\n\nforeach ($errors as $e) {\n    echo \"<p style='color:red'>\" . htmlspecialchars($e) . \"</p>\";\n}",
+    "memory": "Remember: Never trust the browser, validate on server",
+    "tip": "Practice: add a 10-digit mobile number field with validation."
+  },
+  {
+    "id": "php-0913e720",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 12: Sessions and a simple login",
+    "answer": "session_start() must be called at the top of every page that uses sessions. Save the user ID in $_SESSION after login. On protected pages, redirect to the login page if the session is empty. Use password_verify to check passwords.",
+    "points": [
+      "session_start()",
+      "$_SESSION",
+      "password_verify",
+      "session_regenerate_id",
+      "Redirect"
+    ],
+    "code": "<?php\n// login.php\nsession_start();\nrequire \"db.php\";   // gives $pdo\n\nif ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $stmt = $pdo->prepare(\"SELECT id, password_hash FROM users WHERE email = ?\");\n    $stmt->execute([$_POST[\"email\"] ?? \"\"]);\n    $user = $stmt->fetch();\n\n    if ($user && password_verify($_POST[\"password\"] ?? \"\", $user[\"password_hash\"])) {\n        session_regenerate_id(true);       // security: new session id\n        $_SESSION[\"user_id\"] = $user[\"id\"];\n        header(\"Location: dashboard.php\");\n        exit;\n    }\n    $error = \"Wrong email or password\";\n}\n\n// dashboard.php (top of file)\n// session_start();\n// if (empty($_SESSION[\"user_id\"])) { header(\"Location: login.php\"); exit; }",
+    "memory": "Remember: Login = verify + save in session",
+    "tip": "Practice: add a dashboard.php page that only logged-in users can open."
+  },
+  {
+    "id": "php-cdfcd873",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 13: Reusing code with include (header / footer layout)",
+    "answer": "Put repeated HTML like the header and footer in separate files and include them in every page. Put the database connection and settings in config files loaded with require_once.",
+    "points": [
+      "header.php / footer.php",
+      "include",
+      "require_once config",
+      "DRY"
+    ],
+    "code": "<?php\n// header.php\n?>\n<!doctype html>\n<html><head><title><?= $title ?? \"My Site\" ?></title></head>\n<body>\n<nav><a href=\"index.php\">Home</a> | <a href=\"orders.php\">Orders</a></nav>\n\n<?php\n// orders.php\n$title = \"Orders\";\nrequire_once \"config.php\";\ninclude \"header.php\";\n?>\n<h1>Orders</h1>\n<?php include \"footer.php\"; ?>",
+    "memory": "Remember: Write once, include everywhere",
+    "tip": "Practice: create header.php with a menu and use it on 3 pages."
+  },
+  {
+    "id": "php-84a1d3e6",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 14: Connecting to MySQL with PDO",
+    "answer": "PDO connects PHP to MySQL. Put the connection in one file (db.php). Use ERRMODE_EXCEPTION so errors are thrown, and FETCH_ASSOC so rows come back as associative arrays. Use prepared statements for every query with user input.",
+    "points": [
+      "new PDO()",
+      "DSN with charset",
+      "ERRMODE_EXCEPTION",
+      "FETCH_ASSOC",
+      "prepare + execute"
+    ],
+    "code": "<?php\n// db.php\n$pdo = new PDO(\n    \"mysql:host=localhost;dbname=shop;charset=utf8mb4\",\n    \"root\",\n    \"\",\n    [\n        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,\n        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,\n    ]\n);\n\n// products.php\nrequire \"db.php\";\n$rows = $pdo->query(\"SELECT id, name, price FROM products ORDER BY name\")->fetchAll();\nforeach ($rows as $p) {\n    echo htmlspecialchars($p[\"name\"]) . \" - Rs \" . $p[\"price\"] . \"<br>\";\n}",
+    "memory": "Remember: One db.php, used everywhere",
+    "tip": "Practice: create a 'products' table in phpMyAdmin and list all products."
+  },
+  {
+    "id": "php-4ea4eff6",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 15: CRUD with PDO (insert, update, delete)",
+    "answer": "Create with INSERT, read with SELECT, update with UPDATE, delete with DELETE. Always use prepared statements with placeholders. lastInsertId() gives the new row ID; rowCount() tells how many rows changed.",
+    "points": [
+      "INSERT",
+      "SELECT",
+      "UPDATE",
+      "DELETE",
+      "Placeholders",
+      "lastInsertId",
+      "rowCount"
+    ],
+    "code": "<?php\nrequire \"db.php\";\n\n// CREATE\n$stmt = $pdo->prepare(\"INSERT INTO products (name, price) VALUES (:name, :price)\");\n$stmt->execute([\"name\" => \"Rice\", \"price\" => 60]);\n$id = $pdo->lastInsertId();\n\n// READ one\n$stmt = $pdo->prepare(\"SELECT * FROM products WHERE id = ?\");\n$stmt->execute([$id]);\n$product = $stmt->fetch();\n\n// UPDATE\n$stmt = $pdo->prepare(\"UPDATE products SET price = ? WHERE id = ?\");\n$stmt->execute([65, $id]);\necho $stmt->rowCount() . \" row updated\";\n\n// DELETE\n$pdo->prepare(\"DELETE FROM products WHERE id = ?\")->execute([$id]);",
+    "memory": "Remember: CRUD = Create, Read, Update, Delete",
+    "tip": "Practice: build add / edit / delete pages for products."
+  },
+  {
+    "id": "php-c4edac1f",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 16: Classes and objects",
+    "answer": "A class groups data (properties) and actions (methods). The constructor runs when you create an object with new. $this means the current object. Use private properties and public methods.",
+    "points": [
+      "class",
+      "__construct",
+      "new",
+      "$this->",
+      "private / public"
+    ],
+    "code": "<?php\nclass Cart\n{\n    private array $items = [];\n\n    public function addItem(string $name, float $price, int $qty = 1): void\n    {\n        $this->items[] = [\"name\" => $name, \"price\" => $price, \"qty\" => $qty];\n    }\n\n    public function total(): float\n    {\n        $sum = 0;\n        foreach ($this->items as $i) {\n            $sum += $i[\"price\"] * $i[\"qty\"];\n        }\n        return $sum;\n    }\n}\n\n$cart = new Cart();\n$cart->addItem(\"Rice\", 60, 2);\n$cart->addItem(\"Oil\", 180);\necho $cart->total();   // 300",
+    "memory": "Remember: Class = design, object = real thing",
+    "tip": "Practice: create a Cart class with addItem(), total() and itemCount()."
+  },
+  {
+    "id": "php-1755b462",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 17: Inheritance and interfaces",
+    "answer": "A child class extends a parent and gets its code; parent:: calls the parent's method. An interface is a list of methods a class must have; one class can implement many interfaces. This makes code easy to swap (for example, different payment gateways).",
+    "points": [
+      "extends",
+      "parent::",
+      "interface",
+      "implements",
+      "Swap implementations"
+    ],
+    "code": "<?php\ninterface Notifier\n{\n    public function send(string $to, string $msg): bool;\n}\n\nclass EmailNotifier implements Notifier\n{\n    public function send(string $to, string $msg): bool\n    {\n        echo \"Email to $to: $msg<br>\";\n        return true;\n    }\n}\n\nclass SmsNotifier implements Notifier\n{\n    public function send(string $to, string $msg): bool\n    {\n        echo \"SMS to $to: $msg<br>\";\n        return true;\n    }\n}\n\nfunction notifyAll(array $notifiers, string $msg): void\n{\n    foreach ($notifiers as $n) {\n        $n->send(\"customer\", $msg);\n    }\n}\n\nnotifyAll([new EmailNotifier(), new SmsNotifier()], \"Points added\");",
+    "memory": "Remember: extends = reuse, implements = promise",
+    "tip": "Practice: create a Notifier interface with EmailNotifier and SmsNotifier."
+  },
+  {
+    "id": "php-5483490a",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 18: Exceptions",
+    "answer": "Throw an exception when something is wrong. Catch it with try / catch and handle it, for example show a message and log the details. Create your own exception classes for business errors. finally always runs.",
+    "points": [
+      "throw",
+      "try / catch",
+      "finally",
+      "Custom exception",
+      "Log details"
+    ],
+    "code": "<?php\nclass OutOfStockException extends Exception {}\n\nfunction buy(int $stock, int $qty): int\n{\n    if ($qty > $stock) {\n        throw new OutOfStockException(\"Only $stock items left\");\n    }\n    return $stock - $qty;\n}\n\ntry {\n    $left = buy(3, 5);\n} catch (OutOfStockException $e) {\n    echo \"Sorry: \" . $e->getMessage();\n} catch (Exception $e) {\n    error_log($e->getMessage());\n    echo \"Something went wrong\";\n} finally {\n    echo \"<br>Checked stock\";\n}",
+    "memory": "Remember: Throw problem → catch → handle",
+    "tip": "Practice: throw an OutOfStockException when quantity is more than stock."
+  },
+  {
+    "id": "php-a80959f1",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 19: Building a JSON API in plain PHP",
+    "answer": "An API returns JSON instead of HTML. Set the Content-Type header, read the method and input, use the correct status codes, and return json_encode output. For POST with a JSON body, read php://input.",
+    "points": [
+      "Content-Type JSON",
+      "REQUEST_METHOD",
+      "php://input",
+      "Status codes",
+      "json_encode"
+    ],
+    "code": "<?php\n// api/products.php\nheader(\"Content-Type: application/json\");\nrequire \"../db.php\";\n\n$method = $_SERVER[\"REQUEST_METHOD\"];\n\nif ($method === \"GET\") {\n    $rows = $pdo->query(\"SELECT id, name, price FROM products\")->fetchAll();\n    echo json_encode($rows);\n    exit;\n}\n\nif ($method === \"POST\") {\n    $data = json_decode(file_get_contents(\"php://input\"), true) ?? [];\n    if (empty($data[\"name\"]) || !isset($data[\"price\"])) {\n        http_response_code(422);\n        echo json_encode([\"error\" => \"name and price are required\"]);\n        exit;\n    }\n    $stmt = $pdo->prepare(\"INSERT INTO products (name, price) VALUES (?, ?)\");\n    $stmt->execute([$data[\"name\"], $data[\"price\"]]);\n    http_response_code(201);\n    echo json_encode([\"id\" => (int) $pdo->lastInsertId()]);\n    exit;\n}\n\nhttp_response_code(405);\necho json_encode([\"error\" => \"Method not allowed\"]);",
+    "memory": "Remember: Header → Method → Data → Status → JSON",
+    "tip": "Practice: add PUT and DELETE support to this API."
+  },
+  {
+    "id": "php-28850965",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 20: Uploading files",
+    "answer": "The form needs enctype='multipart/form-data'. Check the upload error, size and real file type, then move the file with move_uploaded_file using a new random name. Never trust the original file name.",
+    "points": [
+      "enctype multipart",
+      "$_FILES",
+      "Check size + type",
+      "Random name",
+      "move_uploaded_file"
+    ],
+    "code": "<form method=\"post\" enctype=\"multipart/form-data\">\n  <input type=\"file\" name=\"photo\" accept=\"image/*\">\n  <button>Upload</button>\n</form>\n\n<?php\nif (!empty($_FILES[\"photo\"])) {\n    $f = $_FILES[\"photo\"];\n    $allowed = [\"image/jpeg\" => \"jpg\", \"image/png\" => \"png\"];\n    $type = mime_content_type($f[\"tmp_name\"]);\n\n    if ($f[\"error\"] !== UPLOAD_ERR_OK)     exit(\"Upload failed\");\n    if ($f[\"size\"] > 2 * 1024 * 1024)      exit(\"Max size is 2 MB\");\n    if (!isset($allowed[$type]))           exit(\"Only JPG or PNG allowed\");\n\n    $newName = bin2hex(random_bytes(8)) . \".\" . $allowed[$type];\n    move_uploaded_file($f[\"tmp_name\"], __DIR__ . \"/uploads/\" . $newName);\n    echo \"Saved as $newName\";\n}",
+    "memory": "Remember: Check → Rename → Move",
+    "tip": "Practice: show the uploaded image on the page after upload."
+  },
+  {
+    "id": "php-ea8ecbd6",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 21: Composer, namespaces and autoload",
+    "answer": "Composer installs libraries and autoloads your classes. Set up PSR-4 in composer.json so App\\ maps to the src/ folder. Then require vendor/autoload.php once and use classes with 'use' — no more require for each class file.",
+    "points": [
+      "composer init",
+      "PSR-4",
+      "namespace",
+      "use",
+      "vendor/autoload.php"
+    ],
+    "code": "// composer.json\n{\n    \"autoload\": {\n        \"psr-4\": { \"App\\\\\": \"src/\" }\n    }\n}\n// then run:  composer dump-autoload\n\n<?php\n// src/Services/PriceService.php\nnamespace App\\Services;\n\nclass PriceService\n{\n    public function withGst(float $p): float { return $p * 1.18; }\n}\n\n<?php\n// index.php\nrequire __DIR__ . \"/vendor/autoload.php\";\nuse App\\Services\\PriceService;\n\necho (new PriceService())->withGst(100);   // 118",
+    "memory": "Remember: One autoload, no more manual requires",
+    "tip": "Practice: install guzzlehttp/guzzle and call a public API with it."
+  },
+  {
+    "id": "php-a8a19f73",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "Lesson 22: Mini project: simple REST API with a router",
+    "answer": "Put everything together: one entry file (index.php) reads the URL and method, matches a route, calls the right function, and returns JSON. This is the basic idea behind Laravel and CodeIgniter routing.",
+    "points": [
+      "Single entry point",
+      "Parse URL + method",
+      "Route table",
+      "Handlers",
+      "JSON responses"
+    ],
+    "code": "<?php\n// index.php  ->  php -S localhost:8000 index.php\nheader(\"Content-Type: application/json\");\nrequire \"db.php\";\n\n$method = $_SERVER[\"REQUEST_METHOD\"];\n$path   = trim(parse_url($_SERVER[\"REQUEST_URI\"], PHP_URL_PATH), \"/\");\n\nfunction respond($data, int $code = 200): void\n{\n    http_response_code($code);\n    echo json_encode($data);\n    exit;\n}\n\nif ($method === \"GET\" && $path === \"vehicles\") {\n    respond($pdo->query(\"SELECT * FROM vehicles\")->fetchAll());\n}\n\nif ($method === \"GET\" && preg_match('#^vehicles/(\\d+)$#', $path, $m)) {\n    $stmt = $pdo->prepare(\"SELECT * FROM vehicles WHERE id = ?\");\n    $stmt->execute([$m[1]]);\n    $row = $stmt->fetch();\n    $row ? respond($row) : respond([\"error\" => \"Not found\"], 404);\n}\n\nif ($method === \"POST\" && $path === \"vehicles\") {\n    $in = json_decode(file_get_contents(\"php://input\"), true) ?? [];\n    if (empty($in[\"number\"])) respond([\"error\" => \"number is required\"], 422);\n    $pdo->prepare(\"INSERT INTO vehicles (number, type) VALUES (?, ?)\")\n        ->execute([$in[\"number\"], $in[\"type\"] ?? \"truck\"]);\n    respond([\"id\" => (int) $pdo->lastInsertId()], 201);\n}\n\nrespond([\"error\" => \"Route not found\"], 404);",
+    "memory": "Remember: Frameworks do this for you; now you know how",
+    "tip": "Practice: add PUT /vehicles/{id} and DELETE /vehicles/{id}. Run with: php -S localhost:8000 index.php"
+  },
+  {
+    "id": "php-adab96ab",
+    "subject": "PHP",
+    "level": "Advanced",
+    "question": "How do you handle errors and logging in production PHP?",
+    "answer": "In production: display_errors = Off (users must not see errors), log_errors = On, and write errors to a log file. Use error_log() or a library like Monolog. In development, display errors to fix bugs quickly.",
+    "points": [
+      "display_errors Off",
+      "log_errors On",
+      "Monolog",
+      "error_log"
+    ],
+    "code": "<?php\n// production settings (usually in php.ini)\nini_set(\"display_errors\", \"0\");\nini_set(\"log_errors\", \"1\");\nini_set(\"error_log\", \"/var/log/php/app-error.log\");\nerror_reporting(E_ALL);\n\ntry {\n    $pdo->query(\"SELECT * FROM missing_table\");\n} catch (PDOException $e) {\n    error_log(\"DB error: \" . $e->getMessage());   // for developers\n    http_response_code(500);\n    echo json_encode([\"error\" => \"Something went wrong\"]);   // for users\n}",
+    "memory": "Remember: Hide from users, log for developers",
+    "tip": "Laravel uses Monolog and storage/logs."
+  },
+  {
+    "id": "php-388b1e34",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you debug a PHP application?",
+    "answer": "Check error logs first. Use var_dump / print_r / dd() (Laravel) for quick checks. Use Xdebug with VS Code for step-by-step debugging. For slow pages, check the SQL queries and use a profiler.",
+    "points": [
+      "Logs",
+      "var_dump / dd()",
+      "Xdebug",
+      "Query log"
+    ],
+    "code": "",
+    "memory": "Remember: Logs → Dump → Step debug",
+    "tip": "Never leave dd() or var_dump in production code."
+  },
+  {
+    "id": "php-b6c848d4",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you improve PHP performance?",
+    "answer": "Turn on OPcache, which keeps compiled PHP code in memory. Use the latest PHP version. Optimize database queries and indexes. Cache with Redis. Use queues for slow work. Avoid queries inside loops.",
+    "points": [
+      "OPcache",
+      "Latest PHP",
+      "SQL + indexes",
+      "Redis",
+      "Queues"
+    ],
+    "code": "; php.ini - turn on OPcache\nopcache.enable=1\nopcache.memory_consumption=128\nopcache.max_accelerated_files=20000\nopcache.validate_timestamps=0   ; production: reload PHP-FPM after each deploy",
+    "memory": "Remember: Cache code, cache data, fix queries",
+    "tip": "Most slowness comes from the database, not PHP itself."
+  },
+  {
+    "id": "php-84e4e3f1",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "What is MVC? Show a CodeIgniter example.",
+    "answer": "MVC means Model, View, Controller. The Model talks to the database. The View shows the page (HTML). The Controller gets the request, asks the Model for data, and sends it to the View. This keeps code clean and easy to change.",
+    "points": [
+      "Model = data",
+      "View = display",
+      "Controller = logic"
+    ],
+    "code": "<?php\nnamespace App\\Controllers;\n\nuse App\\Models\\VehicleModel;\n\nclass Vehicle extends BaseController\n{\n    public function index()\n    {\n        $model = new VehicleModel();\n        $data['vehicles'] = $model->findAll();   // Model: get data\n        return view('vehicle_list', $data);      // View: show page\n    }\n}",
+    "memory": "Remember: Controller asks Model, gives to View",
+    "tip": "FastAPI is similar: route = controller, SQLAlchemy = model, JSON response = view."
+  },
+  {
+    "id": "php-1f7942e3",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "CodeIgniter vs Laravel?",
+    "answer": "Both are PHP MVC frameworks. CodeIgniter is small, simple and fast, with little setup. Laravel has more built-in features: the Eloquent ORM, migrations, queues, authentication and the Artisan command tool.",
+    "points": [
+      "Both MVC",
+      "CodeIgniter = light",
+      "Laravel = full featured",
+      "Eloquent",
+      "Artisan"
+    ],
+    "code": "",
+    "memory": "Remember: CodeIgniter small, Laravel big",
+    "tip": "Connect it to your projects to make the answer real."
+  },
+  {
+    "id": "php-30b76354",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How does routing work in CodeIgniter 4?",
+    "answer": "Routes are defined in app/Config/Routes.php. Each route connects a URL and HTTP method to a controller method. You can group routes and add filters, like an auth check.",
+    "points": [
+      "Routes.php",
+      "get / post",
+      "Controller::method",
+      "Groups",
+      "Filters"
+    ],
+    "code": "<?php\n// app/Config/Routes.php\n$routes->get(\"vehicles\", \"Vehicle::index\");\n$routes->get(\"vehicles/(:num)\", \"Vehicle::show/$1\");\n$routes->post(\"vehicles\", \"Vehicle::create\");\n\n$routes->group(\"api\", [\"filter\" => \"auth\"], function ($routes) {\n    $routes->get(\"trips\", \"Api\\Trip::index\");\n});",
+    "memory": "Remember: URL → Route → Controller",
+    "tip": "Mention a CodeIgniter project you worked on."
+  },
+  {
+    "id": "php-f0904b40",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How does a model work in CodeIgniter 4?",
+    "answer": "A model extends CodeIgniter's Model class. You set the table name, primary key and allowed fields. Then you get ready methods like find, findAll, insert, update and delete, plus validation rules.",
+    "points": [
+      "extends Model",
+      "$table",
+      "$allowedFields",
+      "find / insert",
+      "Validation"
+    ],
+    "code": "<?php\nnamespace App\\Models;\n\nuse CodeIgniter\\Model;\n\nclass VehicleModel extends Model\n{\n    protected $table         = \"vehicles\";\n    protected $primaryKey    = \"id\";\n    protected $allowedFields = [\"number\", \"type\", \"km\"];\n    protected $useTimestamps = true;\n}\n\n// in a controller\n$model = new VehicleModel();\n$model->insert([\"number\" => \"MH12-AB-1234\", \"type\" => \"truck\"]);\n$truck = $model->find(1);",
+    "memory": "Remember: Model = table + ready methods",
+    "tip": "$allowedFields protects against mass-assignment."
+  },
+  {
+    "id": "php-e15f076c",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is the Query Builder in CodeIgniter?",
+    "answer": "Query Builder lets you build SQL with PHP methods instead of writing raw SQL. It escapes values automatically, so it is safe from SQL injection.",
+    "points": [
+      "$db->table()",
+      "where",
+      "join",
+      "get",
+      "Auto escape"
+    ],
+    "code": "<?php\n$db = \\Config\\Database::connect();\n\n$rows = $db->table(\"trips t\")\n    ->select(\"v.number, SUM(t.km) AS total_km\")\n    ->join(\"vehicles v\", \"v.id = t.vehicle_id\")\n    ->where(\"t.trip_date >=\", \"2021-01-01\")\n    ->groupBy(\"v.number\")\n    ->get()\n    ->getResultArray();",
+    "memory": "Remember: Build SQL with methods, safely",
+    "tip": "Use it for joins and reports."
+  },
+  {
+    "id": "php-4c736ae3",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are filters in CodeIgniter 4?",
+    "answer": "Filters run before or after a controller, like middleware. They are used for login checks, API tokens, CORS and logging. You register them in app/Config/Filters.php and attach them to routes.",
+    "points": [
+      "before / after",
+      "Auth check",
+      "Filters.php",
+      "Like middleware"
+    ],
+    "code": "<?php\nnamespace App\\Filters;\n\nuse CodeIgniter\\Filters\\FilterInterface;\nuse CodeIgniter\\HTTP\\RequestInterface;\nuse CodeIgniter\\HTTP\\ResponseInterface;\n\nclass AuthFilter implements FilterInterface\n{\n    public function before(RequestInterface $request, $arguments = null)\n    {\n        if (!session()->get(\"user_id\")) {\n            return redirect()->to(\"/login\");\n        }\n    }\n\n    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null) {}\n}",
+    "memory": "Remember: Filter = guard before controller",
+    "tip": "Laravel calls the same idea 'middleware'."
+  },
+  {
+    "id": "php-30976149",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is Eloquent in Laravel?",
+    "answer": "Eloquent is Laravel's ORM. Each table has a Model class. You can query, insert and update with PHP methods, and define relationships like hasMany and belongsTo.",
+    "points": [
+      "Model per table",
+      "where / get",
+      "create",
+      "hasMany",
+      "belongsTo"
+    ],
+    "code": "<?php\nclass Customer extends Model\n{\n    protected $fillable = [\"name\", \"points\"];\n\n    public function orders()\n    {\n        return $this->hasMany(Order::class);\n    }\n}\n\n$top = Customer::where(\"points\", \">\", 1000)->orderBy(\"points\", \"desc\")->get();\n$customers = Customer::with(\"orders\")->get();   // no N+1",
+    "memory": "Remember: Eloquent = Laravel ORM (like SQLAlchemy)",
+    "tip": "Use with('relation') to avoid the N+1 problem."
+  },
+  {
+    "id": "php-427899b1",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "What is the difference between Laravel Eloquent and the Query Builder?",
+    "answer": "Eloquent works with Model objects and relationships (easy to read, a little slower). The Query Builder (DB::table) works with plain arrays/objects and is faster for big reports or bulk updates. Both protect against SQL injection.",
+    "points": [
+      "Eloquent = models + relations",
+      "Query Builder = lighter, faster",
+      "Both safe"
+    ],
+    "code": "<?php\n// Eloquent\n$customers = Customer::with(\"orders\")->where(\"points\", \">\", 1000)->get();\n\n// Query Builder\n$report = DB::table(\"orders\")\n    ->select(\"customer_id\", DB::raw(\"SUM(amount) AS total\"))\n    ->groupBy(\"customer_id\")\n    ->having(\"total\", \">\", 10000)\n    ->get();",
+    "memory": "Remember: CRUD → Eloquent, heavy reports → Query Builder",
+    "tip": "Use with() in Eloquent to avoid N+1 queries."
+  },
+  {
+    "id": "php-9afaada1",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are migrations in Laravel?",
+    "answer": "Migrations are PHP files that create or change database tables. They are saved in Git, so every developer and server gets the same database structure. Run them with php artisan migrate.",
+    "points": [
+      "Version control for DB",
+      "up / down",
+      "artisan migrate",
+      "rollback"
+    ],
+    "code": "<?php\n// php artisan make:migration create_orders_table\nSchema::create(\"orders\", function (Blueprint $table) {\n    $table->id();\n    $table->foreignId(\"customer_id\")->constrained();\n    $table->decimal(\"amount\", 10, 2);\n    $table->string(\"status\")->default(\"placed\");\n    $table->timestamps();\n});\n\n// php artisan migrate\n// php artisan migrate:rollback",
+    "memory": "Remember: Migration = database change in code",
+    "tip": "Python's equivalent is Alembic."
+  },
+  {
+    "id": "php-f08c7cf0",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is middleware in Laravel?",
+    "answer": "Middleware is code that runs before (or after) a request reaches the controller. It is used for authentication, logging, CORS and rate limiting. Example: the 'auth' middleware blocks users who are not logged in.",
+    "points": [
+      "Runs before controller",
+      "auth",
+      "throttle",
+      "CORS"
+    ],
+    "code": "<?php\n// app/Http/Middleware/EnsureUserIsActive.php\nclass EnsureUserIsActive\n{\n    public function handle(Request $request, Closure $next)\n    {\n        if (!$request->user()?->is_active) {\n            return response()->json([\"error\" => \"Account inactive\"], 403);\n        }\n        return $next($request);   // continue to the controller\n    }\n}\n\n// routes/api.php\nRoute::middleware([\"auth:sanctum\", \"throttle:60,1\"])->group(function () {\n    Route::get(\"/orders\", [OrderController::class, \"index\"]);\n});",
+    "memory": "Remember: Middleware = security gate",
+    "tip": "Laravel's 'throttle' middleware does rate limiting."
+  },
+  {
+    "id": "php-6f311cbc",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you validate a request in Laravel?",
+    "answer": "Use $request->validate() with rules. If validation fails, Laravel automatically returns errors (422 for APIs). For bigger forms, use a Form Request class.",
+    "points": [
+      "validate()",
+      "Rules",
+      "Auto 422",
+      "Form Request"
+    ],
+    "code": "<?php\npublic function store(Request $request)\n{\n    $data = $request->validate([\n        \"name\"   => \"required|string|min:2|max:100\",\n        \"email\"  => \"required|email|unique:customers\",\n        \"points\" => \"nullable|integer|min:0\",\n    ]);\n\n    $customer = Customer::create($data);\n    return response()->json($customer, 201);\n}",
+    "memory": "Remember: Rules in, clean data out",
+    "tip": "Same idea as Pydantic in FastAPI."
+  },
+  {
+    "id": "php-6d3a4ff9",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you create a REST API in Laravel?",
+    "answer": "Define routes in routes/api.php. Use Route::apiResource to create all CRUD routes for one controller. Return JSON with response()->json() or API Resources. Protect routes with Sanctum tokens.",
+    "points": [
+      "routes/api.php",
+      "apiResource",
+      "JSON response",
+      "Sanctum"
+    ],
+    "code": "<?php\n// routes/api.php\nRoute::middleware(\"auth:sanctum\")->group(function () {\n    Route::apiResource(\"orders\", OrderController::class);\n});\n\n// OrderController\npublic function show(Order $order)\n{\n    return response()->json($order);\n}",
+    "memory": "Remember: Route → Controller → JSON",
+    "tip": "apiResource makes index, store, show, update and destroy routes."
+  },
+  {
+    "id": "php-b383386d",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What are queues and jobs in Laravel?",
+    "answer": "Slow work like sending emails or processing files is put in a queue as a job. A worker runs the job in the background, so the user gets a fast response. Drivers include Redis and the database.",
+    "points": [
+      "Job class",
+      "dispatch()",
+      "Worker",
+      "Redis driver",
+      "Retries"
+    ],
+    "code": "<?php\nclass SendRewardEmail implements ShouldQueue\n{\n    use Dispatchable, Queueable;\n\n    public $tries = 3;\n\n    public function __construct(public int $customerId) {}\n\n    public function handle(): void\n    {\n        // send the email\n    }\n}\n\nSendRewardEmail::dispatch($customer->id);   // returns immediately",
+    "memory": "Remember: Laravel queue = Celery for PHP",
+    "tip": "php artisan queue:work starts the worker."
+  },
+  {
+    "id": "php-programs-f6fbb369",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 23: Reverse a string without strrev",
+    "answer": "Logic: loop from the last character to the first and add each character to a new string. strrev() and this loop work byte by byte, so they break Hindi or Marathi text. For those, first split the text into whole letters (with their matras) using the regex /\\X/u, then reverse.",
+    "points": [
+      "Loop from strlen - 1 down to 0",
+      "Build new string",
+      "Hindi / Marathi: split by whole letters (\\X)"
+    ],
+    "code": "<?php\nfunction reverseString(string $s): string\n{\n    $result = \"\";\n    for ($i = strlen($s) - 1; $i >= 0; $i--) {\n        $result .= $s[$i];\n    }\n    return $result;\n}\n\necho reverseString(\"Nagesh\") . PHP_EOL;   // hsegaN\necho strrev(\"Nagesh\") . PHP_EOL;          // built-in\n\n// Hindi / Marathi: split into whole letters (letter + matra) first\npreg_match_all('/\\X/u', \"पुणे\", $m);\necho implode(\"\", array_reverse($m[0]));   // णेपु",
+    "memory": "Remember: Start at the end",
+    "tip": "Show the loop, then mention strrev() and the Unicode case; it shows real-world experience."
+  },
+  {
+    "id": "php-programs-e5c7d658",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 24: Check palindrome string",
+    "answer": "Logic: clean the text (lowercase, remove spaces and symbols). Use two pointers, one at the start and one at the end. Move them towards the middle; if any pair is different, it is not a palindrome.",
+    "points": [
+      "Clean text",
+      "Two pointers",
+      "Compare and move inward",
+      "Stop at middle"
+    ],
+    "code": "<?php\nfunction isPalindrome(string $s): bool\n{\n    $s = preg_replace('/[^a-z0-9]/', '', strtolower($s));\n    $left = 0;\n    $right = strlen($s) - 1;\n    while ($left < $right) {\n        if ($s[$left] !== $s[$right]) return false;\n        $left++;\n        $right--;\n    }\n    return true;\n}\n\nvar_dump(isPalindrome(\"Madam\"));        // true\nvar_dump(isPalindrome(\"Nurses run\"));   // true\nvar_dump(isPalindrome(\"Hello\"));        // false",
+    "memory": "Remember: Compare first and last, move inward",
+    "tip": "Short way: compare with strrev(); the two-pointer way uses no extra string."
+  },
+  {
+    "id": "php-programs-3ffa2278",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 20: FizzBuzz",
+    "answer": "For numbers 1 to N: print 'Fizz' if divisible by 3, 'Buzz' if divisible by 5, 'FizzBuzz' if divisible by both, otherwise the number. Check 'both' (15) first, otherwise it will never print FizzBuzz.",
+    "points": [
+      "Check % 15 first",
+      "% 3 → Fizz",
+      "% 5 → Buzz",
+      "Else number"
+    ],
+    "code": "<?php\nfor ($i = 1; $i <= 15; $i++) {\n    if ($i % 15 === 0) {\n        echo \"FizzBuzz\";\n    } elseif ($i % 3 === 0) {\n        echo \"Fizz\";\n    } elseif ($i % 5 === 0) {\n        echo \"Buzz\";\n    } else {\n        echo $i;\n    }\n    echo PHP_EOL;\n}\n// 1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz",
+    "memory": "Remember: Both first",
+    "tip": "A very common warm-up question; write it quickly and cleanly."
+  },
+  {
+    "id": "php-programs-8a81f79a",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 11: Factorial of a number (loop and recursion)",
+    "answer": "Factorial n! = 1 × 2 × 3 × ... × n, and 0! = 1. Loop way: multiply from 2 to n. Recursive way: n! = n × (n-1)!, with the base case n <= 1. The loop is safer for big n.",
+    "points": [
+      "Loop multiply",
+      "Recursion n × (n-1)!",
+      "Base case",
+      "0! = 1",
+      "21! overflows int"
+    ],
+    "code": "<?php\nfunction factorial(int $n): int\n{\n    $result = 1;\n    for ($i = 2; $i <= $n; $i++) {\n        $result *= $i;\n    }\n    return $result;\n}\n\nfunction factorialRecursive(int $n): int\n{\n    if ($n <= 1) return 1;                  // base case\n    return $n * factorialRecursive($n - 1);\n}\n\necho factorial(5) . PHP_EOL;            // 120\necho factorialRecursive(5) . PHP_EOL;   // 120\necho factorial(0) . PHP_EOL;            // 1",
+    "memory": "Remember: Recursion needs a stop condition",
+    "tip": "Mention that 21! is too big for a PHP int; use gmp or bcmath for big numbers."
+  },
+  {
+    "id": "php-programs-4d0d9b21",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 36: Find duplicate values and the most frequent value",
+    "answer": "Logic: count each value in an array (value as key). Values with a count above 1 are duplicates. Sort counts high to low; the first key is the most frequent value.",
+    "points": [
+      "Count values",
+      "Count > 1 = duplicate",
+      "arsort + first key"
+    ],
+    "code": "<?php\n$orders = [\"onion\", \"rice\", \"onion\", \"dal\", \"onion\", \"rice\"];\n\n$count = [];\nforeach ($orders as $item) {\n    $count[$item] = ($count[$item] ?? 0) + 1;\n}\n\n$duplicates = array_keys(array_filter($count, fn($c) => $c > 1));\nprint_r($duplicates);                       // onion, rice\n\narsort($count);\necho array_key_first($count) . PHP_EOL;     // onion (3 times)",
+    "memory": "Remember: Count first, then filter",
+    "tip": "Built-in: array_count_values($arr)."
+  },
+  {
+    "id": "php-programs-e4a150bd",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 26: Count words and word frequency",
+    "answer": "Logic: split the text into words with explode. count() gives the number of words. To count each word, loop and increase a counter in an array using the word as the key.",
+    "points": [
+      "explode by space",
+      "count()",
+      "$freq[$word]++",
+      "arsort for top words"
+    ],
+    "code": "<?php\n$text = \"the price of onion and the price of rice\";\n$words = explode(\" \", strtolower(trim($text)));\n\necho count($words) . PHP_EOL;   // 9\n\n$freq = [];\nforeach ($words as $w) {\n    $freq[$w] = ($freq[$w] ?? 0) + 1;\n}\narsort($freq);\nprint_r($freq);   // the 2, price 2, of 2, onion 1, and 1, rice 1\n\n// built-ins: str_word_count($text), array_count_values($words)",
+    "memory": "Remember: Word is the key, count is the value",
+    "tip": "Built-ins: str_word_count() and array_count_values()."
+  },
+  {
+    "id": "php-programs-45792136",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 33: Second largest number in an array",
+    "answer": "Logic (one loop, no sorting): keep 'first' and 'second'. If a number is bigger than first, move first to second and update first. Else if it is between second and first, update second. Duplicates of the largest are ignored.",
+    "points": [
+      "Track first and second",
+      "One loop",
+      "Ignore equal to first",
+      "null if none"
+    ],
+    "code": "<?php\nfunction secondLargest(array $nums): ?int\n{\n    $first = $second = PHP_INT_MIN;\n    foreach ($nums as $n) {\n        if ($n > $first) {\n            $second = $first;\n            $first = $n;\n        } elseif ($n > $second && $n < $first) {\n            $second = $n;\n        }\n    }\n    return $second === PHP_INT_MIN ? null : $second;\n}\n\necho secondLargest([10, 40, 30, 40]) . PHP_EOL;   // 30\nvar_dump(secondLargest([5, 5]));                 // NULL",
+    "memory": "Remember: New biggest pushes old biggest down",
+    "tip": "Short way: array_unique + rsort + [1]; the loop way is O(n)."
+  },
+  {
+    "id": "php-programs-4fe3ecd2",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 5: Swap two numbers (with and without a third variable)",
+    "answer": "Way 1: use a temporary variable. Way 2 (no third variable): a = a + b, b = a - b, a = a - b. Way 3 (modern PHP): array destructuring [$a, $b] = [$b, $a].",
+    "points": [
+      "temp variable",
+      "Math trick",
+      "[$a, $b] = [$b, $a]"
+    ],
+    "code": "<?php\n// 1) with a third variable\n$a = 5; $b = 10;\n$temp = $a; $a = $b; $b = $temp;\necho \"$a $b\" . PHP_EOL;          // 10 5\n\n// 2) without a third variable (math trick)\n$a = 5; $b = 10;\n$a = $a + $b;   // 15\n$b = $a - $b;   // 5\n$a = $a - $b;   // 10\necho \"$a $b\" . PHP_EOL;          // 10 5\n\n// 3) modern PHP: array destructuring\n$a = 5; $b = 10;\n[$a, $b] = [$b, $a];\necho \"$a $b\" . PHP_EOL;          // 10 5",
+    "memory": "Remember: Add, subtract, subtract",
+    "tip": "Show all three; say you use destructuring in real code because it is clear."
+  },
+  {
+    "id": "php-programs-cf8f5962",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 13: Check if a number is prime",
+    "answer": "A prime number is greater than 1 and divisible only by 1 and itself. Logic: numbers below 2 are not prime; 2 is prime; other even numbers are not. Then test odd divisors only up to the square root of n.",
+    "points": [
+      "n < 2 not prime",
+      "2 is prime",
+      "Skip even",
+      "Check up to sqrt(n)"
+    ],
+    "code": "<?php\nfunction isPrime(int $n): bool\n{\n    if ($n < 2) return false;\n    if ($n % 2 === 0) return $n === 2;\n    for ($i = 3; $i * $i <= $n; $i += 2) {\n        if ($n % $i === 0) return false;\n    }\n    return true;\n}\n\nvar_dump(isPrime(29));   // true\nvar_dump(isPrime(21));   // false (3 x 7)\nvar_dump(isPrime(2));    // true",
+    "memory": "Remember: Only test up to the square root",
+    "tip": "Explain why: if n = a × b, one of a or b is at most sqrt(n)."
+  },
+  {
+    "id": "php-programs-52ef64db",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 45: Group database rows by a key",
+    "answer": "Real-world logic: database results come as a list of rows. To group them (for example, orders by customer), loop and add each row to $grouped[key][]. Then you can count or sum each group.",
+    "points": [
+      "Loop rows",
+      "$grouped[$row[key]][] = $row",
+      "Then sum / count per group"
+    ],
+    "code": "<?php\n$orders = [\n    [\"customer\" => \"Ravi\", \"amount\" => 100],\n    [\"customer\" => \"Amit\", \"amount\" => 250],\n    [\"customer\" => \"Ravi\", \"amount\" => 400],\n];\n\n$grouped = [];\nforeach ($orders as $o) {\n    $grouped[$o[\"customer\"]][] = $o;\n}\n\nforeach ($grouped as $name => $rows) {\n    $total = array_sum(array_column($rows, \"amount\"));\n    echo \"$name: \" . count($rows) . \" orders, Rs $total\" . PHP_EOL;\n}\n// Ravi: 2 orders, Rs 500\n// Amit: 1 orders, Rs 250",
+    "memory": "Remember: The key decides the group",
+    "tip": "You did this kind of grouping in fleet and loyalty reports; mention it."
+  },
+  {
+    "id": "php-4bedc022",
+    "subject": "PHP",
+    "level": "Beginner",
+    "question": "What is dependency injection and the service container in Laravel?",
+    "answer": "Dependency injection means a class receives what it needs (like a service) from outside, instead of creating it. Laravel's service container creates these objects automatically when you type-hint them in a constructor or method. This makes code easier to test.",
+    "points": [
+      "Give, don't create",
+      "Type-hint",
+      "Service container",
+      "Easy testing"
+    ],
+    "code": "<?php\nclass OrderController extends Controller\n{\n    public function __construct(private OrderService $orders) {}   // auto-injected\n\n    public function store(Request $request)\n    {\n        return $this->orders->create($request->all());\n    }\n}",
+    "memory": "Remember: Ask for it, Laravel gives it",
+    "tip": "FastAPI's Depends() is the same idea."
+  },
+  {
+    "id": "php-04635771",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you prevent SQL injection in Laravel?",
+    "answer": "Eloquent and the Query Builder use prepared statements automatically. If you write raw SQL, always use bindings (? or :name), never put user input directly into the string.",
+    "points": [
+      "Eloquent safe",
+      "Query Builder safe",
+      "Bindings for raw SQL"
+    ],
+    "code": "<?php\n// SAFE\n$users = DB::select(\"SELECT * FROM users WHERE email = ?\", [$email]);\n\n// UNSAFE - never do this\n// DB::select(\"SELECT * FROM users WHERE email = '\" . $email . \"'\");",
+    "memory": "Remember: Raw SQL? Use bindings",
+    "tip": "DB::select with bindings is safe; string concatenation is not."
+  },
+  {
+    "id": "php-programs-7e9f30d7",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 1: Check even or odd",
+    "answer": "Logic: divide the number by 2. If the remainder (%) is 0, the number is even; otherwise it is odd. To print all even numbers from 1 to N, loop and check each number.",
+    "points": [
+      "n % 2 === 0 → even",
+      "Otherwise odd",
+      "Bitwise: n & 1"
+    ],
+    "code": "<?php\nfunction evenOrOdd(int $n): string\n{\n    return $n % 2 === 0 ? \"Even\" : \"Odd\";\n}\n\necho evenOrOdd(10) . PHP_EOL;   // Even\necho evenOrOdd(7) . PHP_EOL;    // Odd\n\n// bitwise way: the last bit is 1 for odd numbers\necho (7 & 1) ? \"Odd\" : \"Even\";  // Odd\necho PHP_EOL;\n\n// print even numbers from 1 to 20\nfor ($i = 1; $i <= 20; $i++) {\n    if ($i % 2 === 0) {\n        echo $i . \" \";            // 2 4 6 8 10 12 14 16 18 20\n    }\n}",
+    "memory": "Remember: Remainder 0 = even",
+    "tip": "Interviewers may ask for the bitwise way too: n & 1 is 1 for odd numbers."
+  },
+  {
+    "id": "php-programs-cea488e5",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 2: Positive, negative or zero",
+    "answer": "Logic: compare the number with 0. Greater than 0 is positive, less than 0 is negative, otherwise it is zero.",
+    "points": [
+      "> 0 positive",
+      "< 0 negative",
+      "else zero"
+    ],
+    "code": "<?php\nfunction checkSign(int $n): string\n{\n    if ($n > 0) return \"Positive\";\n    if ($n < 0) return \"Negative\";\n    return \"Zero\";\n}\n\necho checkSign(15) . PHP_EOL;   // Positive\necho checkSign(-4) . PHP_EOL;   // Negative\necho checkSign(0) . PHP_EOL;    // Zero",
+    "memory": "Remember: Compare with zero",
+    "tip": "Simple warm-up; write it cleanly with early returns."
+  },
+  {
+    "id": "php-programs-e758d540",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 3: Largest of three numbers",
+    "answer": "Logic: a is the largest if it is greater than or equal to both b and c. Otherwise check b the same way. If neither, c is the largest. In real code you can use max().",
+    "points": [
+      "Compare a with b and c",
+      "Then b",
+      "Else c",
+      "max() built-in"
+    ],
+    "code": "<?php\nfunction largest(int $a, int $b, int $c): int\n{\n    if ($a >= $b && $a >= $c) return $a;\n    if ($b >= $a && $b >= $c) return $b;\n    return $c;\n}\n\necho largest(12, 45, 30) . PHP_EOL;   // 45\necho max(12, 45, 30) . PHP_EOL;       // 45 (built-in)",
+    "memory": "Remember: Check each one against the others",
+    "tip": "Interviewers want the if-else logic first, then you can mention max()."
+  },
+  {
+    "id": "php-programs-b641d5d5",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 4: Check leap year",
+    "answer": "Logic: a year is a leap year if it is divisible by 4 but not by 100, OR if it is divisible by 400. So 2000 is a leap year, but 1900 is not.",
+    "points": [
+      "% 4 and not % 100",
+      "or % 400",
+      "1900 = not leap",
+      "2000 = leap"
+    ],
+    "code": "<?php\nfunction isLeapYear(int $year): bool\n{\n    return ($year % 4 === 0 && $year % 100 !== 0) || $year % 400 === 0;\n}\n\nforeach ([2000, 1900, 2024, 2023] as $y) {\n    echo $y . \": \" . (isLeapYear($y) ? \"Leap year\" : \"Not a leap year\") . PHP_EOL;\n}\n// 2000: Leap year\n// 1900: Not a leap year\n// 2024: Leap year\n// 2023: Not a leap year\n\n// built-in check: checkdate(2, 29, $year)",
+    "memory": "Remember: 4 yes, 100 no, 400 yes",
+    "tip": "The 1900 / 2000 example shows you know the full rule."
+  },
+  {
+    "id": "php-programs-6c41f891",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 6: Sum of digits of a number",
+    "answer": "Logic: take the last digit with n % 10 and add it to the sum. Remove the last digit with intdiv(n, 10). Repeat until the number becomes 0.",
+    "points": [
+      "% 10 = last digit",
+      "intdiv(n, 10) = remove last digit",
+      "Loop until 0"
+    ],
+    "code": "<?php\nfunction sumOfDigits(int $n): int\n{\n    $n = abs($n);\n    $sum = 0;\n    while ($n > 0) {\n        $sum += $n % 10;        // add last digit\n        $n = intdiv($n, 10);    // remove last digit\n    }\n    return $sum;\n}\n\necho sumOfDigits(12345) . PHP_EOL;            // 15\necho array_sum(str_split(\"12345\")) . PHP_EOL; // 15 (short way)",
+    "memory": "Remember: Take last, remove last, repeat",
+    "tip": "This digit loop is used in many programs: reverse, palindrome, Armstrong."
+  },
+  {
+    "id": "php-programs-63a933d1",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 7: Count digits in a number",
+    "answer": "Logic: keep dividing the number by 10 and count how many times you can do it before it becomes 0. Special case: 0 has 1 digit. Short way: convert to string and use strlen.",
+    "points": [
+      "intdiv by 10",
+      "Count steps",
+      "0 has 1 digit",
+      "strlen short way"
+    ],
+    "code": "<?php\nfunction countDigits(int $n): int\n{\n    $n = abs($n);\n    if ($n === 0) return 1;\n    $count = 0;\n    while ($n > 0) {\n        $n = intdiv($n, 10);\n        $count++;\n    }\n    return $count;\n}\n\necho countDigits(98765) . PHP_EOL;              // 5\necho strlen((string) abs(-98765)) . PHP_EOL;    // 5 (short way)",
+    "memory": "Remember: Each divide by 10 removes one digit",
+    "tip": "Handle negative numbers with abs()."
+  },
+  {
+    "id": "php-programs-7fbe5a78",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 8: Reverse a number",
+    "answer": "Logic: start with rev = 0. Each step: rev = rev * 10 + last digit, then remove the last digit from n. Repeat until n is 0.",
+    "points": [
+      "rev = rev * 10 + n % 10",
+      "n = intdiv(n, 10)"
+    ],
+    "code": "<?php\nfunction reverseNumber(int $n): int\n{\n    $rev = 0;\n    while ($n > 0) {\n        $rev = $rev * 10 + $n % 10;\n        $n = intdiv($n, 10);\n    }\n    return $rev;\n}\n\necho reverseNumber(12345) . PHP_EOL;   // 54321\necho (int) strrev(\"12345\") . PHP_EOL;  // 54321 (short way)",
+    "memory": "Remember: Shift left, add last digit",
+    "tip": "Note: trailing zeros are lost (1200 becomes 21); mention this edge case."
+  },
+  {
+    "id": "php-programs-cff4653f",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 9: Palindrome number",
+    "answer": "Logic: reverse the number (Program 8) and compare it with the original. If both are the same, it is a palindrome, like 121 or 1331. Negative numbers are not palindromes.",
+    "points": [
+      "Save original",
+      "Reverse",
+      "Compare",
+      "121 yes, 123 no"
+    ],
+    "code": "<?php\nfunction isPalindromeNumber(int $n): bool\n{\n    if ($n < 0) return false;\n    $original = $n;\n    $rev = 0;\n    while ($n > 0) {\n        $rev = $rev * 10 + $n % 10;\n        $n = intdiv($n, 10);\n    }\n    return $rev === $original;\n}\n\nvar_dump(isPalindromeNumber(121));   // true\nvar_dump(isPalindromeNumber(123));   // false",
+    "memory": "Remember: Same forwards and backwards",
+    "tip": "Keep a copy of the original before the loop changes n."
+  },
+  {
+    "id": "php-programs-76515f1d",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 10: Armstrong number",
+    "answer": "Logic: count the digits (k). Raise each digit to the power k and add them. If the total equals the number, it is an Armstrong number. Example: 153 = 1³ + 5³ + 3³ = 1 + 125 + 27.",
+    "points": [
+      "Count digits = power",
+      "Sum of digit^power",
+      "Compare with number",
+      "153, 370, 371, 407"
+    ],
+    "code": "<?php\nfunction isArmstrong(int $n): bool\n{\n    $digits = str_split((string) $n);\n    $power  = count($digits);\n    $sum = 0;\n    foreach ($digits as $d) {\n        $sum += (int) $d ** $power;\n    }\n    return $sum === $n;\n}\n\nvar_dump(isArmstrong(153));   // true\nvar_dump(isArmstrong(154));   // false\n\n$list = array_filter(range(1, 1000), \"isArmstrong\");\necho implode(\", \", $list);    // 1, 2, 3, 4, 5, 6, 7, 8, 9, 153, 370, 371, 407",
+    "memory": "Remember: 153 = 1 + 125 + 27",
+    "tip": "A common follow-up: print all Armstrong numbers up to 1000."
+  },
+  {
+    "id": "php-programs-d7758448",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 12: Fibonacci series",
+    "answer": "Logic: start with 0 and 1. Each next number is the sum of the previous two: 0, 1, 1, 2, 3, 5, 8... Keep two variables and move them forward in a loop.",
+    "points": [
+      "Start 0, 1",
+      "next = a + b",
+      "[$a, $b] = [$b, $a + $b]"
+    ],
+    "code": "<?php\nfunction fibonacci(int $count): array\n{\n    $series = [];\n    $a = 0;\n    $b = 1;\n    for ($i = 0; $i < $count; $i++) {\n        $series[] = $a;\n        [$a, $b] = [$b, $a + $b];\n    }\n    return $series;\n}\n\necho implode(\", \", fibonacci(10));   // 0, 1, 1, 2, 3, 5, 8, 13, 21, 34",
+    "memory": "Remember: Add the last two",
+    "tip": "Recursion for Fibonacci is very slow without caching; prefer the loop."
+  },
+  {
+    "id": "php-programs-2761b181",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 14: Print prime numbers from 1 to N",
+    "answer": "Simple way: loop from 1 to N and print the numbers where isPrime() is true. Fast way for big N: the Sieve of Eratosthenes. Mark all numbers as prime, then for each prime, cross out its multiples.",
+    "points": [
+      "Loop + isPrime",
+      "Sieve for big N",
+      "Cross out multiples"
+    ],
+    "code": "<?php\n// simple way (uses isPrime from Program 13)\nfor ($i = 1; $i <= 50; $i++) {\n    if (isPrime($i)) {\n        echo $i . \" \";\n    }\n}\n// 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47\n\n// fast way for big N: Sieve of Eratosthenes\nfunction primesUpTo(int $n): array\n{\n    $isPrime = array_fill(0, $n + 1, true);\n    $isPrime[0] = $isPrime[1] = false;\n    for ($i = 2; $i * $i <= $n; $i++) {\n        if ($isPrime[$i]) {\n            for ($j = $i * $i; $j <= $n; $j += $i) {\n                $isPrime[$j] = false;       // cross out multiples\n            }\n        }\n    }\n    return array_keys(array_filter($isPrime));\n}\n\necho PHP_EOL . implode(\", \", primesUpTo(50));",
+    "memory": "Remember: Sieve = cross out multiples",
+    "tip": "Mention the sieve for big N; it shows algorithm knowledge."
+  },
+  {
+    "id": "php-programs-5c44bc02",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 15: Multiplication table",
+    "answer": "Logic: loop i from 1 to 10 and print n × i. For a full grid, use two nested loops: rows and columns.",
+    "points": [
+      "for 1 to 10",
+      "n * i",
+      "Nested loops for a grid"
+    ],
+    "code": "<?php\n$n = 7;\nfor ($i = 1; $i <= 10; $i++) {\n    echo \"$n x $i = \" . ($n * $i) . PHP_EOL;\n}\n// 7 x 1 = 7 ... 7 x 10 = 70\n\n// 1 to 5 grid as an HTML table\necho \"<table border='1'>\";\nfor ($row = 1; $row <= 5; $row++) {\n    echo \"<tr>\";\n    for ($col = 1; $col <= 5; $col++) {\n        echo \"<td>\" . ($row * $col) . \"</td>\";\n    }\n    echo \"</tr>\";\n}\necho \"</table>\";",
+    "memory": "Remember: Outer loop = rows, inner loop = columns",
+    "tip": "Nested loops are the base of all pattern programs."
+  },
+  {
+    "id": "php-programs-c6d97d71",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 16: GCD and LCM of two numbers",
+    "answer": "GCD (HCF) is the biggest number that divides both. Euclid's method: replace (a, b) with (b, a % b) until b is 0; then a is the GCD. LCM = (a × b) ÷ GCD.",
+    "points": [
+      "Euclid: (a, b) → (b, a % b)",
+      "Stop when b = 0",
+      "LCM = a × b ÷ GCD"
+    ],
+    "code": "<?php\nfunction gcd(int $a, int $b): int\n{\n    while ($b !== 0) {\n        [$a, $b] = [$b, $a % $b];\n    }\n    return abs($a);\n}\n\nfunction lcm(int $a, int $b): int\n{\n    return intdiv(abs($a * $b), gcd($a, $b));\n}\n\necho gcd(12, 18) . PHP_EOL;   // 6\necho lcm(12, 18) . PHP_EOL;   // 36",
+    "memory": "Remember: Keep taking remainders",
+    "tip": "Euclid's method is much faster than checking every number."
+  },
+  {
+    "id": "php-programs-0d549e54",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 17: Perfect number",
+    "answer": "A perfect number equals the sum of its divisors (not counting itself). Example: 6 = 1 + 2 + 3, and 28 = 1 + 2 + 4 + 7 + 14. Logic: find divisors up to the square root and add both i and n / i.",
+    "points": [
+      "Sum of divisors",
+      "Check up to sqrt",
+      "Add pair i and n / i",
+      "6, 28, 496"
+    ],
+    "code": "<?php\nfunction isPerfect(int $n): bool\n{\n    if ($n < 2) return false;\n    $sum = 1;                                  // 1 always divides\n    for ($i = 2; $i * $i <= $n; $i++) {\n        if ($n % $i === 0) {\n            $sum += $i;\n            $pair = intdiv($n, $i);\n            if ($pair !== $i) $sum += $pair;\n        }\n    }\n    return $sum === $n;\n}\n\nvar_dump(isPerfect(28));   // true\nvar_dump(isPerfect(12));   // false\necho implode(\", \", array_filter(range(1, 1000), \"isPerfect\"));   // 6, 28, 496",
+    "memory": "Remember: 6 = 1 + 2 + 3",
+    "tip": "Avoid adding the same divisor twice when i × i = n."
+  },
+  {
+    "id": "php-programs-e662f0c4",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 18: Decimal to binary and binary to decimal",
+    "answer": "Decimal to binary: divide by 2 again and again and write the remainders in reverse order. Binary to decimal: multiply each bit by 2 to the power of its position and add. Built-ins: decbin() and bindec().",
+    "points": [
+      "Divide by 2, keep remainders",
+      "Read remainders backwards",
+      "decbin / bindec"
+    ],
+    "code": "<?php\nfunction toBinary(int $n): string\n{\n    if ($n === 0) return \"0\";\n    $bin = \"\";\n    while ($n > 0) {\n        $bin = ($n % 2) . $bin;    // add remainder at the front\n        $n = intdiv($n, 2);\n    }\n    return $bin;\n}\n\nfunction toDecimal(string $bin): int\n{\n    $dec = 0;\n    foreach (str_split($bin) as $bit) {\n        $dec = $dec * 2 + (int) $bit;\n    }\n    return $dec;\n}\n\necho toBinary(10) . PHP_EOL;       // 1010\necho toDecimal(\"1010\") . PHP_EOL;  // 10\necho decbin(10) . \" \" . bindec(\"1010\");   // built-ins",
+    "memory": "Remember: 10 = 1010",
+    "tip": "Write the logic first, then mention the built-ins."
+  },
+  {
+    "id": "php-programs-763a5ac9",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 19: Sum of 1 to N and sum of even numbers",
+    "answer": "Loop way: add each number. Formula way (fastest): sum of 1 to N = N × (N + 1) ÷ 2. For even numbers, loop with step 2, or use array_sum(range(2, N, 2)).",
+    "points": [
+      "Loop add",
+      "Formula N(N+1)/2",
+      "Step 2 for even"
+    ],
+    "code": "<?php\n$n = 100;\n\n$sum = 0;\nfor ($i = 1; $i <= $n; $i++) {\n    $sum += $i;\n}\necho $sum . PHP_EOL;                         // 5050\necho $n * ($n + 1) / 2 . PHP_EOL;            // 5050 (formula)\n\n$even = 0;\nfor ($i = 2; $i <= $n; $i += 2) {\n    $even += $i;\n}\necho $even . PHP_EOL;                        // 2550\necho array_sum(range(2, $n, 2)) . PHP_EOL;   // 2550 (short way)",
+    "memory": "Remember: 1 to 100 = 5050",
+    "tip": "Mention the formula; it shows you think about performance."
+  },
+  {
+    "id": "php-programs-2226e57a",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 21: Star patterns (triangle and pyramid)",
+    "answer": "Use nested loops: the outer loop is the row number, and the inner part prints that many stars. For a pyramid, first print spaces (n - row), then stars. str_repeat makes it short.",
+    "points": [
+      "Outer loop = rows",
+      "Stars = row number",
+      "Pyramid: spaces then stars",
+      "str_repeat"
+    ],
+    "code": "<?php\n$n = 4;\n\n// right triangle\nfor ($i = 1; $i <= $n; $i++) {\n    echo str_repeat(\"* \", $i) . PHP_EOL;\n}\n// *\n// * *\n// * * *\n// * * * *\n\n// pyramid\nfor ($i = 1; $i <= $n; $i++) {\n    echo str_repeat(\" \", $n - $i) . str_repeat(\"* \", $i) . PHP_EOL;\n}\n//    *\n//   * *\n//  * * *\n// * * * *\n\n// same triangle with pure loops (if str_repeat is not allowed)\nfor ($i = 1; $i <= $n; $i++) {\n    for ($j = 1; $j <= $i; $j++) {\n        echo \"* \";\n    }\n    echo PHP_EOL;\n}",
+    "memory": "Remember: Row 1 → 1 star, row 2 → 2 stars",
+    "tip": "Run in a terminal (php file.php) or wrap the output in <pre> in the browser."
+  },
+  {
+    "id": "php-programs-3623fbb4",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 22: Number pattern (Floyd's triangle)",
+    "answer": "Floyd's triangle prints numbers 1, 2, 3... in rows, where row 1 has 1 number, row 2 has 2 numbers, and so on. Keep one counter and increase it after every print.",
+    "points": [
+      "Nested loops",
+      "One running counter",
+      "Row i has i numbers"
+    ],
+    "code": "<?php\n$rows = 4;\n$num = 1;\nfor ($i = 1; $i <= $rows; $i++) {\n    for ($j = 1; $j <= $i; $j++) {\n        echo $num++ . \" \";\n    }\n    echo PHP_EOL;\n}\n// 1\n// 2 3\n// 4 5 6\n// 7 8 9 10",
+    "memory": "Remember: Counter keeps going across rows",
+    "tip": "Same nested-loop idea as the star pattern."
+  },
+  {
+    "id": "php-programs-5153790d",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 25: Count vowels and consonants",
+    "answer": "Logic: lowercase the string and look at each character. Skip anything that is not a letter. If the letter is a, e, i, o or u, count it as a vowel; otherwise as a consonant.",
+    "points": [
+      "strtolower",
+      "Skip non-letters (ctype_alpha)",
+      "Vowel or consonant"
+    ],
+    "code": "<?php\nfunction countLetters(string $s): array\n{\n    $vowels = 0;\n    $consonants = 0;\n    foreach (str_split(strtolower($s)) as $ch) {\n        if (!ctype_alpha($ch)) continue;          // skip spaces, digits, symbols\n        if (str_contains(\"aeiou\", $ch)) {\n            $vowels++;\n        } else {\n            $consonants++;\n        }\n    }\n    return [\"vowels\" => $vowels, \"consonants\" => $consonants];\n}\n\nprint_r(countLetters(\"Nagesh Gavhane\"));   // vowels 5, consonants 8",
+    "memory": "Remember: Letters only, then aeiou check",
+    "tip": "Ask if 'y' should be a vowel; it shows attention to detail."
+  },
+  {
+    "id": "php-programs-f40ad923",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 27: Count frequency of each character",
+    "answer": "Logic: loop through each character and increase its counter in an array, using the character as the key. Skip spaces if needed.",
+    "points": [
+      "Character as key",
+      "Increase count",
+      "?? 0 for first time"
+    ],
+    "code": "<?php\n$text = \"programming\";\n$freq = [];\nforeach (str_split($text) as $ch) {\n    if ($ch === \" \") continue;\n    $freq[$ch] = ($freq[$ch] ?? 0) + 1;\n}\nprint_r($freq);\n// p 1, r 2, o 1, g 2, a 1, m 2, i 1, n 1",
+    "memory": "Remember: Same as word frequency, but per character",
+    "tip": "Built-in: count_chars($text, 1) returns ASCII codes as keys."
+  },
+  {
+    "id": "php-programs-d72c71b1",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 28: Check if two strings are anagrams",
+    "answer": "Anagrams have the same letters in a different order, like 'listen' and 'silent'. Logic: clean both strings (lowercase, no spaces), split into letters, sort both, and compare.",
+    "points": [
+      "Clean both",
+      "Split + sort",
+      "Compare arrays",
+      "Or compare counts"
+    ],
+    "code": "<?php\nfunction isAnagram(string $a, string $b): bool\n{\n    $clean = fn(string $s) => str_split(strtolower(str_replace(\" \", \"\", $s)));\n    $x = $clean($a);\n    $y = $clean($b);\n    sort($x);\n    sort($y);\n    return $x === $y;\n}\n\nvar_dump(isAnagram(\"Listen\", \"Silent\"));   // true\nvar_dump(isAnagram(\"Hello\", \"World\"));     // false\n\n// counting way\nvar_dump(count_chars(\"listen\", 1) == count_chars(\"silent\", 1));   // true",
+    "memory": "Remember: Same letters, same count",
+    "tip": "Counting letters (count_chars) is faster than sorting for long strings."
+  },
+  {
+    "id": "php-programs-43f17f8f",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 29: First non-repeating character",
+    "answer": "Logic: first count every character. Then loop through the string again in order, and return the first character whose count is 1.",
+    "points": [
+      "Count first",
+      "Loop again in order",
+      "Return count = 1"
+    ],
+    "code": "<?php\nfunction firstUnique(string $s): ?string\n{\n    $count = array_count_values(str_split($s));\n    foreach (str_split($s) as $ch) {\n        if ($count[$ch] === 1) return $ch;\n    }\n    return null;\n}\n\necho firstUnique(\"swiss\") . PHP_EOL;   // w\nvar_dump(firstUnique(\"aabb\"));         // NULL",
+    "memory": "Remember: Two passes: count, then find",
+    "tip": "Answer is null if every character repeats."
+  },
+  {
+    "id": "php-programs-40decf48",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 30: Capitalize the first letter of each word (without ucwords)",
+    "answer": "Logic: lowercase the text and split it into words. For each word, make the first character uppercase and add the rest. Join the words back with spaces.",
+    "points": [
+      "explode",
+      "strtoupper(first) + substr(rest)",
+      "implode"
+    ],
+    "code": "<?php\nfunction capitalizeWords(string $s): string\n{\n    $words = explode(\" \", strtolower($s));\n    foreach ($words as $i => $w) {\n        if ($w !== \"\") {\n            $words[$i] = strtoupper($w[0]) . substr($w, 1);\n        }\n    }\n    return implode(\" \", $words);\n}\n\necho capitalizeWords(\"nagesh gavhane from PUNE\");   // Nagesh Gavhane From Pune",
+    "memory": "Remember: First letter up, rest same",
+    "tip": "Built-in: ucwords(strtolower($s))."
+  },
+  {
+    "id": "php-programs-6ba5eb39",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 31: Remove duplicate characters from a string",
+    "answer": "Logic: loop through the characters and keep an array of characters already seen. Add a character to the result only the first time you see it.",
+    "points": [
+      "Seen array",
+      "Add only first time",
+      "Keeps order"
+    ],
+    "code": "<?php\nfunction removeDuplicateChars(string $s): string\n{\n    $seen = [];\n    $result = \"\";\n    foreach (str_split($s) as $ch) {\n        if (!isset($seen[$ch])) {\n            $seen[$ch] = true;\n            $result .= $ch;\n        }\n    }\n    return $result;\n}\n\necho removeDuplicateChars(\"programming\");   // progamin",
+    "memory": "Remember: Seen before? Skip it",
+    "tip": "Using isset() on an array key is fast (like a set)."
+  },
+  {
+    "id": "php-programs-631ba978",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 32: Largest and smallest in an array (without max / min)",
+    "answer": "Logic: take the first element as both min and max. Loop through the array; if a number is bigger than max, update max; if smaller than min, update min.",
+    "points": [
+      "Start with first element",
+      "Compare and update",
+      "One loop"
+    ],
+    "code": "<?php\nfunction minMax(array $nums): array\n{\n    $min = $max = $nums[0];\n    foreach ($nums as $n) {\n        if ($n > $max) $max = $n;\n        if ($n < $min) $min = $n;\n    }\n    return [$min, $max];\n}\n\n[$min, $max] = minMax([45, 12, 89, 3, 27]);\necho \"Min: $min, Max: $max\";   // Min: 3, Max: 89",
+    "memory": "Remember: Assume first, then correct",
+    "tip": "Built-ins: max($arr) and min($arr)."
+  },
+  {
+    "id": "php-programs-d1d69d37",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 34: Sum and average of an array",
+    "answer": "Logic: loop and add every value to get the sum. Average = sum ÷ number of items. Check for an empty array to avoid division by zero.",
+    "points": [
+      "Loop add",
+      "Average = sum / count",
+      "Check empty array"
+    ],
+    "code": "<?php\n$marks = [78, 92, 65, 88, 70];\n\n$sum = 0;\nforeach ($marks as $m) {\n    $sum += $m;\n}\n$avg = count($marks) > 0 ? $sum / count($marks) : 0;\n\necho \"Sum: $sum, Average: \" . round($avg, 2);   // Sum: 393, Average: 78.6",
+    "memory": "Remember: Sum first, then divide",
+    "tip": "Built-ins: array_sum($arr) / count($arr)."
+  },
+  {
+    "id": "php-programs-c846f26a",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 35: Remove duplicates from an array (without array_unique)",
+    "answer": "Logic: loop through the array and keep a 'seen' list. Add a value to the result only if it was not seen before. This keeps the original order.",
+    "points": [
+      "Seen array",
+      "isset() check",
+      "Keeps order",
+      "O(n)"
+    ],
+    "code": "<?php\nfunction uniqueValues(array $arr): array\n{\n    $seen = [];\n    $result = [];\n    foreach ($arr as $v) {\n        if (!isset($seen[$v])) {\n            $seen[$v] = true;\n            $result[] = $v;\n        }\n    }\n    return $result;\n}\n\nprint_r(uniqueValues([3, 1, 3, 2, 1]));   // [3, 1, 2]",
+    "memory": "Remember: Same idea as removing duplicate characters",
+    "tip": "Built-in: array_values(array_unique($arr))."
+  },
+  {
+    "id": "php-programs-e6130ad8",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 37: Reverse an array without array_reverse",
+    "answer": "Logic: two pointers. Swap the first and last elements, then move both pointers towards the middle and repeat until they meet.",
+    "points": [
+      "Two pointers",
+      "Swap",
+      "Move inward",
+      "Stop at middle"
+    ],
+    "code": "<?php\nfunction reverseArray(array $arr): array\n{\n    $left = 0;\n    $right = count($arr) - 1;\n    while ($left < $right) {\n        [$arr[$left], $arr[$right]] = [$arr[$right], $arr[$left]];\n        $left++;\n        $right--;\n    }\n    return $arr;\n}\n\necho implode(\", \", reverseArray([1, 2, 3, 4, 5]));   // 5, 4, 3, 2, 1",
+    "memory": "Remember: Swap ends, move inward",
+    "tip": "This changes the array in place without a second array."
+  },
+  {
+    "id": "php-programs-6c2df1ad",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 38: Sort an array without sort() (bubble sort)",
+    "answer": "Bubble sort compares neighbours and swaps them if they are in the wrong order. After each full pass, the biggest number 'bubbles' to the end. Stop early if a pass makes no swaps.",
+    "points": [
+      "Compare neighbours",
+      "Swap if wrong order",
+      "Biggest goes to end",
+      "Stop if no swaps",
+      "O(n²)"
+    ],
+    "code": "<?php\nfunction bubbleSort(array $arr): array\n{\n    $n = count($arr);\n    for ($i = 0; $i < $n - 1; $i++) {\n        $swapped = false;\n        for ($j = 0; $j < $n - 1 - $i; $j++) {\n            if ($arr[$j] > $arr[$j + 1]) {\n                [$arr[$j], $arr[$j + 1]] = [$arr[$j + 1], $arr[$j]];\n                $swapped = true;\n            }\n        }\n        if (!$swapped) break;          // already sorted\n    }\n    return $arr;\n}\n\necho implode(\", \", bubbleSort([64, 25, 12, 22, 11]));   // 11, 12, 22, 25, 64",
+    "memory": "Remember: Big numbers bubble to the end",
+    "tip": "Say that real code uses sort() (much faster), but you know the logic."
+  },
+  {
+    "id": "php-programs-b191160f",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 39: Linear search and binary search",
+    "answer": "Linear search checks every item one by one (works on any array, O(n)). Binary search works only on a sorted array: check the middle; if the target is bigger, search the right half, otherwise the left half (O(log n)).",
+    "points": [
+      "Linear = check all",
+      "Binary = sorted array, halve each time",
+      "O(n) vs O(log n)"
+    ],
+    "code": "<?php\nfunction linearSearch(array $arr, int $target): int\n{\n    foreach ($arr as $i => $v) {\n        if ($v === $target) return $i;\n    }\n    return -1;\n}\n\nfunction binarySearch(array $sorted, int $target): int\n{\n    $low = 0;\n    $high = count($sorted) - 1;\n    while ($low <= $high) {\n        $mid = intdiv($low + $high, 2);\n        if ($sorted[$mid] === $target) return $mid;\n        if ($sorted[$mid] < $target) {\n            $low = $mid + 1;\n        } else {\n            $high = $mid - 1;\n        }\n    }\n    return -1;\n}\n\n$nums = [3, 8, 15, 23, 42, 57];\necho linearSearch($nums, 42) . PHP_EOL;   // 4\necho binarySearch($nums, 23) . PHP_EOL;   // 3\necho binarySearch($nums, 10) . PHP_EOL;   // -1 (not found)",
+    "memory": "Remember: Binary search cuts the list in half each step",
+    "tip": "Database indexes use the same 'halving' idea (B-Tree)."
+  },
+  {
+    "id": "php-programs-72ca5515",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 40: Find the missing number from 1 to N",
+    "answer": "Logic: the sum of 1 to N is N × (N + 1) ÷ 2. Subtract the sum of the given numbers; the difference is the missing number. One loop, no sorting.",
+    "points": [
+      "Expected sum = N(N+1)/2",
+      "Minus actual sum",
+      "Difference = missing"
+    ],
+    "code": "<?php\nfunction missingNumber(array $nums, int $n): int\n{\n    $expected = intdiv($n * ($n + 1), 2);\n    return $expected - array_sum($nums);\n}\n\necho missingNumber([1, 2, 4, 5, 6], 6);   // 3",
+    "memory": "Remember: Expected minus actual",
+    "tip": "Very common question; the formula answer impresses interviewers."
+  },
+  {
+    "id": "php-programs-67ec1ce4",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 41: Two sum (find two numbers that add up to a target)",
+    "answer": "Logic: loop once and remember each number's index in an array. For each number, check if (target - number) was already seen. If yes, you found the pair. This is O(n), faster than two nested loops.",
+    "points": [
+      "need = target - n",
+      "Seen array: value → index",
+      "One loop",
+      "O(n)"
+    ],
+    "code": "<?php\nfunction twoSum(array $nums, int $target): ?array\n{\n    $seen = [];                         // value => index\n    foreach ($nums as $i => $n) {\n        $need = $target - $n;\n        if (isset($seen[$need])) {\n            return [$seen[$need], $i];\n        }\n        $seen[$n] = $i;\n    }\n    return null;\n}\n\nprint_r(twoSum([2, 7, 11, 15], 9));   // [0, 1]  (2 + 7 = 9)",
+    "memory": "Remember: Look for the partner you need",
+    "tip": "Explain the slow O(n²) nested-loop way first, then improve it."
+  },
+  {
+    "id": "php-programs-e828451b",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 42: Merge two sorted arrays",
+    "answer": "Logic: use two pointers, one for each array. Each step, take the smaller front value and move that pointer. When one array ends, add the rest of the other. The result stays sorted.",
+    "points": [
+      "Two pointers",
+      "Take smaller",
+      "Add leftovers",
+      "O(n + m)"
+    ],
+    "code": "<?php\nfunction mergeSorted(array $a, array $b): array\n{\n    $i = $j = 0;\n    $result = [];\n    while ($i < count($a) && $j < count($b)) {\n        if ($a[$i] <= $b[$j]) {\n            $result[] = $a[$i++];\n        } else {\n            $result[] = $b[$j++];\n        }\n    }\n    while ($i < count($a)) $result[] = $a[$i++];\n    while ($j < count($b)) $result[] = $b[$j++];\n    return $result;\n}\n\necho implode(\", \", mergeSorted([1, 4, 7], [2, 3, 8]));   // 1, 2, 3, 4, 7, 8",
+    "memory": "Remember: Compare fronts, take smaller",
+    "tip": "This is the main step of merge sort."
+  },
+  {
+    "id": "php-programs-a1ed6062",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 43: Rotate an array",
+    "answer": "Left rotation by k moves the first k elements to the end. Logic: k = k % length (so big k still works), then join the part after k with the part before k.",
+    "points": [
+      "k % length",
+      "slice from k + slice before k",
+      "array_merge"
+    ],
+    "code": "<?php\nfunction rotateLeft(array $arr, int $k): array\n{\n    $n = count($arr);\n    if ($n === 0) return $arr;\n    $k %= $n;\n    return array_merge(array_slice($arr, $k), array_slice($arr, 0, $k));\n}\n\necho implode(\", \", rotateLeft([1, 2, 3, 4, 5], 2));   // 3, 4, 5, 1, 2\necho PHP_EOL;\necho implode(\", \", rotateLeft([1, 2, 3, 4, 5], 7));   // 3, 4, 5, 1, 2 (7 % 5 = 2)",
+    "memory": "Remember: Cut at k, swap the two parts",
+    "tip": "Right rotation by k = left rotation by (length - k)."
+  },
+  {
+    "id": "php-programs-8b0fec4c",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 44: Matrix addition and transpose (2D arrays)",
+    "answer": "A matrix is an array of rows. Addition: add the values at the same row and column. Transpose: rows become columns. Use nested loops with row index i and column index j.",
+    "points": [
+      "Nested loops i, j",
+      "sum[i][j] = a[i][j] + b[i][j]",
+      "Transpose: t[j][i] = a[i][j]"
+    ],
+    "code": "<?php\n$a = [[1, 2, 3], [4, 5, 6]];\n$b = [[6, 5, 4], [3, 2, 1]];\n\n$sum = [];\nforeach ($a as $i => $row) {\n    foreach ($row as $j => $value) {\n        $sum[$i][$j] = $value + $b[$i][$j];\n    }\n}\n// [[7, 7, 7], [7, 7, 7]]\n\n$transpose = [];\nforeach ($a as $i => $row) {\n    foreach ($row as $j => $value) {\n        $transpose[$j][$i] = $value;\n    }\n}\n// [[1, 4], [2, 5], [3, 6]]\n\nforeach ($transpose as $row) {\n    echo implode(\" \", $row) . PHP_EOL;\n}",
+    "memory": "Remember: Row i, column j",
+    "tip": "Good practice for working with database result rows."
+  },
+  {
+    "id": "php-programs-8f509780",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 46: GST invoice calculation",
+    "answer": "Real-world logic: for each item, line total = price × quantity. Add all lines to get the subtotal. GST = subtotal × rate ÷ 100 (round to 2 decimals). Grand total = subtotal + GST. printf formats the bill neatly.",
+    "points": [
+      "Line = price × qty",
+      "Subtotal",
+      "GST = subtotal × rate / 100",
+      "Round to 2 decimals"
+    ],
+    "code": "<?php\n$items = [\n    [\"name\" => \"Rice\", \"price\" => 60,  \"qty\" => 5],\n    [\"name\" => \"Oil\",  \"price\" => 180, \"qty\" => 2],\n];\n$gstRate = 5;\n\n$subtotal = 0;\nforeach ($items as $item) {\n    $line = $item[\"price\"] * $item[\"qty\"];\n    $subtotal += $line;\n    printf(\"%-5s %2d x %6.2f = %7.2f%s\", $item[\"name\"], $item[\"qty\"], $item[\"price\"], $line, PHP_EOL);\n}\n\n$gst   = round($subtotal * $gstRate / 100, 2);\n$total = $subtotal + $gst;\nprintf(\"Subtotal: %.2f | GST %d%%: %.2f | Total: %.2f%s\", $subtotal, $gstRate, $gst, $total, PHP_EOL);\n// Rice   5 x  60.00 =  300.00\n// Oil    2 x 180.00 =  360.00\n// Subtotal: 660.00 | GST 5%: 33.00 | Total: 693.00",
+    "memory": "Remember: Lines → subtotal → GST → total",
+    "tip": "In real systems, store money in paise (integers) to avoid float rounding errors."
+  },
+  {
+    "id": "php-programs-87bbf654",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 47: Loyalty points and tier calculation",
+    "answer": "Real-world logic from your loyalty project: give 10 points for every Rs 100 spent (ignore the remainder). Add points from all bills. Then find the tier from the total points using match(true).",
+    "points": [
+      "Points = floor(bill / 100) × 10",
+      "Add all bills",
+      "Tier by thresholds",
+      "match(true)"
+    ],
+    "code": "<?php\nfunction pointsFor(float $bill): int\n{\n    return intdiv((int) $bill, 100) * 10;      // 10 points per Rs 100\n}\n\nfunction tierFor(int $points): string\n{\n    return match (true) {\n        $points >= 5000 => \"Platinum\",\n        $points >= 2000 => \"Gold\",\n        $points >= 500  => \"Silver\",\n        default         => \"Basic\",\n    };\n}\n\n$bills = [1250, 3400, 999, 15000];\n$total = 0;\nforeach ($bills as $bill) {\n    $total += pointsFor($bill);\n}\n\necho \"Points: $total, Tier: \" . tierFor($total);   // Points: 2050, Tier: Gold",
+    "memory": "Remember: Spend → points → tier",
+    "tip": "Say the rules came from the database (configurable) in the real project."
+  },
+  {
+    "id": "php-programs-425ede64",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 48: Cost per kilometer report",
+    "answer": "Real-world logic from your fleet project: group trips by vehicle, add up kilometers and costs (fuel + repair), then cost per km = total cost ÷ total km. Check for 0 km to avoid division by zero.",
+    "points": [
+      "Group by vehicle",
+      "Sum km and cost",
+      "cost / km",
+      "Avoid divide by zero"
+    ],
+    "code": "<?php\n$trips = [\n    [\"vehicle\" => \"MH12-AB-1234\", \"km\" => 420, \"fuel\" => 3800, \"repair\" => 0],\n    [\"vehicle\" => \"MH12-AB-1234\", \"km\" => 380, \"fuel\" => 3500, \"repair\" => 1200],\n    [\"vehicle\" => \"MH14-CD-5678\", \"km\" => 600, \"fuel\" => 5200, \"repair\" => 0],\n];\n\n$report = [];\nforeach ($trips as $t) {\n    $v = $t[\"vehicle\"];\n    $report[$v][\"km\"]   = ($report[$v][\"km\"] ?? 0) + $t[\"km\"];\n    $report[$v][\"cost\"] = ($report[$v][\"cost\"] ?? 0) + $t[\"fuel\"] + $t[\"repair\"];\n}\n\nforeach ($report as $vehicle => $r) {\n    $perKm = $r[\"km\"] > 0 ? $r[\"cost\"] / $r[\"km\"] : 0;\n    printf(\"%s: %d km, Rs %d, Rs %.2f per km%s\", $vehicle, $r[\"km\"], $r[\"cost\"], $perKm, PHP_EOL);\n}\n// MH12-AB-1234: 800 km, Rs 8500, Rs 10.62 per km\n// MH14-CD-5678: 600 km, Rs 5200, Rs 8.67 per km",
+    "memory": "Remember: Total cost ÷ total km",
+    "tip": "Connect it to a real project, for example a fleet or transport report."
+  },
+  {
+    "id": "php-programs-e916bccb",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 49: Pagination calculator",
+    "answer": "Real-world logic for list APIs: total pages = ceil(total rows ÷ per page). Keep the page number between 1 and total pages. Offset = (page - 1) × per page. This offset goes into SQL: LIMIT perPage OFFSET offset.",
+    "points": [
+      "totalPages = ceil(rows / perPage)",
+      "Clamp page",
+      "offset = (page - 1) × perPage",
+      "LIMIT / OFFSET"
+    ],
+    "code": "<?php\nfunction paginate(int $totalRows, int $perPage, int $page): array\n{\n    $totalPages = max(1, (int) ceil($totalRows / $perPage));\n    $page = min(max(1, $page), $totalPages);      // keep page in range\n    return [\n        \"total_pages\" => $totalPages,\n        \"page\"        => $page,\n        \"offset\"      => ($page - 1) * $perPage,\n        \"has_next\"    => $page < $totalPages,\n        \"has_prev\"    => $page > 1,\n    ];\n}\n\nprint_r(paginate(95, 20, 3));\n// total_pages 5, page 3, offset 40, has_next true, has_prev true\n\n// SQL: SELECT * FROM orders ORDER BY id LIMIT 20 OFFSET 40",
+    "memory": "Remember: Skip (page - 1) pages",
+    "tip": "For very big tables, mention keyset pagination (WHERE id > lastId)."
+  },
+  {
+    "id": "php-programs-d8bb8b3d",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 50: Validate mobile, email, PAN and PIN code",
+    "answer": "Real-world logic: check input format before saving. Indian mobile: 10 digits starting with 6 to 9. Email: filter_var. PAN: 5 capital letters, 4 digits, 1 capital letter. PIN code: 6 digits, not starting with 0.",
+    "points": [
+      "preg_match for formats",
+      "filter_var for email",
+      "Mobile ^[6-9][0-9]{9}$",
+      "PAN ^[A-Z]{5}[0-9]{4}[A-Z]$"
+    ],
+    "code": "<?php\nfunction isValid(string $type, string $value): bool\n{\n    return match ($type) {\n        \"mobile\"  => (bool) preg_match('/^[6-9][0-9]{9}$/', $value),\n        \"email\"   => filter_var($value, FILTER_VALIDATE_EMAIL) !== false,\n        \"pan\"     => (bool) preg_match('/^[A-Z]{5}[0-9]{4}[A-Z]$/', $value),\n        \"pincode\" => (bool) preg_match('/^[1-9][0-9]{5}$/', $value),\n        default   => false,\n    };\n}\n\nvar_dump(isValid(\"mobile\", \"9876543210\"));        // true\nvar_dump(isValid(\"mobile\", \"1234567890\"));        // false\nvar_dump(isValid(\"email\", \"ravi@example.com\"));   // true\nvar_dump(isValid(\"pan\", \"ABCDE1234F\"));           // true\nvar_dump(isValid(\"pincode\", \"411017\"));           // true",
+    "memory": "Remember: Validate on the server, always",
+    "tip": "Always validate on the server, even if JavaScript also checks."
+  },
+  {
+    "id": "php-programs-9bfa8779",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 51: Generate an OTP and a random password",
+    "answer": "Logic: pick random characters in a loop. Use random_int(), which is secure; never use rand() for OTPs or passwords. For a password, pick from a list of allowed characters.",
+    "points": [
+      "random_int (secure)",
+      "Not rand()",
+      "Loop length times",
+      "Character list"
+    ],
+    "code": "<?php\nfunction generateOtp(int $length = 6): string\n{\n    $otp = \"\";\n    for ($i = 0; $i < $length; $i++) {\n        $otp .= random_int(0, 9);\n    }\n    return $otp;\n}\n\nfunction generatePassword(int $length = 12): string\n{\n    $chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789@#%&';\n    $password = \"\";\n    for ($i = 0; $i < $length; $i++) {\n        $password .= $chars[random_int(0, strlen($chars) - 1)];\n    }\n    return $password;\n}\n\necho generateOtp() . PHP_EOL;        // e.g. 482913\necho generatePassword() . PHP_EOL;   // e.g. kP7@xR2mQ9#a",
+    "memory": "Remember: Security code → random_int",
+    "tip": "Store only a hash of the OTP and give it an expiry time (for example, 5 minutes)."
+  },
+  {
+    "id": "php-programs-74cee813",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 52: Age and days between two dates",
+    "answer": "Logic: create DateTime objects and use diff(). The result has years (y), months (m), days (d) and total days. This handles leap years and month lengths correctly, so never calculate dates with your own math.",
+    "points": [
+      "DateTime",
+      "diff()",
+      "->y ->m ->d",
+      "->days total"
+    ],
+    "code": "<?php\ndate_default_timezone_set(\"Asia/Kolkata\");\n\n$dob   = new DateTime(\"1990-05-15\");\n$today = new DateTime(\"today\");\n$age   = $dob->diff($today);\necho \"Age: {$age->y} years, {$age->m} months\" . PHP_EOL;\n\n$start = new DateTime(\"2024-01-01\");\n$end   = new DateTime(\"2024-03-01\");\necho $start->diff($end)->days . \" days\" . PHP_EOL;   // 60 (2024 is a leap year)\n\n$expiry = (new DateTime(\"2024-01-31\"))->modify(\"+30 days\");\necho $expiry->format(\"d-m-Y\");                        // 01-03-2024",
+    "memory": "Remember: Let DateTime do the date math",
+    "tip": "Set the timezone (Asia/Kolkata) so 'today' is correct."
+  },
+  {
+    "id": "php-programs-72c049b7",
+    "subject": "PHP Programs",
+    "level": "Intermediate",
+    "question": "Program 53: Write and read a CSV file",
+    "answer": "Real-world logic for import/export: write rows with fputcsv (it handles commas and quotes for you). Read with fgetcsv in a loop; use the first row as the header and array_combine to make each row an associative array.",
+    "points": [
+      "fputcsv",
+      "fgetcsv in a loop",
+      "Header row",
+      "array_combine"
+    ],
+    "code": "<?php\n$rows = [\n    [\"id\", \"name\", \"points\"],\n    [1, \"Ravi\", 1200],\n    [2, \"Amit\", 3400],\n];\n\n$fp = fopen(\"customers.csv\", \"w\");\nforeach ($rows as $row) {\n    fputcsv($fp, $row);\n}\nfclose($fp);\n\n$fp = fopen(\"customers.csv\", \"r\");\n$header = fgetcsv($fp);\nwhile (($row = fgetcsv($fp)) !== false) {\n    $customer = array_combine($header, $row);\n    echo $customer[\"name\"] . \" has \" . $customer[\"points\"] . \" points\" . PHP_EOL;\n}\nfclose($fp);\n// Ravi has 1200 points\n// Amit has 3400 points",
+    "memory": "Remember: Header + row = associative array",
+    "tip": "For big files, read line by line (as here); never load the whole file into memory."
+  },
+  {
+    "id": "php-2a7dab28",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you avoid N+1 queries in Laravel (eager loading)?",
+    "answer": "By default Eloquent relationships load lazily: $order->customer runs a new query the first time it is used, so looping over 100 orders makes 101 queries. Use eager loading with with() to load the relationship for all rows in one extra query. load() eager-loads on an already fetched collection, withCount() adds counts without loading rows, and you can limit the columns. Since Laravel 8 you can call Model::preventLazyLoading() in development so any lazy load throws an error. Use Laravel Debugbar or Telescope to see how many queries a page runs.",
+    "points": [
+      "Lazy loading → N+1",
+      "with() eager loads",
+      "load() on fetched collections",
+      "withCount() for counts",
+      "preventLazyLoading() in dev",
+      "Debugbar / Telescope"
+    ],
+    "code": "<?php\n// N+1: 1 query for orders + 1 per order for its customer\n$orders = Order::all();\nforeach ($orders as $order) {\n    echo $order->customer->name;\n}\n\n// Eager loading: 2 queries total\n$orders = Order::with('customer')->get();\n\n// Nested + only some columns\n$orders = Order::with(['customer:id,name', 'items.product'])->latest()->paginate(20);\n\n// Counts without loading the rows\n$customers = Customer::withCount('orders')->get();   // $c->orders_count\n\n// Already fetched? load() it\n$orders->load('customer');\n\n// AppServiceProvider::boot() - fail fast in development\nModel::preventLazyLoading(! app()->isProduction());",
+    "memory": "Remember: with() before get()",
+    "tip": "Same problem and same fix as select_related or selectinload in Python; showing you know both stacks is a plus."
+  },
+  {
+    "id": "php-7588c3b6",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you authenticate APIs in Laravel (Sanctum)?",
+    "answer": "Laravel Sanctum gives simple token authentication for APIs and mobile apps, and cookie-based session authentication for SPAs on the same domain. For mobile or third-party clients: the user logs in, you call createToken() which stores a hashed token in the personal_access_tokens table and returns the plain token once; the client sends it as a Bearer token, and routes protected with auth:sanctum check it. Tokens can have abilities (scopes) and expiry, and logout deletes the token. For full OAuth2 (third-party apps, authorization code flow), use Laravel Passport instead.",
+    "points": [
+      "Sanctum = API tokens + SPA cookies",
+      "createToken() returns token once",
+      "Hashed in personal_access_tokens",
+      "Bearer token + auth:sanctum",
+      "Abilities (scopes), expiry",
+      "Passport for full OAuth2"
+    ],
+    "code": "<?php\n// routes/api.php\nRoute::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');\n\nRoute::middleware('auth:sanctum')->group(function () {\n    Route::get('/me', fn (Request $r) => $r->user());\n    Route::post('/logout', [AuthController::class, 'logout']);\n});\n\n// app/Http/Controllers/AuthController.php\npublic function login(Request $request)\n{\n    $data = $request->validate(['email' => 'required|email', 'password' => 'required']);\n    $user = User::where('email', $data['email'])->first();\n\n    if (! $user || ! Hash::check($data['password'], $user->password)) {\n        return response()->json(['message' => 'Invalid credentials'], 401);\n    }\n    $token = $user->createToken('mobile', ['orders:read'])->plainTextToken;\n    return response()->json(['token' => $token]);\n}\n\npublic function logout(Request $request)\n{\n    $request->user()->currentAccessToken()->delete();\n    return response()->noContent();\n}",
+    "memory": "Remember: Sanctum for your own apps, Passport for OAuth2",
+    "tip": "Mention rate limiting the login route (throttle middleware) to stop brute-force attacks."
+  },
+  {
+    "id": "php-e84245b9",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "How do you build a REST API in CodeIgniter 4?",
+    "answer": "CodeIgniter 4 has ResourceController, which gives standard REST methods: index (GET list), show (GET one), create (POST), update (PUT/PATCH) and delete (DELETE). Register it with $routes->resource('orders') to create all the routes at once. The ResponseTrait adds helpers like respond(), respondCreated(), failNotFound() and failValidationErrors() that return JSON with the right status codes. Use the Validation library for input, a Model for database access, and Filters for authentication (for example a JWT check) and CORS.",
+    "points": [
+      "ResourceController",
+      "$routes->resource()",
+      "index, show, create, update, delete",
+      "respondCreated(), failNotFound()",
+      "Validation + Model",
+      "Filters for auth and CORS"
+    ],
+    "code": "<?php\n// app/Config/Routes.php\n$routes->group('api', ['filter' => 'jwtauth'], static function ($routes) {\n    $routes->resource('orders', ['controller' => 'Api\\Orders']);\n});\n\n// app/Controllers/Api/Orders.php\nnamespace App\\Controllers\\Api;\n\nuse CodeIgniter\\RESTful\\ResourceController;\n\nclass Orders extends ResourceController\n{\n    protected $modelName = 'App\\Models\\OrderModel';\n    protected $format    = 'json';\n\n    public function index()\n    {\n        return $this->respond($this->model->orderBy('id', 'DESC')->paginate(20));\n    }\n\n    public function show($id = null)\n    {\n        $order = $this->model->find($id);\n        return $order ? $this->respond($order) : $this->failNotFound('Order not found');\n    }\n\n    public function create()\n    {\n        $data = $this->request->getJSON(true);\n        if (! $this->validateData($data, ['customer_id' => 'required|integer', 'total' => 'required|decimal'])) {\n            return $this->failValidationErrors($this->validator->getErrors());\n        }\n        $id = $this->model->insert($data);\n        return $this->respondCreated(['id' => $id]);\n    }\n}",
+    "memory": "Remember: resource route + ResourceController = full REST",
+    "tip": "Mention CI4 vs CI3 if asked: CI4 has namespaces, Composer, a new router, filters and better REST support."
+  },
+  {
+    "id": "php-0349a44c",
+    "subject": "PHP",
+    "level": "Intermediate",
+    "question": "CodeIgniter 3 vs CodeIgniter 4: what changed?",
+    "answer": "CodeIgniter 4 is a full rewrite for modern PHP (7.4+ / 8.x). Main changes: namespaces and PSR-4 autoloading with Composer; a new folder structure with a public/ web root (safer, since app code is outside the web folder); a new router with route groups, resource routes and filters (like middleware); models with built-in validation, timestamps and soft deletes; entities; a database migration and seeding system; better security (CSRF, Content Security Policy); the Spark command-line tool; and built-in testing with PHPUnit. CI3 code needs real changes to upgrade: controllers, models, libraries and routes.",
+    "points": [
+      "Full rewrite for PHP 7.4+ / 8",
+      "Namespaces + Composer",
+      "public/ web root",
+      "New router + filters",
+      "Models: validation, timestamps, soft deletes",
+      "Migrations, Spark CLI, PHPUnit"
+    ],
+    "code": "",
+    "memory": "Remember: CI4 = modern PHP, namespaces, filters, Spark",
+    "tip": "If you have built a CI3 application, say how you would plan an upgrade: module by module, with tests."
+  }
+]

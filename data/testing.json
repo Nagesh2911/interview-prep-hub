@@ -1,0 +1,302 @@
+[
+  {
+    "id": "testing-8a09ef16",
+    "subject": "Testing",
+    "level": "Beginner",
+    "question": "What is unit testing?",
+    "answer": "Unit testing checks a small piece of code independently, such as a function or service. It catches bugs early and makes future changes safer.",
+    "points": [
+      "Small unit",
+      "Independent",
+      "Early bugs"
+    ],
+    "code": "",
+    "memory": "Remember: Test one small thing",
+    "tip": "Use pytest when discussing Python testing."
+  },
+  {
+    "id": "testing-6698570e",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "What should you test in an API?",
+    "answer": "I test successful requests, validation errors, authentication, authorization, missing data, invalid input, database failures, edge cases and correct HTTP status codes.",
+    "points": [
+      "Success",
+      "Validation",
+      "Auth",
+      "Errors",
+      "Edge cases"
+    ],
+    "code": "",
+    "memory": "Remember: Happy path + Failure path",
+    "tip": "Important business rules should have tests."
+  },
+  {
+    "id": "testing-4701d3ef",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "Why use pytest instead of unittest?",
+    "answer": "pytest needs less code: tests are plain functions with a normal assert, with no classes or self.assertEqual. It gives clear failure messages, powerful fixtures, parametrize for many inputs, markers, and many plugins (pytest-cov, pytest-mock, pytest-asyncio, pytest-django, pytest-xdist). It can also run old unittest tests, so you can switch slowly.",
+    "points": [
+      "Plain functions + assert",
+      "Clear failure messages",
+      "Fixtures",
+      "parametrize",
+      "Plugins",
+      "Runs unittest tests too"
+    ],
+    "code": "# unittest style\nimport unittest\nclass TestPoints(unittest.TestCase):\n    def test_add(self):\n        self.assertEqual(add_points(100, 50), 150)\n\n# pytest style: same test, less code\ndef test_add_points():\n    assert add_points(100, 50) == 150\n\n# Run\n# pytest -v                 verbose\n# pytest -k points          only tests with 'points' in the name\n# pytest -x                 stop at first failure\n# pytest -n 4               run in parallel (pytest-xdist)",
+    "memory": "Remember: pytest = less code, more power",
+    "tip": "Most Python teams today use pytest; say you have used it for API and service tests."
+  },
+  {
+    "id": "testing-9cd1799d",
+    "subject": "Testing",
+    "level": "Beginner",
+    "question": "What are pytest fixtures? What is fixture scope?",
+    "answer": "A fixture is a function that prepares something a test needs, like a database session, a test client or sample data, and cleans it up afterwards. A test asks for a fixture just by using its name as a parameter. Code before yield is setup; code after yield is teardown. Scope decides how often it runs: function (default, every test), class, module, package or session (once for the whole run).",
+    "points": [
+      "@pytest.fixture",
+      "Ask by parameter name",
+      "yield = setup + teardown",
+      "Scopes: function, module, session",
+      "Reusable"
+    ],
+    "code": "import pytest\n\n@pytest.fixture\ndef customer():\n    return {\"id\": 1, \"name\": \"Ravi\", \"points\": 1200}\n\n@pytest.fixture(scope=\"session\")\ndef db_engine():\n    engine = create_engine(\"postgresql://test:test@localhost/test_db\")\n    yield engine                 # tests run here\n    engine.dispose()             # teardown after all tests\n\n@pytest.fixture\ndef db_session(db_engine):       # fixtures can use other fixtures\n    conn = db_engine.connect()\n    tx = conn.begin()\n    session = Session(bind=conn)\n    yield session\n    session.close()\n    tx.rollback()                # every test starts with a clean DB\n    conn.close()\n\ndef test_customer_has_points(customer):\n    assert customer[\"points\"] > 0",
+    "memory": "Remember: Fixture = ready-made test ingredient",
+    "tip": "Use session scope for expensive things (a DB engine) and function scope for things that must be fresh (a transaction)."
+  },
+  {
+    "id": "testing-6b42f14f",
+    "subject": "Testing",
+    "level": "Beginner",
+    "question": "What is conftest.py?",
+    "answer": "conftest.py is a special pytest file for shared fixtures and hooks. Fixtures defined there are available to every test in that folder and its sub-folders, without any import. You can have one at the project root for common fixtures (app, client, db) and more in sub-folders for local ones.",
+    "points": [
+      "Shared fixtures",
+      "No import needed",
+      "Folder-level scope",
+      "Hooks and plugins"
+    ],
+    "code": "tests/\n├── conftest.py            # app, client, db_session fixtures for all tests\n├── unit/\n│   └── test_points.py\n└── api/\n    ├── conftest.py        # fixtures only for API tests (auth headers)\n    └── test_orders.py\n\n# tests/api/conftest.py\nimport pytest\n\n@pytest.fixture\ndef auth_headers():\n    return {\"Authorization\": \"Bearer test-token\"}\n\n# tests/api/test_orders.py  (no import needed)\ndef test_list_orders(client, auth_headers):\n    resp = client.get(\"/orders\", headers=auth_headers)\n    assert resp.status_code == 200",
+    "memory": "Remember: conftest = common fixtures for a folder",
+    "tip": "Do not import from conftest.py in tests; pytest finds it automatically."
+  },
+  {
+    "id": "testing-996b0bf8",
+    "subject": "Testing",
+    "level": "Beginner",
+    "question": "What is @pytest.mark.parametrize?",
+    "answer": "parametrize runs the same test with many sets of input and expected output. It removes copy-paste tests and makes edge cases easy to add: zero, negative, empty and very large values. Each set shows as a separate test in the report.",
+    "points": [
+      "Same test, many inputs",
+      "No copy-paste",
+      "Edge cases",
+      "ids for readable names"
+    ],
+    "code": "import pytest\n\n@pytest.mark.parametrize(\n    \"amount, expected\",\n    [\n        (100, 118.0),\n        (0, 0.0),\n        (99.99, 117.99),\n    ],\n    ids=[\"normal\", \"zero\", \"decimal\"],\n)\ndef test_add_gst(amount, expected):\n    assert add_gst(amount) == pytest.approx(expected, abs=0.01)\n\n@pytest.mark.parametrize(\"mobile\", [\"12345\", \"abcdefghij\", \"5123456789\"])\ndef test_invalid_mobile_numbers(mobile):\n    assert is_valid_mobile(mobile) is False",
+    "memory": "Remember: One test, many cases",
+    "tip": "Great for validation rules and calculations, like GST or points."
+  },
+  {
+    "id": "testing-a2b53629",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "How do you mock in pytest (patch, monkeypatch, mocker)?",
+    "answer": "Mock external things you do not control (payment APIs, email, S3, time) so tests are fast and reliable. Options: unittest.mock.patch, pytest's built-in monkeypatch fixture, or the mocker fixture from pytest-mock. Golden rule: patch the name where it is used, not where it is defined. For example, patch 'app.services.orders.send_email', not 'app.email.send_email'.",
+    "points": [
+      "Mock what you don't control",
+      "patch / monkeypatch / mocker",
+      "Patch where it is used",
+      "assert_called_once_with",
+      "Don't over-mock"
+    ],
+    "code": "# app/services/orders.py\nfrom app.email import send_email\ndef place_order(order):\n    save(order)\n    send_email(order[\"email\"], \"Order placed\")\n    return \"ok\"\n\n# tests/test_orders.py\ndef test_place_order_sends_email(mocker):                       # pytest-mock\n    mock_send = mocker.patch(\"app.services.orders.send_email\")  # where it is USED\n    assert place_order({\"email\": \"ravi@example.com\"}) == \"ok\"\n    mock_send.assert_called_once_with(\"ravi@example.com\", \"Order placed\")\n\ndef test_uses_env_value(monkeypatch):                           # built-in fixture\n    monkeypatch.setenv(\"GST_RATE\", \"18\")\n    assert get_gst_rate() == 18\n\ndef test_payment_gateway_down(mocker):\n    mocker.patch(\"app.services.payment.requests.post\", side_effect=TimeoutError)\n    assert charge(100)[\"status\"] == \"retry_later\"",
+    "memory": "Remember: Patch where it is looked up",
+    "tip": "Too many mocks test the mocks, not your code. Use real DB in integration tests."
+  },
+  {
+    "id": "testing-e6993c45",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "How do you test FastAPI endpoints with pytest?",
+    "answer": "Use FastAPI's TestClient (built on httpx) to call endpoints without running a server. Replace real dependencies, like the DB session or the current user, with app.dependency_overrides. Check the status code, the JSON body and the side effects. Put the client in a fixture in conftest.py.",
+    "points": [
+      "TestClient",
+      "dependency_overrides",
+      "Check status + JSON",
+      "Fixture in conftest",
+      "Test auth failures too"
+    ],
+    "code": "# tests/conftest.py\nimport pytest\nfrom fastapi.testclient import TestClient\nfrom app.main import app\nfrom app.deps import get_db, get_current_user\n\n@pytest.fixture\ndef client(db_session):\n    app.dependency_overrides[get_db] = lambda: db_session\n    app.dependency_overrides[get_current_user] = lambda: {\"id\": 1, \"role\": \"admin\"}\n    yield TestClient(app)\n    app.dependency_overrides.clear()\n\n# tests/test_customers.py\ndef test_create_customer(client):\n    resp = client.post(\"/customers\", json={\"name\": \"Ravi\", \"email\": \"ravi@example.com\"})\n    assert resp.status_code == 201\n    assert resp.json()[\"name\"] == \"Ravi\"\n\ndef test_create_customer_validation_error(client):\n    resp = client.post(\"/customers\", json={\"name\": \"\"})\n    assert resp.status_code == 422",
+    "memory": "Remember: Client, Override, Call, Assert",
+    "tip": "Always test the unhappy paths too: 401, 404, 422 validation errors."
+  },
+  {
+    "id": "testing-6dfaeb94",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "How do you test async code with pytest?",
+    "answer": "Install pytest-asyncio and mark async tests with @pytest.mark.asyncio (or set asyncio_mode = auto in the config). For async FastAPI apps, use httpx.AsyncClient with ASGITransport to call the app directly. Use AsyncMock to mock async functions.",
+    "points": [
+      "pytest-asyncio",
+      "@pytest.mark.asyncio",
+      "httpx.AsyncClient + ASGITransport",
+      "AsyncMock"
+    ],
+    "code": "import pytest\nfrom httpx import ASGITransport, AsyncClient\nfrom unittest.mock import AsyncMock\nfrom app.main import app\n\n@pytest.mark.asyncio\nasync def test_health():\n    transport = ASGITransport(app=app)\n    async with AsyncClient(transport=transport, base_url=\"http://test\") as ac:\n        resp = await ac.get(\"/health\")\n    assert resp.status_code == 200\n\n@pytest.mark.asyncio\nasync def test_fetch_rate(mocker):\n    mocker.patch(\"app.services.fx.get_rate\", new=AsyncMock(return_value=83.2))\n    assert await convert_usd_to_inr(10) == 832.0",
+    "memory": "Remember: Async code needs an async test",
+    "tip": "Forgetting the marker makes the test pass without running: a classic trap."
+  },
+  {
+    "id": "testing-dd63d872",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "How do you test code that uses a database?",
+    "answer": "Use a separate test database (often PostgreSQL in Docker, or Testcontainers), never production. Create tables once per session, run each test inside a transaction and roll it back at the end, so tests do not affect each other. Create test data with factories (factory_boy, Faker) instead of big shared fixture files.",
+    "points": [
+      "Separate test DB",
+      "Docker / Testcontainers",
+      "Transaction rollback per test",
+      "Factories for data",
+      "Same DB engine as production"
+    ],
+    "code": "# pip install factory-boy faker\nimport factory\nfrom app.models import Customer\n\nclass CustomerFactory(factory.Factory):\n    class Meta:\n        model = Customer\n    name = factory.Faker(\"name\")\n    email = factory.Sequence(lambda n: f\"user{n}@example.com\")\n    points = 0\n\ndef test_redeem_points(db_session):\n    customer = CustomerFactory(points=500)\n    db_session.add(customer)\n    db_session.flush()\n\n    redeem(db_session, customer.id, 200)\n\n    assert db_session.get(Customer, customer.id).points == 300\n    # db_session fixture rolls back after the test",
+    "memory": "Remember: Fresh, isolated, realistic",
+    "tip": "SQLite in tests can hide PostgreSQL-only bugs; test on the same engine as production."
+  },
+  {
+    "id": "testing-11ca8977",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "How do you test exceptions, logs and printed output in pytest?",
+    "answer": "pytest.raises checks that code raises the right exception, and match checks the message. caplog captures log messages, capsys captures print output, and pytest.approx compares decimal numbers safely. tmp_path gives a temporary folder for file tests.",
+    "points": [
+      "pytest.raises(match=)",
+      "caplog",
+      "capsys",
+      "pytest.approx",
+      "tmp_path"
+    ],
+    "code": "import logging\nimport pytest\n\ndef test_redeem_more_than_balance():\n    with pytest.raises(ValueError, match=\"Not enough points\"):\n        redeem_points(balance=100, points=500)\n\ndef test_warning_logged(caplog):\n    with caplog.at_level(logging.WARNING):\n        redeem_points(balance=100, points=100)\n    assert \"balance is now zero\" in caplog.text\n\ndef test_print(capsys):\n    greet(\"Ravi\")\n    assert capsys.readouterr().out == \"Hello Ravi\\n\"\n\ndef test_export_csv(tmp_path):\n    file = tmp_path / \"out.csv\"\n    export_customers(file)\n    assert file.read_text().startswith(\"id,name\")\n\ndef test_float_math():\n    assert 0.1 + 0.2 == pytest.approx(0.3)",
+    "memory": "Remember: raises, caplog, capsys, approx, tmp_path",
+    "tip": "Testing the error path is as important as the happy path."
+  },
+  {
+    "id": "testing-de4373c7",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "What are pytest markers? How do you run only some tests?",
+    "answer": "Markers are labels on tests: built-in ones like skip, skipif and xfail (expected to fail), and custom ones like slow or integration. Register custom markers in pytest.ini or pyproject.toml. Run a subset with -m (by marker) or -k (by name). In CI you can run fast unit tests on every push and slow tests on merge.",
+    "points": [
+      "skip / skipif / xfail",
+      "Custom markers",
+      "Register in config",
+      "-m and -k",
+      "Fast vs slow suites"
+    ],
+    "code": "# pyproject.toml\n[tool.pytest.ini_options]\naddopts = \"--strict-markers\"\nmarkers = [\n    \"slow: long running tests\",\n    \"integration: needs database or network\",\n]\n\nimport sys\nimport pytest\n\n@pytest.mark.slow\ndef test_full_report(): ...\n\n@pytest.mark.integration\ndef test_s3_upload(): ...\n\n@pytest.mark.skipif(sys.platform == \"win32\", reason=\"Linux only\")\ndef test_file_permissions(): ...\n\n@pytest.mark.xfail(reason=\"bug #123, fix in progress\")\ndef test_known_bug(): ...\n\n# pytest -m \"not slow\"          skip slow tests\n# pytest -m integration         only integration tests\n# pytest -k \"order and not cancel\"",
+    "memory": "Remember: Label tests, run what you need",
+    "tip": "Use --strict-markers so a typo in a marker name fails the run."
+  },
+  {
+    "id": "testing-4580e5a1",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "What is code coverage? How much is enough?",
+    "answer": "Coverage shows which lines (and branches) of your code ran during tests. Use pytest-cov to measure it and show missing lines. A common target is 80% or more, with near 100% for critical logic like payments and points. High coverage does not prove the tests are good: a test without proper asserts still counts as covered. Use it to find untested code, not as the only goal.",
+    "points": [
+      "pytest-cov",
+      "Line + branch coverage",
+      "80%+ target",
+      "Critical code near 100%",
+      "Coverage ≠ quality"
+    ],
+    "code": "pip install pytest-cov\n\npytest --cov=app --cov-report=term-missing\n# Name                    Stmts   Miss  Cover   Missing\n# app/services/points.py     40      4    90%   55-58\n\npytest --cov=app --cov-branch --cov-report=html     # open htmlcov/index.html\npytest --cov=app --cov-fail-under=80                # fail CI below 80%",
+    "memory": "Remember: Coverage finds gaps, asserts find bugs",
+    "tip": "Add --cov-fail-under in CI so coverage cannot quietly drop."
+  },
+  {
+    "id": "testing-44497732",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "What is the test pyramid? Unit vs integration vs end-to-end tests?",
+    "answer": "The test pyramid says: many unit tests at the bottom (fast, test one function), fewer integration tests in the middle (test parts together, like an API with a real database), and very few end-to-end tests at the top (test the whole system like a user, through the UI or the public API). Lower tests are fast and cheap. Higher tests give more confidence but are slow and break more easily.",
+    "points": [
+      "Many unit",
+      "Some integration",
+      "Few end-to-end",
+      "Fast at bottom, confidence at top"
+    ],
+    "code": "",
+    "memory": "Remember: Wide base of unit tests, small top of E2E",
+    "tip": "For backend APIs, integration tests (API + real DB) often give the best value."
+  },
+  {
+    "id": "testing-4f2c4fb0",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "How do you run automated tests in CI/CD (GitHub Actions)?",
+    "answer": "On every push and pull request, the pipeline installs dependencies, starts services like PostgreSQL and Redis, runs linting, then runs pytest with coverage. If any step fails, the PR cannot be merged. Only after tests pass does the pipeline build the Docker image and deploy. This catches bugs before they reach production.",
+    "points": [
+      "Run on every push / PR",
+      "Services: Postgres, Redis",
+      "Lint + tests + coverage",
+      "Block merge on failure",
+      "Deploy only after green"
+    ],
+    "code": "# .github/workflows/tests.yml\nname: tests\non: [push, pull_request]\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    services:\n      postgres:\n        image: postgres:16\n        env:\n          POSTGRES_PASSWORD: test\n          POSTGRES_DB: test_db\n        ports: [\"5432:5432\"]\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-python@v5\n        with:\n          python-version: \"3.12\"\n      - run: pip install -r requirements.txt -r requirements-dev.txt\n      - run: ruff check .\n      - run: pytest --cov=app --cov-fail-under=80\n        env:\n          DATABASE_URL: postgresql://postgres:test@localhost:5432/test_db",
+    "memory": "Remember: Push → Test → Green → Deploy",
+    "tip": "Mention branch protection rules that require passing checks."
+  },
+  {
+    "id": "testing-edd8e8e3",
+    "subject": "Testing",
+    "level": "Beginner",
+    "question": "What is TDD (Test-Driven Development)?",
+    "answer": "In TDD you write a failing test first (red), then write the simplest code to make it pass (green), then clean up the code while the tests stay green (refactor). It forces clear requirements, gives good test coverage and leads to smaller, testable functions. It is very useful for business rules and bug fixes: first write a test that shows the bug, then fix it.",
+    "points": [
+      "Red → Green → Refactor",
+      "Test first",
+      "Small steps",
+      "Great for bug fixes"
+    ],
+    "code": "",
+    "memory": "Remember: Fail, Pass, Clean",
+    "tip": "Even if you don't do strict TDD, 'write a test that reproduces the bug first' is a strong habit to mention."
+  },
+  {
+    "id": "testing-962ed764",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "What causes flaky tests and how do you fix them?",
+    "answer": "A flaky test sometimes passes and sometimes fails without code changes. Common causes: depending on the current time or date, random data, test order (shared state between tests), real network calls, async timing and sleeps, and leftover data in the database. Fixes: freeze time (freezegun or time-machine), fix random seeds, isolate tests with fixtures and rollbacks, mock network calls, wait on conditions instead of sleep, and run tests in random order (pytest-randomly) to find hidden dependencies.",
+    "points": [
+      "Time / random",
+      "Shared state",
+      "Network calls",
+      "Async timing",
+      "Freeze time, mock, isolate",
+      "pytest-randomly"
+    ],
+    "code": "# pip install freezegun\nfrom freezegun import freeze_time\n\n@freeze_time(\"2026-01-31\")\ndef test_points_expire_at_month_end():\n    assert points_expiry_date() == date(2026, 1, 31)\n\n# Run tests in random order to catch shared state\n# pip install pytest-randomly\n# pytest -p randomly",
+    "memory": "Remember: Flaky = hidden dependency",
+    "tip": "Never just re-run a flaky test until it passes; find the cause."
+  },
+  {
+    "id": "testing-f1d01083",
+    "subject": "Testing",
+    "level": "Intermediate",
+    "question": "What other automated tests do you know (load, contract, security)?",
+    "answer": "Load testing checks how the system behaves under many users, with tools like Locust, k6 or JMeter. Contract testing (Pact) checks that a service still matches what its consumers expect, which matters in microservices. Security tests include dependency scanning (pip-audit, Snyk), static analysis (Bandit), and OWASP ZAP for APIs. Linting and type checks (ruff, mypy) also run automatically in CI.",
+    "points": [
+      "Load: Locust / k6",
+      "Contract: Pact",
+      "Security: Bandit, pip-audit, ZAP",
+      "Lint + types: ruff, mypy"
+    ],
+    "code": "# locustfile.py   -> run: locust -f locustfile.py --host https://staging.example.com\nfrom locust import HttpUser, task, between\n\nclass ShopUser(HttpUser):\n    wait_time = between(1, 3)\n\n    @task(3)\n    def list_products(self):\n        self.client.get(\"/products\")\n\n    @task(1)\n    def place_order(self):\n        self.client.post(\"/orders\", json={\"product_id\": 1, \"qty\": 2})",
+    "memory": "Remember: Load, Contract, Security, Static checks",
+    "tip": "Locust is written in Python, so it is a natural choice for a Python team."
+  }
+]

@@ -1,0 +1,38 @@
+/* Light theme: warm cream */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #faf9f5;
+  --side: #f3f1ea;
+  --side-hover: #e9e6dc;
+  --side-active: #e3dfd3;
+  --card: #ffffff;
+  --soft: #f3f1ea;
+  --text: #141413;
+  --body: #2d2c28;
+  --muted: #6f6d66;
+  --line: #e3dfd3;
+
+  --accent: #c2410c;
+  --accent-soft: #f6e4dc;
+  --accent-text: #ffffff;
+
+  --green: #2f7a45;
+  --green-soft: #e5efe3;
+  --amber: #8a5a14;
+  --amber-soft: #f7ecd7;
+  --purple: #5b4bc4;
+  --purple-soft: #ece9fb;
+  --blue: #1d4ed8;
+  --blue-soft: #e6edfb;
+  --star: #c98a00;
+
+  --code-bg: #1f1e1d;          /* code blocks stay dark in both themes */
+  --code-text: #e8e6dc;
+  --code-head: #a9b1bb;
+  --chip-code-bg: #f0eee6;
+  --chip-code-text: #b4462f;
+
+  --overlay: rgba(20, 20, 19, .45);
+  --shadow: 0 20px 60px rgba(0, 0, 0, .18);
+}

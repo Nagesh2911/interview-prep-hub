@@ -1,0 +1,291 @@
+[
+  {
+    "id": "redis-916599b6",
+    "subject": "Redis",
+    "level": "Beginner",
+    "question": "What is Redis?",
+    "answer": "Redis is an in-memory data store commonly used for caching, temporary data, counters, queues and sessions. It is fast because it primarily works in memory.",
+    "points": [
+      "In-memory",
+      "Cache",
+      "Queue",
+      "Fast"
+    ],
+    "code": "",
+    "memory": "Remember: Redis = very fast temporary data",
+    "tip": "Do not assume Redis is always a database replacement."
+  },
+  {
+    "id": "redis-2bc44dc4",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "What data types does Redis have?",
+    "answer": "String (simple values, counters), Hash (an object with fields), List (queue), Set (unique items), Sorted Set (items with a score, for leaderboards), plus Streams and others.",
+    "points": [
+      "String",
+      "Hash",
+      "List",
+      "Set",
+      "Sorted Set"
+    ],
+    "code": "import redis\nr = redis.Redis(decode_responses=True)\n\nr.set(\"price:onion\", 2500, ex=60)          # string with 60s expiry\nr.incr(\"visits\")                           # counter\nr.hset(\"customer:42\", mapping={\"name\": \"Ravi\", \"tier\": \"Gold\"})\nr.lpush(\"jobs\", \"job1\")                    # list as queue\nr.zadd(\"leaderboard\", {\"ravi\": 2500, \"amit\": 1800})\nr.zrevrange(\"leaderboard\", 0, 9, withscores=True)   # top 10",
+    "memory": "Remember: Value, Object, Queue, Unique, Ranking",
+    "tip": "Sorted Sets are perfect for a points leaderboard."
+  },
+  {
+    "id": "redis-dc8927f5",
+    "subject": "Redis",
+    "level": "Beginner",
+    "question": "What is TTL and eviction in Redis?",
+    "answer": "TTL (time to live) makes a key expire automatically after some seconds. Eviction happens when Redis memory is full: Redis removes keys based on a policy, for example allkeys-lru removes the least recently used keys.",
+    "points": [
+      "TTL = auto expire",
+      "maxmemory",
+      "allkeys-lru",
+      "Eviction policy"
+    ],
+    "code": "",
+    "memory": "Remember: TTL cleans old keys, eviction makes space",
+    "tip": "Always set a TTL on cache keys."
+  },
+  {
+    "id": "redis-a76c5c16",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "How does Redis save data (persistence)?",
+    "answer": "Redis keeps data in memory, but it can save it to disk. RDB takes snapshots at intervals (fast restart, but you can lose the last few minutes). AOF logs every write (safer, bigger files). Many setups use both.",
+    "points": [
+      "RDB = snapshots",
+      "AOF = write log",
+      "Both for safety"
+    ],
+    "code": "",
+    "memory": "Remember: RDB photo, AOF diary",
+    "tip": "For pure cache, persistence can be off."
+  },
+  {
+    "id": "redis-3325cad2",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "How did you use Redis caching? Show code.",
+    "answer": "I used the cache-aside pattern. 1) First check Redis. 2) If the data is not there, read from the database. 3) Save it in Redis with an expiry time (TTL). 4) When the data changes, delete the old key, so users never see old data for long.",
+    "points": [
+      "Check cache",
+      "Miss → DB",
+      "Save with TTL",
+      "Delete on update"
+    ],
+    "code": "import json\nimport redis\n\nr = redis.Redis(host=\"localhost\", port=6379, decode_responses=True)\n\ndef get_campaign(campaign_id: int, db):\n    key = f\"campaign:{campaign_id}\"\n\n    cached = r.get(key)                    # 1. check cache\n    if cached:\n        return json.loads(cached)\n\n    row = db.get(Campaign, campaign_id)    # 2. not in cache -> DB\n    data = {\"id\": row.id, \"name\": row.name}\n\n    r.setex(key, 300, json.dumps(data))    # 3. save for 5 minutes\n    return data\n\ndef update_campaign(campaign_id: int, name: str, db):\n    # ... update the row in the database ...\n    r.delete(f\"campaign:{campaign_id}\")    # 4. remove old cache",
+    "memory": "Remember: Check → Miss → DB → Save → Delete on change",
+    "tip": "Always say how the cache is cleared. Interviewers always ask this."
+  },
+  {
+    "id": "redis-5bb91557",
+    "subject": "Redis",
+    "level": "Advanced",
+    "question": "How do you make a distributed lock with Redis?",
+    "answer": "Use SET key value NX EX seconds. NX means 'only if it does not exist', so only one server gets the lock. EX makes the lock expire automatically if the server crashes. Only the owner should delete the lock.",
+    "points": [
+      "SET NX EX",
+      "One winner",
+      "Auto expire",
+      "Owner deletes"
+    ],
+    "code": "import uuid\ntoken = str(uuid.uuid4())\n\nif r.set(\"lock:expire-points\", token, nx=True, ex=300):\n    try:\n        expire_points()\n    finally:\n        if r.get(\"lock:expire-points\") == token:\n            r.delete(\"lock:expire-points\")\nelse:\n    print(\"Another server is already running this job\")",
+    "memory": "Remember: First to SET wins",
+    "tip": "Useful so a cron job does not run on two servers at the same time."
+  },
+  {
+    "id": "redis-f07c7418",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "Why is Redis so fast? Is Redis single-threaded?",
+    "answer": "Redis keeps all data in memory (RAM), so reads and writes take microseconds instead of disk time. It uses simple, efficient data structures and a single main thread with an event loop to run commands, so there is no locking between threads and every command is atomic. It uses I/O multiplexing to serve thousands of connections at once. Since Redis 6, extra I/O threads can handle network reading and writing, but commands still run one at a time. The downside: one slow command (KEYS *, deleting a huge key, a long Lua script) blocks every other client.",
+    "points": [
+      "In-memory",
+      "Efficient data structures",
+      "Single thread runs commands",
+      "No locks, commands are atomic",
+      "I/O multiplexing",
+      "Slow commands block everyone"
+    ],
+    "code": "",
+    "memory": "Remember: RAM + one thread + no locks = fast and atomic",
+    "tip": "Follow-up: 'Then how do you use more CPU cores?' Answer: run several Redis instances or use Redis Cluster."
+  },
+  {
+    "id": "redis-1408dc7a",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "Redis vs Memcached?",
+    "answer": "Both are fast in-memory key-value stores used for caching. Memcached is simpler: only strings, multi-threaded, no persistence and no replication; it is a pure cache. Redis has many data types (string, hash, list, set, sorted set, stream), persistence (RDB and AOF), replication, Sentinel and Cluster for high availability, Pub/Sub, Lua scripts and transactions. So Redis can also be a message broker, session store, rate limiter or leaderboard. Most new projects choose Redis.",
+    "points": [
+      "Both in-memory caches",
+      "Memcached: strings only, multi-threaded, pure cache",
+      "Redis: many data types",
+      "Redis: persistence + replication",
+      "Redis: Pub/Sub, Lua, streams"
+    ],
+    "code": "",
+    "memory": "Remember: Memcached = simple cache, Redis = cache + much more",
+    "tip": "Say you chose Redis because you also needed it as the Celery broker and for locks."
+  },
+  {
+    "id": "redis-0a7c073d",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "How do you use Redis from Python (redis-py, async with FastAPI)?",
+    "answer": "Use the redis package (redis-py). Create one client with a connection pool when the app starts and reuse it; don't connect on every request. decode_responses=True returns str instead of bytes. Set timeouts so a slow Redis does not hang your API. For async FastAPI, use redis.asyncio and await the calls. Store objects as JSON strings or in hashes.",
+    "points": [
+      "redis-py",
+      "One client + connection pool",
+      "decode_responses=True",
+      "Timeouts",
+      "redis.asyncio for FastAPI",
+      "JSON or hashes"
+    ],
+    "code": "# pip install redis\nimport json\nimport redis\n\npool = redis.ConnectionPool(host=\"localhost\", port=6379, db=0,\n                            decode_responses=True, max_connections=50,\n                            socket_timeout=2)\nr = redis.Redis(connection_pool=pool)\n\nr.set(\"greeting\", \"hello\", ex=60)                      # expires in 60 s\nprint(r.get(\"greeting\"))                               # hello\n\nr.hset(\"user:42\", mapping={\"name\": \"Ravi\", \"points\": 1200})\nprint(r.hgetall(\"user:42\"))                            # {'name': 'Ravi', 'points': '1200'}\n\nr.set(\"order:A123\", json.dumps({\"total\": 499, \"status\": \"paid\"}))\norder = json.loads(r.get(\"order:A123\"))\n\n# Async client in FastAPI\nfrom contextlib import asynccontextmanager\nfrom fastapi import FastAPI\nimport redis.asyncio as aioredis\n\n@asynccontextmanager\nasync def lifespan(app: FastAPI):\n    app.state.redis = aioredis.from_url(\"redis://localhost:6379/0\", decode_responses=True)\n    yield\n    await app.state.redis.aclose()\n\napp = FastAPI(lifespan=lifespan)\n\n@app.get(\"/cache/{key}\")\nasync def read_cache(key: str):\n    return {\"value\": await app.state.redis.get(key)}",
+    "memory": "Remember: Create once, reuse everywhere",
+    "tip": "Close the async client on app shutdown (lifespan event)."
+  },
+  {
+    "id": "redis-34cb45f4",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "Pipeline vs transaction (MULTI/EXEC) vs Lua script in Redis?",
+    "answer": "A pipeline sends many commands in one network round trip, which is much faster than sending them one by one, but other clients' commands can run in between. A transaction (MULTI / EXEC) queues commands and runs them all together, with nothing in between. With WATCH you get optimistic locking: if a watched key changes before EXEC, the transaction is cancelled and you retry. There is no rollback if one command fails. A Lua script runs on the server as one atomic step and can use if/else logic, for example 'deduct points only if the balance is enough'.",
+    "points": [
+      "Pipeline = fewer round trips",
+      "MULTI / EXEC = run together",
+      "WATCH = optimistic lock + retry",
+      "No rollback in Redis",
+      "Lua = atomic logic on the server"
+    ],
+    "code": "import redis\nr = redis.Redis(decode_responses=True)\n\n# Pipeline: one round trip (redis-py pipelines use MULTI/EXEC by default)\npipe = r.pipeline()\npipe.incr(\"orders:count\")\npipe.lpush(\"orders:recent\", \"A123\")\npipe.ltrim(\"orders:recent\", 0, 99)       # keep the latest 100\npipe.execute()\n\nr.pipeline(transaction=False)            # batching only, no MULTI/EXEC\n\n# WATCH: optimistic locking\nwith r.pipeline() as pipe:\n    while True:\n        try:\n            pipe.watch(\"wallet:42\")\n            balance = int(pipe.get(\"wallet:42\") or 0)\n            if balance < 100:\n                pipe.unwatch()\n                raise ValueError(\"Not enough points\")\n            pipe.multi()\n            pipe.decrby(\"wallet:42\", 100)\n            pipe.execute()               # fails if wallet:42 changed after WATCH\n            break\n        except redis.WatchError:\n            continue                     # someone changed it, try again\n\n# Lua script: check and deduct in ONE atomic step\ndeduct = r.register_script(\"\"\"\nlocal balance = tonumber(redis.call('GET', KEYS[1]) or '0')\nif balance >= tonumber(ARGV[1]) then\n    return redis.call('DECRBY', KEYS[1], ARGV[1])\nend\nreturn -1\n\"\"\")\nprint(deduct(keys=[\"wallet:42\"], args=[100]))   # new balance, or -1 if not enough",
+    "memory": "Remember: Pipeline for speed, MULTI for grouping, Lua for logic",
+    "tip": "For check-then-update logic (balances, stock), Lua is the cleanest and safest choice."
+  },
+  {
+    "id": "redis-ff030faf",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "How do you build a rate limiter with Redis?",
+    "answer": "Fixed window: make a key per user per time window (for example per minute), INCR it on each request and set an expiry. If the count goes over the limit, return HTTP 429 Too Many Requests. It is simple and fast, but a user can send double the limit around the boundary between two windows. Sliding window: store each request time in a sorted set, remove entries older than the window, and count the rest; this is more accurate. Token bucket allows short bursts. Because Redis is shared, the limit works across all API servers.",
+    "points": [
+      "Key per user per window",
+      "INCR + EXPIRE",
+      "Over limit → 429",
+      "Sliding window with sorted set",
+      "Token bucket for bursts",
+      "Shared across servers"
+    ],
+    "code": "import time\nimport redis\nfrom fastapi import Depends, FastAPI, HTTPException, Request\n\nr = redis.Redis(decode_responses=True)\napp = FastAPI()\n\ndef allow_request(user_id: str, limit: int = 100, window: int = 60) -> bool:\n    key = f\"rate:{user_id}:{int(time.time() // window)}\"   # one key per minute\n    pipe = r.pipeline()\n    pipe.incr(key)\n    pipe.expire(key, window)\n    count, _ = pipe.execute()\n    return count <= limit\n\ndef rate_limit(request: Request):\n    user_id = request.headers.get(\"X-User-Id\", request.client.host)\n    if not allow_request(user_id):\n        raise HTTPException(429, \"Too many requests\", headers={\"Retry-After\": \"60\"})\n\n@app.get(\"/products\", dependencies=[Depends(rate_limit)])\ndef list_products():\n    return [\"pen\", \"book\"]\n\n# Sliding window version with a sorted set\ndef allow_sliding(user_id: str, limit: int = 100, window: int = 60) -> bool:\n    now = time.time()\n    key = f\"rate:sliding:{user_id}\"\n    pipe = r.pipeline()\n    pipe.zremrangebyscore(key, 0, now - window)   # drop old requests\n    pipe.zadd(key, {str(now): now})\n    pipe.zcard(key)\n    pipe.expire(key, window)\n    _, _, count, _ = pipe.execute()\n    return count <= limit",
+    "memory": "Remember: Count requests per user per window in Redis",
+    "tip": "Mention the Retry-After header in the 429 response."
+  },
+  {
+    "id": "redis-3b4109a8",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "What is Redis Pub/Sub? Pub/Sub vs Streams vs a list queue?",
+    "answer": "Pub/Sub: a publisher sends a message to a channel and every subscriber listening at that moment receives it. Messages are not stored, so subscribers that are offline miss them. Good for live notifications, chat and cache-invalidation signals. A list (LPUSH plus BRPOP) is a simple queue where each message is taken by one worker, but it has no acknowledgements. Streams (XADD, XREADGROUP, XACK) store messages, support consumer groups (each message goes to one consumer in the group), acknowledgements, and re-reading pending messages after a crash. Use Streams when messages must not be lost.",
+    "points": [
+      "Pub/Sub = broadcast, not stored",
+      "Offline subscribers miss messages",
+      "List = simple queue",
+      "Streams = stored + consumer groups + ACK",
+      "Streams for reliable events"
+    ],
+    "code": "import json\nimport redis\nr = redis.Redis(decode_responses=True)\n\n# Pub/Sub: publisher\nr.publish(\"orders\", json.dumps({\"order_id\": \"A123\"}))\n\n# Pub/Sub: subscriber (separate process)\np = r.pubsub()\np.subscribe(\"orders\")\nfor message in p.listen():\n    if message[\"type\"] == \"message\":\n        print(\"got\", json.loads(message[\"data\"]))\n\n# Streams: stored, with consumer groups and acknowledgements\nr.xadd(\"orders_stream\", {\"order_id\": \"A123\", \"total\": \"499\"})\nr.xgroup_create(\"orders_stream\", \"email-service\", id=\"0\", mkstream=True)   # run once\n\nentries = r.xreadgroup(\"email-service\", \"worker-1\", {\"orders_stream\": \">\"}, count=10, block=5000)\nfor stream, messages in entries:\n    for msg_id, data in messages:\n        send_email(data)\n        r.xack(\"orders_stream\", \"email-service\", msg_id)   # mark as done",
+    "memory": "Remember: Pub/Sub shouts, List queues, Streams remember",
+    "tip": "For serious job processing in Python, Celery (or a real broker like RabbitMQ or SQS) is usually better than building your own queue."
+  },
+  {
+    "id": "redis-8a89686d",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "How do you store sessions or a JWT blocklist in Redis?",
+    "answer": "Sessions: create a random session ID, store the user data in Redis with an expiry (for example 1 hour), and send only the ID to the browser in a secure HttpOnly cookie. Every server can read it, so the app stays stateless and scales horizontally. Logout simply deletes the key. JWTs cannot be cancelled before they expire, so for logout or a stolen token, save the token's ID (jti) in a Redis blocklist until the token's expiry time, and check it on every request.",
+    "points": [
+      "Random session ID",
+      "Data in Redis with TTL",
+      "Cookie holds only the ID",
+      "Shared by all servers",
+      "Logout = delete key",
+      "JWT blocklist by jti until expiry"
+    ],
+    "code": "import json\nimport secrets\nimport time\nimport redis\n\nr = redis.Redis(decode_responses=True)\nSESSION_TTL = 3600\n\ndef create_session(user_id: int) -> str:\n    session_id = secrets.token_urlsafe(32)\n    r.setex(f\"session:{session_id}\", SESSION_TTL, json.dumps({\"user_id\": user_id}))\n    return session_id                          # send in a Secure, HttpOnly cookie\n\ndef get_session(session_id: str):\n    data = r.get(f\"session:{session_id}\")\n    if data:\n        r.expire(f\"session:{session_id}\", SESSION_TTL)   # sliding expiry\n    return json.loads(data) if data else None\n\ndef logout(session_id: str):\n    r.delete(f\"session:{session_id}\")\n\n# JWT blocklist\ndef revoke_token(jti: str, exp_timestamp: int):\n    ttl = max(1, exp_timestamp - int(time.time()))      # keep only until expiry\n    r.setex(f\"revoked:{jti}\", ttl, \"1\")\n\ndef is_revoked(jti: str) -> bool:\n    return r.exists(f\"revoked:{jti}\") == 1",
+    "memory": "Remember: Redis = shared memory for logins",
+    "tip": "Use secrets.token_urlsafe for session IDs, never something guessable like the user ID."
+  },
+  {
+    "id": "redis-26266392",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "How do you build a leaderboard with Redis sorted sets?",
+    "answer": "A sorted set (ZSET) stores unique members, each with a score, always kept in order. ZINCRBY adds points to a member, ZREVRANGE returns the top N with scores, ZREVRANK gives a member's rank, and ZSCORE gives their score. All of these are fast (O(log n)) even with millions of users, so leaderboards, 'top products' and trending lists are a perfect fit. Use one key per period (for example per month) and set an expiry on old ones.",
+    "points": [
+      "Sorted set = member + score",
+      "ZINCRBY to add points",
+      "ZREVRANGE for top N",
+      "ZREVRANK for my rank",
+      "O(log n), millions of users",
+      "Key per month"
+    ],
+    "code": "import redis\nr = redis.Redis(decode_responses=True)\nboard = \"leaderboard:2026-10\"\n\nr.zincrby(board, 120, \"user:42\")      # add points\nr.zincrby(board, 300, \"user:7\")\nr.zincrby(board, 80, \"user:42\")\n\nprint(r.zrevrange(board, 0, 9, withscores=True))   # top 10\n# [('user:7', 300.0), ('user:42', 200.0)]\n\nprint(r.zrevrank(board, \"user:42\"))   # 1  (0 = first place)\nprint(r.zscore(board, \"user:42\"))     # 200.0\nr.expire(board, 60 * 60 * 24 * 90)    # keep for 90 days",
+    "memory": "Remember: Leaderboard = sorted set",
+    "tip": "Great example for a loyalty or rewards platform: monthly top earners."
+  },
+  {
+    "id": "redis-7e7152f1",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "Redis replication, Sentinel and Cluster: what is the difference?",
+    "answer": "Replication: one primary accepts writes and copies data to one or more replicas, which can serve reads and act as backups. Copying is asynchronous, so a replica may be slightly behind. Sentinel: separate processes that watch the primary and, if it fails, automatically promote a replica to primary and tell clients the new address (high availability). Cluster: splits the data across several primaries using 16,384 hash slots (sharding), each with its own replicas, so you can store more data and handle more writes than one server. Multi-key commands only work when the keys are in the same slot (use hash tags like {user:42}). On AWS, ElastiCache provides these as a managed service.",
+    "points": [
+      "Replication = primary + replicas",
+      "Async copy, slight lag",
+      "Sentinel = automatic failover",
+      "Cluster = sharding over 16,384 slots",
+      "Hash tags for multi-key commands",
+      "ElastiCache managed"
+    ],
+    "code": "",
+    "memory": "Remember: Replicas copy, Sentinel rescues, Cluster splits",
+    "tip": "Choose Sentinel for high availability of a single dataset; choose Cluster when data or writes no longer fit on one server."
+  },
+  {
+    "id": "redis-e451db2d",
+    "subject": "Redis",
+    "level": "Advanced",
+    "question": "Why avoid KEYS * in production? What are big keys?",
+    "answer": "KEYS * scans every key in one go. With millions of keys it blocks Redis's single command thread for seconds, and every other client waits. Use SCAN instead: it walks the keys in small batches without blocking. Big keys (a huge hash, list or a very large string) are also dangerous: reading or deleting them blocks Redis and uses a lot of network and memory. Find them with redis-cli --bigkeys or MEMORY USAGE, split them into smaller keys, and delete big keys with UNLINK (deletes in the background) instead of DEL.",
+    "points": [
+      "KEYS * blocks Redis",
+      "Use SCAN (batches)",
+      "Big keys block reads and deletes",
+      "redis-cli --bigkeys, MEMORY USAGE",
+      "Split big keys",
+      "UNLINK instead of DEL"
+    ],
+    "code": "import redis\nr = redis.Redis(decode_responses=True)\n\n# BAD in production: blocks Redis\n# r.keys(\"session:*\")\n\n# GOOD: walk keys in small batches\nfor key in r.scan_iter(match=\"session:*\", count=1000):\n    r.unlink(key)                       # non-blocking delete\n\nprint(r.memory_usage(\"leaderboard:2026-10\"))   # bytes used by one key\n\n# From the command line:\n# redis-cli --bigkeys\n# redis-cli --scan --pattern 'session:*' | head\n# CONFIG SET maxmemory-policy allkeys-lru",
+    "memory": "Remember: Never KEYS in prod, SCAN instead; UNLINK big keys",
+    "tip": "Also set maxmemory and an eviction policy so Redis never runs out of memory."
+  },
+  {
+    "id": "redis-ce282353",
+    "subject": "Redis",
+    "level": "Intermediate",
+    "question": "Cache stampede, penetration and avalanche: how do you prevent them?",
+    "answer": "Stampede (thundering herd): a popular key expires and hundreds of requests hit the database at the same moment to rebuild it. Fix: let only one request rebuild it using a lock (SET NX with a timeout) while others wait briefly or get the old value; or refresh hot keys before they expire. Penetration: requests for data that does not exist (often attacks with random IDs) always miss the cache and hit the database. Fix: cache 'not found' for a short time, validate IDs, or use a Bloom filter. Avalanche: many keys expire at the same time, or Redis goes down, and the database is flooded. Fix: add random jitter to TTLs, use Redis high availability, and protect the database with rate limits or a circuit breaker.",
+    "points": [
+      "Stampede: lock (SET NX) or early refresh",
+      "Penetration: cache 'not found', Bloom filter",
+      "Avalanche: random TTL jitter",
+      "Redis HA + circuit breaker"
+    ],
+    "code": "import json\nimport random\nimport time\nimport redis\n\nr = redis.Redis(decode_responses=True)\nNOT_FOUND = \"__none__\"\n\ndef get_product(product_id: int):\n    key = f\"product:{product_id}\"\n    cached = r.get(key)\n    if cached == NOT_FOUND:\n        return None                                   # penetration: cached miss\n    if cached:\n        return json.loads(cached)\n\n    lock_key = f\"lock:{key}\"\n    if r.set(lock_key, \"1\", nx=True, ex=10):          # stampede: only one rebuilder\n        try:\n            product = load_product_from_db(product_id)\n            if product is None:\n                r.setex(key, 60, NOT_FOUND)           # cache 'not found' briefly\n            else:\n                ttl = 600 + random.randint(0, 120)    # avalanche: TTL jitter\n                r.setex(key, ttl, json.dumps(product))\n            return product\n        finally:\n            r.delete(lock_key)\n    time.sleep(0.05)                                  # others wait a moment, then retry\n    return get_product(product_id)",
+    "memory": "Remember: One rebuilder, cache the misses, spread the expiries",
+    "tip": "These three terms come up often in caching interviews; explain each with its fix."
+  }
+]

@@ -1,0 +1,574 @@
+[
+  {
+    "id": "django-47b336fb",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What is Django? Why use it?",
+    "answer": "Django is a Python web framework that comes 'batteries included'. The ORM, admin panel, authentication, forms, templates, migrations and security protection are all built in. You can build secure web apps and APIs quickly without adding many extra libraries.",
+    "points": [
+      "Python web framework",
+      "Batteries included",
+      "ORM + Admin + Auth",
+      "Secure by default",
+      "Migrations"
+    ],
+    "code": "# Start a new Django project\npython -m venv venv\nvenv\\Scripts\\activate        # Windows (macOS/Linux: source venv/bin/activate)\npip install django\n\ndjango-admin startproject mysite .\npython manage.py startapp blog\npython manage.py migrate\npython manage.py createsuperuser\npython manage.py runserver     # http://127.0.0.1:8000",
+    "memory": "Remember: Django = full kit for web apps",
+    "tip": "If asked, compare: Django is a full framework, FastAPI is a light and fast API framework."
+  },
+  {
+    "id": "django-5b79c46b",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "Explain Django architecture (MTV).",
+    "answer": "Django uses MTV: Model, Template, View. Model holds the data and maps to database tables. Template is the HTML the user sees. View holds the logic: it takes a request, talks to models and returns a response. Django itself plays the 'controller' role through its URL dispatcher. MTV is Django's name for MVC.",
+    "points": [
+      "Model = data / DB",
+      "Template = HTML",
+      "View = logic",
+      "URL dispatcher = controller"
+    ],
+    "code": "# Model: blog/models.py\nclass Post(models.Model):\n    title = models.CharField(max_length=200)\n\n# View: blog/views.py\ndef post_list(request):\n    posts = Post.objects.all()\n    return render(request, \"blog/post_list.html\", {\"posts\": posts})\n\n# Template: blog/templates/blog/post_list.html\n# {% for post in posts %} {{ post.title }} {% endfor %}\n\n# URL: blog/urls.py\nurlpatterns = [path(\"\", views.post_list, name=\"post_list\")]",
+    "memory": "Remember: Model stores, View decides, Template shows",
+    "tip": "Say 'MTV is Django's version of MVC'. Interviewers like that link."
+  },
+  {
+    "id": "django-eebc86fe",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What is the Django request-response lifecycle?",
+    "answer": "1) The browser sends a request. 2) The web server (Nginx) passes it to a WSGI or ASGI server (Gunicorn or Uvicorn). 3) The request goes through middleware. 4) The URL resolver finds the matching view. 5) The view uses models (ORM) to read or write the database. 6) The view renders a template or returns JSON. 7) The response goes back through middleware to the browser.",
+    "points": [
+      "Nginx → Gunicorn/Uvicorn",
+      "Middleware",
+      "URL resolver",
+      "View + ORM",
+      "Template / JSON",
+      "Response via middleware"
+    ],
+    "code": "",
+    "memory": "Remember: Server → Middleware → URL → View → Model → Template → Back",
+    "tip": "Drawing this flow on a whiteboard makes a strong impression."
+  },
+  {
+    "id": "django-986a09b4",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "Project vs app in Django?",
+    "answer": "A project is the whole website: settings, root URLs, and the WSGI/ASGI config. An app is a module that does one job, like blog, accounts or payments, with its own models, views and templates. One project has many apps, and an app can be reused in other projects.",
+    "points": [
+      "Project = whole site",
+      "App = one feature",
+      "One project, many apps",
+      "Apps are reusable"
+    ],
+    "code": "# mysite/settings.py\nINSTALLED_APPS = [\n    \"django.contrib.admin\",\n    \"django.contrib.auth\",\n    \"django.contrib.contenttypes\",\n    \"django.contrib.sessions\",\n    \"django.contrib.messages\",\n    \"django.contrib.staticfiles\",\n    \"blog\",        # our app\n    \"accounts\",    # another app\n]",
+    "memory": "Remember: Project is the house, apps are the rooms",
+    "tip": "Remember to add every new app to INSTALLED_APPS."
+  },
+  {
+    "id": "django-567d67bb",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "Explain the Django project and template directory structure.",
+    "answer": "manage.py is at the root. The project folder holds settings.py, urls.py, asgi.py and wsgi.py. Each app has models.py, views.py, urls.py, admin.py, migrations/ and templates/. Shared templates (base.html, navbar) go in a project-level templates/ folder. App templates go in app/templates/app_name/. The extra app_name folder stops two apps with the same file name, like list.html, from clashing.",
+    "points": [
+      "Project templates/ = shared",
+      "app/templates/app/ = namespaced",
+      "DIRS + APP_DIRS",
+      "base.html for layout"
+    ],
+    "code": "mysite/\n├── manage.py\n├── mysite/\n│   ├── settings.py\n│   ├── urls.py\n│   ├── asgi.py\n│   └── wsgi.py\n├── templates/                 # project-wide\n│   ├── base.html\n│   ├── includes/navbar.html\n│   └── registration/login.html\n├── static/\n└── blog/\n    ├── migrations/\n    ├── templates/blog/        # app templates (namespaced)\n    │   ├── post_list.html\n    │   └── post_detail.html\n    ├── admin.py\n    ├── models.py\n    ├── urls.py\n    └── views.py\n\n# settings.py\nTEMPLATES = [{\n    \"BACKEND\": \"django.template.backends.django.DjangoTemplates\",\n    \"DIRS\": [BASE_DIR / \"templates\"],   # project-level folder\n    \"APP_DIRS\": True,                   # also search app/templates/\n    \"OPTIONS\": {\"context_processors\": [\n        \"django.template.context_processors.request\",\n        \"django.contrib.auth.context_processors.auth\",\n        \"django.contrib.messages.context_processors.messages\",\n    ]},\n}]",
+    "memory": "Remember: Shared at the top, app files inside app/templates/app",
+    "tip": "The 'why namespace' question is a common follow-up."
+  },
+  {
+    "id": "django-846bc923",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What is the Django ORM?",
+    "answer": "The ORM (Object Relational Mapper) lets you work with the database using Python classes instead of writing SQL. Each model class is a table, and each object is a row. Django turns your Python calls into SQL for MySQL, PostgreSQL, SQLite and others. Pros: faster development, safe from SQL injection, works with many databases. Cons: complex reports can be slower, and you still need to know SQL to tune queries.",
+    "points": [
+      "Class = table",
+      "Object = row",
+      "Python → SQL",
+      "Safe from SQL injection",
+      "Know SQL anyway"
+    ],
+    "code": "from django.db.models import Count\nfrom blog.models import Post, Category\n\nPost.objects.create(title=\"Hello\", slug=\"hello\", author=user, body=\"...\")\nPost.objects.all()                               # SELECT * FROM blog_post\nPost.objects.filter(status=\"published\")          # WHERE status = 'published'\nPost.objects.filter(title__icontains=\"django\")   # WHERE title ILIKE '%django%'\nPost.objects.exclude(category__isnull=True)\nPost.objects.order_by(\"-created_at\")[:5]         # ORDER BY ... LIMIT 5\nCategory.objects.annotate(total=Count(\"posts\"))  # GROUP BY\nPost.objects.filter(pk=1).update(status=\"draft\")\nPost.objects.filter(pk=1).delete()\n\nprint(Post.objects.filter(status=\"published\").query)   # see the SQL",
+    "memory": "Remember: ORM = talk to the DB in Python",
+    "tip": "Show one ORM query and the SQL it creates."
+  },
+  {
+    "id": "django-35bcd1fa",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What are migrations in Django?",
+    "answer": "Migrations are Python files that record changes to your models, like a new table or column. makemigrations creates the migration files from your model changes. migrate applies them to the database. Django tracks which ones have run in the django_migrations table. Keep migration files in Git.",
+    "points": [
+      "makemigrations = create file",
+      "migrate = apply",
+      "django_migrations table",
+      "Commit to Git"
+    ],
+    "code": "python manage.py makemigrations          # create migration files\npython manage.py migrate                 # apply to the database\npython manage.py showmigrations          # applied [X] / pending [ ]\npython manage.py sqlmigrate blog 0001    # show the SQL\npython manage.py migrate blog 0003       # roll back to migration 0003",
+    "memory": "Remember: Make the plan, then apply the plan",
+    "tip": "For big tables, check the SQL first with sqlmigrate."
+  },
+  {
+    "id": "django-e239d577",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "null=True vs blank=True?",
+    "answer": "null=True is about the database: the column can store NULL. blank=True is about validation: forms and the admin allow the field to be empty. For text fields, use only blank=True so that empty means an empty string. For numbers, dates and ForeignKeys that are optional, use both.",
+    "points": [
+      "null = database",
+      "blank = form validation",
+      "Text: blank only",
+      "Optional FK / date: both"
+    ],
+    "code": "class Profile(models.Model):\n    bio = models.TextField(blank=True)                          # empty string, not NULL\n    birth_date = models.DateField(null=True, blank=True)        # optional date\n    manager = models.ForeignKey(\"self\", null=True, blank=True,\n                                on_delete=models.SET_NULL)      # optional FK",
+    "memory": "Remember: null for DB, blank for forms",
+    "tip": "This is one of the most common Django interview questions."
+  },
+  {
+    "id": "django-f1148e44",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "ForeignKey vs OneToOneField vs ManyToManyField?",
+    "answer": "ForeignKey is many-to-one: many posts belong to one author. OneToOneField is one-to-one: one user has one profile. ManyToManyField is many-to-many: a post has many tags and a tag has many posts, and Django creates a join table for it. on_delete decides what happens when the parent is deleted: CASCADE, PROTECT, SET_NULL, SET_DEFAULT or DO_NOTHING.",
+    "points": [
+      "FK = many-to-one",
+      "OneToOne = one-to-one",
+      "M2M = join table",
+      "on_delete options",
+      "related_name"
+    ],
+    "code": "from django.conf import settings\n\nclass Profile(models.Model):\n    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)\n\nclass Post(models.Model):\n    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,\n                               related_name=\"posts\")\n    tags = models.ManyToManyField(\"Tag\", blank=True, related_name=\"posts\")\n\n# Reverse access\nuser.profile          # one-to-one\nuser.posts.all()      # all posts of this user\npost.tags.add(tag)    # add a many-to-many link",
+    "memory": "Remember: FK many→one, O2O one↔one, M2M many↔many",
+    "tip": "Mention related_name for reverse access, like author.posts.all()."
+  },
+  {
+    "id": "django-be2198ce",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What is a QuerySet? Why is it lazy?",
+    "answer": "A QuerySet is a list of objects from the database, built with filter(), exclude(), order_by() and so on. It is lazy: building it does not run any SQL. The query runs only when you need the data, for example when you loop over it, call list(), len() or bool(), or slice it with a step. You can chain many filters, and Django still sends one query.",
+    "points": [
+      "Chain filters",
+      "No SQL until needed",
+      "Loop / list() / len() run it",
+      "Results are cached"
+    ],
+    "code": "qs = Post.objects.filter(status=\"published\")   # no SQL yet\nqs = qs.filter(title__icontains=\"django\")      # still no SQL\nqs = qs.order_by(\"-created_at\")                # still no SQL\n\nfor post in qs:            # SQL runs here, once\n    print(post.title)\n\nPost.objects.filter(status=\"draft\").exists()   # fast yes / no\nPost.objects.filter(status=\"draft\").count()    # SELECT COUNT(*)",
+    "memory": "Remember: QuerySet = a plan, not data (yet)",
+    "tip": "Follow-up: use exists() and count() instead of loading every row."
+  },
+  {
+    "id": "django-e9c12ef6",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "get() vs filter()?",
+    "answer": "get() returns exactly one object. If nothing matches, it raises DoesNotExist. If more than one matches, it raises MultipleObjectsReturned. filter() always returns a QuerySet, which can be empty. In views, use get_object_or_404 to return a 404 page instead of an error.",
+    "points": [
+      "get = one object or error",
+      "filter = QuerySet (maybe empty)",
+      "get_object_or_404"
+    ],
+    "code": "from django.shortcuts import get_object_or_404\n\npost = Post.objects.get(pk=1)                    # error if 0 or 2+ rows\nposts = Post.objects.filter(status=\"draft\")      # QuerySet, can be empty\nlatest = Post.objects.filter(status=\"draft\").first()   # object or None\n\ndef post_detail(request, slug):\n    post = get_object_or_404(Post, slug=slug)    # 404 page if not found\n    return render(request, \"blog/post_detail.html\", {\"post\": post})",
+    "memory": "Remember: get = exactly one",
+    "tip": "Use first() when you want one row or None without an error."
+  },
+  {
+    "id": "django-ff67c5ad",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "select_related vs prefetch_related?",
+    "answer": "Both fix the N+1 query problem, where you run one query for the list and then one more query for every row. select_related uses a SQL JOIN and gets everything in one query. Use it for ForeignKey and OneToOne. prefetch_related runs one extra query per relation and joins the results in Python. Use it for ManyToMany and reverse ForeignKey.",
+    "points": [
+      "N+1 problem",
+      "select_related = JOIN, FK / O2O",
+      "prefetch_related = 2nd query, M2M / reverse FK",
+      "Prefetch() for filters"
+    ],
+    "code": "# BAD: 1 query for posts + 1 query per post = N+1\nfor post in Post.objects.all():\n    print(post.author.username)\n\n# GOOD: 1 query with JOIN (ForeignKey)\nfor post in Post.objects.select_related(\"author\", \"category\"):\n    print(post.author.username)\n\n# GOOD: 2 queries total (ManyToMany)\nfor post in Post.objects.prefetch_related(\"tags\"):\n    print([tag.name for tag in post.tags.all()])\n\n# Prefetch only published posts for each category\nfrom django.db.models import Prefetch\nCategory.objects.prefetch_related(\n    Prefetch(\"posts\", queryset=Post.objects.filter(status=\"published\"))\n)",
+    "memory": "Remember: select = JOIN (single), prefetch = separate query (many)",
+    "tip": "Mention django-debug-toolbar to see how many queries a page runs."
+  },
+  {
+    "id": "django-0803e6c3",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What are F() and Q() objects?",
+    "answer": "F() refers to a column value inside the database, so you can update or compare fields without loading them into Python. This avoids race conditions, for example when increasing a counter. Q() builds complex conditions with OR (|), AND (&) and NOT (~).",
+    "points": [
+      "F = column value in DB",
+      "Atomic update, no race",
+      "Q = OR / AND / NOT",
+      "Complex filters"
+    ],
+    "code": "from django.db.models import F, Q\n\n# F: increase the counter in SQL (safe with many users at once)\nPost.objects.filter(pk=1).update(views=F(\"views\") + 1)\n\n# F: compare two columns\nProduct.objects.filter(stock__lt=F(\"min_stock\"))\n\n# Q: OR condition\nPost.objects.filter(Q(title__icontains=\"python\") | Q(body__icontains=\"python\"))\n\n# Q: NOT condition\nPost.objects.filter(~Q(status=\"draft\"))",
+    "memory": "Remember: F for Field, Q for Query conditions",
+    "tip": "Example of F: views = F('views') + 1 runs as one safe SQL UPDATE."
+  },
+  {
+    "id": "django-66e7d559",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "What are Django views? FBV vs CBV?",
+    "answer": "A view is a Python function or class that takes a request and returns a response (HTML, JSON or a redirect). Function-based views (FBV) are simple and explicit, and good for custom logic. Class-based views (CBV) use classes and mixins. Generic CBVs like ListView, DetailView and CreateView save code for standard CRUD pages. Note: a 'database view' is different. It is a saved SELECT query that acts like a read-only table.",
+    "points": [
+      "View = request → response",
+      "FBV = simple function",
+      "CBV = class + mixins",
+      "Generic views for CRUD",
+      "DB view is different"
+    ],
+    "code": "# Function-based view\nfrom django.shortcuts import render\ndef post_list(request):\n    posts = Post.objects.filter(status=\"published\")\n    return render(request, \"blog/post_list.html\", {\"posts\": posts})\n\n# Class-based view\nfrom django.views.generic import ListView\nclass PostListView(ListView):\n    template_name = \"blog/post_list.html\"\n    context_object_name = \"posts\"\n    paginate_by = 10\n\n    def get_queryset(self):\n        return Post.objects.filter(status=\"published\")\n\n# Database view (SQL), a different thing:\n# CREATE VIEW published_posts AS SELECT id, title FROM blog_post WHERE status = 'published';",
+    "memory": "Remember: FBV for custom, CBV for standard CRUD",
+    "tip": "If the interviewer just says 'views', ask whether they mean Django views or database views."
+  },
+  {
+    "id": "django-6646ee06",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "How does URL routing work in Django?",
+    "answer": "ROOT_URLCONF points to the main urls.py. Django checks urlpatterns from top to bottom and calls the first matching view. include() connects app URL files. Path converters like int:id and slug:slug capture values from the URL. app_name and name let you build URLs with reverse() or the url tag instead of hard-coding them.",
+    "points": [
+      "urls.py urlpatterns",
+      "First match wins",
+      "include() for apps",
+      "Converters int / slug",
+      "name + reverse()"
+    ],
+    "code": "# mysite/urls.py\nfrom django.contrib import admin\nfrom django.urls import path, include\n\nurlpatterns = [\n    path(\"admin/\", admin.site.urls),\n    path(\"\", include(\"blog.urls\")),\n]\n\n# blog/urls.py\nfrom django.urls import path\nfrom . import views\n\napp_name = \"blog\"\nurlpatterns = [\n    path(\"\", views.post_list, name=\"post_list\"),\n    path(\"post/<slug:slug>/\", views.post_detail, name=\"post_detail\"),\n    path(\"post/<int:pk>/edit/\", views.post_edit, name=\"post_edit\"),\n]\n\n# In Python: reverse(\"blog:post_detail\", args=[\"hello-django\"])",
+    "memory": "Remember: URL → path() → view",
+    "tip": "Never hard-code URLs in templates; use {% url 'blog:post_detail' post.slug %}."
+  },
+  {
+    "id": "django-d488a198",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What are Django templates and template inheritance?",
+    "answer": "Templates are HTML files with Django tags. {{ }} shows a variable, {% %} runs logic like for and if, and filters like date or truncatewords change output. With inheritance, base.html defines the common layout with blocks, and child templates use extends and fill only those blocks. Django escapes variables automatically to stop XSS attacks.",
+    "points": [
+      "{{ variable }}",
+      "{% tag %}",
+      "Filters",
+      "extends + block",
+      "Auto-escaping (XSS safe)"
+    ],
+    "code": "{# templates/base.html #}\n<html>\n<body>\n  {% include \"includes/navbar.html\" %}\n  {% block content %}{% endblock %}\n</body>\n</html>\n\n{# blog/templates/blog/post_list.html #}\n{% extends \"base.html\" %}\n{% block content %}\n  {% for post in posts %}\n    <h2>{{ post.title }}</h2>\n    <p>{{ post.created_at|date:\"d M Y\" }} - {{ post.body|truncatewords:20 }}</p>\n  {% empty %}\n    <p>No posts yet.</p>\n  {% endfor %}\n{% endblock %}",
+    "memory": "Remember: base.html = layout, children fill the blocks",
+    "tip": "Use |safe only for content you fully trust."
+  },
+  {
+    "id": "django-592e39bc",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "Django Form vs ModelForm?",
+    "answer": "A Form is a class that defines fields and validates input, like a contact form. A ModelForm builds its fields from a model automatically and can save to the database with form.save(). Validation runs in is_valid(). Add clean_fieldname() for one field and clean() for rules that use several fields.",
+    "points": [
+      "Form = custom fields",
+      "ModelForm = from model",
+      "is_valid()",
+      "clean_field() / clean()",
+      "csrf_token"
+    ],
+    "code": "from django import forms\n\nclass PostForm(forms.ModelForm):\n    class Meta:\n        model = Post\n        fields = [\"title\", \"slug\", \"body\", \"status\"]\n\n    def clean_title(self):\n        title = self.cleaned_data[\"title\"]\n        if len(title) < 5:\n            raise forms.ValidationError(\"Title is too short.\")\n        return title\n\n@login_required\ndef post_create(request):\n    form = PostForm(request.POST or None)\n    if request.method == \"POST\" and form.is_valid():\n        post = form.save(commit=False)\n        post.author = request.user\n        post.save()\n        return redirect(\"blog:post_list\")\n    return render(request, \"blog/post_form.html\", {\"form\": form})\n\n# Template: <form method=\"post\">{% csrf_token %}{{ form.as_p }}<button>Save</button></form>",
+    "memory": "Remember: ModelForm = form + model + save",
+    "tip": "Use commit=False when you must set extra fields (like the author) before saving."
+  },
+  {
+    "id": "django-b523940f",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What is middleware in Django?",
+    "answer": "Middleware is code that runs on every request before the view and on every response after the view. Django uses it for security headers, sessions, CSRF, authentication and messages. You can write your own for logging, timing, or blocking IPs. Order matters: requests go top to bottom through the MIDDLEWARE list, and responses come back bottom to top.",
+    "points": [
+      "Runs on every request / response",
+      "Security, session, CSRF, auth",
+      "Custom: logging, timing",
+      "Order matters"
+    ],
+    "code": "# blog/middleware.py\nimport time\n\nclass TimingMiddleware:\n    def __init__(self, get_response):        # runs once at startup\n        self.get_response = get_response\n\n    def __call__(self, request):             # runs for every request\n        start = time.perf_counter()\n        response = self.get_response(request)\n        ms = (time.perf_counter() - start) * 1000\n        response[\"X-Response-Time-ms\"] = f\"{ms:.1f}\"\n        return response\n\n# settings.py\nMIDDLEWARE = [\n    \"django.middleware.security.SecurityMiddleware\",\n    \"django.contrib.sessions.middleware.SessionMiddleware\",\n    \"django.middleware.common.CommonMiddleware\",\n    \"django.middleware.csrf.CsrfViewMiddleware\",\n    \"django.contrib.auth.middleware.AuthenticationMiddleware\",\n    \"django.contrib.messages.middleware.MessageMiddleware\",\n    \"blog.middleware.TimingMiddleware\",\n]",
+    "memory": "Remember: Middleware = checkpoints around every view",
+    "tip": "FastAPI has middleware too; the idea is the same."
+  },
+  {
+    "id": "django-c9130029",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What are Django signals?",
+    "answer": "Signals let one part of the app react when something happens in another part, without calling it directly. Common signals: pre_save, post_save, pre_delete, post_delete, m2m_changed and user_logged_in. Example: create a Profile automatically when a new User is saved. Be careful: signals run synchronously, they do not fire for bulk_create, update() or bulk delete, and they hide logic, which makes code harder to follow.",
+    "points": [
+      "pre_save / post_save",
+      "pre_delete / post_delete",
+      "@receiver",
+      "Register in apps.py ready()",
+      "Not fired by bulk / update()"
+    ],
+    "code": "# accounts/signals.py\nfrom django.conf import settings\nfrom django.db.models.signals import post_save\nfrom django.dispatch import receiver\nfrom .models import Profile\n\n@receiver(post_save, sender=settings.AUTH_USER_MODEL)\ndef create_profile(sender, instance, created, **kwargs):\n    if created:\n        Profile.objects.create(user=instance)\n\n# accounts/apps.py\nfrom django.apps import AppConfig\n\nclass AccountsConfig(AppConfig):\n    name = \"accounts\"\n\n    def ready(self):\n        from . import signals   # registers the receivers",
+    "memory": "Remember: Signal = 'when X happens, also do Y'",
+    "tip": "For heavy work (emails), send a Celery task from the signal."
+  },
+  {
+    "id": "django-85310517",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "Authentication vs authorization in Django?",
+    "answer": "Authentication checks who you are, for example logging in with a username and password. Authorization checks what you are allowed to do, for example whether you can delete a post. Django has both built in: login and logout views, password hashing, sessions, plus users, groups and permissions. Use login_required and permission_required for function views, and LoginRequiredMixin and PermissionRequiredMixin for class views.",
+    "points": [
+      "Authentication = who are you",
+      "Authorization = what can you do",
+      "login_required",
+      "permission_required",
+      "Groups + permissions"
+    ],
+    "code": "from django.contrib.auth.decorators import login_required, permission_required\nfrom django.contrib.auth.mixins import LoginRequiredMixin\n\n@login_required                                            # authentication\ndef dashboard(request):\n    return render(request, \"dashboard.html\")\n\n@permission_required(\"blog.delete_post\", raise_exception=True)   # authorization\ndef delete_post(request, pk):\n    Post.objects.filter(pk=pk).delete()\n    return redirect(\"blog:post_list\")\n\nclass MyPostsView(LoginRequiredMixin, ListView):\n    def get_queryset(self):\n        return Post.objects.filter(author=self.request.user)\n\n# Checks in code / templates\nrequest.user.is_authenticated\nrequest.user.has_perm(\"blog.add_post\")",
+    "memory": "Remember: AuthN = identity, AuthZ = access",
+    "tip": "Mention that Django stores only password hashes (PBKDF2 by default, Argon2 optional)."
+  },
+  {
+    "id": "django-cc0b6da1",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "How would you build a secure login system? (your own approach)",
+    "answer": "1) Use Django's built-in auth with a custom user model, and log in with email. 2) Hash passwords with Argon2 or PBKDF2, never plain text. 3) For web pages use session login. For mobile apps and SPAs use JWT: a short-lived access token (about 15 minutes) and a refresh token. 4) Add email verification and a password reset with one-time expiring tokens. 5) Add rate limiting and lock the account after many failed attempts. 6) Offer two-factor login (OTP or authenticator app) for sensitive accounts. 7) Use HTTPS, secure and HttpOnly cookies, and CSRF protection. 8) Log login events and allow 'log out from all devices'. Optional: social login with OAuth2 (Google).",
+    "points": [
+      "Custom user + email login",
+      "Argon2 hashing",
+      "Session (web) / JWT (API)",
+      "Access + refresh tokens",
+      "Rate limit + lockout",
+      "2FA / OTP",
+      "HTTPS + secure cookies",
+      "OAuth2 social login"
+    ],
+    "code": "# pip install djangorestframework djangorestframework-simplejwt\n# settings.py\nREST_FRAMEWORK = {\n    \"DEFAULT_AUTHENTICATION_CLASSES\": [\n        \"rest_framework_simplejwt.authentication.JWTAuthentication\",\n    ],\n    \"DEFAULT_THROTTLE_CLASSES\": [\"rest_framework.throttling.AnonRateThrottle\"],\n    \"DEFAULT_THROTTLE_RATES\": {\"anon\": \"10/minute\"},\n}\nfrom datetime import timedelta\nSIMPLE_JWT = {\n    \"ACCESS_TOKEN_LIFETIME\": timedelta(minutes=15),\n    \"REFRESH_TOKEN_LIFETIME\": timedelta(days=7),\n    \"ROTATE_REFRESH_TOKENS\": True,\n}\n\n# urls.py\nfrom rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView\nurlpatterns = [\n    path(\"api/login/\", TokenObtainPairView.as_view()),      # returns access + refresh\n    path(\"api/token/refresh/\", TokenRefreshView.as_view()),\n]\n\n# Client sends:  Authorization: Bearer <access_token>",
+    "memory": "Remember: Hash, Token, Limit, Verify, 2FA, HTTPS",
+    "tip": "Explain session vs JWT clearly: sessions are stored on the server, JWT is stateless and signed."
+  },
+  {
+    "id": "django-4b70c2fd",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "How does Django protect against CSRF, XSS and SQL injection?",
+    "answer": "CSRF: CsrfViewMiddleware checks a secret token on every POST, PUT, PATCH and DELETE, so another website cannot submit forms as the user. Add {% csrf_token %} in forms. XSS: templates escape variables automatically, so script tags show as text. SQL injection: the ORM uses parameterised queries. If you write raw SQL, pass values as params, never with string formatting. Clickjacking: XFrameOptionsMiddleware blocks the site from being shown in iframes.",
+    "points": [
+      "CSRF token",
+      "Auto-escaping (XSS)",
+      "ORM parameters (SQLi)",
+      "X-Frame-Options",
+      "HTTPS settings"
+    ],
+    "code": "# SAFE: values passed as parameters\nPost.objects.raw(\"SELECT * FROM blog_post WHERE slug = %s\", [slug])\n\nfrom django.db import connection\nwith connection.cursor() as cur:\n    cur.execute(\"SELECT id FROM blog_post WHERE author_id = %s\", [user_id])\n\n# UNSAFE: never build SQL with f-strings\n# cur.execute(f\"SELECT * FROM blog_post WHERE slug = '{slug}'\")\n\n# Production security settings\nSECURE_SSL_REDIRECT = True\nSESSION_COOKIE_SECURE = True\nCSRF_COOKIE_SECURE = True\nSECURE_HSTS_SECONDS = 31536000",
+    "memory": "Remember: Token, Escape, Parameters",
+    "tip": "Run 'python manage.py check --deploy' to find missing security settings."
+  },
+  {
+    "id": "django-588db99d",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What is caching in Django? When should you use it?",
+    "answer": "Caching keeps the result of slow work, like a heavy query or a whole page, so the next request is fast. Django supports per-site, per-view (cache_page), template fragment and low-level (cache.get and cache.set) caching. Redis is the usual backend. Use it for data that is read often and changes rarely, like product lists, settings or reports. Avoid it for data that must always be fresh, like a wallet balance. Always plan how to clear the cache (a timeout, or delete the key on update).",
+    "points": [
+      "Per-view cache_page",
+      "Low-level cache.get / set",
+      "Template fragment",
+      "Redis backend",
+      "Read often, change rarely",
+      "Plan invalidation"
+    ],
+    "code": "# settings.py (Django 4.0+)\nCACHES = {\n    \"default\": {\n        \"BACKEND\": \"django.core.cache.backends.redis.RedisCache\",\n        \"LOCATION\": \"redis://127.0.0.1:6379/1\",\n    }\n}\n\nfrom django.core.cache import cache\nfrom django.views.decorators.cache import cache_page\n\n@cache_page(60 * 15)          # cache the whole view for 15 minutes\ndef product_list(request): ...\n\ndef get_top_products():       # cache-aside pattern\n    data = cache.get(\"top_products\")\n    if data is None:\n        data = list(Product.objects.order_by(\"-sales\")[:10].values(\"id\", \"name\"))\n        cache.set(\"top_products\", data, timeout=600)\n    return data\n\ndef on_product_update():\n    cache.delete(\"top_products\")   # invalidate when data changes",
+    "memory": "Remember: Cache what is slow and stable",
+    "tip": "Name the pattern: cache-aside means read the cache, else read the DB and store the result."
+  },
+  {
+    "id": "django-8c8d4339",
+    "subject": "Django",
+    "level": "Beginner",
+    "question": "What is Django REST Framework (DRF)? What is a serializer?",
+    "answer": "DRF is a library for building REST APIs with Django. A serializer converts model objects to JSON and validates incoming JSON, much like a form does for HTML. ViewSets give list, retrieve, create, update, partial_update and destroy in one class, and routers create the URLs. DRF also handles authentication, permissions, pagination, filtering and throttling.",
+    "points": [
+      "Serializer = model ↔ JSON + validation",
+      "ViewSet = CRUD",
+      "Router = URLs",
+      "Permissions",
+      "Pagination / throttling"
+    ],
+    "code": "from rest_framework import serializers, viewsets, permissions\nfrom rest_framework.routers import DefaultRouter\n\nclass PostSerializer(serializers.ModelSerializer):\n    author = serializers.ReadOnlyField(source=\"author.username\")\n\n    class Meta:\n        model = Post\n        fields = [\"id\", \"title\", \"slug\", \"author\", \"body\", \"status\"]\n\nclass PostViewSet(viewsets.ModelViewSet):\n    queryset = Post.objects.select_related(\"author\")\n    serializer_class = PostSerializer\n    permission_classes = [permissions.IsAuthenticatedOrReadOnly]\n\n    def perform_create(self, serializer):\n        serializer.save(author=self.request.user)\n\nrouter = DefaultRouter()\nrouter.register(\"posts\", PostViewSet)\nurlpatterns = [path(\"api/\", include(router.urls))]\n# GET/POST /api/posts/   GET/PUT/PATCH/DELETE /api/posts/1/",
+    "memory": "Remember: Serializer for data, ViewSet for actions, Router for URLs",
+    "tip": "Compare with FastAPI: the serializer is like a Pydantic schema."
+  },
+  {
+    "id": "django-0c4bd7a1",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "PUT vs PATCH in Django REST Framework?",
+    "answer": "PUT replaces the whole resource, so the client must send all required fields. DRF calls update(). PATCH changes only the fields that are sent. DRF calls partial_update(), which uses partial=True so missing fields are not required. PUT is idempotent: sending the same request twice gives the same result. PATCH is often idempotent in practice, but the HTTP standard does not guarantee it.",
+    "points": [
+      "PUT = full replace",
+      "PATCH = partial change",
+      "update() vs partial_update()",
+      "partial=True",
+      "PUT is idempotent"
+    ],
+    "code": "# PUT /api/users/5/      -> must send every required field\n{\"username\": \"nagesh\", \"email\": \"new@example.com\", \"city\": \"Pune\"}\n\n# PATCH /api/users/5/    -> only the fields that change\n{\"email\": \"new@example.com\"}\n\n# What DRF does inside\nserializer = UserSerializer(user, data=request.data)                 # PUT\nserializer = UserSerializer(user, data=request.data, partial=True)   # PATCH\nserializer.is_valid(raise_exception=True)\nserializer.save()",
+    "memory": "Remember: PUT = whole object, PATCH = only changes",
+    "tip": "Example: to change only the email, use PATCH with {'email': ...}."
+  },
+  {
+    "id": "django-2db8fcd7",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "Model inheritance in Django: abstract, multi-table and proxy?",
+    "answer": "Abstract base class: shares common fields (like created_at) with child models. No table is made for the parent. Multi-table inheritance: parent and child each get a table, linked by a OneToOne key, so reads need a JOIN. Proxy model: no new table. It changes only Python behaviour, like a default ordering, a custom manager or extra methods.",
+    "points": [
+      "Abstract = shared fields, no table",
+      "Multi-table = 2 tables + JOIN",
+      "Proxy = same table, new behaviour"
+    ],
+    "code": "class TimeStampedModel(models.Model):          # abstract: no table\n    created_at = models.DateTimeField(auto_now_add=True)\n    updated_at = models.DateTimeField(auto_now=True)\n\n    class Meta:\n        abstract = True\n\nclass Order(TimeStampedModel):                  # gets both date fields\n    total = models.DecimalField(max_digits=10, decimal_places=2)\n\nclass Place(models.Model):                      # multi-table\n    name = models.CharField(max_length=100)\n\nclass Restaurant(Place):                        # own table + link to Place\n    serves_pizza = models.BooleanField(default=False)\n\nclass PublishedPost(Post):                      # proxy: same table\n    class Meta:\n        proxy = True\n        ordering = [\"-created_at\"]",
+    "memory": "Remember: Abstract shares, Multi-table splits, Proxy disguises",
+    "tip": "Abstract base models (TimeStampedModel) are the most used in real projects."
+  },
+  {
+    "id": "django-6078a048",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "Why should you use a custom user model?",
+    "answer": "The default User model uses username for login and has fixed fields. Real projects often need email login or extra fields like phone. Changing the user model after the first migration is very hard, so create a custom user (AbstractUser or AbstractBaseUser) at the start of every project. In other models, refer to it with settings.AUTH_USER_MODEL.",
+    "points": [
+      "Set it at project start",
+      "AbstractUser = easy",
+      "AbstractBaseUser = full control",
+      "settings.AUTH_USER_MODEL",
+      "get_user_model()"
+    ],
+    "code": "# accounts/models.py\nfrom django.contrib.auth.models import AbstractUser\nfrom django.db import models\n\nclass User(AbstractUser):\n    email = models.EmailField(unique=True)\n    phone = models.CharField(max_length=15, blank=True)\n\n    USERNAME_FIELD = \"email\"          # log in with email\n    REQUIRED_FIELDS = [\"username\"]\n\n# settings.py\nAUTH_USER_MODEL = \"accounts.User\"\n\n# anywhere else\nfrom django.contrib.auth import get_user_model\nUser = get_user_model()",
+    "memory": "Remember: Custom user on day one",
+    "tip": "Changing it later means complex data migrations."
+  },
+  {
+    "id": "django-8399f90e",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "What is the Django admin? How do you customise it?",
+    "answer": "The admin is an automatic back-office panel for your models: list, search, add, edit and delete, with users and permissions included. Register models in admin.py and customise them with ModelAdmin options like list_display, list_filter, search_fields, inlines and custom actions. It is good for internal staff, not for public users.",
+    "points": [
+      "Auto CRUD panel",
+      "@admin.register",
+      "list_display / list_filter / search_fields",
+      "Inlines",
+      "Actions"
+    ],
+    "code": "from django.contrib import admin\nfrom .models import Post, Comment\n\nclass CommentInline(admin.TabularInline):\n    model = Comment\n    extra = 0\n\n@admin.register(Post)\nclass PostAdmin(admin.ModelAdmin):\n    list_display = (\"title\", \"author\", \"status\", \"created_at\")\n    list_filter = (\"status\", \"created_at\")\n    search_fields = (\"title\", \"body\")\n    prepopulated_fields = {\"slug\": (\"title\",)}\n    list_select_related = (\"author\",)\n    inlines = [CommentInline]\n    actions = [\"make_published\"]\n\n    @admin.action(description=\"Mark selected posts as published\")\n    def make_published(self, request, queryset):\n        queryset.update(status=\"published\")",
+    "memory": "Remember: Register model → free admin panel",
+    "tip": "Use list_select_related to avoid N+1 queries in admin lists."
+  },
+  {
+    "id": "django-3a1dc848",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "WSGI vs ASGI in Django?",
+    "answer": "WSGI is the older, synchronous interface: one request per worker thread, run with Gunicorn or uWSGI. ASGI is the newer, asynchronous interface. It supports async views, WebSockets (with Django Channels) and long-lived connections, and runs with Uvicorn or Daphne. Django supports both. Each project has wsgi.py and asgi.py.",
+    "points": [
+      "WSGI = sync (Gunicorn)",
+      "ASGI = async (Uvicorn / Daphne)",
+      "WebSockets need ASGI",
+      "Async views"
+    ],
+    "code": "# Run with WSGI\ngunicorn mysite.wsgi:application --workers 4\n\n# Run with ASGI\nuvicorn mysite.asgi:application --workers 4\n\n# Async view (works best under ASGI)\nimport httpx\nasync def weather(request):\n    async with httpx.AsyncClient() as client:\n        r = await client.get(\"https://api.example.com/weather\")\n    return JsonResponse(r.json())",
+    "memory": "Remember: WSGI waits, ASGI does not have to",
+    "tip": "FastAPI is ASGI only; Django can run either way."
+  },
+  {
+    "id": "django-be232fbf",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "How do you make database changes safe with transactions in Django?",
+    "answer": "By default each query commits on its own (autocommit). Use transaction.atomic() so that a group of queries either all succeed or all roll back, for example when moving money or points. Use select_for_update() inside atomic() to lock rows so two requests cannot change the same balance at once. Use transaction.on_commit() to send emails or Celery tasks only after the data is really saved.",
+    "points": [
+      "Autocommit by default",
+      "atomic() = all or nothing",
+      "select_for_update() = row lock",
+      "on_commit() for side effects"
+    ],
+    "code": "from django.db import transaction\nfrom django.db.models import F\n\ndef redeem_points(user_id, points):\n    with transaction.atomic():\n        wallet = Wallet.objects.select_for_update().get(user_id=user_id)   # lock row\n        if wallet.balance < points:\n            raise ValueError(\"Not enough points\")\n        wallet.balance = F(\"balance\") - points\n        wallet.save()\n        Redemption.objects.create(user_id=user_id, points=points)\n        transaction.on_commit(lambda: send_receipt.delay(user_id, points))",
+    "memory": "Remember: Money moves inside atomic()",
+    "tip": "Good real example: redeeming loyalty points."
+  },
+  {
+    "id": "django-63a70618",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "How do you optimise a slow Django page or API?",
+    "answer": "1) Measure first with django-debug-toolbar, logging or APM tools. 2) Fix N+1 queries with select_related and prefetch_related. 3) Load only the columns you need with only(), values() or defer(). 4) Add database indexes for fields you filter and sort on. 5) Paginate big lists. 6) Use bulk_create and bulk_update for many rows. 7) Cache slow, stable data in Redis. 8) Move slow work (emails, reports) to Celery. 9) Use count() and exists() instead of len() on QuerySets.",
+    "points": [
+      "Measure first",
+      "N+1 fix",
+      "only() / values()",
+      "Indexes",
+      "Pagination",
+      "Bulk operations",
+      "Redis cache",
+      "Celery"
+    ],
+    "code": "# Before: 1 + N queries, all columns\norders = Order.objects.all()\n\n# After: 1 query, only needed columns, paginated\norders = (Order.objects\n          .select_related(\"customer\")\n          .only(\"id\", \"total\", \"customer__name\")\n          .order_by(\"-created_at\")[:50])\n\n# Index for common filters\nclass Order(models.Model):\n    status = models.CharField(max_length=20)\n    created_at = models.DateTimeField()\n\n    class Meta:\n        indexes = [models.Index(fields=[\"status\", \"created_at\"])]\n\n# Bulk insert instead of a loop of save()\nOrder.objects.bulk_create([Order(total=t) for t in totals], batch_size=500)",
+    "memory": "Remember: Measure, Reduce queries, Index, Cache, Background",
+    "tip": "Share a real story: 'An API went from 3 s to 300 ms after fixing N+1 and adding an index.'"
+  },
+  {
+    "id": "django-f967faf1",
+    "subject": "Django",
+    "level": "Advanced",
+    "question": "How do you deploy Django to production?",
+    "answer": "Set DEBUG=False and ALLOWED_HOSTS. Read SECRET_KEY and database passwords from environment variables or AWS Secrets Manager. Use PostgreSQL or MySQL. Run collectstatic and serve static files with WhiteNoise, Nginx or S3 + CloudFront. Run the app with Gunicorn (WSGI) or Uvicorn (ASGI) behind Nginx or a load balancer, usually in Docker on EC2 or ECS. Turn on HTTPS and secure cookies, run migrations in the CI/CD pipeline, and add logging and monitoring.",
+    "points": [
+      "DEBUG=False",
+      "Secrets in env",
+      "collectstatic",
+      "Gunicorn / Uvicorn + Nginx",
+      "Docker on EC2 / ECS",
+      "HTTPS",
+      "check --deploy"
+    ],
+    "code": "# Dockerfile (simple)\nFROM python:3.12-slim\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\nCOPY . .\nRUN python manage.py collectstatic --noinput\nCMD [\"gunicorn\", \"mysite.wsgi:application\", \"--bind\", \"0.0.0.0:8000\", \"--workers\", \"3\"]\n\n# Before going live\npython manage.py check --deploy\npython manage.py migrate",
+    "memory": "Remember: Secure settings, Static files, App server, Proxy, Monitor",
+    "tip": "Django can also run on AWS Lambda with Mangum or Zappa (see the AWS Lambda subject)."
+  },
+  {
+    "id": "django-eb8ba01f",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "How do you write tests in Django?",
+    "answer": "Django's TestCase runs each test inside a transaction on a separate test database, and rolls it back afterwards. Use self.client to call URLs and check status codes and content. Use setUpTestData for shared data. For APIs, use DRF's APIClient. Many teams use pytest with pytest-django because it needs less code.",
+    "points": [
+      "TestCase + test DB",
+      "self.client",
+      "setUpTestData",
+      "APIClient for DRF",
+      "pytest-django"
+    ],
+    "code": "from django.contrib.auth import get_user_model\nfrom django.test import TestCase\nfrom django.urls import reverse\n\nclass PostTests(TestCase):\n    @classmethod\n    def setUpTestData(cls):\n        cls.user = get_user_model().objects.create_user(\"ravi\", password=\"pass12345\")\n        Post.objects.create(title=\"Hello\", slug=\"hello\", author=cls.user,\n                            body=\"Hi\", status=\"published\")\n\n    def test_list_page_shows_post(self):\n        resp = self.client.get(reverse(\"blog:post_list\"))\n        self.assertEqual(resp.status_code, 200)\n        self.assertContains(resp, \"Hello\")\n\n    def test_create_needs_login(self):\n        resp = self.client.get(reverse(\"blog:post_create\"))\n        self.assertEqual(resp.status_code, 302)    # redirected to login\n\n# Run: python manage.py test",
+    "memory": "Remember: Arrange, Act, Assert",
+    "tip": "Test business rules and permissions, not Django itself."
+  },
+  {
+    "id": "django-43535861",
+    "subject": "Django",
+    "level": "Intermediate",
+    "question": "Django vs FastAPI: which would you choose?",
+    "answer": "Choose Django when you need a full web app quickly: admin panel, auth, ORM, forms and templates are all included, which suits CRUD-heavy business apps and back-office tools. Choose FastAPI for fast, async-first APIs and microservices: automatic validation with Pydantic, automatic Swagger docs, and high performance. Many companies use both: Django for the admin and core app, FastAPI for high-traffic APIs.",
+    "points": [
+      "Django = full stack + admin",
+      "FastAPI = fast async APIs",
+      "Pydantic + auto docs",
+      "Both can work together"
+    ],
+    "code": "",
+    "memory": "Remember: Django for the full app, FastAPI for fast APIs",
+    "tip": "Connect it to your experience: you have FastAPI experience, and Django concepts map closely (serializer ≈ Pydantic schema)."
+  }
+]

@@ -1,0 +1,210 @@
+[
+  {
+    "id": "postgresql-3a700def",
+    "subject": "PostgreSQL",
+    "level": "Beginner",
+    "question": "What is PostgreSQL and why use it?",
+    "answer": "PostgreSQL is an open-source object-relational database known for standards compliance, strong consistency and extensibility. It supports advanced types (JSONB, arrays, UUID), rich indexing, CTEs, window functions and extensions like PostGIS.",
+    "points": [
+      "Open source",
+      "JSONB",
+      "Extensions",
+      "Standards"
+    ],
+    "code": "",
+    "memory": "Remember: Powerful + Extensible",
+    "tip": "Mention it is a good fit for complex queries."
+  },
+  {
+    "id": "postgresql-9b3db637",
+    "subject": "PostgreSQL",
+    "level": "Intermediate",
+    "question": "MySQL vs PostgreSQL?",
+    "answer": "MySQL is simple, fast for read-heavy web apps and widely used with PHP. PostgreSQL has richer features: better standards compliance, JSONB, advanced index types, CTEs, extensions and strong concurrency with MVCC. Both are reliable; choose based on features and team experience.",
+    "points": [
+      "MySQL = simple web",
+      "PostgreSQL = feature rich",
+      "MVCC"
+    ],
+    "code": "",
+    "memory": "Remember: MySQL easy, Postgres powerful",
+    "tip": "Avoid saying one is always better."
+  },
+  {
+    "id": "postgresql-007ed7c3",
+    "subject": "PostgreSQL",
+    "level": "Beginner",
+    "question": "What is MVCC?",
+    "answer": "MVCC (Multi-Version Concurrency Control) keeps multiple versions of a row. Readers see a snapshot and do not block writers, and writers do not block readers. Old row versions are cleaned up later by VACUUM.",
+    "points": [
+      "Row versions",
+      "Snapshot",
+      "No read blocking",
+      "VACUUM"
+    ],
+    "code": "",
+    "memory": "Remember: Readers and writers do not block",
+    "tip": "This is why VACUUM is important in PostgreSQL."
+  },
+  {
+    "id": "postgresql-edf69f99",
+    "subject": "PostgreSQL",
+    "level": "Beginner",
+    "question": "What is VACUUM?",
+    "answer": "Updates and deletes leave dead row versions. VACUUM removes them so space can be reused and updates statistics with ANALYZE. Autovacuum runs automatically. VACUUM FULL rewrites the table and locks it.",
+    "points": [
+      "Dead tuples",
+      "Autovacuum",
+      "ANALYZE",
+      "VACUUM FULL"
+    ],
+    "code": "",
+    "memory": "Remember: VACUUM cleans old versions",
+    "tip": "Table bloat happens when autovacuum cannot keep up."
+  },
+  {
+    "id": "postgresql-555df420",
+    "subject": "PostgreSQL",
+    "level": "Intermediate",
+    "question": "What index types does PostgreSQL have?",
+    "answer": "B-Tree (default, equality and range), Hash (equality only), GIN (JSONB, arrays, full-text search), GiST (geometric and full-text), BRIN (very large naturally ordered tables like logs). It also supports partial indexes and expression indexes.",
+    "points": [
+      "B-Tree",
+      "GIN",
+      "GiST",
+      "BRIN",
+      "Partial",
+      "Expression"
+    ],
+    "code": "",
+    "memory": "Remember: GIN for JSONB and search",
+    "tip": "Partial index example: WHERE status = 'active'."
+  },
+  {
+    "id": "postgresql-1d52aadb",
+    "subject": "PostgreSQL",
+    "level": "Intermediate",
+    "question": "JSON vs JSONB?",
+    "answer": "JSON stores the text exactly as given and re-parses it on each read. JSONB stores a parsed binary form, removes duplicate keys, is faster to query and can be indexed with GIN. Use JSONB in most cases.",
+    "points": [
+      "JSON = text",
+      "JSONB = binary",
+      "GIN index"
+    ],
+    "code": "",
+    "memory": "Remember: B for Better",
+    "tip": "Operators: -> returns JSON, ->> returns text, @> checks containment."
+  },
+  {
+    "id": "postgresql-7e71b511",
+    "subject": "PostgreSQL",
+    "level": "Beginner",
+    "question": "What is a CTE?",
+    "answer": "A CTE (Common Table Expression) is a named temporary result defined with WITH, used to make complex queries readable. A recursive CTE (WITH RECURSIVE) can walk hierarchies like categories or an org chart.",
+    "points": [
+      "WITH",
+      "Readable",
+      "Recursive"
+    ],
+    "code": "",
+    "memory": "Remember: WITH = named subquery",
+    "tip": "Recursive CTE is a common interview example for tree data."
+  },
+  {
+    "id": "postgresql-faf9e0d4",
+    "subject": "PostgreSQL",
+    "level": "Intermediate",
+    "question": "How do you read EXPLAIN ANALYZE in PostgreSQL?",
+    "answer": "EXPLAIN shows the plan; EXPLAIN ANALYZE runs the query and shows actual time and rows. Look for Seq Scan on large tables, big differences between estimated and actual rows, and expensive sorts or nested loops. Index Scan and Index Only Scan are usually good.",
+    "points": [
+      "Seq Scan",
+      "Index Scan",
+      "Estimated vs actual",
+      "Cost"
+    ],
+    "code": "",
+    "memory": "Remember: Compare estimated vs actual rows",
+    "tip": "Run ANALYZE if estimates are wrong."
+  },
+  {
+    "id": "postgresql-eda7637f",
+    "subject": "PostgreSQL",
+    "level": "Beginner",
+    "question": "What is connection pooling and why does PostgreSQL need it?",
+    "answer": "Each PostgreSQL connection is a separate process and uses memory, so thousands of connections hurt performance. A pooler like PgBouncer keeps a small number of real connections and shares them between many clients.",
+    "points": [
+      "Process per connection",
+      "PgBouncer",
+      "Pool"
+    ],
+    "code": "",
+    "memory": "Remember: Few real connections, many clients",
+    "tip": "Important for web apps with many workers."
+  },
+  {
+    "id": "postgresql-bca6c5ca",
+    "subject": "PostgreSQL",
+    "level": "Beginner",
+    "question": "What is table partitioning?",
+    "answer": "Partitioning splits a large table into smaller tables by range, list or hash, for example orders by month. Queries that filter by the partition key only scan the needed partitions, and old partitions can be dropped quickly.",
+    "points": [
+      "Range",
+      "List",
+      "Hash",
+      "Partition pruning"
+    ],
+    "code": "",
+    "memory": "Remember: Big table, smaller pieces",
+    "tip": "Good for logs and time-series data."
+  },
+  {
+    "id": "postgresql-348be450",
+    "subject": "PostgreSQL",
+    "level": "Beginner",
+    "question": "What is UPSERT in PostgreSQL?",
+    "answer": "INSERT ... ON CONFLICT (column) DO UPDATE SET ... inserts a row or updates it if a unique conflict happens. ON CONFLICT DO NOTHING skips duplicates. In MySQL the equivalent is INSERT ... ON DUPLICATE KEY UPDATE.",
+    "points": [
+      "ON CONFLICT",
+      "DO UPDATE",
+      "DO NOTHING"
+    ],
+    "code": "",
+    "memory": "Remember: Insert or update in one query",
+    "tip": "Needs a unique index or constraint on the conflict column."
+  },
+  {
+    "id": "postgresql-1a16a505",
+    "subject": "PostgreSQL",
+    "level": "Intermediate",
+    "question": "What is a SERIAL vs IDENTITY vs UUID key?",
+    "answer": "SERIAL is the older auto-increment shortcut using a sequence. GENERATED AS IDENTITY is the modern SQL-standard way. UUID keys are globally unique and good for distributed systems but larger and less index-friendly.",
+    "points": [
+      "SERIAL",
+      "IDENTITY",
+      "UUID",
+      "Sequence"
+    ],
+    "code": "",
+    "memory": "Remember: IDENTITY is the modern choice",
+    "tip": "Use gen_random_uuid() for UUIDs."
+  },
+  {
+    "id": "postgresql-9c2feca4",
+    "subject": "PostgreSQL",
+    "level": "Intermediate",
+    "question": "Explain MVCC with an example. How do readers and writers not block each other?",
+    "answer": "MVCC (Multi-Version Concurrency Control) keeps several versions of a row. When a transaction updates a row, PostgreSQL does not overwrite it; it creates a new version and marks the old one as expired (using hidden columns xmin and xmax, the transaction IDs that created and expired the row). Each transaction reads from a snapshot, so it sees only the versions that were committed when its snapshot was taken. Result: readers never block writers and writers never block readers; only two writers on the same row wait for each other. Old row versions (dead tuples) are cleaned later by VACUUM (autovacuum). MySQL InnoDB also uses MVCC, with undo logs to rebuild old versions.",
+    "points": [
+      "Many versions of a row",
+      "UPDATE = new version + old marked expired",
+      "xmin / xmax",
+      "Snapshot per transaction",
+      "Readers and writers don't block",
+      "VACUUM cleans dead rows",
+      "InnoDB uses undo logs"
+    ],
+    "code": "-- Session A                               -- Session B\nBEGIN;\nUPDATE accounts SET balance = 500\nWHERE id = 1;          -- was 1000\n                                           BEGIN;\n                                           SELECT balance FROM accounts WHERE id = 1;\n                                           -- returns 1000 (old version)\n                                           -- NOT blocked, no dirty read\nCOMMIT;\n                                           SELECT balance FROM accounts WHERE id = 1;\n                                           -- READ COMMITTED: 500 (new snapshot)\n                                           -- REPEATABLE READ: still 1000\n                                           COMMIT;\n\n-- See the hidden version columns\nSELECT xmin, xmax, id, balance FROM accounts WHERE id = 1;\n\n-- Clean dead row versions (autovacuum normally does this)\nVACUUM (VERBOSE) accounts;",
+    "memory": "Remember: Writers make new versions, readers see their snapshot",
+    "tip": "Follow-up: long-running transactions stop VACUUM from cleaning, causing table bloat."
+  }
+]

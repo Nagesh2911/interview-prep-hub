@@ -1,0 +1,990 @@
+[
+  {
+    "id": "fastapi-5fae43be",
+    "subject": "FastAPI",
+    "level": "Beginner",
+    "question": "What is FastAPI?",
+    "answer": "FastAPI is a modern Python framework for building REST APIs. It provides validation, automatic Swagger documentation, dependency injection and asynchronous support.",
+    "points": [
+      "REST APIs",
+      "Pydantic",
+      "Swagger",
+      "Depends",
+      "Async"
+    ],
+    "code": "",
+    "memory": "Remember: Fast + Validation + Docs",
+    "tip": "Start with the one-line definition."
+  },
+  {
+    "id": "fastapi-0375c393",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "Why use FastAPI?",
+    "answer": "It is easy to develop with, provides automatic API documentation, strong request validation, dependency injection and good performance.",
+    "points": [
+      "Fast development",
+      "Validation",
+      "Docs",
+      "DI",
+      "Performance"
+    ],
+    "code": "",
+    "memory": "Remember: V-D-P-D",
+    "tip": "Validation, Docs, Performance, Dependency injection."
+  },
+  {
+    "id": "fastapi-aa55ee98",
+    "subject": "FastAPI",
+    "level": "Beginner",
+    "question": "What is Pydantic?",
+    "answer": "Pydantic is used for data validation and serialization. In FastAPI, request and response models use Pydantic to check data types and formats.",
+    "points": [
+      "Validation",
+      "Serialization",
+      "Models"
+    ],
+    "code": "",
+    "memory": "Remember: Pydantic = Data checking",
+    "tip": "Mention request model and response model."
+  },
+  {
+    "id": "fastapi-7d74df7e",
+    "subject": "FastAPI",
+    "level": "Beginner",
+    "question": "What is dependency injection?",
+    "answer": "Dependency injection lets us provide common functionality to endpoints. In FastAPI, Depends can provide database sessions, authentication and shared logic.",
+    "points": [
+      "Depends",
+      "DB session",
+      "Auth",
+      "Reusable logic"
+    ],
+    "code": "",
+    "memory": "Remember: Depends = Give required object",
+    "tip": "It reduces duplicate code."
+  },
+  {
+    "id": "fastapi-d3a1e820",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you handle errors in FastAPI?",
+    "answer": "I use HTTPException for expected API errors and exception handlers for common or custom errors. I return proper status codes and log unexpected errors.",
+    "points": [
+      "HTTPException",
+      "Status codes",
+      "Handlers",
+      "Logging"
+    ],
+    "code": "",
+    "memory": "Remember: Raise → Status → Log",
+    "tip": "Avoid exposing sensitive internal errors to clients."
+  },
+  {
+    "id": "fastapi-5f2ac145",
+    "subject": "FastAPI",
+    "level": "Beginner",
+    "question": "What are async and await?",
+    "answer": "async defines an asynchronous function. await waits for an I/O operation without blocking the event loop. It is useful when the supporting libraries are asynchronous.",
+    "points": [
+      "async",
+      "await",
+      "I/O",
+      "Non-blocking"
+    ],
+    "code": "",
+    "memory": "Remember: async starts, await waits",
+    "tip": "Do not say async makes every CPU task faster."
+  },
+  {
+    "id": "rest-api-0cc424ce",
+    "subject": "REST API",
+    "level": "Beginner",
+    "question": "What is REST API?",
+    "answer": "REST is an architectural style for web APIs. It commonly uses HTTP methods such as GET, POST, PUT, PATCH and DELETE and usually exchanges JSON data.",
+    "points": [
+      "Resources",
+      "HTTP methods",
+      "JSON",
+      "Status codes"
+    ],
+    "code": "",
+    "memory": "Remember: Resource + Method + Response",
+    "tip": "Give one endpoint example if needed."
+  },
+  {
+    "id": "rest-api-e9533f5d",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "GET vs POST?",
+    "answer": "GET is normally used to retrieve data. POST is normally used to create or submit data. GET parameters are commonly in the URL; POST data is usually in the request body.",
+    "points": [
+      "GET = Read",
+      "POST = Create",
+      "URL vs Body"
+    ],
+    "code": "",
+    "memory": "Remember: GET gets, POST posts",
+    "tip": "Mention that HTTP semantics matter more than just where parameters are placed."
+  },
+  {
+    "id": "rest-api-d6e118ad",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "Common HTTP status codes?",
+    "answer": "200 means success, 201 created, 204 success with no body, 400 bad request, 401 unauthenticated, 403 forbidden, 404 not found and 500 server error.",
+    "points": [
+      "200",
+      "201",
+      "400",
+      "401",
+      "403",
+      "404",
+      "500"
+    ],
+    "code": "",
+    "memory": "Remember: 2xx good, 4xx client, 5xx server",
+    "tip": "Knowing status codes is important for API interviews."
+  },
+  {
+    "id": "rest-api-379cac3e",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "How do you secure an API?",
+    "answer": "I use HTTPS, authentication such as JWT or OAuth where appropriate, authorization, input validation, secure password hashing, rate limiting and safe secret management.",
+    "points": [
+      "HTTPS",
+      "Auth",
+      "Authorization",
+      "Validation",
+      "Rate limit",
+      "Secrets"
+    ],
+    "code": "",
+    "memory": "Remember: Transport + Identity + Permission + Input",
+    "tip": "Security is layered; no single feature secures an API."
+  },
+  {
+    "id": "sqlalchemy-52f31360",
+    "subject": "SQLAlchemy",
+    "level": "Beginner",
+    "question": "What is SQLAlchemy?",
+    "answer": "SQLAlchemy is a Python SQL toolkit and ORM. It lets us work with database models and queries from Python while still allowing direct SQL when needed.",
+    "points": [
+      "Python ORM",
+      "Models",
+      "Queries",
+      "Transactions"
+    ],
+    "code": "",
+    "memory": "Remember: Python ↔ Database",
+    "tip": "Explain it as a database interaction layer."
+  },
+  {
+    "id": "sqlalchemy-25245dd9",
+    "subject": "SQLAlchemy",
+    "level": "Beginner",
+    "question": "What is ORM?",
+    "answer": "ORM means Object Relational Mapping. It maps database tables to programming objects so developers can work with records using application code.",
+    "points": [
+      "Table ↔ Object",
+      "Record ↔ Object"
+    ],
+    "code": "",
+    "memory": "Remember: Table becomes class",
+    "tip": "ORM does not mean SQL knowledge is unnecessary."
+  },
+  {
+    "id": "sqlalchemy-327d51a9",
+    "subject": "SQLAlchemy",
+    "level": "Beginner",
+    "question": "What is a database session?",
+    "answer": "A session manages communication with the database. It can execute queries, add or update records, commit transactions and roll back changes.",
+    "points": [
+      "Query",
+      "Add",
+      "Commit",
+      "Rollback"
+    ],
+    "code": "",
+    "memory": "Remember: Session = Database conversation",
+    "tip": "In web apps, manage session lifetime carefully."
+  },
+  {
+    "id": "sqlalchemy-645665cc",
+    "subject": "SQLAlchemy",
+    "level": "Beginner",
+    "question": "What is a transaction?",
+    "answer": "A transaction groups database operations into one unit. If everything succeeds, we commit. If an important operation fails, we roll back.",
+    "points": [
+      "Unit",
+      "Commit",
+      "Rollback",
+      "Consistency"
+    ],
+    "code": "",
+    "memory": "Remember: All or nothing",
+    "tip": "Use a payment/order example if asked."
+  },
+  {
+    "id": "fastapi-f81b61af",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "Write a simple FastAPI API with Pydantic and SQLAlchemy.",
+    "answer": "The decorator @app.get makes the route. FastAPI checks that customer_id is a number automatically. Depends(get_db) gives a database session. The Pydantic model CustomerOut decides which fields go in the response. If the customer is not found, we return a 404 error.",
+    "points": [
+      "@app.get",
+      "Path parameter",
+      "Depends(get_db)",
+      "response_model",
+      "404"
+    ],
+    "code": "from fastapi import FastAPI, Depends, HTTPException\nfrom pydantic import BaseModel\nfrom sqlalchemy.orm import Session\n\nfrom db import get_db          # gives a database session\nfrom models import Customer    # SQLAlchemy model\n\napp = FastAPI()\n\nclass CustomerOut(BaseModel):\n    id: int\n    name: str\n    points: int\n\n    model_config = {\"from_attributes\": True}   # read from ORM object\n\n@app.get(\"/customers/{customer_id}\", response_model=CustomerOut)\ndef get_customer(customer_id: int, db: Session = Depends(get_db)):\n    customer = db.get(Customer, customer_id)\n    if customer is None:\n        raise HTTPException(status_code=404, detail=\"Customer not found\")\n    return customer",
+    "memory": "Remember: Route → Validate → DB → Response",
+    "tip": "Write this code a few times by hand. Live coding rounds often ask for exactly this."
+  },
+  {
+    "id": "fastapi-8b922d0c",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "Show a Pydantic request model with validation.",
+    "answer": "Pydantic checks the input for us. If the name is too short, the email is wrong, or the points are negative, FastAPI sends a 422 error automatically. We do not need to write many if-checks ourselves.",
+    "points": [
+      "Field rules",
+      "EmailStr",
+      "Auto 422 error",
+      "Less code"
+    ],
+    "code": "from pydantic import BaseModel, Field, EmailStr\n\nclass CustomerCreate(BaseModel):\n    name: str = Field(min_length=2, max_length=100)\n    email: EmailStr                      # must be a valid email\n    points: int = Field(default=0, ge=0) # ge=0 means not negative\n\n@app.post(\"/customers\", status_code=201)\ndef create_customer(data: CustomerCreate):\n    # wrong input never reaches here; FastAPI already returned 422\n    return {\"message\": \"created\", \"name\": data.name}",
+    "memory": "Remember: Pydantic = automatic input checking",
+    "tip": "Remember the code 422: it means 'validation error'."
+  },
+  {
+    "id": "fastapi-0e9c433d",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "def vs async def in FastAPI. When to use which?",
+    "answer": "Use async def when your code uses async libraries with await, like httpx or an async database driver. Use normal def when you use normal (blocking) libraries, like the normal SQLAlchemy Session or requests. FastAPI runs normal def functions in a thread pool, so they do not block the server. Common mistake: writing async def and then calling a slow blocking function inside. This blocks the whole server.",
+    "points": [
+      "async def + await libraries",
+      "def + blocking libraries",
+      "Thread pool",
+      "Do not block inside async"
+    ],
+    "code": "import httpx\n\n# async library -> async def + await\n@app.get(\"/rates\")\nasync def get_rates():\n    async with httpx.AsyncClient() as client:\n        r = await client.get(\"https://api.example.com/rates\")\n    return r.json()\n\n# normal (blocking) DB session -> plain def\n@app.get(\"/orders/count\")\ndef count_orders(db: Session = Depends(get_db)):\n    return {\"count\": db.query(Order).count()}",
+    "memory": "Remember: async only with await-able libraries",
+    "tip": "This is a very common FastAPI interview question."
+  },
+  {
+    "id": "fastapi-465d68d2",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you do pagination in FastAPI?",
+    "answer": "Take page and size from the query string. Calculate offset = (page - 1) × size. Put a maximum limit on size so nobody asks for 1 million rows. For very big tables, use keyset pagination (WHERE id > last_id) because big OFFSET is slow.",
+    "points": [
+      "page + size",
+      "offset = (page-1) × size",
+      "Max size",
+      "Keyset for big tables"
+    ],
+    "code": "@app.get(\"/orders\")\ndef list_orders(page: int = 1, size: int = 20, db: Session = Depends(get_db)):\n    size = min(size, 100)                 # never more than 100 rows\n    offset = (page - 1) * size\n    rows = (db.query(Order)\n              .order_by(Order.id)\n              .offset(offset)\n              .limit(size)\n              .all())\n    items = [{\"id\": o.id, \"status\": o.status} for o in rows]\n    return {\"page\": page, \"size\": size, \"items\": items}",
+    "memory": "Remember: Skip some, take some",
+    "tip": "URL example: /orders?page=2&size=20"
+  },
+  {
+    "id": "fastapi-34d22d7e",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you document APIs?",
+    "answer": "FastAPI makes documentation automatically. Open /docs for Swagger UI or /redoc. It shows every API, its inputs and its outputs, and you can test APIs there. I also add short descriptions and examples to routes and models, and share a Postman collection with the frontend and mobile teams.",
+    "points": [
+      "/docs Swagger",
+      "/redoc",
+      "Descriptions",
+      "Postman collection"
+    ],
+    "code": "",
+    "memory": "Remember: FastAPI docs are free",
+    "tip": "On your resume: 'documented API endpoints consumed by web and mobile clients'."
+  },
+  {
+    "id": "sqlalchemy-897915f6",
+    "subject": "SQLAlchemy",
+    "level": "Intermediate",
+    "question": "Show a SQLAlchemy model and a query.",
+    "answer": "A model is a Python class that maps to a table. Each Column is a table column. relationship links two tables, so customer.orders gives all orders of that customer.",
+    "points": [
+      "Class = table",
+      "Column",
+      "ForeignKey",
+      "relationship",
+      "filter()"
+    ],
+    "code": "from sqlalchemy import Column, Integer, String, ForeignKey\nfrom sqlalchemy.orm import declarative_base, relationship\n\nBase = declarative_base()\n\nclass Customer(Base):\n    __tablename__ = \"customers\"\n    id = Column(Integer, primary_key=True)\n    name = Column(String(100), nullable=False)\n    points = Column(Integer, default=0)\n    orders = relationship(\"Order\", back_populates=\"customer\")\n\nclass Order(Base):\n    __tablename__ = \"orders\"\n    id = Column(Integer, primary_key=True)\n    customer_id = Column(Integer, ForeignKey(\"customers.id\"))\n    customer = relationship(\"Customer\", back_populates=\"orders\")\n\n# customers with more than 1000 points\ntop = db.query(Customer).filter(Customer.points > 1000).all()",
+    "memory": "Remember: Class ↔ Table, Object ↔ Row",
+    "tip": "Be ready to write a filter query by hand."
+  },
+  {
+    "id": "sqlalchemy-ec1e7f93",
+    "subject": "SQLAlchemy",
+    "level": "Beginner",
+    "question": "What is the N+1 query problem?",
+    "answer": "You load 100 customers with 1 query. Then, in a loop, you read customer.orders, and each one runs another query. That is 1 + 100 = 101 queries, which is very slow. Fix: load the related data together using selectinload or joinedload, so it becomes only 1 or 2 queries.",
+    "points": [
+      "1 + N queries",
+      "Slow loop",
+      "selectinload",
+      "joinedload"
+    ],
+    "code": "from sqlalchemy.orm import selectinload\n\n# BAD: 1 query for customers + 1 query per customer\ncustomers = db.query(Customer).all()\nfor c in customers:\n    print(len(c.orders))\n\n# GOOD: 2 queries total\ncustomers = (db.query(Customer)\n               .options(selectinload(Customer.orders))\n               .all())",
+    "memory": "Remember: Load related data together, not inside the loop",
+    "tip": "Turn on SQL logging (echo=True) to see how many queries run."
+  },
+  {
+    "id": "fastapi-b61da454",
+    "subject": "FastAPI",
+    "level": "Beginner",
+    "question": "What is Celery?",
+    "answer": "Celery is a distributed task queue for Python. It runs background jobs such as emails, file processing and report generation using workers.",
+    "points": [
+      "Task queue",
+      "Workers",
+      "Background jobs"
+    ],
+    "code": "",
+    "memory": "Remember: API gives response, Celery does work",
+    "tip": "A broker such as Redis can carry tasks."
+  },
+  {
+    "id": "fastapi-572a5b0d",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "Why use Celery with FastAPI?",
+    "answer": "Long-running tasks should not block an API request. Celery workers can handle tasks in the background while FastAPI returns quickly.",
+    "points": [
+      "Fast API response",
+      "Background worker",
+      "Long task"
+    ],
+    "code": "",
+    "memory": "Remember: Request now, work later",
+    "tip": "Give email/report/file-processing examples."
+  },
+  {
+    "id": "fastapi-7fbc4542",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "Show a Celery task example.",
+    "answer": "A Celery task is a normal function with @app.task. The API calls task.delay(), which puts the job in a queue (Redis) and returns at once. A separate worker process picks up the job and runs it. If it fails, it can retry automatically.",
+    "points": [
+      "@app.task",
+      ".delay()",
+      "Broker = Redis",
+      "Worker",
+      "Retry"
+    ],
+    "code": "# tasks.py\nfrom celery import Celery\n\napp = Celery(\"loyalty\", broker=\"redis://localhost:6379/0\")\n\n@app.task(bind=True, max_retries=3, default_retry_delay=60)\ndef send_reward_email(self, customer_id):\n    try:\n        ...  # build and send the email\n    except Exception as exc:\n        raise self.retry(exc=exc)     # try again after 60 seconds\n\n# inside a FastAPI route:\nsend_reward_email.delay(customer_id=42)   # returns immediately\n\n# start the worker (terminal):\n# celery -A tasks worker --loglevel=info",
+    "memory": "Remember: API puts job in queue, worker does the job",
+    "tip": "Mention retries. It shows you think about failures."
+  },
+  {
+    "id": "fastapi-b0bf6cb4",
+    "subject": "FastAPI",
+    "level": "Beginner",
+    "question": "What is a Celery result backend?",
+    "answer": "The broker (like Redis) carries tasks to workers. The result backend stores the task's result and status, so the API can check later if the task is done. If you do not need results, you can turn it off.",
+    "points": [
+      "Broker = sends tasks",
+      "Result backend = stores results",
+      "AsyncResult"
+    ],
+    "code": "app = Celery(\"loyalty\",\n             broker=\"redis://localhost:6379/0\",\n             backend=\"redis://localhost:6379/1\")\n\ntask = generate_report.delay(month=\"2024-01\")\nprint(task.id)\n\nfrom celery.result import AsyncResult\nres = AsyncResult(task.id, app=app)\nprint(res.status)    # PENDING / SUCCESS / FAILURE",
+    "memory": "Remember: Broker in, backend out",
+    "tip": "Use task_id to check the status from an API."
+  },
+  {
+    "id": "fastapi-45eb6b6a",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "Cron job vs Celery Beat?",
+    "answer": "A cron job is a Linux scheduler. It runs a script at a fixed time. Celery Beat is a scheduler inside Celery. It sends tasks to Celery workers at fixed times, so you also get retries, logging and many workers. I have used both for scheduled jobs.",
+    "points": [
+      "Cron = Linux scheduler",
+      "Beat = Celery scheduler",
+      "Retries + workers"
+    ],
+    "code": "# Linux crontab: run a script every day at 2:00 AM\n# 0 2 * * * /usr/bin/python3 /app/expire_points.py\n\n# Celery Beat: same schedule, but as a Celery task\nfrom celery.schedules import crontab\n\napp.conf.beat_schedule = {\n    \"expire-old-points-every-night\": {\n        \"task\": \"tasks.expire_points\",\n        \"schedule\": crontab(hour=2, minute=0),\n    },\n}",
+    "memory": "Remember: Cron runs scripts, Beat sends tasks to workers",
+    "tip": "Run only ONE Beat process, otherwise every task runs twice."
+  },
+  {
+    "id": "fastapi-eb084c1d",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you process a big batch job (lakhs of rows) safely?",
+    "answer": "Never load all rows at once, because memory will run out. Process in small batches, for example 1000 rows at a time. Commit after each batch. Remember the last processed id, so the job can continue from there if it stops. Make the job safe to run again (idempotent), so running it twice does not give double points.",
+    "points": [
+      "Batches of 1000",
+      "Commit per batch",
+      "Remember last id",
+      "Safe to re-run"
+    ],
+    "code": "BATCH = 1000\nlast_id = 0\n\nwhile True:\n    rows = (db.query(Customer)\n              .filter(Customer.id > last_id)\n              .order_by(Customer.id)\n              .limit(BATCH)\n              .all())\n    if not rows:\n        break\n    for customer in rows:\n        update_tier(customer)\n    db.commit()                 # save this batch\n    last_id = rows[-1].id       # continue from here next time",
+    "memory": "Remember: Small pieces, save progress, safe to repeat",
+    "tip": "This matches your resume line about high-volume batch jobs."
+  },
+  {
+    "id": "fastapi-21b6f7b5",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you debug Celery tasks that are stuck or failing?",
+    "answer": "Check that the worker is running and connected to the broker. Read the worker logs. Use 'celery inspect active' and 'celery inspect reserved' to see tasks. Check the queue length in Redis. Add time limits so tasks do not hang forever, and retries with backoff.",
+    "points": [
+      "Worker running?",
+      "Logs",
+      "celery inspect",
+      "Queue length",
+      "Time limits",
+      "Retries"
+    ],
+    "code": "celery -A tasks worker --loglevel=info\ncelery -A tasks inspect active\ncelery -A tasks inspect reserved\nredis-cli LLEN celery             # tasks waiting in the default queue\n\n@app.task(soft_time_limit=60, time_limit=90,\n          autoretry_for=(Exception,), retry_backoff=True, max_retries=3)\ndef generate_report(month): ...",
+    "memory": "Remember: Worker → Logs → Inspect → Limits",
+    "tip": "Flower is a web dashboard for monitoring Celery."
+  },
+  {
+    "id": "fastapi-0173b9ad",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you design Pydantic schemas in FastAPI?",
+    "answer": "Pydantic schemas (classes that extend BaseModel) define the shape of request and response data. FastAPI uses them to validate input automatically (returning a 422 error with details when data is wrong), convert types, and build the Swagger docs. Good practice: separate schemas per use: a Base with shared fields, Create (input, with password), Update (all fields optional, for PATCH), and Out or Response (what you return, never the password). Use Field for rules like min_length or ge, field_validator for custom checks, and model_config = ConfigDict(from_attributes=True) to return SQLAlchemy objects directly.",
+    "points": [
+      "BaseModel",
+      "Auto validation → 422",
+      "Base / Create / Update / Out schemas",
+      "Field rules + field_validator",
+      "from_attributes for ORM objects",
+      "response_model hides secret fields"
+    ],
+    "code": "from datetime import datetime\nfrom pydantic import BaseModel, ConfigDict, Field, field_validator\n\nclass UserBase(BaseModel):\n    username: str = Field(min_length=3, max_length=30)\n    email: str\n\nclass UserCreate(UserBase):\n    password: str = Field(min_length=8)\n\n    @field_validator(\"username\")\n    @classmethod\n    def no_spaces(cls, value: str) -> str:\n        if \" \" in value:\n            raise ValueError(\"username must not contain spaces\")\n        return value\n\nclass UserUpdate(BaseModel):            # for PATCH: everything optional\n    username: str | None = None\n    email: str | None = None\n\nclass UserOut(UserBase):                # response: no password\n    model_config = ConfigDict(from_attributes=True)\n    id: int\n    created_at: datetime\n\n@app.post(\"/users\", response_model=UserOut, status_code=201)\ndef create_user(data: UserCreate, db: Session = Depends(get_db)):\n    user = User(**data.model_dump(exclude={\"password\"}),\n                password_hash=hash_password(data.password))\n    db.add(user)\n    db.commit()\n    db.refresh(user)\n    return user                          # converted to UserOut\n\n@app.patch(\"/users/{user_id}\", response_model=UserOut)\ndef update_user(user_id: int, data: UserUpdate, db: Session = Depends(get_db)):\n    user = db.get(User, user_id) or raise_404()\n    for field, value in data.model_dump(exclude_unset=True).items():   # only sent fields\n        setattr(user, field, value)\n    db.commit()\n    return user",
+    "memory": "Remember: Validate the input, shape the output",
+    "tip": "Mention exclude_unset=True for PATCH updates; it shows real experience."
+  },
+  {
+    "id": "fastapi-edf80a62",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "What is Starlette? How is it related to FastAPI?",
+    "answer": "Starlette is a lightweight ASGI web framework and toolkit for Python. It provides the core web parts: routing, Request and Response objects, middleware, WebSockets, background tasks, static files, sessions and a test client. FastAPI is built on top of Starlette: FastAPI = Starlette (web layer) + Pydantic (data validation) + dependency injection + automatic OpenAPI / Swagger docs. That is why FastAPI's Request, StreamingResponse, middleware and TestClient come from Starlette. Both run on an ASGI server like Uvicorn.",
+    "points": [
+      "ASGI toolkit",
+      "Routing, middleware, WebSockets",
+      "Request / Response, TestClient",
+      "FastAPI is built on Starlette",
+      "FastAPI adds Pydantic + DI + docs",
+      "Runs on Uvicorn"
+    ],
+    "code": "# Plain Starlette app\nfrom starlette.applications import Starlette\nfrom starlette.responses import JSONResponse\nfrom starlette.routing import Route\n\nasync def homepage(request):\n    return JSONResponse({\"hello\": \"world\"})\n\nasync def user_detail(request):\n    user_id = request.path_params[\"user_id\"]   # no automatic validation\n    return JSONResponse({\"id\": user_id})\n\napp = Starlette(routes=[\n    Route(\"/\", homepage),\n    Route(\"/users/{user_id}\", user_detail),\n])\n\n# Same in FastAPI: types are validated and documented automatically\nfrom fastapi import FastAPI\napi = FastAPI()\n\n@api.get(\"/users/{user_id}\")\nasync def get_user(user_id: int):     # \"abc\" -> automatic 422 error\n    return {\"id\": user_id}\n\n# Run either one: uvicorn main:app --reload",
+    "memory": "Remember: Starlette = engine, FastAPI = engine + validation + docs",
+    "tip": "One line answer: 'FastAPI is Starlette plus Pydantic plus automatic docs.'"
+  },
+  {
+    "id": "rest-api-d4badd3a",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "HTTP methods: PUT vs PATCH. What is the difference?",
+    "answer": "PUT replaces the whole resource with the data you send. If you leave out a field, it may be reset or rejected, so the client sends the full object. PATCH changes only the fields you send. PUT is idempotent: sending the same request many times gives the same result. PATCH is often idempotent in practice, but HTTP does not guarantee it (for example, 'add 10 points' is not). Other methods: GET reads (safe, idempotent), POST creates (not idempotent), DELETE removes (idempotent). Common status codes: 200 OK, 201 Created, 204 No Content, 400 Bad Request, 404 Not Found, 422 validation error.",
+    "points": [
+      "PUT = replace whole resource",
+      "PATCH = change some fields",
+      "PUT idempotent",
+      "PATCH not guaranteed idempotent",
+      "GET, POST, DELETE roles",
+      "Status codes 200 / 201 / 204 / 404 / 422"
+    ],
+    "code": "# Current user: {\"id\": 5, \"name\": \"Ravi\", \"email\": \"ravi@old.com\", \"city\": \"Pune\"}\n\n# PUT /users/5    -> send the FULL object\n{\"name\": \"Ravi\", \"email\": \"ravi@new.com\", \"city\": \"Pune\"}\n\n# PATCH /users/5  -> send only what changes\n{\"email\": \"ravi@new.com\"}\n\n# FastAPI\n@app.put(\"/users/{user_id}\")\ndef replace_user(user_id: int, data: UserFull):         # all fields required\n    return repo.replace(user_id, data.model_dump())\n\n@app.patch(\"/users/{user_id}\")\ndef update_user(user_id: int, data: UserPartial):       # all fields optional\n    changes = data.model_dump(exclude_unset=True)       # only fields sent\n    return repo.update(user_id, changes)",
+    "memory": "Remember: PUT = whole object, PATCH = only changes",
+    "tip": "Show the FastAPI trick for PATCH: model_dump(exclude_unset=True)."
+  },
+  {
+    "id": "rest-api-a490a8c3",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "Authentication vs authorization: what is the difference? Which methods do you know?",
+    "answer": "Authentication (AuthN) checks who you are: login with a password, OTP, or a token. Failure returns 401 Unauthorized. Authorization (AuthZ) checks what you are allowed to do after login: can this user see this order, or delete this product? Failure returns 403 Forbidden. Authentication methods: session cookies (server stores the session, good for web apps), JWT tokens (signed, stateless, good for APIs and mobile, with short-lived access tokens and refresh tokens), OAuth2 / OpenID Connect (login with Google, or third-party access), API keys (server-to-server), and MFA (OTP or an authenticator app). Authorization models: role-based (RBAC: admin, manager, user), permission-based, and ownership checks (users can only see their own data).",
+    "points": [
+      "AuthN = who are you (401)",
+      "AuthZ = what can you do (403)",
+      "Session vs JWT",
+      "OAuth2 / OIDC",
+      "API keys",
+      "MFA",
+      "RBAC + ownership checks"
+    ],
+    "code": "# FastAPI: authentication (who) + authorization (what)\nfrom fastapi import Depends, FastAPI, HTTPException\nfrom fastapi.security import OAuth2PasswordBearer\nimport jwt                                     # pip install pyjwt\n\noauth2 = OAuth2PasswordBearer(tokenUrl=\"/login\")\nSECRET = \"load-from-env\"\n\ndef current_user(token: str = Depends(oauth2)):           # AUTHENTICATION\n    try:\n        payload = jwt.decode(token, SECRET, algorithms=[\"HS256\"])\n    except jwt.PyJWTError:\n        raise HTTPException(401, \"Invalid or expired token\")\n    return {\"id\": payload[\"sub\"], \"role\": payload[\"role\"]}\n\ndef require_role(role: str):                               # AUTHORIZATION\n    def checker(user=Depends(current_user)):\n        if user[\"role\"] != role:\n            raise HTTPException(403, \"Not allowed\")\n        return user\n    return checker\n\n@app.get(\"/orders/{order_id}\")\ndef get_order(order_id: int, user=Depends(current_user)):\n    order = repo.get(order_id)\n    if order.customer_id != user[\"id\"]:                    # ownership check\n        raise HTTPException(403, \"Not your order\")\n    return order\n\n@app.delete(\"/products/{pid}\")\ndef delete_product(pid: int, admin=Depends(require_role(\"admin\"))):\n    repo.delete(pid)",
+    "memory": "Remember: AuthN = identity, AuthZ = permission",
+    "tip": "Always say you check authorization on the server for every request, not only by hiding buttons in the UI."
+  },
+  {
+    "id": "fastapi-5acbabdc",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "FastAPI BackgroundTasks vs Celery: when to use which?",
+    "answer": "FastAPI BackgroundTasks run a small function after the response is sent, in the same process as the API. They are built in and need no extra setup: good for quick, non-critical work like sending one email or writing a log. But if the server restarts, the task is lost, there are no retries, no scheduling and no monitoring, and heavy work slows down the API. Celery runs tasks in separate worker processes through a broker (Redis or RabbitMQ). It gives retries, scheduling (Celery Beat), many workers on many machines, priorities, results and monitoring. Use Celery for important, slow or heavy jobs: reports, imports, payments, bulk emails.",
+    "points": [
+      "BackgroundTasks: same process, after response",
+      "No retries, lost on restart",
+      "Celery: separate workers + broker",
+      "Retries, scheduling, scaling, monitoring",
+      "Small → BackgroundTasks, important / heavy → Celery"
+    ],
+    "code": "from fastapi import BackgroundTasks, FastAPI\napp = FastAPI()\n\n# 1) BackgroundTasks: simple, in-process\ndef write_audit_log(user_id: int, action: str):\n    with open(\"audit.log\", \"a\") as f:\n        f.write(f\"{user_id} {action}\\n\")\n\n@app.post(\"/login\")\ndef login(background_tasks: BackgroundTasks):\n    background_tasks.add_task(write_audit_log, 42, \"login\")\n    return {\"status\": \"ok\"}              # response is sent first, then the task runs\n\n# 2) Celery: reliable, separate worker\nfrom app.worker import generate_report  # @celery_app.task\n\n@app.post(\"/reports\")\ndef create_report(month: str):\n    task = generate_report.delay(month)  # put on the queue, return immediately\n    return {\"task_id\": task.id}",
+    "memory": "Remember: Quick and optional → BackgroundTasks, reliable and heavy → Celery",
+    "tip": "Interviewers like the 'what happens if the server restarts?' argument."
+  },
+  {
+    "id": "fastapi-8b572063",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you start a Celery task from FastAPI and check its status?",
+    "answer": "The endpoint calls task.delay() (or apply_async()), which puts a message on the broker and returns a task ID immediately. The API returns 202 Accepted with that ID. The client then checks a status endpoint, or the server notifies it by WebSocket or webhook. The status endpoint uses AsyncResult with a result backend (Redis) to read the state: PENDING, STARTED, RETRY, SUCCESS or FAILURE, and the result or error.",
+    "points": [
+      "task.delay() returns task ID",
+      "202 Accepted",
+      "Status endpoint with AsyncResult",
+      "States: PENDING, STARTED, SUCCESS, FAILURE",
+      "Needs a result backend"
+    ],
+    "code": "# app/worker.py\nfrom celery import Celery\n\ncelery_app = Celery(\"app\",\n                    broker=\"redis://redis:6379/0\",\n                    backend=\"redis://redis:6379/1\")\ncelery_app.conf.task_track_started = True\ncelery_app.conf.result_expires = 3600           # keep results 1 hour\n\n@celery_app.task\ndef generate_report(month: str) -> dict:\n    rows = build_report(month)                   # slow work\n    return {\"month\": month, \"rows\": len(rows), \"url\": upload_to_s3(rows)}\n\n# app/main.py\nfrom celery.result import AsyncResult\nfrom fastapi import FastAPI\nfrom app.worker import celery_app, generate_report\n\napp = FastAPI()\n\n@app.post(\"/reports\", status_code=202)\ndef start_report(month: str):\n    task = generate_report.delay(month)\n    return {\"task_id\": task.id, \"status_url\": f\"/reports/{task.id}\"}\n\n@app.get(\"/reports/{task_id}\")\ndef report_status(task_id: str):\n    result = AsyncResult(task_id, app=celery_app)\n    response = {\"task_id\": task_id, \"state\": result.state}\n    if result.successful():\n        response[\"result\"] = result.result\n    elif result.failed():\n        response[\"error\"] = str(result.result)\n    return response",
+    "memory": "Remember: Submit → get ID → poll status",
+    "tip": "Set task_track_started=True so you can see STARTED, not only PENDING."
+  },
+  {
+    "id": "fastapi-3417f543",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you retry failed Celery tasks with backoff?",
+    "answer": "Network calls to payment gateways, email providers or partner APIs fail sometimes. Use autoretry_for to retry automatically on chosen exceptions, with retry_backoff for exponential delays (1 s, 2 s, 4 s, ...), retry_jitter to add randomness so all tasks don't retry at the same moment, and max_retries to stop eventually. For custom logic, use bind=True and self.retry(exc=..., countdown=...). Don't retry errors that will never succeed, like validation errors, and after the final failure log it or send it to a dead-letter process for review.",
+    "points": [
+      "autoretry_for specific errors",
+      "retry_backoff = exponential",
+      "retry_jitter",
+      "max_retries",
+      "self.retry() for custom logic",
+      "Don't retry permanent errors"
+    ],
+    "code": "import requests\nfrom app.worker import celery_app\n\n@celery_app.task(\n    autoretry_for=(requests.ConnectionError, requests.Timeout),\n    retry_backoff=True,          # 1s, 2s, 4s, 8s ...\n    retry_backoff_max=600,       # never wait more than 10 minutes\n    retry_jitter=True,\n    max_retries=5,\n)\ndef send_sms(phone: str, text: str):\n    resp = requests.post(\"https://sms.example.com/send\",\n                         json={\"to\": phone, \"text\": text}, timeout=5)\n    resp.raise_for_status()\n\n# Manual retry with custom logic\n@celery_app.task(bind=True, max_retries=3)\ndef charge_payment(self, order_id: int):\n    try:\n        return gateway.charge(order_id)\n    except gateway.TemporaryError as exc:\n        raise self.retry(exc=exc, countdown=30 * (self.request.retries + 1))\n    except gateway.CardDeclined:\n        mark_order_failed(order_id)      # permanent error: do not retry",
+    "memory": "Remember: Retry temporary errors, slower each time, then stop",
+    "tip": "Retries mean a task can run more than once, so tasks must be idempotent."
+  },
+  {
+    "id": "fastapi-6e4703be",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you make Celery tasks reliable and idempotent (acks_late)?",
+    "answer": "By default, a worker acknowledges (removes) a message from the broker when it starts the task, so if the worker crashes in the middle, the task is lost. With acks_late=True, the message is acknowledged only after the task finishes, so a crash makes it run again on another worker. That means a task may run more than once (at-least-once delivery), so it must be idempotent: running it twice must not charge twice or send two emails. Use a unique key per job and check or record it (database unique constraint, or Redis SET NX). Pass IDs to tasks, not big objects, and read fresh data inside the task.",
+    "points": [
+      "Default: ack at start (lost on crash)",
+      "acks_late: ack after finish",
+      "At-least-once = may run twice",
+      "Idempotent tasks",
+      "Unique key + SET NX or DB constraint",
+      "Pass IDs, not objects"
+    ],
+    "code": "import redis\nfrom app.worker import celery_app\n\nr = redis.Redis(decode_responses=True)\n\ncelery_app.conf.update(\n    task_acks_late=True,\n    task_reject_on_worker_lost=True,\n    worker_prefetch_multiplier=1,\n    broker_transport_options={\"visibility_timeout\": 3600},   # Redis broker\n)\n\n@celery_app.task(acks_late=True)\ndef send_welcome_email(user_id: int):\n    # idempotency key: only the first run sends the email\n    if not r.set(f\"welcome_email_sent:{user_id}\", \"1\", nx=True, ex=7 * 24 * 3600):\n        return \"already sent\"\n    user = get_user(user_id)               # read fresh data by ID\n    email_service.send(user.email, \"Welcome!\")\n    return \"sent\"",
+    "memory": "Remember: Ack late, run safely twice",
+    "tip": "With the Redis broker, set visibility_timeout longer than your longest task, or it may be delivered twice while still running."
+  },
+  {
+    "id": "fastapi-c30a04ee",
+    "subject": "FastAPI",
+    "level": "Beginner",
+    "question": "What are Celery chain, group and chord (Canvas)?",
+    "answer": "Canvas lets you combine tasks into workflows. chain: run tasks one after another, and each result is passed to the next (download → process → save). group: run many tasks in parallel (resize 100 images at once). chord: a group plus a callback that runs once all the parallel tasks finish, receiving all their results (process every file, then send one summary email). Signatures (task.s(...)) describe a task call without running it. Chords need a result backend.",
+    "points": [
+      "Signature = task.s()",
+      "chain = one after another",
+      "group = in parallel",
+      "chord = group + callback",
+      "Results passed along",
+      "Chord needs a result backend"
+    ],
+    "code": "from celery import chain, chord, group\nfrom app.worker import celery_app\n\n@celery_app.task\ndef download(url): ...\n@celery_app.task\ndef process(data): ...\n@celery_app.task\ndef save(result): ...\n@celery_app.task\ndef resize(image_id): ...\n@celery_app.task\ndef notify(results):\n    print(f\"{len(results)} images resized\")\n\n# chain: download -> process -> save (each result passed to the next)\nchain(download.s(\"https://example.com/file.csv\"), process.s(), save.s()).delay()\n\n# group: resize many images in parallel\ngroup(resize.s(i) for i in range(100)).delay()\n\n# chord: run all resizes, then call notify once with all results\nchord(group(resize.s(i) for i in range(100)))(notify.s())",
+    "memory": "Remember: chain = line, group = together, chord = together then finish",
+    "tip": "Keep chords small or use batching; huge chords put a lot of load on the result backend."
+  },
+  {
+    "id": "fastapi-7ffaeff9",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you use multiple queues and routing in Celery?",
+    "answer": "By default all tasks go to one queue, so a flood of slow report tasks can delay urgent ones like OTP emails. Route tasks to separate queues (for example 'emails', 'reports', 'default') and run dedicated workers for each, with the right concurrency. This gives priority by isolation: the urgent queue always has free workers. You can also route a single call with apply_async(queue=...). RabbitMQ supports real message priorities; with Redis, separate queues are the simplest reliable approach.",
+    "points": [
+      "Separate queues per task type",
+      "task_routes config",
+      "Dedicated workers with -Q",
+      "Urgent work never waits behind slow work",
+      "apply_async(queue=...)"
+    ],
+    "code": "from app.worker import celery_app\n\ncelery_app.conf.task_routes = {\n    \"app.tasks.send_otp\": {\"queue\": \"urgent\"},\n    \"app.tasks.send_newsletter\": {\"queue\": \"bulk\"},\n    \"app.tasks.generate_report\": {\"queue\": \"reports\"},\n}\ncelery_app.conf.task_default_queue = \"default\"\n\n# Send one call to a specific queue\ngenerate_report.apply_async(args=[\"2026-10\"], queue=\"reports\", countdown=10)\n\n# Run workers per queue (separate processes / containers)\n# celery -A app.worker worker -Q urgent  -c 8  -n urgent@%h\n# celery -A app.worker worker -Q reports -c 2  -n reports@%h\n# celery -A app.worker worker -Q default,bulk -c 4 -n general@%h",
+    "memory": "Remember: Fast lane for urgent tasks",
+    "tip": "Example: 'OTP emails go to a high-priority queue so they are never stuck behind bulk exports.'"
+  },
+  {
+    "id": "fastapi-7b743c78",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "Celery worker concurrency: prefork vs threads vs gevent, and prefetch?",
+    "answer": "Concurrency (-c) is how many tasks one worker runs at the same time. The pool decides how: prefork (default) uses processes, best for CPU-heavy tasks because each process has its own GIL. threads and gevent/eventlet run many tasks in one process, best for I/O-heavy tasks like API calls (gevent can run hundreds at once). Prefetch: a worker reserves tasks in advance (prefetch multiplier × concurrency). For long tasks, set worker_prefetch_multiplier=1 so one busy worker does not hold tasks that free workers could run. worker_max_tasks_per_child restarts processes after N tasks to clear memory leaks.",
+    "points": [
+      "-c = tasks at the same time",
+      "prefork = processes, CPU work",
+      "threads / gevent = I/O work",
+      "prefetch multiplier 1 for long tasks",
+      "max_tasks_per_child for leaks"
+    ],
+    "code": "# CPU-heavy tasks (image processing, PDF generation)\ncelery -A app.worker worker --pool=prefork --concurrency=4\n\n# I/O-heavy tasks (calling external APIs, sending emails)\ncelery -A app.worker worker --pool=gevent --concurrency=200   # pip install gevent\ncelery -A app.worker worker --pool=threads --concurrency=20\n\n# app/worker.py\ncelery_app.conf.update(\n    worker_prefetch_multiplier=1,       # long tasks: don't hoard messages\n    worker_max_tasks_per_child=200,     # recycle processes (memory leaks)\n)",
+    "memory": "Remember: CPU → prefork, I/O → gevent or threads",
+    "tip": "Start with concurrency equal to the number of CPU cores for prefork, then tune by measuring."
+  },
+  {
+    "id": "fastapi-6bb31c35",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you set time limits and rate limits on Celery tasks?",
+    "answer": "Time limits stop stuck tasks from blocking a worker forever. soft_time_limit raises SoftTimeLimitExceeded inside the task, so you can clean up or save progress. time_limit is the hard limit: the worker process is killed. Set the soft limit a little below the hard limit. rate_limit controls how often a task type runs per worker, for example '10/m', which is useful when a partner API only allows a few calls per minute. Also use expires for tasks that are useless if they start too late, like an OTP.",
+    "points": [
+      "soft_time_limit → exception, clean up",
+      "time_limit → hard kill",
+      "Soft below hard",
+      "rate_limit like '10/m' per worker",
+      "expires for time-sensitive tasks"
+    ],
+    "code": "from celery.exceptions import SoftTimeLimitExceeded\nfrom app.worker import celery_app\n\n@celery_app.task(soft_time_limit=240, time_limit=300)\ndef import_customers(file_id: int):\n    try:\n        for chunk in read_chunks(file_id):\n            save_chunk(chunk)\n    except SoftTimeLimitExceeded:\n        mark_import_partial(file_id)     # save progress before the hard kill\n        raise\n\n@celery_app.task(rate_limit=\"10/m\")      # max 10 per minute per worker\ndef sync_with_partner(order_id: int):\n    partner_api.push(order_id)\n\n# OTP that is useless after 2 minutes\nsend_otp.apply_async(args=[\"9876543210\"], expires=120)",
+    "memory": "Remember: Soft warns, hard kills, rate limits protect partners",
+    "tip": "Note: rate_limit is per worker, not global; for a global limit use a Redis-based limiter."
+  },
+  {
+    "id": "fastapi-21027884",
+    "subject": "FastAPI",
+    "level": "Advanced",
+    "question": "How do you monitor Celery in production?",
+    "answer": "Use Flower, a web dashboard for Celery: it shows workers, active, scheduled and failed tasks, task details with arguments and errors, and lets you retry or revoke tasks. Use celery inspect and status commands from the terminal. In production, also track metrics: queue length (in Redis, LLEN of the queue key), task duration, failure rate and retries, using Prometheus (celery-exporter) and Grafana, or New Relic. Alert when a queue keeps growing or the failure rate rises. Log the task ID and a business ID (like order_id) in every log line.",
+    "points": [
+      "Flower dashboard",
+      "celery inspect / status",
+      "Queue length, duration, failures",
+      "Prometheus + Grafana or New Relic",
+      "Alert on growing queues",
+      "Log task ID + business ID"
+    ],
+    "code": "pip install flower\ncelery -A app.worker flower --port=5555 --basic-auth=admin:change-me\n\n# Terminal checks\ncelery -A app.worker status                 # which workers are alive\ncelery -A app.worker inspect active         # tasks running now\ncelery -A app.worker inspect scheduled      # tasks with ETA / countdown\ncelery -A app.worker inspect stats\n\n# Queue length when Redis is the broker (default queue name is 'celery')\nredis-cli -n 0 LLEN celery",
+    "memory": "Remember: Watch the queue, the workers and the failures",
+    "tip": "A growing queue means workers can't keep up: scale workers or find the slow task."
+  },
+  {
+    "id": "fastapi-41203200",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you test Celery tasks?",
+    "answer": "1) Unit test the task logic by calling the task like a normal function (task(args) or task.run(args)); it runs immediately in the test process, without a broker. 2) Test the API endpoint by mocking .delay(), and check it was called with the right arguments and that the response contains the task ID. 3) For integration tests, run with task_always_eager=True so .delay() runs the task synchronously, or use the pytest fixtures from celery.contrib.pytest to start a real test worker. Keep business logic in plain functions so most tests don't need Celery at all.",
+    "points": [
+      "Call the task directly",
+      "Mock .delay() in API tests",
+      "task_always_eager for integration",
+      "celery.contrib.pytest fixtures",
+      "Logic in plain functions"
+    ],
+    "code": "# Task\n@celery_app.task\ndef add_points(customer_id: int, points: int) -> int:\n    return points_service.add(customer_id, points)\n\n# 1) Unit test: call it like a function (runs right now, no broker)\ndef test_add_points(mocker):\n    mocker.patch(\"app.tasks.points_service.add\", return_value=1500)\n    assert add_points(42, 300) == 1500\n\n# 2) API test: mock .delay()\ndef test_reward_endpoint(client, mocker):\n    fake = mocker.patch(\"app.main.add_points.delay\")\n    fake.return_value.id = \"task-123\"\n    resp = client.post(\"/rewards\", json={\"customer_id\": 42, \"points\": 300})\n    assert resp.json()[\"task_id\"] == \"task-123\"\n    fake.assert_called_once_with(42, 300)\n\n# 3) Integration: run tasks synchronously in tests only\ncelery_app.conf.task_always_eager = True\ncelery_app.conf.task_eager_propagates = True     # raise task errors in the test",
+    "memory": "Remember: Test the logic directly, mock the queue",
+    "tip": "task_always_eager is only for tests; never enable it in production."
+  },
+  {
+    "id": "fastapi-0813e3e0",
+    "subject": "FastAPI",
+    "level": "Intermediate",
+    "question": "How do you run FastAPI + Celery + Redis with Docker Compose?",
+    "answer": "Run each part as its own container from the same image: api (Uvicorn), worker (celery worker), beat (celery beat, only one instance), and redis (broker and result backend). Optionally add flower for monitoring. All services read the same environment variables, like the Redis URL and the database URL. The worker and the API share the code but scale separately: you can run 1 API container and 5 worker containers.",
+    "points": [
+      "Same image, different commands",
+      "api, worker, beat, redis, flower",
+      "Only one beat",
+      "Shared env vars",
+      "Scale workers separately"
+    ],
+    "code": "# docker-compose.yml\nservices:\n  redis:\n    image: redis:7-alpine\n    ports: [\"6379:6379\"]\n\n  api:\n    build: .\n    command: uvicorn app.main:app --host 0.0.0.0 --port 8000\n    ports: [\"8000:8000\"]\n    env_file: .env\n    depends_on: [redis]\n\n  worker:\n    build: .\n    command: celery -A app.worker worker --loglevel=info --concurrency=4\n    env_file: .env\n    depends_on: [redis]\n\n  beat:\n    build: .\n    command: celery -A app.worker beat --loglevel=info    # run only ONE beat\n    env_file: .env\n    depends_on: [redis]\n\n  flower:\n    build: .\n    command: celery -A app.worker flower --port=5555\n    ports: [\"5555:5555\"]\n    env_file: .env\n    depends_on: [redis]\n\n# .env\n# CELERY_BROKER_URL=redis://redis:6379/0\n# CELERY_RESULT_BACKEND=redis://redis:6379/1\n\n# docker compose up --build --scale worker=3",
+    "memory": "Remember: One image, many roles",
+    "tip": "Mention 'docker compose up --scale worker=3' to show how easily workers scale."
+  },
+  {
+    "id": "fastapi-399c0422",
+    "subject": "FastAPI",
+    "level": "Beginner",
+    "question": "What are the alternatives to Celery?",
+    "answer": "RQ (Redis Queue): very simple, Redis only, good for small projects. Dramatiq: simpler than Celery with good defaults (retries, acks), works with Redis or RabbitMQ. arq: async-first, built on asyncio and Redis, a natural fit for async FastAPI code. Huey: lightweight with scheduling. Cloud options: AWS SQS with Lambda or ECS workers, Google Cloud Tasks. For complex long-running workflows: Temporal or AWS Step Functions. Celery is still the most common and feature-rich, which is why most companies use it.",
+    "points": [
+      "RQ = simple, Redis",
+      "Dramatiq = simpler Celery",
+      "arq = async + Redis",
+      "SQS + Lambda / ECS",
+      "Temporal / Step Functions for workflows",
+      "Celery = most features + most used"
+    ],
+    "code": "",
+    "memory": "Remember: Celery for features, RQ for simplicity, arq for async",
+    "tip": "Knowing alternatives shows you choose tools on purpose, not out of habit."
+  },
+  {
+    "id": "rest-api-2626f67c",
+    "subject": "REST API",
+    "level": "Beginner",
+    "question": "What are REST API design best practices?",
+    "answer": "1) Use nouns for resources, plural, and HTTP methods for actions: GET /orders, POST /orders, GET /orders/42, PATCH /orders/42, DELETE /orders/42 (not /getOrders or /deleteOrder). 2) Use correct status codes (201 Created, 204 No Content, 400, 401, 403, 404, 409 Conflict, 422, 429, 500). 3) Keep nesting shallow: /customers/7/orders is fine, deeper is not. 4) Support filtering, sorting and pagination with query parameters. 5) Return one consistent error format. 6) Version the API. 7) Make retries safe (idempotency). 8) Use consistent naming (snake_case or camelCase, not both), ISO 8601 dates in UTC. 9) Secure everything with HTTPS, authentication and rate limits. 10) Document with OpenAPI / Swagger.",
+    "points": [
+      "Plural nouns + HTTP methods",
+      "Correct status codes",
+      "Shallow nesting",
+      "Filter, sort, paginate via query",
+      "Consistent errors",
+      "Versioning",
+      "Idempotency",
+      "Consistent naming, ISO dates",
+      "HTTPS, auth, rate limits",
+      "OpenAPI docs"
+    ],
+    "code": "GET    /api/v1/orders?status=paid&sort=-created_at&page=2&limit=20\nPOST   /api/v1/orders                 -> 201 Created + Location header\nGET    /api/v1/orders/42              -> 200 OK / 404 Not Found\nPATCH  /api/v1/orders/42              -> 200 OK\nDELETE /api/v1/orders/42              -> 204 No Content\nGET    /api/v1/customers/7/orders     -> orders of one customer\n\nBad:   GET /api/getAllOrders     POST /api/deleteOrder?id=42",
+    "memory": "Remember: Nouns, Methods, Status codes, Consistency",
+    "tip": "Give one bad and one good URL; it makes the answer concrete."
+  },
+  {
+    "id": "rest-api-b284c7a5",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "How do you version an API?",
+    "answer": "Versioning lets you make breaking changes without breaking existing web and mobile clients (old app versions stay installed for months). Options: in the URL (/api/v1/orders), the most common and easiest to see and test; in a header (Accept: application/vnd.company.v2+json or X-API-Version: 2); or a query parameter (?version=2). Only create a new version for breaking changes (removing or renaming fields, changing meaning); adding optional fields is not breaking. Run old and new versions side by side, announce a deprecation date (Deprecation and Sunset headers), track who still calls the old version, then remove it.",
+    "points": [
+      "Protects old clients",
+      "URL /v1 (most common)",
+      "Header or query versioning",
+      "New version only for breaking changes",
+      "Run both, deprecate, then remove"
+    ],
+    "code": "# FastAPI: versions as separate routers\nfrom fastapi import APIRouter, FastAPI\n\nv1 = APIRouter(prefix=\"/api/v1\")\nv2 = APIRouter(prefix=\"/api/v2\")\n\n@v1.get(\"/customers/{cid}\")\ndef customer_v1(cid: int):\n    return {\"id\": cid, \"name\": \"Ravi Kumar\"}\n\n@v2.get(\"/customers/{cid}\")\ndef customer_v2(cid: int):                       # breaking change: name split\n    return {\"id\": cid, \"first_name\": \"Ravi\", \"last_name\": \"Kumar\"}\n\napp = FastAPI()\napp.include_router(v1)\napp.include_router(v2)",
+    "memory": "Remember: Add freely, break only in a new version",
+    "tip": "Mobile apps are the main reason; users don't update immediately."
+  },
+  {
+    "id": "rest-api-5b5cc061",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "How do you design pagination, filtering and sorting in an API?",
+    "answer": "Filtering: query parameters per field (?status=paid&city=Pune&created_from=2026-01-01). Sorting: ?sort=-created_at,name (minus means descending), allowing only whitelisted fields. Pagination has two styles. Offset (?page=3&limit=20) is simple and lets users jump to a page, but it gets slow on big tables (OFFSET scans rows) and rows can be skipped or repeated when data changes. Cursor or keyset (?cursor=<last id>&limit=20, using WHERE id < last_id) is fast at any depth and stable, great for feeds and mobile infinite scroll, but you cannot jump to page 50. Always cap the limit (for example 100) and return metadata or the next cursor.",
+    "points": [
+      "Filters as query params",
+      "sort=-field, whitelist fields",
+      "Offset: simple, slow when deep",
+      "Cursor / keyset: fast, stable",
+      "Cap the limit",
+      "Return next cursor or total"
+    ],
+    "code": "from fastapi import FastAPI, Query\n\napp = FastAPI()\nSORTABLE = {\"created_at\", \"amount\", \"id\"}\n\n@app.get(\"/orders\")\ndef list_orders(status: str | None = None,\n                sort: str = \"-created_at\",\n                cursor: int | None = None,\n                limit: int = Query(20, le=100)):\n    field = sort.lstrip(\"-\")\n    if field not in SORTABLE:\n        field = \"created_at\"                          # whitelist\n    q = select(Order)\n    if status:\n        q = q.where(Order.status == status)\n    if cursor:\n        q = q.where(Order.id < cursor)                # keyset pagination\n    q = q.order_by(Order.id.desc()).limit(limit + 1)  # one extra to know if more exist\n    rows = db.scalars(q).all()\n    has_more = len(rows) > limit\n    rows = rows[:limit]\n    return {\n        \"data\": [OrderOut.model_validate(r) for r in rows],\n        \"next_cursor\": rows[-1].id if has_more else None,\n    }",
+    "memory": "Remember: Offset for admin pages, cursor for big feeds",
+    "tip": "Never put user input straight into ORDER BY; whitelist sort fields to avoid SQL injection."
+  },
+  {
+    "id": "rest-api-f79ce8b8",
+    "subject": "REST API",
+    "level": "Beginner",
+    "question": "What is a good error response format for an API?",
+    "answer": "Every error should have the same shape so web and mobile clients can handle it in one place. A good format has: the HTTP status code, a stable machine-readable code (like INSUFFICIENT_POINTS), a human-readable message, field-level details for validation errors, and a request or trace ID for support. There is a standard for this: Problem Details (RFC 9457, application/problem+json) with type, title, status, detail and instance fields. Never return stack traces or SQL errors to clients; log them on the server with the request ID instead.",
+    "points": [
+      "Same shape for every error",
+      "Stable error code",
+      "Human message",
+      "Field details for validation",
+      "Request ID for support",
+      "RFC 9457 Problem Details",
+      "No stack traces to clients"
+    ],
+    "code": "# FastAPI: one handler for all business errors\nfrom fastapi import FastAPI, Request\nfrom fastapi.responses import JSONResponse\n\nclass AppError(Exception):\n    def __init__(self, status: int, code: str, message: str, details=None):\n        self.status, self.code, self.message, self.details = status, code, message, details\n\napp = FastAPI()\n\n@app.exception_handler(AppError)\nasync def app_error_handler(request: Request, exc: AppError):\n    return JSONResponse(status_code=exc.status, content={\n        \"error\": {\n            \"code\": exc.code,\n            \"message\": exc.message,\n            \"details\": exc.details,\n            \"request_id\": request.headers.get(\"X-Request-ID\"),\n        }\n    })\n\n@app.post(\"/redeem\")\ndef redeem(points: int):\n    raise AppError(409, \"INSUFFICIENT_POINTS\", \"You have only 300 points.\",\n                   {\"available\": 300, \"requested\": points})\n\n# Response:\n# {\"error\": {\"code\": \"INSUFFICIENT_POINTS\", \"message\": \"You have only 300 points.\",\n#            \"details\": {\"available\": 300, \"requested\": 500}, \"request_id\": \"f3a9...\"}}",
+    "memory": "Remember: Status, Code, Message, Details, Request ID",
+    "tip": "Clients should branch on the error code, not on the message text, so messages can change or be translated."
+  },
+  {
+    "id": "rest-api-6d4de77c",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "How do you make a POST request safe to retry (Idempotency-Key)?",
+    "answer": "GET, PUT and DELETE are idempotent, but POST is not: if a mobile app sends 'create payment', the network drops, and it retries, the customer could be charged twice. Fix: the client sends a unique Idempotency-Key header (a UUID) with each logical operation. The server stores the key with the result. If the same key comes again, it returns the saved result instead of doing the work again. Store keys in Redis or a database table with an expiry (for example 24 hours), and handle two identical requests arriving at the same time with an atomic SET NX. Stripe and most payment APIs work this way.",
+    "points": [
+      "POST is not idempotent",
+      "Client sends Idempotency-Key (UUID)",
+      "Save key + result",
+      "Same key → return saved result",
+      "Redis SET NX for concurrent requests",
+      "Expire after 24 h"
+    ],
+    "code": "import json\nimport redis\nfrom fastapi import FastAPI, Header, HTTPException\n\nr = redis.Redis(decode_responses=True)\napp = FastAPI()\n\n@app.post(\"/payments\", status_code=201)\ndef create_payment(body: PaymentIn, idempotency_key: str = Header(...)):\n    key = f\"idem:payments:{idempotency_key}\"\n\n    saved = r.get(key)\n    if saved and saved != \"processing\":\n        return json.loads(saved)                     # retry: same answer, no new charge\n\n    if not r.set(key, \"processing\", nx=True, ex=86400):\n        raise HTTPException(409, \"Same request is already being processed\")\n\n    try:\n        result = charge_customer(body)               # runs only once per key\n    except Exception:\n        r.delete(key)                                # allow a real retry after failure\n        raise\n    r.set(key, json.dumps(result), ex=86400)\n    return result",
+    "memory": "Remember: Same key, same result, done once",
+    "tip": "Perfect for loyalty: point credits and redemptions must never happen twice."
+  },
+  {
+    "id": "rest-api-bd572524",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "What are webhooks? How do you receive them safely?",
+    "answer": "A webhook is an HTTP callback: when an event happens in another system (payment succeeded, order shipped), that system sends a POST request to a URL you provide, instead of you polling them again and again. To receive webhooks safely: 1) Verify the signature (usually an HMAC-SHA256 of the raw body with a shared secret) so nobody can fake events. 2) Reject old timestamps to stop replay attacks. 3) Return 2xx quickly and do the real work in a background job (Celery), because senders time out and retry. 4) Make processing idempotent using the event ID, since the same event can arrive more than once. 5) Log every event for debugging.",
+    "points": [
+      "Push instead of polling",
+      "Verify HMAC signature",
+      "Check timestamp (replay)",
+      "Respond fast, process in background",
+      "Idempotent by event ID",
+      "Log events"
+    ],
+    "code": "import hashlib\nimport hmac\nimport json\nfrom fastapi import FastAPI, Header, HTTPException, Request\n\napp = FastAPI()\nWEBHOOK_SECRET = b\"load-from-secrets-manager\"\n\n@app.post(\"/webhooks/payments\")\nasync def payment_webhook(request: Request, x_signature: str = Header(...)):\n    raw = await request.body()                                   # raw bytes, not parsed JSON\n    expected = hmac.new(WEBHOOK_SECRET, raw, hashlib.sha256).hexdigest()\n    if not hmac.compare_digest(expected, x_signature):\n        raise HTTPException(401, \"Invalid signature\")\n\n    event = json.loads(raw)\n    if already_processed(event[\"id\"]):                           # idempotency\n        return {\"status\": \"duplicate\"}\n\n    process_payment_event.delay(event)                           # Celery: do the work later\n    return {\"status\": \"received\"}                                # fast 200",
+    "memory": "Remember: Verify, Acknowledge fast, Process once",
+    "tip": "Use hmac.compare_digest to compare signatures; a normal == comparison can leak timing information."
+  },
+  {
+    "id": "rest-api-7e445c9d",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "How do OAuth2 and JWT authentication work?",
+    "answer": "JWT (JSON Web Token) is a signed token with three parts: header.payload.signature. The payload holds claims like sub (user ID), role and exp (expiry). The server signs it with a secret (HS256) or a private key (RS256), so it can verify the token without a database lookup; this makes it stateless. The payload is only encoded, not encrypted, so never put passwords or secrets in it. Typical login flow: the user logs in, the server returns a short-lived access token (about 15 minutes) and a long-lived refresh token; the client sends 'Authorization: Bearer <token>'; when the access token expires, the client uses the refresh token to get a new one (rotate refresh tokens). OAuth2 is the framework for authorization: the Authorization Code flow with PKCE is used for 'Login with Google' and third-party access, and Client Credentials is used for server-to-server calls.",
+    "points": [
+      "JWT = header.payload.signature",
+      "Claims: sub, role, exp",
+      "Signed, stateless",
+      "Encoded, not encrypted",
+      "Short access + refresh token",
+      "Bearer header",
+      "OAuth2: Auth Code + PKCE, Client Credentials"
+    ],
+    "code": "# pip install pyjwt\nfrom datetime import datetime, timedelta, timezone\nimport jwt\n\nSECRET = \"load-from-env\"\n\ndef create_access_token(user_id: int, role: str) -> str:\n    now = datetime.now(timezone.utc)\n    payload = {\"sub\": str(user_id), \"role\": role,\n               \"iat\": now, \"exp\": now + timedelta(minutes=15)}\n    return jwt.encode(payload, SECRET, algorithm=\"HS256\")\n\ndef verify(token: str) -> dict:\n    # raises jwt.ExpiredSignatureError / jwt.InvalidTokenError\n    return jwt.decode(token, SECRET, algorithms=[\"HS256\"])\n\ntoken = create_access_token(42, \"admin\")\nprint(verify(token)[\"sub\"])      # '42'\n# Client sends:  Authorization: Bearer <token>",
+    "memory": "Remember: JWT proves who you are; OAuth2 decides how you get it",
+    "tip": "Logout with JWT needs a blocklist (Redis) or short expiry, because a JWT stays valid until it expires."
+  },
+  {
+    "id": "rest-api-e7fb6878",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "REST vs GraphQL vs gRPC: when to use which?",
+    "answer": "REST: resources over HTTP with JSON; simple, cacheable, works everywhere; the default for public and web or mobile APIs. Downsides: over-fetching or under-fetching (several calls for one screen). GraphQL: one endpoint where the client asks for exactly the fields it needs, good for complex frontends and mobile apps with many screens; but caching, rate limiting and N+1 queries on the server are harder. gRPC: binary Protocol Buffers over HTTP/2, very fast, strict typed contracts, streaming; great for internal service-to-service calls in microservices, but not directly usable from browsers.",
+    "points": [
+      "REST = simple, cacheable, default",
+      "GraphQL = client picks fields, one endpoint",
+      "GraphQL: harder caching, N+1",
+      "gRPC = fast binary, typed, HTTP/2",
+      "gRPC for internal microservices"
+    ],
+    "code": "",
+    "memory": "Remember: REST for public, GraphQL for flexible frontends, gRPC for internal speed",
+    "tip": "Most companies use REST outside and gRPC or messaging inside; saying that shows real-world awareness."
+  },
+  {
+    "id": "sqlalchemy-1848e675",
+    "subject": "SQLAlchemy",
+    "level": "Intermediate",
+    "question": "How do you define relationships in SQLAlchemy 2.0?",
+    "answer": "In SQLAlchemy 2.0 you write models with type hints: Mapped[...] and mapped_column(). A ForeignKey column links the tables, and relationship() gives you Python attributes to move between objects: customer.orders (one-to-many) and order.customer (many-to-one). back_populates keeps both sides in sync. For many-to-many, use an association table and relationship(secondary=...). cascade='all, delete-orphan' deletes child rows when they are removed from the parent.",
+    "points": [
+      "Mapped + mapped_column",
+      "ForeignKey column",
+      "relationship() for navigation",
+      "back_populates on both sides",
+      "secondary= for many-to-many",
+      "cascade delete-orphan"
+    ],
+    "code": "from datetime import datetime\nfrom sqlalchemy import Column, ForeignKey, String, Table, func\nfrom sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship\n\nclass Base(DeclarativeBase):\n    pass\n\norder_tags = Table(\"order_tags\", Base.metadata,\n    Column(\"order_id\", ForeignKey(\"orders.id\"), primary_key=True),\n    Column(\"tag_id\", ForeignKey(\"tags.id\"), primary_key=True))\n\nclass Customer(Base):\n    __tablename__ = \"customers\"\n    id: Mapped[int] = mapped_column(primary_key=True)\n    email: Mapped[str] = mapped_column(String(255), unique=True)\n    orders: Mapped[list[\"Order\"]] = relationship(back_populates=\"customer\",\n                                                 cascade=\"all, delete-orphan\")\n\nclass Order(Base):\n    __tablename__ = \"orders\"\n    id: Mapped[int] = mapped_column(primary_key=True)\n    customer_id: Mapped[int] = mapped_column(ForeignKey(\"customers.id\"), index=True)\n    total: Mapped[float]\n    created_at: Mapped[datetime] = mapped_column(server_default=func.now())\n    customer: Mapped[\"Customer\"] = relationship(back_populates=\"orders\")\n    tags: Mapped[list[\"Tag\"]] = relationship(secondary=order_tags)\n\nclass Tag(Base):\n    __tablename__ = \"tags\"\n    id: Mapped[int] = mapped_column(primary_key=True)\n    name: Mapped[str] = mapped_column(String(50), unique=True)",
+    "memory": "Remember: ForeignKey links tables, relationship links objects",
+    "tip": "Mention that relationships are lazy-loaded by default, which leads to the next question: N+1 and eager loading."
+  },
+  {
+    "id": "sqlalchemy-afc6559f",
+    "subject": "SQLAlchemy",
+    "level": "Intermediate",
+    "question": "Lazy loading vs joinedload vs selectinload?",
+    "answer": "By default, relationships are lazy-loaded: customer.orders runs a new query the first time you access it. In a loop over 100 customers this becomes 101 queries (the N+1 problem). Eager loading fixes it. joinedload uses a SQL JOIN in the same query, best for many-to-one or one-to-one (order.customer). selectinload runs one extra query with WHERE id IN (...), best for one-to-many and many-to-many collections (customer.orders), because a JOIN would repeat the parent row for every child. raiseload makes accidental lazy loads raise an error, which is very useful in async code, where lazy loading is not allowed.",
+    "points": [
+      "Lazy = query on first access",
+      "Lazy in a loop = N+1",
+      "joinedload = JOIN, for single objects",
+      "selectinload = IN query, for collections",
+      "raiseload catches accidental lazy loads"
+    ],
+    "code": "from sqlalchemy import select\nfrom sqlalchemy.orm import joinedload, selectinload, raiseload\n\n# N+1: 1 query for customers + 1 per customer for orders\nfor c in session.scalars(select(Customer)).all():\n    print(c.email, len(c.orders))\n\n# selectinload: 2 queries total (customers, then orders WHERE customer_id IN (...))\nstmt = select(Customer).options(selectinload(Customer.orders))\nfor c in session.scalars(stmt).all():\n    print(c.email, len(c.orders))\n\n# joinedload: 1 query with JOIN (many-to-one)\nstmt = select(Order).options(joinedload(Order.customer))\nfor o in session.scalars(stmt).all():\n    print(o.id, o.customer.email)\n\n# Fail loudly on any other lazy load\nstmt = select(Customer).options(selectinload(Customer.orders), raiseload(\"*\"))",
+    "memory": "Remember: joined for one, selectin for many",
+    "tip": "Turn on echo=True or SQL logging in development to count the queries a page runs."
+  },
+  {
+    "id": "sqlalchemy-6b81c118",
+    "subject": "SQLAlchemy",
+    "level": "Intermediate",
+    "question": "How do you use SQLAlchemy with FastAPI (one session per request)?",
+    "answer": "Create the engine and a sessionmaker once at startup. Write a get_db dependency that opens a session, yields it to the endpoint, and always closes it in finally, so each request gets its own session and connections return to the pool. Commit in the service or endpoint when the work succeeds; roll back on errors. Never share one global session between requests: sessions are not thread-safe. Set pool_pre_ping=True so dead connections (after a database restart) are replaced automatically.",
+    "points": [
+      "Engine + sessionmaker once",
+      "get_db dependency with yield",
+      "Close in finally",
+      "One session per request",
+      "Commit on success, rollback on error",
+      "pool_pre_ping=True"
+    ],
+    "code": "# app/core/database.py\nfrom sqlalchemy import create_engine\nfrom sqlalchemy.orm import sessionmaker\n\nengine = create_engine(settings.database_url, pool_size=10, max_overflow=20,\n                       pool_pre_ping=True, pool_recycle=1800)\nSessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)\n\ndef get_db():\n    db = SessionLocal()\n    try:\n        yield db\n    finally:\n        db.close()                         # connection goes back to the pool\n\n# app/api/v1/customers.py\nfrom fastapi import Depends, HTTPException\nfrom sqlalchemy.orm import Session\n\n@router.post(\"/customers\", response_model=CustomerOut, status_code=201)\ndef create_customer(data: CustomerIn, db: Session = Depends(get_db)):\n    if db.scalar(select(Customer).where(Customer.email == data.email)):\n        raise HTTPException(409, \"Email already registered\")\n    customer = Customer(**data.model_dump())\n    db.add(customer)\n    db.commit()\n    db.refresh(customer)\n    return customer",
+    "memory": "Remember: Open per request, yield, always close",
+    "tip": "This is the pattern from the official FastAPI docs; mention you used it in production services."
+  },
+  {
+    "id": "sqlalchemy-d8364994",
+    "subject": "SQLAlchemy",
+    "level": "Intermediate",
+    "question": "What is Alembic? How do you run database migrations?",
+    "answer": "Alembic is the migration tool for SQLAlchemy, like Laravel or Django migrations. It keeps versioned scripts that change the database schema step by step, and records the current version in the alembic_version table. Workflow: change your models, run 'alembic revision --autogenerate' to create a migration script, review it (autogenerate can miss renames and some changes), then run 'alembic upgrade head'. 'alembic downgrade -1' rolls back one step. In production, run migrations in the CI/CD pipeline before starting the new app version, and keep them backward compatible (add a column first, remove old columns in a later release).",
+    "points": [
+      "Migration tool for SQLAlchemy",
+      "Versioned scripts + alembic_version table",
+      "revision --autogenerate",
+      "Always review the script",
+      "upgrade head / downgrade -1",
+      "Run in CI/CD, backward compatible"
+    ],
+    "code": "pip install alembic\nalembic init migrations              # creates alembic.ini and migrations/\n\n# migrations/env.py:  target_metadata = Base.metadata\n\nalembic revision --autogenerate -m \"add tier to customers\"\nalembic upgrade head                 # apply all pending migrations\nalembic current                      # show the current version\nalembic downgrade -1                 # roll back one step\n\n# migrations/versions/xxxx_add_tier_to_customers.py\ndef upgrade():\n    op.add_column(\"customers\", sa.Column(\"tier\", sa.String(20), server_default=\"silver\"))\n    op.create_index(\"ix_customers_tier\", \"customers\", [\"tier\"])\n\ndef downgrade():\n    op.drop_index(\"ix_customers_tier\", table_name=\"customers\")\n    op.drop_column(\"customers\", \"tier\")",
+    "memory": "Remember: Change model → autogenerate → review → upgrade",
+    "tip": "Never edit a migration that has already run in production; create a new one."
+  },
+  {
+    "id": "sqlalchemy-ae520667",
+    "subject": "SQLAlchemy",
+    "level": "Intermediate",
+    "question": "How do you use async SQLAlchemy with FastAPI?",
+    "answer": "Use create_async_engine with an async driver (asyncpg for PostgreSQL, aiomysql or asyncmy for MySQL), async_sessionmaker and AsyncSession. Every database call is awaited: await session.execute(...), await session.commit(). Lazy loading does not work in async code (it would need a hidden blocking query), so load relationships eagerly with selectinload, or use the awaitable_attrs helper. Use async SQLAlchemy when the whole endpoint is async and you have many concurrent I/O calls; a normal sync session in a def endpoint is also fine, because FastAPI runs it in a thread pool.",
+    "points": [
+      "create_async_engine + async driver",
+      "async_sessionmaker, AsyncSession",
+      "await every DB call",
+      "No lazy loading: use selectinload",
+      "Sync session in def endpoints is also fine"
+    ],
+    "code": "# pip install \"sqlalchemy[asyncio]\" asyncpg\nfrom fastapi import Depends, FastAPI\nfrom sqlalchemy import select\nfrom sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine\nfrom sqlalchemy.orm import selectinload\n\nengine = create_async_engine(\"postgresql+asyncpg://user:pass@localhost/loyalty\",\n                             pool_size=10, pool_pre_ping=True)\nSessionLocal = async_sessionmaker(engine, expire_on_commit=False)\n\nasync def get_db():\n    async with SessionLocal() as session:\n        yield session\n\napp = FastAPI()\n\n@app.get(\"/customers/{cid}\")\nasync def get_customer(cid: int, db: AsyncSession = Depends(get_db)):\n    stmt = (select(Customer)\n            .where(Customer.id == cid)\n            .options(selectinload(Customer.orders)))       # no lazy loading in async\n    customer = (await db.execute(stmt)).scalar_one_or_none()\n    return {\"email\": customer.email, \"orders\": len(customer.orders)}",
+    "memory": "Remember: Async engine, async session, await everything, eager load",
+    "tip": "Don't mix: calling a sync session inside an async def endpoint blocks the event loop."
+  },
+  {
+    "id": "sqlalchemy-616a1487",
+    "subject": "SQLAlchemy",
+    "level": "Intermediate",
+    "question": "How do you do bulk inserts and updates efficiently? How do you tune the connection pool?",
+    "answer": "Adding objects one by one with session.add() in a loop is slow for thousands of rows. For bulk work, pass a list of dictionaries to session.execute(insert(Model), rows) or update(Model): SQLAlchemy 2.0 sends them in efficient batches (executemany). Process very large data in chunks (for example 1,000 rows) and commit per chunk, so memory and transaction size stay small. For PostgreSQL upserts use insert(...).on_conflict_do_update(). Connection pool settings: pool_size (connections kept open), max_overflow (extra connections at peak), pool_timeout, pool_recycle (replace old connections before the server closes them) and pool_pre_ping. Keep the total connections of all app instances below the database's max_connections.",
+    "points": [
+      "Avoid add() loops for big data",
+      "execute(insert(Model), list_of_dicts)",
+      "Chunks of ~1,000 + commit per chunk",
+      "PostgreSQL upsert: on_conflict_do_update",
+      "pool_size, max_overflow, pool_recycle, pre_ping",
+      "Total connections < DB max"
+    ],
+    "code": "from sqlalchemy import insert, update\nfrom sqlalchemy.dialects.postgresql import insert as pg_insert\n\ndef chunks(items, size=1000):\n    for i in range(0, len(items), size):\n        yield items[i:i + size]\n\n# Bulk insert in chunks\nrows = [{\"customer_id\": c, \"points\": 50, \"reason\": \"Diwali bonus\"} for c in customer_ids]\nfor batch in chunks(rows):\n    session.execute(insert(PointsLedger), batch)\n    session.commit()\n\n# Bulk update by primary key (each dict must contain the primary key)\nsession.execute(update(Customer), [{\"id\": 1, \"tier\": \"gold\"}, {\"id\": 2, \"tier\": \"silver\"}])\nsession.commit()\n\n# PostgreSQL upsert\nstmt = pg_insert(Product).values(sku=\"P100\", price=499)\nstmt = stmt.on_conflict_do_update(index_elements=[\"sku\"], set_={\"price\": stmt.excluded.price})\nsession.execute(stmt)\n\n# Pool: 4 app containers x (10 + 20) = 120 connections max, must be below DB max_connections\nengine = create_engine(url, pool_size=10, max_overflow=20, pool_timeout=30,\n                       pool_recycle=1800, pool_pre_ping=True)",
+    "memory": "Remember: Batch the rows, chunk the work, size the pool",
+    "tip": "Mention the lakhs-of-rows imports you processed with Celery in chunks."
+  }
+]

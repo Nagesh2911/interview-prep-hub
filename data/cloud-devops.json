@@ -1,0 +1,2112 @@
+[
+  {
+    "id": "docker-ci-cd-3b91fb71",
+    "subject": "Docker/CI-CD",
+    "level": "Beginner",
+    "question": "What is Docker?",
+    "answer": "Docker packages an application and its dependencies into a container. It helps keep development, testing and deployment environments consistent.",
+    "points": [
+      "Container",
+      "Dependencies",
+      "Consistency"
+    ],
+    "code": "",
+    "memory": "Remember: Package app + environment",
+    "tip": "Mention Dockerfile and image/container if asked."
+  },
+  {
+    "id": "docker-ci-cd-b5ab4be2",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "Image vs container?",
+    "answer": "An image is a read-only template: the app plus everything it needs. A container is a running copy of an image. One image can run as many containers.",
+    "points": [
+      "Image = template",
+      "Container = running copy",
+      "Many from one"
+    ],
+    "code": "",
+    "memory": "Remember: Image is the class, container is the object",
+    "tip": "Images are built from a Dockerfile."
+  },
+  {
+    "id": "docker-ci-cd-0fb2ae10",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "Docker vs virtual machine?",
+    "answer": "A virtual machine runs a full operating system with its own kernel, so it is heavy and slow to start. A Docker container shares the host's kernel and only packages the app and its libraries, so it is light and starts in seconds.",
+    "points": [
+      "VM = full OS",
+      "Container = shares kernel",
+      "Light and fast"
+    ],
+    "code": "",
+    "memory": "Remember: VM = whole house, container = room",
+    "tip": "Containers give the same environment on every machine."
+  },
+  {
+    "id": "docker-ci-cd-09cc5567",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "Show a Dockerfile for a FastAPI app.",
+    "answer": "A Dockerfile has the steps to build an image. Start from a Python image, copy requirements and install them, copy the code, then start uvicorn. We copy requirements.txt before the code, so Docker can reuse the installed packages when only the code changes. This makes builds faster.",
+    "points": [
+      "Base image",
+      "Install requirements",
+      "Copy code",
+      "Run uvicorn",
+      "Layer cache"
+    ],
+    "code": "FROM python:3.12-slim\n\nWORKDIR /app\n\nCOPY requirements.txt .\nRUN pip install --no-cache-dir -r requirements.txt\n\nCOPY . .\n\nEXPOSE 8000\nCMD [\"uvicorn\", \"main:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]",
+    "memory": "Remember: Base → Install → Copy → Run",
+    "tip": "Explain why requirements are copied first. That shows real Docker understanding."
+  },
+  {
+    "id": "aws-6d29fcd4",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is cloud computing? What is AWS?",
+    "answer": "Cloud computing means using servers, storage and databases over the internet, paying only for what you use, instead of buying your own hardware. AWS (Amazon Web Services) is the biggest cloud provider.",
+    "points": [
+      "Rent, don't buy",
+      "Pay as you go",
+      "Scale up and down",
+      "AWS = biggest provider"
+    ],
+    "code": "",
+    "memory": "Remember: Cloud = someone else's servers, on demand",
+    "tip": "Mention IaaS (EC2), PaaS (Elastic Beanstalk) and SaaS (Gmail) if asked."
+  },
+  {
+    "id": "aws-2d877a20",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "Explain basic AWS services in one line each.",
+    "answer": "EC2: a virtual server in the cloud. S3: storage for files and images. RDS: a managed database (MySQL, PostgreSQL), where AWS does backups and updates. Lambda: runs small code without managing a server. IAM: users and permissions. CloudWatch: logs, metrics and alerts. VPC: a private network for your servers.",
+    "points": [
+      "EC2",
+      "S3",
+      "RDS",
+      "Lambda",
+      "IAM",
+      "CloudWatch",
+      "VPC"
+    ],
+    "code": "",
+    "memory": "Remember: Server, Storage, Database, Function, Permission, Monitoring",
+    "tip": "One line for each is enough unless they ask deeper."
+  },
+  {
+    "id": "aws-43c3796f",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "Region vs Availability Zone?",
+    "answer": "A Region is a geographic area, like Mumbai (ap-south-1). Each region has several Availability Zones (AZs), which are separate data centers. Running servers in 2+ AZs keeps the app running if one data center fails.",
+    "points": [
+      "Region = city area",
+      "AZ = separate data center",
+      "Multi-AZ = high availability"
+    ],
+    "code": "",
+    "memory": "Remember: Region has many AZs",
+    "tip": "Choose a region close to your users, like Mumbai for India."
+  },
+  {
+    "id": "aws-35622f83",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is EC2?",
+    "answer": "EC2 (Elastic Compute Cloud) gives virtual servers in the cloud. You choose the operating system, CPU and memory (instance type), and pay per second or hour. You can start, stop and resize them anytime.",
+    "points": [
+      "Virtual server",
+      "Instance type",
+      "AMI",
+      "Pay per use"
+    ],
+    "code": "",
+    "memory": "Remember: EC2 = server on rent",
+    "tip": "Instance families: t (general, burstable), c (CPU), r (memory)."
+  },
+  {
+    "id": "aws-c022376f",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is an AMI?",
+    "answer": "An AMI (Amazon Machine Image) is a template for an EC2 server: the operating system plus installed software. You can make your own AMI from a configured server and use it to launch identical servers quickly.",
+    "points": [
+      "Server template",
+      "OS + software",
+      "Launch copies fast"
+    ],
+    "code": "",
+    "memory": "Remember: AMI = server photocopy",
+    "tip": "Auto Scaling Groups use AMIs (through launch templates) to create new servers."
+  },
+  {
+    "id": "aws-1fedd935",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "Security Group vs Network ACL?",
+    "answer": "A Security Group is a firewall for an instance. It is stateful (if a request is allowed in, the reply is allowed out) and only has allow rules. A Network ACL is a firewall for a whole subnet. It is stateless and has allow and deny rules.",
+    "points": [
+      "Security Group = instance, stateful",
+      "NACL = subnet, stateless, allow + deny"
+    ],
+    "code": "",
+    "memory": "Remember: SG guards the server, NACL guards the street",
+    "tip": "Open only needed ports, for example 443 for the world, 22 only for your IP."
+  },
+  {
+    "id": "aws-ca439ba6",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "How do you connect to an EC2 server?",
+    "answer": "Use SSH with the key pair (.pem file) created when launching the server. Allow port 22 only from your own IP in the security group. AWS Systems Manager Session Manager is a safer option with no open SSH port.",
+    "points": [
+      "SSH",
+      "Key pair .pem",
+      "Port 22 only from your IP",
+      "Session Manager"
+    ],
+    "code": "chmod 400 my-key.pem\nssh -i my-key.pem ubuntu@<server-public-ip>",
+    "memory": "Remember: Key + SSH + restricted port",
+    "tip": "Never share or commit the .pem file."
+  },
+  {
+    "id": "aws-1923d3df",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "EBS vs EFS vs S3?",
+    "answer": "EBS: a hard disk attached to one EC2 server. EFS: a shared network file system many servers can use at once. S3: object storage for files, accessed over HTTP; unlimited and cheap, but not a normal disk.",
+    "points": [
+      "EBS = server disk",
+      "EFS = shared folder",
+      "S3 = file storage over HTTP"
+    ],
+    "code": "",
+    "memory": "Remember: Disk, Shared folder, Bucket",
+    "tip": "Use S3 for uploads like receipts and images."
+  },
+  {
+    "id": "aws-3614796f",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is S3?",
+    "answer": "S3 (Simple Storage Service) stores files (objects) in buckets. It is very durable, cheap and scales without limit. It is used for uploads, backups, static websites and logs. Buckets should be private by default.",
+    "points": [
+      "Buckets",
+      "Objects",
+      "Very durable",
+      "Private by default",
+      "Versioning"
+    ],
+    "code": "",
+    "memory": "Remember: S3 = unlimited file storage",
+    "tip": "Turn on Block Public Access unless you really need public files."
+  },
+  {
+    "id": "aws-f733320a",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What are S3 storage classes?",
+    "answer": "Standard: for frequently used files. Intelligent-Tiering: moves files automatically based on use. Standard-IA: for files used rarely but needed quickly. Glacier: very cheap archive; getting files back takes minutes to hours. Lifecycle rules move old files to cheaper classes automatically.",
+    "points": [
+      "Standard",
+      "Intelligent-Tiering",
+      "IA",
+      "Glacier",
+      "Lifecycle rules"
+    ],
+    "code": "",
+    "memory": "Remember: Hot → Warm → Cold → Archive",
+    "tip": "Lifecycle rules are an easy way to save money."
+  },
+  {
+    "id": "aws-5943aff2",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "How do you upload a file to S3 with Python?",
+    "answer": "Use boto3, the AWS SDK for Python. Give the server an IAM role instead of putting access keys in code.",
+    "points": [
+      "boto3",
+      "upload_file",
+      "IAM role, no keys in code"
+    ],
+    "code": "import boto3\n\ns3 = boto3.client(\"s3\")   # credentials come from the IAM role\n\ns3.upload_file(\n    \"receipt.jpg\",\n    \"my-app-uploads\",\n    \"receipts/2024/receipt-123.jpg\",\n    ExtraArgs={\"ContentType\": \"image/jpeg\"},\n)",
+    "memory": "Remember: boto3 = AWS from Python",
+    "tip": "Set ContentType so browsers show the file correctly."
+  },
+  {
+    "id": "aws-76549898",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is a pre-signed URL in S3?",
+    "answer": "A pre-signed URL gives temporary access to one private S3 file, for example for 5 minutes. The user can download or upload directly to S3 without your server handling the file, and the bucket stays private.",
+    "points": [
+      "Temporary link",
+      "Private bucket stays private",
+      "Direct upload / download"
+    ],
+    "code": "url = s3.generate_presigned_url(\n    \"get_object\",\n    Params={\"Bucket\": \"my-app-uploads\", \"Key\": \"receipts/receipt-123.jpg\"},\n    ExpiresIn=300,   # 5 minutes\n)",
+    "memory": "Remember: Pre-signed = time-limited key to one file",
+    "tip": "Direct-to-S3 upload saves your server's bandwidth."
+  },
+  {
+    "id": "aws-be85d139",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is IAM? Users, groups, roles and policies?",
+    "answer": "IAM controls who can do what in AWS. Users: people or apps with credentials. Groups: sets of users with the same permissions. Roles: temporary permissions for services like EC2 or Lambda (no stored keys). Policies: JSON documents that allow or deny actions.",
+    "points": [
+      "Users",
+      "Groups",
+      "Roles",
+      "Policies (JSON)"
+    ],
+    "code": "{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [{\n    \"Effect\": \"Allow\",\n    \"Action\": [\"s3:GetObject\", \"s3:PutObject\"],\n    \"Resource\": \"arn:aws:s3:::my-app-uploads/*\"\n  }]\n}",
+    "memory": "Remember: Who (user / role) can do what (policy)",
+    "tip": "Use MFA for all human users, especially root."
+  },
+  {
+    "id": "aws-a6ece9ee",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "Why use an IAM role for EC2 instead of access keys?",
+    "answer": "With a role, AWS gives the server temporary credentials that change automatically. You do not store keys in code or config files, so there is nothing to leak. boto3 picks up the role automatically.",
+    "points": [
+      "Temporary credentials",
+      "Auto rotation",
+      "No keys in code"
+    ],
+    "code": "",
+    "memory": "Remember: Servers use roles, not keys",
+    "tip": "Leaked access keys in GitHub are a very common security problem."
+  },
+  {
+    "id": "aws-46b1cd6f",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is the principle of least privilege?",
+    "answer": "Give each user or service only the permissions it really needs, and nothing more. For example, an app that only reads one bucket should not have full S3 access. This limits damage if something is hacked.",
+    "points": [
+      "Only what is needed",
+      "Limit damage",
+      "Specific resources"
+    ],
+    "code": "",
+    "memory": "Remember: Minimum access",
+    "tip": "Avoid policies with Action '*' and Resource '*'."
+  },
+  {
+    "id": "aws-7ae17db4",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "What is a VPC? Public vs private subnet?",
+    "answer": "A VPC is your own private network in AWS. A public subnet has a route to the Internet Gateway, used for load balancers. A private subnet has no direct internet access, used for app servers and databases. Private servers reach the internet through a NAT Gateway.",
+    "points": [
+      "VPC = private network",
+      "Public subnet = internet facing",
+      "Private subnet = protected",
+      "NAT Gateway"
+    ],
+    "code": "",
+    "memory": "Remember: Load balancer public, app and DB private",
+    "tip": "Never put the database in a public subnet."
+  },
+  {
+    "id": "aws-a499185f",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is a NAT Gateway?",
+    "answer": "A NAT Gateway lets servers in a private subnet go out to the internet (for updates or calling APIs), but stops the internet from starting connections to them.",
+    "points": [
+      "Outbound only",
+      "Private subnet",
+      "Updates and API calls"
+    ],
+    "code": "",
+    "memory": "Remember: NAT = one-way door out",
+    "tip": "NAT Gateways cost money per hour and per GB, so watch the bill."
+  },
+  {
+    "id": "aws-f3fd743e",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "What is an Elastic Load Balancer? ALB vs NLB?",
+    "answer": "A load balancer spreads traffic across several servers and checks their health. ALB (Application Load Balancer) works at HTTP level and can route by URL path or host; best for web apps and APIs. NLB (Network Load Balancer) works at TCP level; very fast, for very high traffic or non-HTTP.",
+    "points": [
+      "Spread traffic",
+      "Health checks",
+      "ALB = HTTP routing",
+      "NLB = TCP, very fast"
+    ],
+    "code": "",
+    "memory": "Remember: Web apps → ALB",
+    "tip": "ALB can also handle HTTPS certificates from ACM."
+  },
+  {
+    "id": "aws-58c14ef3",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is Auto Scaling?",
+    "answer": "An Auto Scaling Group adds servers when load is high and removes them when load is low, based on rules like CPU above 70%. It also replaces unhealthy servers automatically. It works with a load balancer.",
+    "points": [
+      "Add / remove servers",
+      "CPU rules",
+      "Replace unhealthy",
+      "Min / max / desired"
+    ],
+    "code": "",
+    "memory": "Remember: More traffic → more servers, automatically",
+    "tip": "Apps must be stateless (sessions in Redis) for this to work well."
+  },
+  {
+    "id": "aws-a40a558c",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is RDS?",
+    "answer": "RDS (Relational Database Service) is a managed database: MySQL, PostgreSQL, MariaDB and others. AWS handles backups, patches, failover and monitoring. You only manage the data and queries.",
+    "points": [
+      "Managed DB",
+      "Backups",
+      "Patches",
+      "Failover",
+      "MySQL / PostgreSQL"
+    ],
+    "code": "",
+    "memory": "Remember: RDS = database without server headaches",
+    "tip": "Aurora is AWS's faster MySQL / PostgreSQL-compatible engine."
+  },
+  {
+    "id": "aws-c70fcd16",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "RDS Multi-AZ vs Read Replica?",
+    "answer": "Multi-AZ keeps a standby copy in another Availability Zone for high availability; if the main database fails, AWS switches to the standby automatically. You cannot read from the standby (classic setup). A Read Replica is a copy used to spread read traffic, for performance.",
+    "points": [
+      "Multi-AZ = failover",
+      "Read Replica = more reads",
+      "Async replication"
+    ],
+    "code": "",
+    "memory": "Remember: Multi-AZ for safety, replica for speed",
+    "tip": "Read replicas may show slightly old data (replication lag)."
+  },
+  {
+    "id": "aws-4a544cf3",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "How do RDS backups work?",
+    "answer": "Automated backups take daily snapshots and keep transaction logs, so you can restore to any second within the retention period (up to 35 days). Manual snapshots stay until you delete them. Restoring always creates a new database instance.",
+    "points": [
+      "Automated daily",
+      "Point-in-time restore",
+      "Manual snapshots",
+      "Restore = new instance"
+    ],
+    "code": "",
+    "memory": "Remember: Automatic + manual snapshots",
+    "tip": "Test restoring backups regularly."
+  },
+  {
+    "id": "aws-ac4555d9",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is AWS Lambda?",
+    "answer": "Lambda runs your code without managing servers. It runs only when triggered (an API call, an S3 upload, a schedule, a queue message) and you pay only for the time it runs. Limits: maximum 15 minutes per run, and possible 'cold start' delay.",
+    "points": [
+      "Serverless",
+      "Event triggered",
+      "Pay per run",
+      "15 min limit",
+      "Cold start"
+    ],
+    "code": "# handler.py\nimport json\n\ndef lambda_handler(event, context):\n    # example: triggered by an S3 upload\n    for record in event.get(\"Records\", []):\n        key = record[\"s3\"][\"object\"][\"key\"]\n        print(\"New file:\", key)\n    return {\"statusCode\": 200, \"body\": json.dumps({\"ok\": True})}",
+    "memory": "Remember: Lambda = function on demand",
+    "tip": "Good for small background jobs like resizing images after upload."
+  },
+  {
+    "id": "aws-58c78217",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is API Gateway?",
+    "answer": "API Gateway is a managed front door for APIs. It receives HTTP requests and sends them to Lambda, EC2 or other services. It also handles authentication, rate limiting, CORS and API keys.",
+    "points": [
+      "Front door for APIs",
+      "Lambda integration",
+      "Auth",
+      "Throttling"
+    ],
+    "code": "",
+    "memory": "Remember: API Gateway + Lambda = serverless API",
+    "tip": "FastAPI can run on Lambda using the Mangum adapter."
+  },
+  {
+    "id": "aws-5fe73b75",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "SQS vs SNS?",
+    "answer": "SQS is a message queue: one consumer takes each message and processes it; messages wait until processed. SNS is publish/subscribe: one message is pushed to many subscribers at once (email, SMS, Lambda, SQS). They are often used together (fan-out).",
+    "points": [
+      "SQS = queue, pull",
+      "SNS = broadcast, push",
+      "Fan-out = SNS → many SQS"
+    ],
+    "code": "import boto3, json\n\nsqs = boto3.client(\"sqs\")\nurl = \"https://sqs.ap-south-1.amazonaws.com/123456789012/orders\"\n\nsqs.send_message(QueueUrl=url, MessageBody=json.dumps({\"order_id\": 42}))\n\nmsgs = sqs.receive_message(QueueUrl=url, MaxNumberOfMessages=10, WaitTimeSeconds=10)\nfor m in msgs.get(\"Messages\", []):\n    process(json.loads(m[\"Body\"]))\n    sqs.delete_message(QueueUrl=url, ReceiptHandle=m[\"ReceiptHandle\"])",
+    "memory": "Remember: SQS waits, SNS shouts",
+    "tip": "SQS is like Celery's broker, but fully managed."
+  },
+  {
+    "id": "aws-21dd89e1",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "ECS vs EKS vs Fargate?",
+    "answer": "ECS is AWS's own service to run Docker containers. EKS is managed Kubernetes. Fargate is a way to run containers (with ECS or EKS) without managing any servers. For a small team, ECS with Fargate is the simplest.",
+    "points": [
+      "ECS = AWS containers",
+      "EKS = Kubernetes",
+      "Fargate = no servers"
+    ],
+    "code": "",
+    "memory": "Remember: Fargate = containers without servers",
+    "tip": "Container images are stored in ECR."
+  },
+  {
+    "id": "aws-c3d4d6da",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "How do you push a Docker image to ECR?",
+    "answer": "ECR is AWS's private Docker registry. Log in with the AWS CLI, tag your image with the ECR repository URL, and push it. ECS or EKS then pulls the image from ECR.",
+    "points": [
+      "Login",
+      "Tag",
+      "Push",
+      "ECS pulls"
+    ],
+    "code": "aws ecr get-login-password --region ap-south-1 \\\n  | docker login --username AWS --password-stdin 123456789012.dkr.ecr.ap-south-1.amazonaws.com\n\ndocker build -t loyalty-api .\ndocker tag loyalty-api:latest 123456789012.dkr.ecr.ap-south-1.amazonaws.com/loyalty-api:latest\ndocker push 123456789012.dkr.ecr.ap-south-1.amazonaws.com/loyalty-api:latest",
+    "memory": "Remember: Login → Tag → Push",
+    "tip": "This is usually done in a CI/CD pipeline."
+  },
+  {
+    "id": "aws-31319885",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is CloudWatch?",
+    "answer": "CloudWatch collects logs and metrics (CPU, memory, request count, errors) from AWS services and your apps. You can create dashboards and alarms, for example send an email when CPU stays above 80% for 5 minutes.",
+    "points": [
+      "Logs",
+      "Metrics",
+      "Dashboards",
+      "Alarms"
+    ],
+    "code": "",
+    "memory": "Remember: CloudWatch = AWS monitoring",
+    "tip": "Set log retention, otherwise logs are kept forever and cost money."
+  },
+  {
+    "id": "aws-b783e3f0",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "How do you store secrets (passwords, API keys) in AWS?",
+    "answer": "Use AWS Secrets Manager or SSM Parameter Store, not code or Git. The app reads secrets at startup using its IAM role. Secrets Manager can also rotate database passwords automatically.",
+    "points": [
+      "Secrets Manager",
+      "Parameter Store",
+      "IAM role reads it",
+      "Rotation"
+    ],
+    "code": "import boto3, json\n\nclient = boto3.client(\"secretsmanager\")\nsecret = json.loads(client.get_secret_value(SecretId=\"prod/db\")[\"SecretString\"])\ndb_password = secret[\"password\"]",
+    "memory": "Remember: Secrets in a vault, not in code",
+    "tip": "Parameter Store (standard) is free; Secrets Manager costs a little but rotates."
+  },
+  {
+    "id": "aws-2e9c5299",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What are Route 53 and CloudFront?",
+    "answer": "Route 53 is AWS's DNS service: it connects your domain name to your servers or load balancer, and can do health-check based routing. CloudFront is AWS's CDN: it caches files at edge locations near users so pages and images load faster.",
+    "points": [
+      "Route 53 = DNS",
+      "CloudFront = CDN",
+      "Edge locations"
+    ],
+    "code": "",
+    "memory": "Remember: Route 53 finds you, CloudFront speeds you up",
+    "tip": "CloudFront + S3 is a common way to host static websites."
+  },
+  {
+    "id": "aws-f8415c41",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is ElastiCache?",
+    "answer": "ElastiCache is managed Redis or Memcached on AWS. AWS handles setup, patches, backups and failover. You use it for caching, sessions and queues, just like your own Redis.",
+    "points": [
+      "Managed Redis",
+      "Caching",
+      "Sessions",
+      "Failover"
+    ],
+    "code": "",
+    "memory": "Remember: ElastiCache = Redis without server work",
+    "tip": "Put it in a private subnet; never expose Redis to the internet."
+  },
+  {
+    "id": "aws-a119ba64",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "How do you reduce AWS costs?",
+    "answer": "Right-size servers (do not use big instances for small loads). Stop dev servers at night. Use Savings Plans or Reserved Instances for steady workloads and Spot Instances for flexible jobs. Use S3 lifecycle rules. Delete unused EBS volumes, snapshots and Elastic IPs. Set billing alarms.",
+    "points": [
+      "Right-size",
+      "Stop unused",
+      "Savings Plans",
+      "Spot",
+      "Lifecycle",
+      "Billing alarms"
+    ],
+    "code": "",
+    "memory": "Remember: Use less, commit for discount, delete waste",
+    "tip": "Cost Explorer shows where money is going."
+  },
+  {
+    "id": "aws-53ea536c",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "What is the shared responsibility model?",
+    "answer": "AWS is responsible for security OF the cloud: buildings, hardware and the base infrastructure. You are responsible for security IN the cloud: your data, IAM users and passwords, security groups, OS patches on EC2, and your application code.",
+    "points": [
+      "AWS = of the cloud",
+      "You = in the cloud",
+      "Data, IAM, code = yours"
+    ],
+    "code": "",
+    "memory": "Remember: AWS secures the building, you lock your room",
+    "tip": "Managed services (RDS, Lambda) move more work to AWS."
+  },
+  {
+    "id": "aws-75a56e51",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "How did you deploy your services on AWS?",
+    "answer": "A common setup: 1) Build a Docker image of the app. 2) Run it on EC2 (or ECS). 3) Keep the database on RDS (managed MySQL or PostgreSQL). 4) Keep files and images on S3. 5) Check logs and alerts in CloudWatch. Secrets like passwords are kept in environment variables or AWS Secrets Manager, never in code.",
+    "points": [
+      "Docker image",
+      "EC2 / ECS",
+      "RDS",
+      "S3",
+      "CloudWatch",
+      "Secrets"
+    ],
+    "code": "",
+    "memory": "Remember: Run on EC2, data on RDS, files on S3, logs in CloudWatch",
+    "tip": "IMPORTANT: Say only the AWS services you really used. If you only used EC2 and S3, say that."
+  },
+  {
+    "id": "docker-ci-cd-b33f11ce",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "CMD vs ENTRYPOINT? COPY vs ADD?",
+    "answer": "ENTRYPOINT sets the main command that always runs. CMD gives default arguments (or a default command) that can be replaced when running the container. COPY simply copies files. ADD can also download URLs and unpack tar files; prefer COPY unless you need that.",
+    "points": [
+      "ENTRYPOINT = fixed command",
+      "CMD = default, can override",
+      "Prefer COPY"
+    ],
+    "code": "",
+    "memory": "Remember: COPY is simple and clear",
+    "tip": "docker run image other-command replaces CMD."
+  },
+  {
+    "id": "docker-ci-cd-039cc282",
+    "subject": "Docker/CI-CD",
+    "level": "Beginner",
+    "question": "What are Docker volumes?",
+    "answer": "Containers lose their data when removed. A volume stores data outside the container, so it survives restarts and removals. Use volumes for databases and uploaded files.",
+    "points": [
+      "Data outside container",
+      "Survives removal",
+      "DB data",
+      "Bind mounts"
+    ],
+    "code": "docker volume create mysql_data\ndocker run -d -v mysql_data:/var/lib/mysql mysql:8\n\n# docker-compose\nservices:\n  db:\n    image: mysql:8\n    volumes:\n      - mysql_data:/var/lib/mysql\nvolumes:\n  mysql_data:",
+    "memory": "Remember: Volume = container's external hard disk",
+    "tip": "Bind mounts map a host folder; good for live code reload in development."
+  },
+  {
+    "id": "docker-ci-cd-34258108",
+    "subject": "Docker/CI-CD",
+    "level": "Beginner",
+    "question": "What is a multi-stage Docker build?",
+    "answer": "A multi-stage build uses one stage to build or install things and a second, smaller stage that copies only what is needed to run. The final image is smaller and safer because build tools are not included.",
+    "points": [
+      "Build stage",
+      "Run stage",
+      "Copy only needed files",
+      "Smaller image"
+    ],
+    "code": "FROM python:3.12 AS builder\nWORKDIR /app\nCOPY requirements.txt .\nRUN pip install --prefix=/install --no-cache-dir -r requirements.txt\n\nFROM python:3.12-slim\nWORKDIR /app\nCOPY --from=builder /install /usr/local\nCOPY . .\nCMD [\"uvicorn\", \"main:app\", \"--host\", \"0.0.0.0\", \"--port\", \"8000\"]",
+    "memory": "Remember: Build big, ship small",
+    "tip": "Also use a .dockerignore file to skip .git, venv and logs."
+  },
+  {
+    "id": "docker-ci-cd-fc4f9ea9",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "How do you make a Docker image smaller?",
+    "answer": "Use a slim or alpine base image, use multi-stage builds, add a .dockerignore file, combine RUN commands, and use pip install --no-cache-dir. Do not copy unnecessary files like .git or test data.",
+    "points": [
+      "Slim base",
+      "Multi-stage",
+      ".dockerignore",
+      "--no-cache-dir"
+    ],
+    "code": "",
+    "memory": "Remember: Small base, copy only needed files",
+    "tip": "Smaller images download and start faster."
+  },
+  {
+    "id": "docker-ci-cd-a9aea862",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "Common Docker commands?",
+    "answer": "build makes an image, run starts a container, ps lists running containers, logs shows output, exec opens a shell inside a container, stop / rm stop and delete containers, images lists images.",
+    "points": [
+      "build",
+      "run",
+      "ps",
+      "logs",
+      "exec",
+      "stop / rm",
+      "images"
+    ],
+    "code": "docker build -t loyalty-api .\ndocker run -d -p 8000:8000 --name api loyalty-api\ndocker ps\ndocker logs -f api\ndocker exec -it api bash\ndocker stop api && docker rm api\ndocker images\ndocker system prune     # clean unused data",
+    "memory": "Remember: Build → Run → Logs → Exec",
+    "tip": "docker logs -f follows logs live."
+  },
+  {
+    "id": "docker-ci-cd-fa301c9e",
+    "subject": "Docker/CI-CD",
+    "level": "Beginner",
+    "question": "What is docker-compose?",
+    "answer": "docker-compose starts many containers together with one command: for example the API, a Celery worker, Redis and MySQL. All settings are in one YAML file. Command: docker compose up -d.",
+    "points": [
+      "Many containers",
+      "One file",
+      "One command",
+      "Local setup"
+    ],
+    "code": "services:\n  api:\n    build: .\n    ports:\n      - \"8000:8000\"\n    depends_on: [db, redis]\n\n  worker:\n    build: .\n    command: celery -A tasks worker --loglevel=info\n    depends_on: [redis]\n\n  redis:\n    image: redis:7\n\n  db:\n    image: mysql:8\n    environment:\n      MYSQL_ROOT_PASSWORD: example\n      MYSQL_DATABASE: app",
+    "memory": "Remember: Compose = whole app with one command",
+    "tip": "Very useful for local development and testing."
+  },
+  {
+    "id": "docker-ci-cd-e9126b20",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "How do containers talk to each other?",
+    "answer": "Containers on the same Docker network can reach each other using the service name as the host name. In docker-compose, all services are on one network automatically, so the API can connect to 'db:3306' or 'redis:6379'.",
+    "points": [
+      "Docker network",
+      "Service name = host name",
+      "Compose does it automatically"
+    ],
+    "code": "",
+    "memory": "Remember: Use the service name, not localhost",
+    "tip": "Inside a container, 'localhost' means that same container."
+  },
+  {
+    "id": "docker-ci-cd-9d8d150f",
+    "subject": "Docker/CI-CD",
+    "level": "Beginner",
+    "question": "What is CI/CD?",
+    "answer": "CI means Continuous Integration, where code is automatically built and tested. CD means Continuous Delivery or Deployment, where tested changes can be released automatically.",
+    "points": [
+      "Build",
+      "Test",
+      "Release"
+    ],
+    "code": "",
+    "memory": "Remember: Code → Test → Deploy",
+    "tip": "Git workflows and pipelines are common examples."
+  },
+  {
+    "id": "docker-ci-cd-404cd166",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "Show a simple GitHub Actions CI pipeline.",
+    "answer": "On every push or pull request, GitHub Actions checks out the code, installs Python and dependencies, runs the tests, and can build a Docker image. If tests fail, the merge is blocked.",
+    "points": [
+      "on push / PR",
+      "Checkout",
+      "Install",
+      "Test",
+      "Build"
+    ],
+    "code": "# .github/workflows/ci.yml\nname: CI\non: [push, pull_request]\n\njobs:\n  test:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-python@v5\n        with:\n          python-version: \"3.12\"\n      - run: pip install -r requirements.txt\n      - run: pytest -v",
+    "memory": "Remember: Push → Test → Build → Deploy",
+    "tip": "Jenkins and Bitbucket Pipelines work the same way."
+  },
+  {
+    "id": "git-344437fe",
+    "subject": "Git",
+    "level": "Intermediate",
+    "question": "git fetch vs git pull?",
+    "answer": "git fetch downloads new commits from the remote but does not change your files. git pull = fetch + merge (or rebase) into your current branch.",
+    "points": [
+      "fetch = download only",
+      "pull = fetch + merge"
+    ],
+    "code": "",
+    "memory": "Remember: Fetch looks, pull applies",
+    "tip": "Fetch first if you want to see changes before merging."
+  },
+  {
+    "id": "git-c0e330cf",
+    "subject": "Git",
+    "level": "Intermediate",
+    "question": "git merge vs git rebase?",
+    "answer": "merge joins two branches and creates a merge commit; history shows exactly what happened. rebase moves your commits on top of the other branch, giving a clean straight history. Never rebase commits that others already use (shared branches).",
+    "points": [
+      "merge = merge commit, true history",
+      "rebase = clean line",
+      "Do not rebase shared commits"
+    ],
+    "code": "git checkout feature/coupon-api\ngit fetch origin\ngit rebase origin/main      # put my commits on top of main\n# or\ngit merge origin/main       # bring main into my branch",
+    "memory": "Remember: Merge keeps history, rebase rewrites it",
+    "tip": "Teams often rebase their own feature branch, then merge via PR."
+  },
+  {
+    "id": "git-9c667bd5",
+    "subject": "Git",
+    "level": "Intermediate",
+    "question": "How do you resolve a merge conflict?",
+    "answer": "Git marks the conflict in the file with <<<<<<<, ======= and >>>>>>>. Open the file, decide what the final code should be, remove the markers, test, then git add and commit (or continue the rebase).",
+    "points": [
+      "Find markers",
+      "Choose final code",
+      "Remove markers",
+      "Test",
+      "add + commit"
+    ],
+    "code": "git merge main\n# CONFLICT in app/services.py\n# edit the file and fix it\ngit add app/services.py\ngit commit                     # or: git rebase --continue",
+    "memory": "Remember: Read both sides, keep the right code",
+    "tip": "Talk to the other developer if you are not sure which change is correct."
+  },
+  {
+    "id": "git-664475bd",
+    "subject": "Git",
+    "level": "Beginner",
+    "question": "What is git stash?",
+    "answer": "git stash saves your unfinished changes and makes your working folder clean, so you can switch branches. git stash pop brings the changes back.",
+    "points": [
+      "Save unfinished work",
+      "Switch branch",
+      "stash pop"
+    ],
+    "code": "git stash               # save changes\ngit checkout hotfix     # work on something else\ngit checkout feature\ngit stash pop           # bring changes back",
+    "memory": "Remember: Stash = temporary pocket",
+    "tip": "git stash list shows all saved stashes."
+  },
+  {
+    "id": "git-243c89b8",
+    "subject": "Git",
+    "level": "Intermediate",
+    "question": "git reset vs git revert?",
+    "answer": "git revert makes a new commit that undoes an old commit; it is safe for shared branches. git reset moves the branch back to an older commit; --soft keeps the changes staged, --hard deletes them. Do not reset commits that are already pushed and shared.",
+    "points": [
+      "revert = new undo commit, safe",
+      "reset = move back",
+      "--hard deletes changes"
+    ],
+    "code": "git revert a1b2c3d          # safe undo on main\n\ngit reset --soft HEAD~1     # undo last commit, keep changes\ngit reset --hard HEAD~1     # undo last commit and delete changes",
+    "memory": "Remember: Shared branch? Use revert",
+    "tip": "git reset --hard cannot be undone easily; be careful."
+  },
+  {
+    "id": "git-cf52b76d",
+    "subject": "Git",
+    "level": "Intermediate",
+    "question": "How do you undo or change the last commit?",
+    "answer": "If not pushed yet: git commit --amend changes the message or adds forgotten files; git reset --soft HEAD~1 undoes the commit but keeps the changes. If already pushed, use git revert.",
+    "points": [
+      "--amend",
+      "reset --soft HEAD~1",
+      "revert if pushed"
+    ],
+    "code": "",
+    "memory": "Remember: Not pushed → amend / reset, pushed → revert",
+    "tip": "Never force-push to main."
+  },
+  {
+    "id": "git-e4b26901",
+    "subject": "Git",
+    "level": "Beginner",
+    "question": "What is git cherry-pick?",
+    "answer": "cherry-pick copies one specific commit from another branch onto your current branch. It is used to bring a bug fix to a release branch without merging everything.",
+    "points": [
+      "Copy one commit",
+      "Hotfix to release",
+      "By commit id"
+    ],
+    "code": "git checkout release/1.4\ngit cherry-pick a1b2c3d",
+    "memory": "Remember: Pick just the commit you need",
+    "tip": "Use carefully; it creates a new commit with a different id."
+  },
+  {
+    "id": "git-dc7c9608",
+    "subject": "Git",
+    "level": "Beginner",
+    "question": "What is .gitignore?",
+    "answer": "A .gitignore file lists files and folders Git should not track, like venv, node_modules, .env files, logs, and build output. This keeps secrets and junk out of the repository.",
+    "points": [
+      "venv",
+      "node_modules",
+      ".env",
+      "logs",
+      "__pycache__"
+    ],
+    "code": "# .gitignore\nvenv/\n__pycache__/\n*.pyc\n.env\nnode_modules/\nvendor/\nlogs/\n*.log",
+    "memory": "Remember: Secrets and junk stay out",
+    "tip": "If a file was already committed, also run git rm --cached file."
+  },
+  {
+    "id": "git-6f03d89a",
+    "subject": "Git",
+    "level": "Intermediate",
+    "question": "What branching strategy do you know?",
+    "answer": "Feature branching: each feature on its own branch, merged to main through a Pull Request. Gitflow: main, develop, feature, release and hotfix branches; good for planned releases. Trunk-based: small, frequent merges to main with feature flags; good with strong CI/CD.",
+    "points": [
+      "Feature branches",
+      "Gitflow",
+      "Trunk-based",
+      "Pull Requests"
+    ],
+    "code": "",
+    "memory": "Remember: Small branches, reviewed merges",
+    "tip": "Say what your team used, for example feature branches with Bitbucket PRs."
+  },
+  {
+    "id": "git-903a48ed",
+    "subject": "Git",
+    "level": "Intermediate",
+    "question": "Useful Git commands for checking history?",
+    "answer": "git log shows commits. git log --oneline --graph shows a short tree. git diff shows unstaged changes. git show <commit> shows one commit. git blame <file> shows who changed each line and when.",
+    "points": [
+      "log",
+      "diff",
+      "show",
+      "blame",
+      "status"
+    ],
+    "code": "git status\ngit log --oneline --graph --all\ngit diff\ngit diff --staged\ngit show a1b2c3d\ngit blame app/services.py",
+    "memory": "Remember: Log = history, Diff = changes, Blame = who",
+    "tip": "git blame helps understand why code was written, not to blame people."
+  },
+  {
+    "id": "linux-3e3dc141",
+    "subject": "Linux",
+    "level": "Intermediate",
+    "question": "Basic Linux commands every backend developer uses?",
+    "answer": "ls (list files), cd (change folder), pwd (current folder), cp / mv / rm (copy, move, delete), mkdir (make folder), cat / less (read file), nano / vim (edit), grep (search text), find (find files).",
+    "points": [
+      "ls",
+      "cd",
+      "pwd",
+      "cp / mv / rm",
+      "cat / less",
+      "grep",
+      "find"
+    ],
+    "code": "ls -la\ncd /var/www/app\ncat config.ini\ngrep -rn \"DATABASE_URL\" .\nfind . -name \"*.log\" -mtime +7     # log files older than 7 days",
+    "memory": "Remember: Move around, read, search",
+    "tip": "rm -rf is dangerous; always check the path first."
+  },
+  {
+    "id": "linux-0794ae7a",
+    "subject": "Linux",
+    "level": "Intermediate",
+    "question": "How do you check application logs on a server?",
+    "answer": "Use tail -f to watch a log live, grep to search for errors, and less to scroll. For systemd services, use journalctl. For Docker, use docker logs.",
+    "points": [
+      "tail -f",
+      "grep",
+      "less",
+      "journalctl",
+      "docker logs"
+    ],
+    "code": "tail -n 100 /var/log/app/app.log\ntail -f /var/log/app/app.log\ngrep -i \"error\" /var/log/app/app.log | tail -20\njournalctl -u myapp -f\ndocker logs -f api",
+    "memory": "Remember: tail -f = watch live",
+    "tip": "Combine: tail -f app.log | grep ERROR"
+  },
+  {
+    "id": "linux-449408f9",
+    "subject": "Linux",
+    "level": "Intermediate",
+    "question": "How do you check running processes and stop one?",
+    "answer": "ps aux lists processes, top or htop shows live CPU and memory usage, kill <pid> stops a process politely, and kill -9 <pid> forces it to stop.",
+    "points": [
+      "ps aux",
+      "top / htop",
+      "kill",
+      "kill -9"
+    ],
+    "code": "ps aux | grep uvicorn\ntop\nkill 12345\nkill -9 12345",
+    "memory": "Remember: Find PID, then kill",
+    "tip": "Use kill -9 only if a normal kill does not work."
+  },
+  {
+    "id": "linux-e45dbd0a",
+    "subject": "Linux",
+    "level": "Intermediate",
+    "question": "How do you check which process is using a port?",
+    "answer": "Use ss -tulpn or lsof -i :8000. This is useful when you get 'address already in use'.",
+    "points": [
+      "ss -tulpn",
+      "lsof -i",
+      "netstat",
+      "Port in use"
+    ],
+    "code": "ss -tulpn | grep 8000\nlsof -i :8000\ncurl -I http://localhost:8000/health",
+    "memory": "Remember: Port busy? Find who has it",
+    "tip": "curl localhost:8000/health checks if your app responds."
+  },
+  {
+    "id": "linux-1af5d839",
+    "subject": "Linux",
+    "level": "Intermediate",
+    "question": "What do Linux file permissions (chmod 755) mean?",
+    "answer": "Each file has permissions for owner, group and others: r (read = 4), w (write = 2), x (execute = 1). 755 means the owner can read, write and execute (7) and the group and others can read and execute (5). chown changes the owner.",
+    "points": [
+      "r=4 w=2 x=1",
+      "Owner / Group / Others",
+      "chmod",
+      "chown"
+    ],
+    "code": "chmod 755 deploy.sh\nchmod 600 .env              # only owner can read and write\nchown www-data:www-data -R /var/www/app\nls -l",
+    "memory": "Remember: 7 = rwx, 5 = r-x, 4 = r--",
+    "tip": "Never use chmod 777 on a server."
+  },
+  {
+    "id": "linux-0e136df3",
+    "subject": "Linux",
+    "level": "Intermediate",
+    "question": "How do you check disk space and memory?",
+    "answer": "df -h shows free disk space, du -sh shows a folder's size, free -h shows memory, and uptime shows the load average.",
+    "points": [
+      "df -h",
+      "du -sh",
+      "free -h",
+      "uptime"
+    ],
+    "code": "df -h\ndu -sh /var/log/*\nfree -h\nuptime",
+    "memory": "Remember: df = disk, du = folder, free = RAM",
+    "tip": "A full disk (often from big log files) is a common cause of production failures."
+  },
+  {
+    "id": "linux-4aa4b40d",
+    "subject": "Linux",
+    "level": "Intermediate",
+    "question": "How do you manage a service with systemctl?",
+    "answer": "systemctl starts, stops, restarts and checks services like nginx or your app. enable makes the service start automatically after a reboot.",
+    "points": [
+      "start / stop / restart",
+      "status",
+      "enable",
+      "journalctl"
+    ],
+    "code": "sudo systemctl status nginx\nsudo systemctl restart myapp\nsudo systemctl enable myapp\njournalctl -u myapp --since \"1 hour ago\"",
+    "memory": "Remember: systemctl = service remote control",
+    "tip": "You can run your FastAPI app as a systemd service."
+  },
+  {
+    "id": "linux-166bfa94",
+    "subject": "Linux",
+    "level": "Intermediate",
+    "question": "How do you copy files to or from a server?",
+    "answer": "Use scp to copy files over SSH, or rsync, which only copies changed parts and can resume.",
+    "points": [
+      "scp",
+      "rsync",
+      "Over SSH"
+    ],
+    "code": "scp -i key.pem app.zip ubuntu@server:/home/ubuntu/\nscp -i key.pem ubuntu@server:/var/log/app.log .\nrsync -avz ./app/ ubuntu@server:/var/www/app/",
+    "memory": "Remember: scp = copy, rsync = smart sync",
+    "tip": "rsync is better for big folders and deployments."
+  },
+  {
+    "id": "linux-d205a104",
+    "subject": "Linux",
+    "level": "Intermediate",
+    "question": "What are environment variables? How do you use them?",
+    "answer": "Environment variables are settings stored outside the code, like DATABASE_URL or API keys. The app reads them at runtime, so the same code works in dev, test and production. Use a .env file locally (never commit it).",
+    "points": [
+      "Settings outside code",
+      "export",
+      "os.getenv",
+      ".env not in Git"
+    ],
+    "code": "export DATABASE_URL=\"mysql://user:pass@db/app\"\necho $DATABASE_URL\n\n# Python\nimport os\ndb_url = os.getenv(\"DATABASE_URL\")",
+    "memory": "Remember: Config in environment, not in code",
+    "tip": "This is part of the '12-factor app' idea."
+  },
+  {
+    "id": "linux-f9af9fd4",
+    "subject": "Linux",
+    "level": "Intermediate",
+    "question": "How do you read a cron schedule?",
+    "answer": "A cron line has 5 time fields: minute, hour, day of month, month, day of week, then the command. * means 'every'. */5 means 'every 5'.",
+    "points": [
+      "minute hour day month weekday",
+      "* = every",
+      "*/5 = every 5"
+    ],
+    "code": "# edit:  crontab -e\n# m  h  dom mon dow  command\n  0  2  *   *   *    /usr/bin/python3 /app/expire_points.py >> /var/log/expire.log 2>&1\n */5 *  *   *   *    /app/check_health.sh\n  30 9  *   *   1-5  /app/send_report.sh      # 9:30 AM Mon-Fri",
+    "memory": "Remember: M H D M W",
+    "tip": "Always write output to a log file so you can see failures."
+  },
+  {
+    "id": "tools-4c8aff5f",
+    "subject": "Tools",
+    "level": "Beginner",
+    "question": "What is Nginx used for with FastAPI?",
+    "answer": "Nginx sits in front of the app server. It handles HTTPS, serves static files, compresses responses, limits request size, and forwards API requests to Uvicorn / Gunicorn (reverse proxy). It can also load balance between several app servers.",
+    "points": [
+      "Reverse proxy",
+      "HTTPS",
+      "Static files",
+      "Load balancing"
+    ],
+    "code": "server {\n    listen 80;\n    server_name api.example.com;\n\n    location /static/ {\n        alias /var/www/app/static/;\n    }\n\n    location / {\n        proxy_pass http://127.0.0.1:8000;\n        proxy_set_header Host $host;\n        proxy_set_header X-Real-IP $remote_addr;\n        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;\n    }\n}",
+    "memory": "Remember: Nginx in front, app behind",
+    "tip": "Do not expose Uvicorn directly to the internet."
+  },
+  {
+    "id": "tools-edcecdc7",
+    "subject": "Tools",
+    "level": "Intermediate",
+    "question": "Uvicorn vs Gunicorn?",
+    "answer": "Uvicorn is an ASGI server that runs FastAPI. Gunicorn is a process manager that can run several Uvicorn workers, so the app uses all CPU cores and restarts crashed workers. Common rule: workers = (2 × CPU cores) + 1.",
+    "points": [
+      "Uvicorn = ASGI server",
+      "Gunicorn = manages workers",
+      "Use all cores"
+    ],
+    "code": "gunicorn main:app \\\n  -k uvicorn.workers.UvicornWorker \\\n  -w 4 \\\n  -b 0.0.0.0:8000",
+    "memory": "Remember: Gunicorn manages, Uvicorn runs",
+    "tip": "In Docker or Kubernetes, many teams run one Uvicorn process per container instead."
+  },
+  {
+    "id": "tools-d9bb3d13",
+    "subject": "Tools",
+    "level": "Intermediate",
+    "question": "How do you use Postman for API testing?",
+    "answer": "Postman sends API requests and shows responses. Save requests in a collection, use environments (dev, staging, prod) with variables like {{base_url}} and {{token}}, write small tests on the response, and share the collection with the team.",
+    "points": [
+      "Collections",
+      "Environments + variables",
+      "Tests",
+      "Share with team"
+    ],
+    "code": "// Postman \"Tests\" tab\npm.test(\"Status is 200\", () => pm.response.to.have.status(200));\npm.test(\"Has points\", () => {\n    const data = pm.response.json();\n    pm.expect(data.points).to.be.a(\"number\");\n});",
+    "memory": "Remember: Collection + Environment = reusable API tests",
+    "tip": "Newman runs Postman collections from the command line in CI."
+  },
+  {
+    "id": "tools-6b9d1111",
+    "subject": "Tools",
+    "level": "Intermediate",
+    "question": "How do you use Jira in your work?",
+    "answer": "Tasks are created in Jira as stories, bugs or tasks, and planned into sprints. I move my tickets through the board (To Do → In Progress → Code Review → Done), log updates and blockers, and link my branch and pull request to the ticket number.",
+    "points": [
+      "Stories / bugs / tasks",
+      "Sprint board",
+      "Status flow",
+      "Link PR to ticket"
+    ],
+    "code": "",
+    "memory": "Remember: Ticket → Branch → PR → Done",
+    "tip": "Using the ticket ID in branch names (like LOY-123) is good practice."
+  },
+  {
+    "id": "tools-37011f3e",
+    "subject": "Tools",
+    "level": "Advanced",
+    "question": "How do you monitor an application in production?",
+    "answer": "Logs (structured logs, CloudWatch or ELK), metrics (response time, error rate, CPU, memory), and alerts when something crosses a limit. Error tracking tools like Sentry show exceptions with full details. A /health endpoint lets the load balancer check the app.",
+    "points": [
+      "Logs",
+      "Metrics",
+      "Alerts",
+      "Sentry",
+      "/health endpoint"
+    ],
+    "code": "@app.get(\"/health\")\ndef health(db: Session = Depends(get_db)):\n    db.execute(text(\"SELECT 1\"))     # DB check\n    return {\"status\": \"ok\"}",
+    "memory": "Remember: See it, measure it, get alerted",
+    "tip": "Mention Sentry; it is common with Python apps."
+  },
+  {
+    "id": "aws-lambda-ca1d6e92",
+    "subject": "AWS Lambda",
+    "level": "Advanced",
+    "question": "How does AWS Lambda work internally?",
+    "answer": "You upload code and choose a runtime (like Python 3.12), memory and timeout. When an event arrives, Lambda creates an execution environment (a small, isolated micro-VM), loads your code, runs the code outside the handler once (INIT), then calls your handler (INVOKE). After the request, the environment stays warm for a while and is reused for the next request. When traffic grows, Lambda creates more environments in parallel. Each environment handles one request at a time.",
+    "points": [
+      "Execution environment (micro-VM)",
+      "INIT once, INVOKE many",
+      "Warm reuse",
+      "Scales by adding environments",
+      "One request per environment"
+    ],
+    "code": "",
+    "memory": "Remember: Event → Environment → Init → Handler → Reuse",
+    "tip": "Saying 'one request per environment' shows you understand concurrency."
+  },
+  {
+    "id": "aws-lambda-849cc88f",
+    "subject": "AWS Lambda",
+    "level": "Beginner",
+    "question": "What is a Lambda handler? What are event and context?",
+    "answer": "The handler is the function Lambda calls, written as file.function, for example app.lambda_handler. event is a dictionary with the input data. Its shape depends on the trigger: an API request, an S3 upload, SQS messages and so on. context gives runtime information: request ID, function name, memory limit and remaining time.",
+    "points": [
+      "Handler = entry point",
+      "app.lambda_handler",
+      "event = input dict",
+      "context = runtime info",
+      "Return JSON-serialisable data"
+    ],
+    "code": "# app.py   -> handler setting: app.lambda_handler\nimport json\n\ndef lambda_handler(event, context):\n    print(\"Request ID:\", context.aws_request_id)\n    print(\"Time left (ms):\", context.get_remaining_time_in_millis())\n\n    name = event.get(\"name\", \"Guest\")\n    return {\"message\": f\"Hello, {name}!\"}\n\n# Test event: {\"name\": \"Nagesh\"}\n# Result:     {\"message\": \"Hello, Nagesh!\"}",
+    "memory": "Remember: Handler gets event (what happened) + context (where I am running)",
+    "tip": "Print the event once in CloudWatch to learn its shape for each trigger."
+  },
+  {
+    "id": "aws-lambda-78befd53",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "What is a cold start? How do you reduce it?",
+    "answer": "A cold start is the extra delay when Lambda must create a new environment: download the code, start Python, and run imports and setup code. It can take from about 100 ms to a few seconds. Ways to reduce it: keep the package small, import only what you need, create clients once outside the handler, use more memory (which also gives more CPU), use Provisioned Concurrency for steady low-latency APIs, or use SnapStart (supported for Python 3.12+).",
+    "points": [
+      "New environment = cold",
+      "Small package",
+      "Fewer heavy imports",
+      "More memory = more CPU",
+      "Provisioned Concurrency",
+      "SnapStart"
+    ],
+    "code": "",
+    "memory": "Remember: Cold = first start, Warm = reused",
+    "tip": "Cold starts matter for user-facing APIs, not much for background jobs."
+  },
+  {
+    "id": "aws-lambda-06a86587",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "Why create boto3 clients and DB connections outside the handler?",
+    "answer": "Code outside the handler runs only once per environment, during INIT. Warm requests then reuse the same client or connection, which saves time and money. If you create them inside the handler, every request repeats the setup work.",
+    "points": [
+      "Outside handler = once per environment",
+      "Reused when warm",
+      "Faster + cheaper",
+      "Handler = per request work only"
+    ],
+    "code": "import os\nimport boto3\n\n# Runs ONCE per environment (INIT)\ns3 = boto3.client(\"s3\")\ntable = boto3.resource(\"dynamodb\").Table(os.environ[\"TABLE_NAME\"])\n\ndef lambda_handler(event, context):\n    # Runs on EVERY request\n    table.put_item(Item={\"id\": event[\"id\"], \"status\": \"new\"})\n    return {\"saved\": event[\"id\"]}",
+    "memory": "Remember: Setup outside, work inside",
+    "tip": "The same idea applies to loading config, secrets and ML models."
+  },
+  {
+    "id": "aws-lambda-f0019430",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you create and deploy a Lambda using the AWS CLI?",
+    "answer": "1) Create an IAM execution role that Lambda can assume, and attach AWSLambdaBasicExecutionRole for CloudWatch logs. 2) Zip the code. 3) Run create-function with the runtime, handler, role and zip file. 4) Test it with invoke. 5) For new versions, zip again and run update-function-code. In real projects this is done in CI/CD with SAM, CDK or Terraform.",
+    "points": [
+      "Execution role",
+      "Zip code",
+      "create-function",
+      "invoke",
+      "update-function-code",
+      "CI/CD with SAM / Terraform"
+    ],
+    "code": "# 1. Role (trust-policy.json allows lambda.amazonaws.com to assume it)\naws iam create-role --role-name lambda-basic-role --assume-role-policy-document file://trust-policy.json\naws iam attach-role-policy --role-name lambda-basic-role --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole\n\n# 2. Zip\nzip function.zip app.py\n\n# 3. Create\naws lambda create-function --function-name hello-python --runtime python3.12 --handler app.lambda_handler --zip-file fileb://function.zip --role arn:aws:iam::123456789012:role/lambda-basic-role --timeout 10 --memory-size 256\n\n# 4. Invoke\naws lambda invoke --function-name hello-python --cli-binary-format raw-in-base64-out --payload '{\"name\": \"Nagesh\"}' out.json\n\n# 5. Update code\naws lambda update-function-code --function-name hello-python --zip-file fileb://function.zip",
+    "memory": "Remember: Role → Zip → Create → Invoke → Update",
+    "tip": "Mention that you would automate this in a pipeline, not deploy by hand."
+  },
+  {
+    "id": "aws-lambda-49ab8887",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you add Python libraries to Lambda? What is a Layer?",
+    "answer": "Three ways: 1) Install packages into a folder and zip them with your code. 2) Use a Lambda Layer: a separate zip with shared libraries, extracted into /opt. For Python, the libraries must sit inside a python/ folder. A function can use up to 5 layers. 3) Use a container image (up to 10 GB) for big dependencies like ML libraries. Compiled packages (numpy, psycopg) must be built for Amazon Linux and the right CPU type (x86_64 or arm64).",
+    "points": [
+      "Zip with code",
+      "Layer = shared libs in /opt",
+      "python/ folder",
+      "Max 5 layers",
+      "Container image up to 10 GB",
+      "Build for Amazon Linux"
+    ],
+    "code": "# Option 1: bundle with code\npip install requests -t package/\ncd package && zip -r ../function.zip . && cd ..\nzip function.zip app.py\n\n# Option 2: layer (libraries must be inside python/)\nmkdir -p layer/python\npip install requests -t layer/python\ncd layer && zip -r ../layer.zip python && cd ..\naws lambda publish-layer-version --layer-name common-libs --zip-file fileb://layer.zip --compatible-runtimes python3.12\naws lambda update-function-configuration --function-name hello-python --layers arn:aws:lambda:ap-south-1:123456789012:layer:common-libs:1",
+    "memory": "Remember: Small → zip, Shared → layer, Huge → container",
+    "tip": "boto3 is already included in the runtime, but pin your own version for production."
+  },
+  {
+    "id": "aws-lambda-e8c73e17",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you run Lambda from a Docker container image?",
+    "answer": "Build an image from an AWS Lambda base image, push it to ECR, and create the function with package type Image. This is useful when dependencies are bigger than the 250 MB zip limit, or when your team already uses Docker. The image can be up to 10 GB.",
+    "points": [
+      "AWS base image",
+      "Push to ECR",
+      "--package-type Image",
+      "Up to 10 GB",
+      "Same Docker workflow"
+    ],
+    "code": "# Dockerfile\nFROM public.ecr.aws/lambda/python:3.12\nCOPY requirements.txt ./\nRUN pip install -r requirements.txt\nCOPY app.py ./\nCMD [\"app.lambda_handler\"]\n\n# Build, push and create\ndocker build -t my-lambda .\ndocker tag my-lambda:latest 123456789012.dkr.ecr.ap-south-1.amazonaws.com/my-lambda:latest\ndocker push 123456789012.dkr.ecr.ap-south-1.amazonaws.com/my-lambda:latest\naws lambda create-function --function-name my-lambda --package-type Image --code ImageUri=123456789012.dkr.ecr.ap-south-1.amazonaws.com/my-lambda:latest --role arn:aws:iam::123456789012:role/lambda-basic-role",
+    "memory": "Remember: Build → Push to ECR → Create function",
+    "tip": "You can test the image locally because the base image includes the Runtime Interface Emulator."
+  },
+  {
+    "id": "aws-lambda-9f2f82ba",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "What can trigger a Lambda function?",
+    "answer": "API Gateway and Function URLs (HTTP requests), S3 (file uploaded or deleted), SQS (queue messages), SNS (notifications), EventBridge (schedules like cron, and events from other services), DynamoDB Streams and Kinesis (data changes and streams), Cognito (user sign-up hooks), CloudWatch Logs, Step Functions, and direct calls from code with the SDK.",
+    "points": [
+      "API Gateway / Function URL",
+      "S3",
+      "SQS / SNS",
+      "EventBridge schedule",
+      "DynamoDB Streams / Kinesis",
+      "SDK invoke"
+    ],
+    "code": "",
+    "memory": "Remember: HTTP, File, Queue, Schedule, Stream",
+    "tip": "Give a real example: 'S3 upload → Lambda creates a thumbnail'."
+  },
+  {
+    "id": "aws-lambda-a4fc428c",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "Synchronous vs asynchronous vs event source mapping invocation?",
+    "answer": "Synchronous: the caller waits for the result, as with API Gateway, Function URLs or SDK invoke. Errors go straight back to the caller. Asynchronous: Lambda puts the event in an internal queue and answers immediately, as with S3, SNS and EventBridge. Failed events are retried twice by default and can go to a dead-letter queue (DLQ) or an on-failure destination. Event source mapping: Lambda itself polls SQS, Kinesis, DynamoDB Streams or Kafka and calls your function with batches of records.",
+    "points": [
+      "Sync = caller waits",
+      "Async = queued, 2 retries, DLQ",
+      "Event source mapping = Lambda polls in batches"
+    ],
+    "code": "",
+    "memory": "Remember: Wait, Queue, Poll",
+    "tip": "Knowing the retry behaviour of each type is what separates senior answers."
+  },
+  {
+    "id": "aws-lambda-c978b9f4",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do retries work, and why must Lambda functions be idempotent?",
+    "answer": "Async triggers retry failed events (2 extra tries by default). SQS messages come back after the visibility timeout. Streams retry until the record succeeds or expires. AWS can also very rarely deliver the same event twice. So the same event may run more than once. Idempotent means running it twice has the same effect as running it once: no double payment, no duplicate order. Use a unique ID from the event and a conditional write (for example in DynamoDB) to skip events you have already processed.",
+    "points": [
+      "Retries happen",
+      "At-least-once delivery",
+      "Idempotent = safe to repeat",
+      "Unique event / order ID",
+      "Conditional write"
+    ],
+    "code": "import boto3\nfrom botocore.exceptions import ClientError\n\nprocessed = boto3.resource(\"dynamodb\").Table(\"processed_events\")\n\ndef lambda_handler(event, context):\n    event_id = event[\"id\"]\n    try:\n        # Fails if this id was already saved -> we skip the duplicate\n        processed.put_item(Item={\"id\": event_id},\n                           ConditionExpression=\"attribute_not_exists(id)\")\n    except ClientError as e:\n        if e.response[\"Error\"][\"Code\"] == \"ConditionalCheckFailedException\":\n            return {\"status\": \"duplicate, skipped\"}\n        raise\n    charge_customer(event)      # runs only once per event id\n    return {\"status\": \"done\"}",
+    "memory": "Remember: Expect duplicates, handle them safely",
+    "tip": "Powertools for AWS Lambda has an @idempotent decorator that does this for you."
+  },
+  {
+    "id": "aws-lambda-652c5f7b",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you process SQS messages with Lambda? What is partial batch failure?",
+    "answer": "Lambda polls the queue and sends a batch of messages (for example 10) to your function. If the function raises an error, the whole batch returns to the queue, and the good messages run again. With ReportBatchItemFailures turned on, you return only the IDs of the failed messages, and only those are retried. After maxReceiveCount failures, messages move to a dead-letter queue (DLQ) for checking later.",
+    "points": [
+      "Batch of messages",
+      "Whole batch retried on error",
+      "ReportBatchItemFailures",
+      "Return failed messageIds",
+      "DLQ after max retries"
+    ],
+    "code": "import json\n\ndef lambda_handler(event, context):\n    failures = []\n    for record in event[\"Records\"]:\n        try:\n            order = json.loads(record[\"body\"])\n            process_order(order)\n        except Exception as e:\n            print(\"Failed:\", record[\"messageId\"], e)\n            failures.append({\"itemIdentifier\": record[\"messageId\"]})\n\n    # Only failed messages go back to the queue\n    return {\"batchItemFailures\": failures}",
+    "memory": "Remember: Return only the failures",
+    "tip": "Set the queue's visibility timeout to at least 6 times the function timeout (AWS recommendation)."
+  },
+  {
+    "id": "aws-lambda-d950af91",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "Example: process a file uploaded to S3 with Lambda.",
+    "answer": "S3 sends an event with the bucket name and object key. Decode the key (spaces arrive as + signs), read the file with boto3, process it, and save the result. Warning: never write the output to the same bucket and folder that triggers the function, or it will trigger itself again and again (an infinite loop). Use a different bucket or an output/ prefix with a prefix filter on the trigger.",
+    "points": [
+      "Bucket + key from event",
+      "unquote_plus the key",
+      "boto3 get_object",
+      "Write output elsewhere",
+      "Avoid infinite loop"
+    ],
+    "code": "import csv\nimport io\nimport urllib.parse\nimport boto3\n\ns3 = boto3.client(\"s3\")\n\ndef lambda_handler(event, context):\n    for record in event[\"Records\"]:\n        bucket = record[\"s3\"][\"bucket\"][\"name\"]\n        key = urllib.parse.unquote_plus(record[\"s3\"][\"object\"][\"key\"])\n\n        body = s3.get_object(Bucket=bucket, Key=key)[\"Body\"].read().decode(\"utf-8\")\n        rows = list(csv.DictReader(io.StringIO(body)))\n        print(f\"{key}: {len(rows)} rows\")\n\n        s3.put_object(Bucket=\"my-output-bucket\",           # different bucket\n                      Key=f\"reports/{key}.count.txt\",\n                      Body=str(len(rows)))",
+    "memory": "Remember: Read from input/, write to output/",
+    "tip": "A classic use case is image thumbnails or CSV imports."
+  },
+  {
+    "id": "aws-lambda-19274b0e",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "API Gateway + Lambda: what must the handler return?",
+    "answer": "For API Gateway proxy integration and Function URLs, return a dictionary with statusCode, headers and body. The body must be a string, so use json.dumps. The request body also arrives as a string in event['body'], so use json.loads. Query parameters are in queryStringParameters and path values are in pathParameters.",
+    "points": [
+      "statusCode + headers + body",
+      "body must be a string",
+      "json.loads(event['body'])",
+      "queryStringParameters",
+      "pathParameters"
+    ],
+    "code": "import json\n\ndef lambda_handler(event, context):\n    body = json.loads(event.get(\"body\") or \"{}\")\n    params = event.get(\"queryStringParameters\") or {}\n\n    if \"name\" not in body:\n        return {\"statusCode\": 400,\n                \"headers\": {\"Content-Type\": \"application/json\"},\n                \"body\": json.dumps({\"error\": \"name is required\"})}\n\n    return {\n        \"statusCode\": 201,\n        \"headers\": {\"Content-Type\": \"application/json\",\n                    \"Access-Control-Allow-Origin\": \"*\"},\n        \"body\": json.dumps({\"created\": body[\"name\"], \"source\": params.get(\"source\")}),\n    }",
+    "memory": "Remember: Status, Headers, String body",
+    "tip": "Add CORS headers if a browser app on another domain calls the API."
+  },
+  {
+    "id": "aws-lambda-f9fec877",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "Lambda Function URL vs API Gateway?",
+    "answer": "A Function URL is a free, built-in HTTPS endpoint for one Lambda, with simple auth (none, or IAM) and CORS settings. It is good for webhooks and simple services. API Gateway is a full API manager: many routes, custom domains, request validation, API keys, usage plans, throttling, Cognito or JWT authorizers, caching and WAF. Use API Gateway for public production APIs with many endpoints.",
+    "points": [
+      "Function URL = simple HTTPS for one function",
+      "API Gateway = full API features",
+      "Auth, throttling, API keys",
+      "Custom domains"
+    ],
+    "code": "",
+    "memory": "Remember: Quick endpoint → Function URL, Real API → API Gateway",
+    "tip": "HTTP API (v2) is a cheaper, simpler type of API Gateway than REST API (v1)."
+  },
+  {
+    "id": "aws-lambda-552f0b7f",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "Execution role vs resource-based policy in Lambda?",
+    "answer": "The execution role is what the function itself can do, for example read from S3 or write to DynamoDB. Lambda assumes this role when it runs. The resource-based policy is who can call the function, for example allowing S3, API Gateway or another account to invoke it. Always follow least privilege: allow only the exact actions and resources needed.",
+    "points": [
+      "Execution role = what Lambda can access",
+      "Resource policy = who can invoke Lambda",
+      "Least privilege",
+      "One role per function"
+    ],
+    "code": "# Allow an S3 bucket to invoke the function (resource-based policy)\naws lambda add-permission --function-name process-upload --statement-id s3-invoke --action lambda:InvokeFunction --principal s3.amazonaws.com --source-arn arn:aws:s3:::my-upload-bucket\n\n# Execution role policy: function may only read one bucket\n{\n  \"Version\": \"2012-10-17\",\n  \"Statement\": [{\n    \"Effect\": \"Allow\",\n    \"Action\": [\"s3:GetObject\"],\n    \"Resource\": \"arn:aws:s3:::my-upload-bucket/*\"\n  }]\n}",
+    "memory": "Remember: Role = going out, Resource policy = coming in",
+    "tip": "Never put AWS access keys in Lambda code; the role gives temporary credentials automatically."
+  },
+  {
+    "id": "aws-lambda-23688e35",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do memory, CPU and timeout work in Lambda?",
+    "answer": "You choose memory from 128 MB to 10,240 MB, and CPU grows with it: about 1 full vCPU at 1,769 MB and up to 6 vCPUs at the top. So more memory can make a function faster, and sometimes even cheaper, because it runs for less time. The timeout defaults to 3 seconds and can be up to 15 minutes. Set it a little above your normal longest run.",
+    "points": [
+      "128 MB – 10 GB",
+      "CPU scales with memory",
+      "Timeout default 3 s",
+      "Max 15 minutes",
+      "More memory can cost less"
+    ],
+    "code": "",
+    "memory": "Remember: Memory knob = CPU knob",
+    "tip": "The AWS Lambda Power Tuning tool finds the best memory size for cost and speed."
+  },
+  {
+    "id": "aws-lambda-8b0b4080",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "What is concurrency? Reserved vs provisioned concurrency?",
+    "answer": "Concurrency is how many requests are running at the same moment. Formula: requests per second × average duration in seconds. Example: 100 requests per second × 0.5 s = 50 concurrent environments. Each account has a regional limit (1,000 by default, can be raised). Reserved concurrency sets aside capacity for one function and also caps it, at no extra cost. It also protects a database from too many connections. Provisioned concurrency keeps a number of environments already started, so there are no cold starts, but you pay for them all the time.",
+    "points": [
+      "Concurrency = RPS × duration",
+      "1,000 default per region",
+      "Reserved = guarantee + cap, free",
+      "Provisioned = pre-warmed, paid",
+      "No cold start with provisioned"
+    ],
+    "code": "",
+    "memory": "Remember: Reserved limits, Provisioned warms",
+    "tip": "Setting reserved concurrency to 0 is a quick way to stop a function in an emergency."
+  },
+  {
+    "id": "aws-lambda-df3d7819",
+    "subject": "AWS Lambda",
+    "level": "Beginner",
+    "question": "What is throttling in Lambda?",
+    "answer": "Throttling happens when requests go above the available concurrency (the account limit or the function's reserved concurrency). Synchronous callers get a 429 TooManyRequestsException error and should retry with exponential backoff. Asynchronous events are retried automatically for up to 6 hours. For SQS, Lambda slows down its polling and messages wait in the queue. Watch the Throttles metric in CloudWatch.",
+    "points": [
+      "Over concurrency limit",
+      "429 TooManyRequests",
+      "Retry with backoff",
+      "Async auto-retry",
+      "Throttles metric"
+    ],
+    "code": "",
+    "memory": "Remember: Too many at once → 429",
+    "tip": "Fix: request a higher limit, add reserved concurrency, or put SQS in front to buffer traffic."
+  },
+  {
+    "id": "aws-lambda-a3290d2a",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you handle environment variables and secrets in Lambda?",
+    "answer": "Use environment variables for normal settings like a table name or log level. They are encrypted at rest. For real secrets like database passwords and API keys, use AWS Secrets Manager or SSM Parameter Store. Read them once outside the handler and keep them in memory, so you do not call the service on every request.",
+    "points": [
+      "Env vars for config",
+      "Secrets Manager / Parameter Store for secrets",
+      "Read once, cache",
+      "IAM role grants access"
+    ],
+    "code": "import json\nimport os\nimport boto3\n\nTABLE_NAME = os.environ[\"TABLE_NAME\"]           # normal config\n_secrets = boto3.client(\"secretsmanager\")\n_db = None\n\ndef get_db_credentials():\n    global _db\n    if _db is None:                              # first call only\n        value = _secrets.get_secret_value(SecretId=\"prod/db\")[\"SecretString\"]\n        _db = json.loads(value)\n    return _db\n\ndef lambda_handler(event, context):\n    creds = get_db_credentials()\n    return {\"user\": creds[\"username\"], \"table\": TABLE_NAME}",
+    "memory": "Remember: Config in env, secrets in a vault",
+    "tip": "The AWS Parameters and Secrets Lambda Extension can also cache secrets for you."
+  },
+  {
+    "id": "aws-lambda-c95839dc",
+    "subject": "AWS Lambda",
+    "level": "Beginner",
+    "question": "What are the important Lambda limits?",
+    "answer": "Timeout: up to 15 minutes. Memory: 128 MB to 10,240 MB. /tmp storage: 512 MB by default, up to 10 GB. Zip package: 50 MB zipped for direct upload, 250 MB unzipped including layers. Container image: up to 10 GB. Layers: 5 per function. Environment variables: 4 KB in total. Synchronous request and response payload: 6 MB each. Concurrency: 1,000 per region by default (can be raised).",
+    "points": [
+      "15 min",
+      "10 GB memory",
+      "/tmp up to 10 GB",
+      "250 MB unzipped",
+      "10 GB image",
+      "5 layers",
+      "6 MB sync payload",
+      "1,000 concurrency"
+    ],
+    "code": "",
+    "memory": "Remember: 15 minutes, 10 GB, 250 MB, 6 MB, 1,000",
+    "tip": "Limits change over time; say 'as far as I know' and check the AWS docs."
+  },
+  {
+    "id": "aws-lambda-31b4621f",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you log, monitor and debug Lambda?",
+    "answer": "Everything you print or log goes to CloudWatch Logs, in a log group named /aws/lambda/function-name. CloudWatch metrics show Invocations, Errors, Duration, Throttles and ConcurrentExecutions. Set alarms on Errors and Throttles. Use AWS X-Ray to trace a request across services. Powertools for AWS Lambda adds structured JSON logs, tracing and metrics with a few decorators. Test locally with sam local invoke.",
+    "points": [
+      "CloudWatch Logs",
+      "Metrics: Errors, Duration, Throttles",
+      "Alarms",
+      "X-Ray tracing",
+      "Powertools",
+      "sam local invoke"
+    ],
+    "code": "# pip install aws-lambda-powertools\nfrom aws_lambda_powertools import Logger, Tracer\n\nlogger = Logger(service=\"orders\")\ntracer = Tracer(service=\"orders\")\n\n@logger.inject_lambda_context          # adds request id, cold start, etc.\n@tracer.capture_lambda_handler         # X-Ray tracing\ndef lambda_handler(event, context):\n    logger.info(\"Order received\", extra={\"order_id\": event.get(\"order_id\")})\n    return {\"ok\": True}",
+    "memory": "Remember: Logs, Metrics, Alarms, Traces",
+    "tip": "Log the request ID and a business ID (like order_id) so you can search logs quickly."
+  },
+  {
+    "id": "aws-lambda-173778d3",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you connect Lambda to RDS? Lambda inside a VPC?",
+    "answer": "To reach a private RDS database or ElastiCache, attach the Lambda to the VPC's private subnets with a security group the database allows. Inside a VPC, Lambda has no internet access by default, so add a NAT Gateway for internet calls, or VPC endpoints for AWS services like S3 and DynamoDB. Many Lambdas running at once can open too many DB connections, so put RDS Proxy in front of the database to pool connections.",
+    "points": [
+      "Attach to private subnets",
+      "Security group rules",
+      "No internet by default",
+      "NAT Gateway / VPC endpoints",
+      "RDS Proxy pools connections"
+    ],
+    "code": "",
+    "memory": "Remember: VPC for private DB, NAT for internet, Proxy for connections",
+    "tip": "Mention RDS Proxy. It is the standard answer to 'too many connections' from Lambda."
+  },
+  {
+    "id": "aws-lambda-ba060984",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you run FastAPI on AWS Lambda?",
+    "answer": "Use Mangum, an adapter that turns API Gateway or Function URL events into ASGI requests that FastAPI understands. Wrap the app with Mangum and set the Lambda handler to main.handler. All routes then work through one Lambda behind API Gateway (a 'Lambda-lith'). Keep imports light to reduce cold starts.",
+    "points": [
+      "Mangum adapter",
+      "ASGI",
+      "handler = Mangum(app)",
+      "One Lambda for all routes",
+      "Watch cold starts"
+    ],
+    "code": "# main.py   -> Lambda handler: main.handler\nfrom fastapi import FastAPI\nfrom mangum import Mangum\n\napp = FastAPI()\n\n@app.get(\"/health\")\ndef health():\n    return {\"status\": \"ok\"}\n\n@app.get(\"/users/{user_id}\")\ndef get_user(user_id: int):\n    return {\"id\": user_id, \"name\": \"Ravi\"}\n\nhandler = Mangum(app)\n\n# requirements.txt: fastapi, mangum",
+    "memory": "Remember: FastAPI + Mangum = serverless API",
+    "tip": "This links your FastAPI experience with AWS. A strong talking point."
+  },
+  {
+    "id": "aws-lambda-e9562f07",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you run Django on AWS Lambda?",
+    "answer": "Use Mangum with Django's ASGI app, or tools like Zappa. Things to plan: 1) Static and media files go to S3 + CloudFront (django-storages), because the Lambda disk is read-only except /tmp. 2) Use RDS or Aurora with RDS Proxy for connection pooling. 3) Run migrations from CI/CD or a separate management Lambda, not on every cold start. 4) Store sessions and cache in Redis or the database, not in memory. 5) Keep the package small. Lambda suits spiky or low-traffic Django apps. For steady high traffic, ECS Fargate or EC2 is often simpler and cheaper.",
+    "points": [
+      "Mangum or Zappa",
+      "Static files on S3",
+      "RDS Proxy",
+      "Migrations in CI/CD",
+      "No local state",
+      "Spiky traffic = good fit"
+    ],
+    "code": "# lambda_handler.py   -> Lambda handler: lambda_handler.handler\nimport os\nos.environ.setdefault(\"DJANGO_SETTINGS_MODULE\", \"mysite.settings\")\n\nfrom mangum import Mangum\nfrom mysite.asgi import application\n\nhandler = Mangum(application, lifespan=\"off\")\n\n# settings.py (Lambda-friendly)\nALLOWED_HOSTS = [\".execute-api.ap-south-1.amazonaws.com\", \"api.example.com\"]\nSTORAGES = {\n    \"default\": {\"BACKEND\": \"storages.backends.s3.S3Storage\"},\n    \"staticfiles\": {\"BACKEND\": \"storages.backends.s3.S3Storage\"},\n}",
+    "memory": "Remember: Stateless Django + S3 + RDS Proxy",
+    "tip": "Show you know the trade-off, not just the setup."
+  },
+  {
+    "id": "aws-lambda-9a6ee1b2",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "What is AWS SAM? How do you deploy Lambda with it?",
+    "answer": "AWS SAM (Serverless Application Model) is an infrastructure-as-code tool for serverless apps. You describe functions, APIs, tables and permissions in template.yaml, and SAM turns it into CloudFormation. Commands: sam build packages the code, sam local invoke and sam local start-api test locally in Docker, and sam deploy deploys it. Alternatives: AWS CDK, Terraform and the Serverless Framework.",
+    "points": [
+      "template.yaml",
+      "Builds on CloudFormation",
+      "sam build / local / deploy",
+      "Local testing in Docker",
+      "Alternatives: CDK, Terraform"
+    ],
+    "code": "# template.yaml\nAWSTemplateFormatVersion: \"2010-09-09\"\nTransform: AWS::Serverless-2016-10-31\n\nResources:\n  OrdersTable:\n    Type: AWS::Serverless::SimpleTable\n\n  CreateOrderFunction:\n    Type: AWS::Serverless::Function\n    Properties:\n      CodeUri: src/\n      Handler: app.lambda_handler\n      Runtime: python3.12\n      MemorySize: 256\n      Timeout: 10\n      Environment:\n        Variables:\n          TABLE_NAME: !Ref OrdersTable\n      Policies:\n        - DynamoDBCrudPolicy:\n            TableName: !Ref OrdersTable\n      Events:\n        CreateOrder:\n          Type: Api\n          Properties:\n            Path: /orders\n            Method: post\n\n# Commands\n# sam build\n# sam local invoke CreateOrderFunction -e events/order.json\n# sam deploy --guided",
+    "memory": "Remember: Write YAML → build → test locally → deploy",
+    "tip": "Infrastructure as code means repeatable deployments and code review for infrastructure."
+  },
+  {
+    "id": "aws-lambda-19aca107",
+    "subject": "AWS Lambda",
+    "level": "Beginner",
+    "question": "What are Lambda versions and aliases?",
+    "answer": "A version is a fixed, numbered snapshot of the function's code and settings ($LATEST is the editable one). An alias is a name like 'prod' or 'dev' that points to a version. Triggers call the alias, so you release a new version by moving the alias, and roll back by moving it back. An alias can also split traffic, for example 90% to version 5 and 10% to version 6, for canary releases.",
+    "points": [
+      "Version = frozen snapshot",
+      "$LATEST = editable",
+      "Alias = named pointer",
+      "Easy rollback",
+      "Weighted alias = canary"
+    ],
+    "code": "aws lambda publish-version --function-name orders            # creates version 6\naws lambda create-alias --function-name orders --name prod --function-version 5\n\n# Canary: send 10% of prod traffic to version 6\naws lambda update-alias --function-name orders --name prod --function-version 5 --routing-config 'AdditionalVersionWeights={\"6\"=0.1}'\n\n# Full release\naws lambda update-alias --function-name orders --name prod --function-version 6",
+    "memory": "Remember: Version is the photo, alias is the label",
+    "tip": "CodeDeploy with SAM can shift alias traffic gradually and roll back on alarms."
+  },
+  {
+    "id": "aws-lambda-699119ee",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "Lambda vs EC2 vs ECS/Fargate: when to use which?",
+    "answer": "Lambda: event-driven or spiky work, short tasks (under 15 minutes), no servers to manage, pay only when running. Good for webhooks, file processing, cron jobs and small APIs. ECS/Fargate: long-running containers, steady traffic, WebSockets, bigger apps such as a full Django or FastAPI service, with no servers to manage. EC2: full control of the operating system, special software or GPUs, and cheapest for constant heavy load with Reserved Instances or Savings Plans.",
+    "points": [
+      "Lambda = events, short, spiky",
+      "Fargate = containers, long-running",
+      "EC2 = full control, steady heavy load",
+      "15 min Lambda limit"
+    ],
+    "code": "",
+    "memory": "Remember: Short and spiky → Lambda, Always on → Fargate / EC2",
+    "tip": "A mixed setup is common: main API on ECS, background jobs on Lambda."
+  },
+  {
+    "id": "aws-lambda-ce8f9af0",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How is Lambda priced? How do you reduce cost?",
+    "answer": "You pay for the number of requests plus compute time in GB-seconds (memory × duration). Example: 1 million requests × 0.2 seconds × 0.5 GB = 100,000 GB-seconds. There is a monthly free tier (historically 1 million requests and 400,000 GB-seconds). To save money: use arm64 (Graviton), which is about 20% cheaper; tune memory; keep functions fast; avoid functions that sit waiting for other calls; batch SQS messages; set CloudWatch log retention; and pay for provisioned concurrency only when needed.",
+    "points": [
+      "Requests + GB-seconds",
+      "Free tier",
+      "arm64 ≈ 20% cheaper",
+      "Tune memory",
+      "Batching",
+      "Log retention"
+    ],
+    "code": "",
+    "memory": "Remember: Cost = calls + (memory × time)",
+    "tip": "Waiting on slow APIs inside Lambda wastes money; use Step Functions or async patterns."
+  },
+  {
+    "id": "aws-lambda-3fca2f3f",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "What is AWS Step Functions and how does it work with Lambda?",
+    "answer": "Step Functions is a managed workflow service. You define steps in a state machine, for example: validate order → charge payment → update stock → send email. Each step can be a Lambda or a direct AWS service call. It handles retries, error branches, parallel steps, waits and human approval, and shows each run visually. It is better than one Lambda calling another and waiting, and it can run workflows longer than 15 minutes (Standard workflows can run up to 1 year).",
+    "points": [
+      "State machine",
+      "Each step = Lambda / service",
+      "Retries + error handling",
+      "Parallel / wait / choice",
+      "Long workflows"
+    ],
+    "code": "",
+    "memory": "Remember: Step Functions = conductor, Lambdas = musicians",
+    "tip": "Use it to explain the saga pattern for microservices (with compensation steps on failure)."
+  },
+  {
+    "id": "aws-lambda-a4b13bde",
+    "subject": "AWS Lambda",
+    "level": "Beginner",
+    "question": "What is /tmp in Lambda and what are its rules?",
+    "answer": "/tmp is the only writable folder in Lambda. It has 512 MB by default and can be set up to 10 GB. Files in /tmp stay while the environment is warm, so they can act as a small cache between requests. But they disappear when the environment ends and are not shared between environments, so never store important data there. Use S3, EFS or a database for that.",
+    "points": [
+      "Only writable folder",
+      "512 MB to 10 GB",
+      "Survives warm reuse",
+      "Not shared, not permanent",
+      "Use S3 / EFS for real storage"
+    ],
+    "code": "import os\nimport boto3\n\ns3 = boto3.client(\"s3\")\nMODEL_PATH = \"/tmp/model.bin\"\n\ndef lambda_handler(event, context):\n    if not os.path.exists(MODEL_PATH):          # download only on cold start\n        s3.download_file(\"my-models\", \"model.bin\", MODEL_PATH)\n    size = os.path.getsize(MODEL_PATH)\n    return {\"model_size\": size}",
+    "memory": "Remember: /tmp = temporary scratch space",
+    "tip": "Clean up large files to avoid filling /tmp in warm environments."
+  },
+  {
+    "id": "aws-lambda-867c2ac4",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you unit test a Lambda function?",
+    "answer": "A Lambda handler is just a Python function, so call it directly in pytest with a sample event and a fake context. Keep business logic in separate functions so it is easy to test. Mock AWS services with moto, which fakes S3, DynamoDB, SQS and others in memory, so tests need no real AWS account. Use sam local invoke for a final local check in a Lambda-like Docker container.",
+    "points": [
+      "Call handler directly",
+      "Sample event + fake context",
+      "moto mocks AWS",
+      "Logic outside handler",
+      "sam local invoke"
+    ],
+    "code": "# pip install pytest moto boto3\nimport json\nimport boto3\nimport pytest\nfrom moto import mock_aws\n\n@pytest.fixture\ndef table(monkeypatch):\n    monkeypatch.setenv(\"AWS_DEFAULT_REGION\", \"ap-south-1\")\n    monkeypatch.setenv(\"TABLE_NAME\", \"orders\")\n    with mock_aws():\n        ddb = boto3.resource(\"dynamodb\")\n        t = ddb.create_table(\n            TableName=\"orders\",\n            KeySchema=[{\"AttributeName\": \"id\", \"KeyType\": \"HASH\"}],\n            AttributeDefinitions=[{\"AttributeName\": \"id\", \"AttributeType\": \"S\"}],\n            BillingMode=\"PAY_PER_REQUEST\",\n        )\n        yield t\n\ndef test_handler_saves_order(table):\n    import app                                     # import after mocks are ready\n    event = {\"body\": json.dumps({\"id\": \"A1\", \"data\": \"pizza\"})}\n    resp = app.lambda_handler(event, context=None)\n    assert resp[\"statusCode\"] == 201\n    assert table.get_item(Key={\"id\": \"A1\"})[\"Item\"][\"data\"] == \"pizza\"",
+    "memory": "Remember: Handler is just a function",
+    "tip": "Save real sample events (from CloudWatch logs) as JSON files for tests."
+  },
+  {
+    "id": "aws-lambda-6d19da32",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you set up CI/CD for Lambda functions?",
+    "answer": "Keep the infrastructure as code (SAM, CDK or Terraform) in Git. On every pull request, the pipeline runs lint and pytest. On merge to main, it runs sam build and sam deploy to a staging stack, runs smoke tests, then deploys to production. Use an IAM role for the pipeline (GitHub OIDC), not long-lived access keys. Use aliases with gradual traffic shifting to roll back safely.",
+    "points": [
+      "IaC in Git",
+      "Test on PR",
+      "sam build + deploy on merge",
+      "Staging then prod",
+      "OIDC role, no keys",
+      "Gradual deploy + rollback"
+    ],
+    "code": "# .github/workflows/deploy.yml\nname: deploy\non:\n  push:\n    branches: [main]\npermissions:\n  id-token: write\n  contents: read\njobs:\n  deploy:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n      - uses: actions/setup-python@v5\n        with:\n          python-version: \"3.12\"\n      - run: pip install -r requirements-dev.txt && pytest\n      - uses: aws-actions/setup-sam@v2\n      - uses: aws-actions/configure-aws-credentials@v4\n        with:\n          role-to-assume: arn:aws:iam::123456789012:role/github-deploy\n          aws-region: ap-south-1\n      - run: sam build\n      - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name orders-prod",
+    "memory": "Remember: Test → Build → Deploy staging → Smoke test → Prod",
+    "tip": "GitHub OIDC with AWS removes the need to store AWS keys as secrets."
+  },
+  {
+    "id": "aws-lambda-eef7400d",
+    "subject": "AWS Lambda",
+    "level": "Intermediate",
+    "question": "How do you call an LLM (GenAI) from AWS Lambda?",
+    "answer": "Lambda is a common place to run GenAI features: summarise a document after upload to S3, classify support tickets from SQS, or power a chat API behind API Gateway. You can call a model provider's API directly with its SDK, or use Amazon Bedrock to stay inside AWS (IAM auth, no API key, data stays in your account). Create the client outside the handler, set a longer timeout (LLM calls can take many seconds), keep API keys in Secrets Manager, and stream or use async patterns for long answers.",
+    "points": [
+      "S3 / SQS / API triggers",
+      "Direct API or Amazon Bedrock",
+      "Client outside handler",
+      "Longer timeout",
+      "Secrets in Secrets Manager"
+    ],
+    "code": "# pip install anthropic   (Claude on Amazon Bedrock, IAM auth via the Lambda role)\nimport json\nfrom anthropic import AnthropicBedrockMantle\n\nclient = AnthropicBedrockMantle(aws_region=\"us-east-1\")   # created once per environment\n\ndef lambda_handler(event, context):\n    ticket = json.loads(event[\"body\"])[\"text\"]\n    response = client.messages.create(\n        model=\"anthropic.claude-opus-5-5\",\n        max_tokens=1024,\n        system=\"Classify the support ticket as billing, technical or other. Reply with one word.\",\n        messages=[{\"role\": \"user\", \"content\": ticket}],\n    )\n    label = next(b.text for b in response.content if b.type == \"text\").strip()\n    return {\"statusCode\": 200, \"body\": json.dumps({\"category\": label})}",
+    "memory": "Remember: Event → Lambda → LLM → Save result",
+    "tip": "For long jobs, put requests on SQS and process them in the background instead of making users wait."
+  },
+  {
+    "id": "monitoring-72820abb",
+    "subject": "Monitoring",
+    "level": "Intermediate",
+    "question": "Monitoring vs observability? What are the three pillars?",
+    "answer": "Monitoring watches known things and alerts you: CPU is high, the error rate went up. Observability means you can understand why something is wrong, even for problems you did not expect, by asking questions of your data. The three pillars are metrics (numbers over time, like requests per second), logs (detailed event records), and traces (the path of one request across services). Together they answer: is something wrong (metrics), where (traces), and why (logs).",
+    "points": [
+      "Monitoring = known problems + alerts",
+      "Observability = understand unknown problems",
+      "Metrics",
+      "Logs",
+      "Traces"
+    ],
+    "code": "",
+    "memory": "Remember: Metrics say WHAT, traces say WHERE, logs say WHY",
+    "tip": "Name tools for each pillar: Prometheus (metrics), Loki or CloudWatch (logs), Tempo, Jaeger or New Relic (traces)."
+  },
+  {
+    "id": "monitoring-2ad74a5c",
+    "subject": "Monitoring",
+    "level": "Intermediate",
+    "question": "What is Prometheus and how does it work?",
+    "answer": "Prometheus is an open-source monitoring system that stores metrics as time series. It pulls (scrapes) metrics over HTTP from a /metrics endpoint on each app or exporter every few seconds. Exporters expose metrics for systems like Linux servers (node_exporter), PostgreSQL, Redis and Nginx. You query data with PromQL, and Alertmanager sends alerts to Slack, email or PagerDuty. Grafana is usually used on top to build dashboards.",
+    "points": [
+      "Time-series metrics",
+      "Pull / scrape /metrics",
+      "Exporters",
+      "PromQL",
+      "Alertmanager",
+      "Grafana for dashboards"
+    ],
+    "code": "",
+    "memory": "Remember: Prometheus collects, Grafana shows",
+    "tip": "Metric types: Counter (only goes up), Gauge (up and down), Histogram (latency buckets), Summary."
+  },
+  {
+    "id": "monitoring-df023fae",
+    "subject": "Monitoring",
+    "level": "Beginner",
+    "question": "What is Grafana?",
+    "answer": "Grafana is an open-source tool for dashboards and alerts. It connects to many data sources: Prometheus, Loki (logs), Tempo (traces), CloudWatch, MySQL, PostgreSQL, Elasticsearch and New Relic. You build panels (graphs, stats, tables, heatmaps), use variables like a service or environment dropdown, and set alert rules that notify Slack or email. Grafana Cloud is the hosted version.",
+    "points": [
+      "Dashboards + alerts",
+      "Many data sources",
+      "Panels + variables",
+      "Alert rules",
+      "Grafana Cloud"
+    ],
+    "code": "",
+    "memory": "Remember: Grafana = one screen for all your data",
+    "tip": "Grafana does not store metrics itself; Prometheus or another source does."
+  },
+  {
+    "id": "monitoring-3dd80fbe",
+    "subject": "Monitoring",
+    "level": "Intermediate",
+    "question": "How do you expose metrics from a FastAPI app for Prometheus?",
+    "answer": "Use the prometheus_client library. Create a Counter for request counts and a Histogram for latency, update them in a middleware, and mount a /metrics endpoint. Prometheus scrapes that endpoint. Use route templates (like /orders/{id}) as labels, not real IDs, to avoid too many label values (high cardinality). A ready-made option is prometheus-fastapi-instrumentator.",
+    "points": [
+      "prometheus_client",
+      "Counter + Histogram",
+      "Middleware",
+      "/metrics endpoint",
+      "Avoid high-cardinality labels"
+    ],
+    "code": "# pip install prometheus-client\nimport time\nfrom fastapi import FastAPI, Request\nfrom prometheus_client import Counter, Histogram, make_asgi_app\n\napp = FastAPI()\napp.mount(\"/metrics\", make_asgi_app())\n\nREQUESTS = Counter(\"http_requests_total\", \"Total HTTP requests\",\n                   [\"method\", \"path\", \"status\"])\nLATENCY = Histogram(\"http_request_duration_seconds\", \"Request latency\", [\"path\"])\nORDERS = Counter(\"orders_created_total\", \"Orders created\")\n\n@app.middleware(\"http\")\nasync def track_metrics(request: Request, call_next):\n    start = time.perf_counter()\n    response = await call_next(request)\n    route = request.scope.get(\"route\")\n    path = route.path if route else \"unknown\"        # /orders/{id}, not /orders/42\n    LATENCY.labels(path).observe(time.perf_counter() - start)\n    REQUESTS.labels(request.method, path, response.status_code).inc()\n    return response\n\n@app.post(\"/orders\")\ndef create_order():\n    ORDERS.inc()\n    return {\"ok\": True}",
+    "memory": "Remember: Count requests, time requests, expose /metrics",
+    "tip": "Add business metrics too, like orders_created_total or points_redeemed_total."
+  },
+  {
+    "id": "monitoring-fc2410d7",
+    "subject": "Monitoring",
+    "level": "Beginner",
+    "question": "What are some useful PromQL queries?",
+    "answer": "PromQL is the query language for Prometheus. rate() gives per-second growth of a counter over a time window. sum by groups results. histogram_quantile calculates percentiles like p95 latency from histogram buckets. These queries power Grafana panels and alert rules.",
+    "points": [
+      "rate() for counters",
+      "sum by (label)",
+      "histogram_quantile for p95 / p99",
+      "Error rate = errors / total"
+    ],
+    "code": "# Requests per second, per path\nsum by (path) (rate(http_requests_total[5m]))\n\n# Error rate in % (5xx out of all requests)\n100 * sum(rate(http_requests_total{status=~\"5..\"}[5m]))\n    / sum(rate(http_requests_total[5m]))\n\n# p95 latency in seconds\nhistogram_quantile(0.95, sum by (le) (rate(http_request_duration_seconds_bucket[5m])))\n\n# Is the target up? (1 = up, 0 = down)\nup{job=\"orders-api\"}",
+    "memory": "Remember: rate, sum, quantile",
+    "tip": "Prefer p95 / p99 latency over the average; averages hide slow requests."
+  },
+  {
+    "id": "monitoring-2529f000",
+    "subject": "Monitoring",
+    "level": "Intermediate",
+    "question": "How do you set up Prometheus and Grafana with Docker?",
+    "answer": "Run Prometheus and Grafana as containers with docker-compose. prometheus.yml lists the targets to scrape. In Grafana, add Prometheus as a data source (http://prometheus:9090), then import or build dashboards. Many ready-made dashboards exist, like Node Exporter Full for servers.",
+    "points": [
+      "docker-compose",
+      "prometheus.yml scrape targets",
+      "Grafana data source",
+      "Import dashboards",
+      "Persist data in volumes"
+    ],
+    "code": "# docker-compose.yml\nservices:\n  api:\n    build: .\n    ports: [\"8000:8000\"]\n  prometheus:\n    image: prom/prometheus\n    volumes:\n      - ./prometheus.yml:/etc/prometheus/prometheus.yml\n    ports: [\"9090:9090\"]\n  grafana:\n    image: grafana/grafana\n    ports: [\"3000:3000\"]\n    volumes:\n      - grafana-data:/var/lib/grafana\nvolumes:\n  grafana-data:\n\n# prometheus.yml\nglobal:\n  scrape_interval: 15s\nscrape_configs:\n  - job_name: orders-api\n    static_configs:\n      - targets: [\"api:8000\"]",
+    "memory": "Remember: App → Prometheus → Grafana",
+    "tip": "Change Grafana's default admin password immediately."
+  },
+  {
+    "id": "monitoring-ea2d33fd",
+    "subject": "Monitoring",
+    "level": "Intermediate",
+    "question": "What would you show on a service dashboard? (Golden signals, RED, USE)",
+    "answer": "Google's four golden signals: latency (p50, p95, p99), traffic (requests per second), errors (error rate) and saturation (how full: CPU, memory, DB connections, queue length). RED method for services: Rate, Errors, Duration. USE method for resources like servers and databases: Utilization, Saturation, Errors. Also add business metrics like orders per minute or failed payments, plus dependency health (DB, Redis, external APIs).",
+    "points": [
+      "Golden signals: latency, traffic, errors, saturation",
+      "RED for services",
+      "USE for resources",
+      "Business metrics",
+      "Dependencies"
+    ],
+    "code": "",
+    "memory": "Remember: Latency, Traffic, Errors, Saturation",
+    "tip": "Put the most important panels (error rate, p95 latency) at the top of the dashboard."
+  },
+  {
+    "id": "monitoring-b9a31d83",
+    "subject": "Monitoring",
+    "level": "Intermediate",
+    "question": "How do you set up good alerts?",
+    "answer": "Alert on symptoms users feel (high error rate, slow p95 latency, service down), not on every CPU spike. Use a 'for' duration (for example 5 minutes) to avoid noise from short spikes. Every alert should be actionable and link to a runbook (what to check, how to fix). Use severity levels: critical pages the on-call engineer, warnings go to Slack. Review and remove noisy alerts regularly, because alert fatigue makes people ignore real problems.",
+    "points": [
+      "Alert on symptoms",
+      "Use 'for' duration",
+      "Actionable + runbook",
+      "Severity levels",
+      "Avoid alert fatigue"
+    ],
+    "code": "# Prometheus alert rule (alerts.yml)\ngroups:\n  - name: orders-api\n    rules:\n      - alert: HighErrorRate\n        expr: |\n          sum(rate(http_requests_total{status=~\"5..\"}[5m]))\n            / sum(rate(http_requests_total[5m])) > 0.05\n        for: 5m\n        labels:\n          severity: critical\n        annotations:\n          summary: \"Orders API error rate above 5% for 5 minutes\"\n          runbook: \"https://wiki.example.com/runbooks/orders-api-errors\"",
+    "memory": "Remember: Every alert must need a human action",
+    "tip": "Better still: alert on SLO burn rate (error budget being used up too fast)."
+  },
+  {
+    "id": "monitoring-5c38bb07",
+    "subject": "Monitoring",
+    "level": "Beginner",
+    "question": "What are Loki and Tempo? What is the Grafana LGTM stack?",
+    "answer": "The Grafana open-source stack is often called LGTM: Loki for logs, Grafana for dashboards, Tempo for traces and Mimir for long-term, scalable Prometheus metrics. Loki stores logs cheaply by indexing only labels (like service and level), not the full text, and you query them with LogQL. Tempo stores distributed traces. In Grafana you can jump from a slow request on a graph to its trace and its logs.",
+    "points": [
+      "Loki = logs (LogQL)",
+      "Grafana = dashboards",
+      "Tempo = traces",
+      "Mimir = scalable metrics",
+      "Jump metric → trace → log"
+    ],
+    "code": "",
+    "memory": "Remember: LGTM = Logs, Grafana, Traces, Metrics",
+    "tip": "Promtail or Grafana Alloy agents ship logs to Loki."
+  },
+  {
+    "id": "monitoring-6a07d1f5",
+    "subject": "Monitoring",
+    "level": "Beginner",
+    "question": "What is New Relic? What does APM give you?",
+    "answer": "New Relic is a paid, hosted observability platform. Its APM (Application Performance Monitoring) agent goes inside your app and automatically records every web request and background job: response time, throughput, error rate, slow database queries, external API calls and full error stack traces. It also offers distributed tracing, infrastructure monitoring, log management, browser and mobile monitoring, synthetic checks, dashboards and alerts. You query all data with NRQL.",
+    "points": [
+      "Hosted (SaaS)",
+      "APM agent auto-instruments",
+      "Slow transactions + DB queries",
+      "Errors with stack traces",
+      "Distributed tracing",
+      "Logs, infra, alerts",
+      "NRQL"
+    ],
+    "code": "",
+    "memory": "Remember: New Relic = APM + everything, hosted",
+    "tip": "Main value: find the slow line, query or external call quickly, with almost no code changes."
+  },
+  {
+    "id": "monitoring-2d01cba0",
+    "subject": "Monitoring",
+    "level": "Intermediate",
+    "question": "How do you add New Relic to a Python / FastAPI app?",
+    "answer": "Install the newrelic package, create newrelic.ini with your license key and app name, and start the app through newrelic-admin run-program. The agent then instruments FastAPI, Django, Celery, SQLAlchemy, Redis and HTTP clients automatically. Keep the license key in an environment variable. You can add custom attributes (like user_id), custom events, and record background jobs.",
+    "points": [
+      "pip install newrelic",
+      "newrelic.ini or env vars",
+      "newrelic-admin run-program",
+      "Auto-instruments frameworks",
+      "Custom attributes + events",
+      "Key in env var"
+    ],
+    "code": "pip install newrelic\nnewrelic-admin generate-config $NEW_RELIC_LICENSE_KEY newrelic.ini\n\n# Start the app with the agent\nNEW_RELIC_CONFIG_FILE=newrelic.ini NEW_RELIC_APP_NAME=\"orders-api (prod)\" newrelic-admin run-program uvicorn app.main:app --host 0.0.0.0 --port 8000\n\n# Custom data in code\nimport newrelic.agent\n\n@app.post(\"/redeem\")\ndef redeem(req: RedeemRequest, user=Depends(get_current_user)):\n    newrelic.agent.add_custom_attribute(\"customer_id\", user.id)\n    newrelic.agent.record_custom_event(\"PointsRedeemed\", {\"customer_id\": user.id,\n                                                         \"points\": req.points})\n    ...\n\n@newrelic.agent.background_task(name=\"nightly-points-expiry\")\ndef expire_points():\n    ...",
+    "memory": "Remember: Install, Configure, Wrap the start command",
+    "tip": "Add custom attributes like customer_id or tenant so you can filter slow requests by customer."
+  },
+  {
+    "id": "monitoring-0c088f9f",
+    "subject": "Monitoring",
+    "level": "Beginner",
+    "question": "What is NRQL? Give examples.",
+    "answer": "NRQL (New Relic Query Language) is a SQL-like language to query New Relic data: transactions, errors, logs, custom events and metrics. You use it for dashboards and alert conditions. FACET groups results (like GROUP BY) and TIMESERIES draws the result over time.",
+    "points": [
+      "SQL-like",
+      "FROM Transaction / TransactionError / Log",
+      "FACET = group by",
+      "TIMESERIES = over time",
+      "Used for dashboards + alerts"
+    ],
+    "code": "-- p95 response time per endpoint, last hour\nSELECT percentile(duration, 95) FROM Transaction\nWHERE appName = 'orders-api (prod)'\nFACET name SINCE 1 hour ago\n\n-- Error rate over time\nSELECT percentage(count(*), WHERE error IS true) FROM Transaction\nWHERE appName = 'orders-api (prod)' TIMESERIES SINCE 1 day ago\n\n-- Slowest database queries\nSELECT average(databaseDuration) FROM Transaction FACET name LIMIT 10\n\n-- Custom business event\nSELECT sum(points) FROM PointsRedeemed FACET customer_id SINCE 7 days ago",
+    "memory": "Remember: NRQL = SQL for observability data",
+    "tip": "Show one percentile query and one error-rate query."
+  },
+  {
+    "id": "monitoring-1e3a0d74",
+    "subject": "Monitoring",
+    "level": "Advanced",
+    "question": "What is distributed tracing? What is a correlation ID?",
+    "answer": "In microservices, one user request can pass through many services. Distributed tracing records the full path: a trace has spans for each step (API, DB query, call to another service) with timings, so you can see exactly where the time went. A trace ID or correlation ID is created at the first service and passed in HTTP headers (like traceparent or X-Request-ID) to every next service and message. Include it in every log line, so you can find all logs for one request.",
+    "points": [
+      "Trace = full request path",
+      "Span = one step + timing",
+      "Pass ID in headers",
+      "Put ID in every log",
+      "Find the slow service"
+    ],
+    "code": "import uuid\nimport contextvars\nimport logging\nfrom fastapi import Request\n\nrequest_id_var = contextvars.ContextVar(\"request_id\", default=\"-\")\n\n@app.middleware(\"http\")\nasync def add_request_id(request: Request, call_next):\n    request_id = request.headers.get(\"X-Request-ID\", str(uuid.uuid4()))\n    request_id_var.set(request_id)\n    response = await call_next(request)\n    response.headers[\"X-Request-ID\"] = request_id\n    return response\n\nclass RequestIdFilter(logging.Filter):\n    def filter(self, record):\n        record.request_id = request_id_var.get()\n        return True\n\n# When calling another service, pass it on:\n# httpx.get(url, headers={\"X-Request-ID\": request_id_var.get()})",
+    "memory": "Remember: One ID follows the request everywhere",
+    "tip": "Tools: OpenTelemetry for collecting, and Jaeger, Tempo, New Relic or X-Ray for viewing."
+  },
+  {
+    "id": "monitoring-e6c73267",
+    "subject": "Monitoring",
+    "level": "Beginner",
+    "question": "What is OpenTelemetry?",
+    "answer": "OpenTelemetry (OTel) is an open, vendor-neutral standard and set of SDKs for collecting traces, metrics and logs. You instrument your code once, and send the data to any backend: Grafana Tempo, Jaeger, Prometheus, New Relic, Datadog or AWS X-Ray. Auto-instrumentation covers FastAPI, Django, requests, httpx, SQLAlchemy, Redis and Celery. The OTel Collector can receive, process and forward data.",
+    "points": [
+      "Vendor-neutral standard",
+      "Traces + metrics + logs",
+      "Instrument once, send anywhere",
+      "Auto-instrumentation",
+      "OTel Collector"
+    ],
+    "code": "pip install opentelemetry-distro opentelemetry-exporter-otlp\nopentelemetry-bootstrap -a install          # installs instrumentations for your libraries\n\nOTEL_SERVICE_NAME=orders-api OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4317 opentelemetry-instrument uvicorn app.main:app\n\n# Manual span for an important step\nfrom opentelemetry import trace\ntracer = trace.get_tracer(__name__)\n\ndef redeem(customer_id, points):\n    with tracer.start_as_current_span(\"redeem_points\") as span:\n        span.set_attribute(\"customer.id\", customer_id)\n        span.set_attribute(\"points\", points)\n        ...",
+    "memory": "Remember: OTel = one way to collect, any tool to view",
+    "tip": "It avoids vendor lock-in: switching from New Relic to Grafana means changing the exporter, not the code."
+  },
+  {
+    "id": "monitoring-e33b2b10",
+    "subject": "Monitoring",
+    "level": "Beginner",
+    "question": "What are SLI, SLO, SLA and error budget?",
+    "answer": "An SLI (Service Level Indicator) is a measurement, like the percentage of successful requests or requests faster than 300 ms. An SLO (Objective) is your internal target for it, like 99.9% successful requests over 30 days. An SLA (Agreement) is a promise to customers, often with penalties, and is usually looser than the SLO. The error budget is the allowed failure: 99.9% over 30 days allows about 43 minutes of failure. If the budget is used up, the team focuses on reliability instead of new features.",
+    "points": [
+      "SLI = measurement",
+      "SLO = internal target",
+      "SLA = customer promise",
+      "Error budget = allowed failure",
+      "99.9% ≈ 43 min / month"
+    ],
+    "code": "",
+    "memory": "Remember: Indicator, Objective, Agreement",
+    "tip": "Quick numbers: 99.9% ≈ 43 minutes per month, 99.99% ≈ 4.3 minutes per month."
+  },
+  {
+    "id": "monitoring-689d019d",
+    "subject": "Monitoring",
+    "level": "Advanced",
+    "question": "What is structured logging? How should you log in production?",
+    "answer": "Structured logging writes each log line as JSON with fixed fields (time, level, message, service, request_id, user_id) instead of free text. Tools like Loki, CloudWatch, ELK and New Relic can then filter and search fields easily. Good practice: use the right level (DEBUG, INFO, WARNING, ERROR), include the request ID, never log passwords, tokens, card numbers or full personal data, set log retention, and avoid logging inside tight loops.",
+    "points": [
+      "JSON logs",
+      "Fixed fields",
+      "request_id in every line",
+      "Right log levels",
+      "No secrets or PII",
+      "Retention"
+    ],
+    "code": "# pip install python-json-logger\nimport logging\nfrom pythonjsonlogger.json import JsonFormatter\n\nhandler = logging.StreamHandler()\nhandler.setFormatter(JsonFormatter(\"%(asctime)s %(levelname)s %(name)s %(message)s\"))\nlogger = logging.getLogger(\"orders\")\nlogger.addHandler(handler)\nlogger.setLevel(logging.INFO)\n\nlogger.info(\"order placed\", extra={\"order_id\": \"A123\", \"customer_id\": 42,\n                                   \"amount\": 499, \"request_id\": \"f3a9\"})\n# {\"asctime\": \"...\", \"levelname\": \"INFO\", \"name\": \"orders\", \"message\": \"order placed\",\n#  \"order_id\": \"A123\", \"customer_id\": 42, \"amount\": 499, \"request_id\": \"f3a9\"}",
+    "memory": "Remember: Logs are data, make them searchable",
+    "tip": "Logs are for 'why'; don't use logs to count things, use metrics for that."
+  },
+  {
+    "id": "monitoring-dbba468d",
+    "subject": "Monitoring",
+    "level": "Intermediate",
+    "question": "Grafana (with Prometheus) vs New Relic: which would you choose?",
+    "answer": "Grafana + Prometheus is open source and free to run yourself, very flexible, and has no per-host or per-user license cost. But you must set up, scale and maintain it, and add Loki and Tempo for logs and traces. Grafana Cloud reduces that work. New Relic is a hosted, all-in-one platform: install the agent and you get APM, traces, errors, logs and alerts in minutes, with little maintenance, but it costs money based on data ingested and users. Small teams that want quick results often pick New Relic; teams with strong DevOps skills or cost limits often pick Grafana. With OpenTelemetry you can switch more easily.",
+    "points": [
+      "Grafana: open source, flexible, self-managed",
+      "New Relic: hosted, all-in-one, quick start",
+      "Cost vs effort",
+      "OTel reduces lock-in"
+    ],
+    "code": "",
+    "memory": "Remember: Grafana = control and low cost, New Relic = speed and convenience",
+    "tip": "Say which one you used and what you monitored with it; real experience beats theory."
+  },
+  {
+    "id": "monitoring-ffc98cff",
+    "subject": "Monitoring",
+    "level": "Advanced",
+    "question": "An API became slow in production. How do you find the cause using monitoring tools?",
+    "answer": "1) Check the dashboard: is it all endpoints or one, and when did it start? Does it match a deployment, a traffic spike or a cron job? 2) Open APM (New Relic) or traces (Tempo, Jaeger): look at the slowest transactions and see which span takes the time: a database query, an external API, or Python code. 3) For slow DB queries: look at the query, run EXPLAIN, check for missing indexes, N+1 queries or locks. 4) Check saturation: CPU, memory, DB connection pool, Redis, queue length. 5) Check logs with the request ID for errors and timeouts. 6) Fix, deploy, and confirm on the dashboard that p95 latency went back to normal. 7) Add an alert so you catch it earlier next time.",
+    "points": [
+      "Dashboard: when + where",
+      "Correlate with deploy / traffic",
+      "APM trace: slowest span",
+      "DB: EXPLAIN, index, N+1",
+      "Saturation",
+      "Logs by request ID",
+      "Fix + verify + alert"
+    ],
+    "code": "",
+    "memory": "Remember: When, Where, Why, Fix, Verify, Prevent",
+    "tip": "Tell a real story with numbers: 'p95 went from 2.5 s to 300 ms after adding an index'."
+  },
+  {
+    "id": "docker-ci-cd-54ee21fa",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "Show a Bitbucket Pipelines CI/CD example (test, build, deploy).",
+    "answer": "Bitbucket Pipelines runs CI/CD from a bitbucket-pipelines.yml file in the repository. Each step runs in a Docker container. A typical flow: on every pull request, run lint and tests; on merge to main, run tests again, build a Docker image and push it to AWS ECR, then deploy to production with a manual approval step. Secrets (AWS keys, registry URL) are stored as secured repository or deployment variables, never in the file. Services like Redis or PostgreSQL can be started next to a step for tests, and caches (pip, docker) make builds faster.",
+    "points": [
+      "bitbucket-pipelines.yml",
+      "Steps run in Docker",
+      "PR: lint + test",
+      "main: build → push to ECR → deploy",
+      "Manual trigger for production",
+      "Secured variables",
+      "Services + caches"
+    ],
+    "code": "# bitbucket-pipelines.yml\nimage: python:3.12\n\ndefinitions:\n  services:\n    redis:\n      image: redis:7\n  steps:\n    - step: &test\n        name: Lint and test\n        caches: [pip]\n        services: [redis]\n        script:\n          - pip install -r requirements.txt -r requirements-dev.txt\n          - ruff check .\n          - pytest --cov=app --cov-fail-under=80\n\npipelines:\n  pull-requests:\n    '**':\n      - step: *test\n\n  branches:\n    main:\n      - step: *test\n      - step:\n          name: Build and push Docker image\n          services: [docker]\n          caches: [docker]\n          script:\n            - pip install awscli\n            - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY\n            - docker build -t $ECR_REGISTRY/orders-api:$BITBUCKET_COMMIT .\n            - docker push $ECR_REGISTRY/orders-api:$BITBUCKET_COMMIT\n      - step:\n          name: Deploy to production\n          deployment: production\n          trigger: manual            # someone clicks 'Deploy'\n          script:\n            - pip install awscli\n            - aws ecs update-service --cluster prod --service orders-api --force-new-deployment",
+    "memory": "Remember: PR = test, main = build + deploy",
+    "tip": "Your resume lists Bitbucket Pipelines; explain the exact steps your team used, for example tests, Docker build, push to ECR, deploy to EC2 or ECS."
+  },
+  {
+    "id": "docker-ci-cd-f833fc43",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "Deployment strategies: rolling, blue-green and canary. How do you roll back?",
+    "answer": "Rolling: replace servers or containers a few at a time; no extra cost, but old and new versions run together for a while. Blue-green: run a full new environment (green) next to the current one (blue), test it, then switch all traffic at once at the load balancer; rollback is instant (switch back), but it needs double resources for a short time. Canary: send a small share of traffic (for example 5%) to the new version, watch errors and latency, then increase step by step; it limits the damage of a bad release. Rollback: redeploy the previous image tag (always tag images with the commit ID, never only 'latest'), and keep database migrations backward compatible so the old code still works.",
+    "points": [
+      "Rolling = few at a time",
+      "Blue-green = switch all traffic, instant rollback",
+      "Canary = small % first, then more",
+      "Tag images by commit",
+      "Backward-compatible DB migrations"
+    ],
+    "code": "",
+    "memory": "Remember: Rolling replaces, Blue-green switches, Canary tests on a few users",
+    "tip": "Database changes are the hard part of rollbacks; mention the expand-then-contract approach."
+  },
+  {
+    "id": "docker-ci-cd-730eec70",
+    "subject": "Docker/CI-CD",
+    "level": "Intermediate",
+    "question": "How do you manage secrets and environment configuration in CI/CD?",
+    "answer": "Never commit secrets (passwords, API keys, AWS keys) to Git. In the pipeline, store them as secured variables (Bitbucket repository or deployment variables, GitHub secrets); they are hidden in logs. Better still, use short-lived credentials: OIDC to assume an AWS IAM role, so no long-lived keys exist at all. At runtime the app reads configuration from environment variables or from AWS Secrets Manager or Parameter Store using its IAM role. Use separate values per environment (dev, staging, prod), rotate secrets regularly, and scan the repository for leaked keys.",
+    "points": [
+      "No secrets in Git",
+      "Secured pipeline variables",
+      "OIDC → IAM role (no keys)",
+      "Runtime: env vars or Secrets Manager",
+      "Separate per environment",
+      "Rotate + scan for leaks"
+    ],
+    "code": "# app/config.py  (pip install pydantic-settings)\nfrom pydantic_settings import BaseSettings, SettingsConfigDict\n\nclass Settings(BaseSettings):\n    model_config = SettingsConfigDict(env_file=\".env\")   # .env only for local dev, in .gitignore\n    database_url: str\n    redis_url: str = \"redis://localhost:6379/0\"\n    jwt_secret: str\n    environment: str = \"dev\"\n\nsettings = Settings()      # reads environment variables set by the pipeline / ECS task",
+    "memory": "Remember: Secrets live in a vault, not in code or YAML",
+    "tip": "If a key leaks in Git, rotate it immediately; deleting the commit is not enough."
+  },
+  {
+    "id": "git-5f15a1fc",
+    "subject": "Git",
+    "level": "Intermediate",
+    "question": "SVN vs Git: what is the difference?",
+    "answer": "SVN (Subversion) is centralized: there is one central server, and you need a connection to commit, see history or create branches. Git is distributed: every developer has the full repository and history locally, so commits, branches, diffs and logs work offline and are very fast. Branching and merging are cheap and common in Git, but heavy in SVN. Git commits change locally first, then you push. Command mapping: svn checkout ≈ git clone, svn update ≈ git pull, svn commit ≈ git commit + git push. Most teams have moved to Git (Bitbucket, GitHub, GitLab).",
+    "points": [
+      "SVN = centralized server",
+      "Git = distributed, full copy locally",
+      "Git works offline, faster",
+      "Cheap branching in Git",
+      "checkout ≈ clone, update ≈ pull, commit ≈ commit + push"
+    ],
+    "code": "# SVN                          # Git\nsvn checkout URL               git clone URL\nsvn update                     git pull\nsvn add file.php               git add file.php\nsvn commit -m \"Fix GST\"        git commit -m \"Fix GST\" && git push\nsvn log                        git log --oneline\nsvn diff                       git diff\nsvn copy trunk branches/feat   git switch -c feat      # instant, local",
+    "memory": "Remember: SVN needs the server, Git carries the whole repo",
+    "tip": "Your resume lists SVN; say you used it on older projects and moved to Git with Bitbucket later."
+  },
+  {
+    "id": "git-120f490c",
+    "subject": "Git",
+    "level": "Intermediate",
+    "question": "How do you migrate a repository from SVN to Git?",
+    "answer": "1) Make an authors file that maps SVN usernames to Git names and emails. 2) Use git svn clone with the standard layout (trunk, branches, tags) to import the full history. 3) Convert SVN branches and tags into proper Git branches and tags. 4) Add a .gitignore, push to the new remote (Bitbucket or GitHub). 5) Freeze the SVN repository (read-only), switch the CI pipeline to Git, and train the team on the Git workflow. Large binary files can be moved to Git LFS.",
+    "points": [
+      "Authors file",
+      "git svn clone --stdlayout",
+      "Convert branches and tags",
+      "Push to Bitbucket",
+      "Freeze SVN, switch CI",
+      "Git LFS for big files"
+    ],
+    "code": "# authors.txt\n#   nagesh = Nagesh Gavhane <nagesh@example.com>\n\ngit svn clone https://svn.example.com/repo --stdlayout --authors-file=authors.txt --no-metadata project-git\ncd project-git\n\n# Turn SVN tags (imported as remote branches) into real Git tags\ngit for-each-ref --format=\"%(refname:short)\" refs/remotes/origin/tags | while read tag; do\n  git tag \"${tag#origin/tags/}\" \"$tag\"\ndone\n\ngit remote add origin git@bitbucket.org:team/project.git\ngit push -u origin --all\ngit push origin --tags",
+    "memory": "Remember: Map authors, clone with history, push, freeze SVN",
+    "tip": "A tool like svn2git automates the branch and tag conversion."
+  }
+]

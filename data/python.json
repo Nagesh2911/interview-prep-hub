@@ -1,0 +1,2088 @@
+[
+  {
+    "id": "python-400de56e",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is Python?",
+    "answer": "Python is a high-level programming language. It is easy to read and has many libraries. It is widely used for backend development, APIs, automation and scripting.",
+    "points": [
+      "High-level",
+      "Easy to read",
+      "Libraries",
+      "Backend"
+    ],
+    "code": "# A tiny Python program\nname = \"Nagesh\"\nskills = [\"Python\", \"FastAPI\", \"PHP\"]\n\nprint(\"Hello,\", name)\nfor skill in skills:\n    print(\"I know\", skill)",
+    "memory": "Remember: Simple + Powerful + Libraries",
+    "tip": "Give a simple definition first, then one use case."
+  },
+  {
+    "id": "python-18890c30",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What are the main data types in Python?",
+    "answer": "Numbers: int, float. Text: str. True/False: bool. Collections: list, tuple, set, dict. Nothing: None. Mutable (can change): list, set, dict. Immutable (cannot change): int, float, str, tuple, bool.",
+    "points": [
+      "int",
+      "float",
+      "str",
+      "bool",
+      "list",
+      "tuple",
+      "set",
+      "dict",
+      "None"
+    ],
+    "code": "age = 30               # int\nprice = 99.5           # float\nname = \"Ravi\"          # str\nactive = True          # bool\nskills = [\"py\", \"php\"] # list\npoint = (1, 2)         # tuple\nids = {1, 2, 3}        # set\nuser = {\"id\": 1}       # dict\nnothing = None         # NoneType\n\nprint(type(price))     # <class 'float'>",
+    "memory": "Remember: List, Set, Dict can change; others cannot",
+    "tip": "Interviewers often follow up with 'mutable vs immutable'."
+  },
+  {
+    "id": "python-d4afc63f",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Mutable vs immutable? Give an example.",
+    "answer": "Mutable objects can be changed after creation (list, dict, set). Immutable objects cannot be changed; any 'change' creates a new object (int, str, tuple).",
+    "points": [
+      "Mutable = list, dict, set",
+      "Immutable = int, str, tuple"
+    ],
+    "code": "nums = [1, 2]\nnums.append(3)      # same list changed -> [1, 2, 3]\n\nname = \"nagesh\"\nname.upper()        # returns \"NAGESH\", but name is still \"nagesh\"\nname = name.upper() # now name points to a new string",
+    "memory": "Remember: Mutable = can modify in place",
+    "tip": "Strings are immutable: s.upper() returns a new string."
+  },
+  {
+    "id": "python-c8322163",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "is vs == ?",
+    "answer": "== checks if two values are equal. is checks if both names point to the same object in memory. Use 'is' only for None, True and False.",
+    "points": [
+      "== = same value",
+      "is = same object",
+      "Use 'is None'"
+    ],
+    "code": "a = [1, 2]\nb = [1, 2]\nprint(a == b)   # True  (same value)\nprint(a is b)   # False (different objects)\n\nx = None\nif x is None:\n    print(\"no value\")",
+    "memory": "Remember: == value, is identity",
+    "tip": "Writing 'if x is None' is the correct Python style."
+  },
+  {
+    "id": "python-f35820c5",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "How do you swap two variables in Python?",
+    "answer": "Python can swap in one line using tuple unpacking: a, b = b, a. No third variable is needed.",
+    "points": [
+      "a, b = b, a",
+      "Tuple unpacking"
+    ],
+    "code": "a, b = 5, 10\na, b = b, a\nprint(a, b)   # 10 5",
+    "memory": "Remember: One line swap",
+    "tip": "Other languages need a temp variable; mention this difference."
+  },
+  {
+    "id": "python-16b9befc",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "What do pass, break and continue do?",
+    "answer": "pass does nothing; it is a placeholder where code is required. break exits the loop. continue skips to the next loop round.",
+    "points": [
+      "pass = placeholder",
+      "break = exit loop",
+      "continue = next round"
+    ],
+    "code": "def todo():\n    pass               # will write later\n\nfor n in range(10):\n    if n % 2 == 0:\n        continue       # skip even numbers\n    if n > 7:\n        break          # stop the loop\n    print(n)           # 1 3 5 7",
+    "memory": "Remember: pass waits, break leaves, continue skips",
+    "tip": "pass is common in empty classes or functions you will write later."
+  },
+  {
+    "id": "python-9451d156",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Common string operations and f-strings?",
+    "answer": "f-strings put variables inside text easily. Common methods: strip (remove spaces), lower/upper, split, join, replace, startswith.",
+    "points": [
+      "f-string",
+      "strip",
+      "split",
+      "join",
+      "replace"
+    ],
+    "code": "name = \"  Nagesh  \"\npoints = 2500\n\nclean = name.strip()                       # \"Nagesh\"\nprint(f\"{clean} has {points} points\")      # Nagesh has 2500 points\nprint(f\"{1234.5:.2f}\")                     # 1234.50\n\nparts = \"a,b,c\".split(\",\")                 # ['a', 'b', 'c']\njoined = \"-\".join(parts)                   # \"a-b-c\"",
+    "memory": "Remember: f'...{var}...'",
+    "tip": "f-strings are the modern and fastest way to format strings."
+  },
+  {
+    "id": "python-88dff293",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is slicing? Explain negative indexing.",
+    "answer": "Slicing takes part of a list or string with [start:stop:step]. stop is not included. Negative indexes count from the end: -1 is the last item. [::-1] reverses.",
+    "points": [
+      "[start:stop:step]",
+      "stop not included",
+      "-1 = last",
+      "[::-1] reverse"
+    ],
+    "code": "nums = [10, 20, 30, 40, 50]\n\nprint(nums[1:3])    # [20, 30]\nprint(nums[:2])     # [10, 20]\nprint(nums[-1])     # 50\nprint(nums[-2:])    # [40, 50]\nprint(nums[::2])    # [10, 30, 50]\nprint(nums[::-1])   # [50, 40, 30, 20, 10]",
+    "memory": "Remember: Start included, stop excluded",
+    "tip": "Slicing never raises an index error; it just returns fewer items."
+  },
+  {
+    "id": "python-4f9e5e0c",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What are Python's built-in functions you use most?",
+    "answer": "print, len, type, range, enumerate, zip, sorted, sum, min, max, abs, round, int, str, float, list, dict, set, isinstance, any, all, map, filter, open.",
+    "points": [
+      "len",
+      "range",
+      "enumerate",
+      "zip",
+      "sorted",
+      "sum",
+      "min / max",
+      "isinstance"
+    ],
+    "code": "nums = [4, 9, 1]\nprint(len(nums), sum(nums), min(nums), max(nums))   # 3 14 1 9\nprint(round(3.14159, 2))                             # 3.14\nprint(isinstance(nums, list))                         # True\nprint(abs(-7))                                        # 7",
+    "memory": "Remember: Know built-ins before writing your own loop",
+    "tip": "isinstance(x, int) is better than type(x) == int."
+  },
+  {
+    "id": "python-2788665b",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "List vs Tuple?",
+    "answer": "A list is mutable, so we can change it after creation. A tuple is immutable, so we cannot change it after creation.",
+    "points": [
+      "List = mutable",
+      "Tuple = immutable",
+      "[] vs ()"
+    ],
+    "code": "fruits = [\"apple\", \"mango\"]   # list\nfruits.append(\"banana\")       # OK: list can change\nfruits[0] = \"grapes\"          # OK\n\npoint = (10, 20)              # tuple\n# point[0] = 5                # Error: tuple cannot change\nx, y = point                  # unpack the tuple",
+    "memory": "Remember: List changes, Tuple stays",
+    "tip": "If asked for an example, use [1,2] and (1,2)."
+  },
+  {
+    "id": "python-49528c89",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "append vs extend vs insert?",
+    "answer": "append adds ONE item at the end (even if it is a list, it goes in as one item). extend adds EACH item of another list. insert adds one item at a given position.",
+    "points": [
+      "append = one item",
+      "extend = many items",
+      "insert = at position"
+    ],
+    "code": "nums = [1, 2, 3]\nnums.append([4, 5])    # [1, 2, 3, [4, 5]]\n\nnums = [1, 2, 3]\nnums.extend([4, 5])    # [1, 2, 3, 4, 5]\n\nnums.insert(0, 0)      # [0, 1, 2, 3, 4, 5]",
+    "memory": "Remember: append the box, extend the contents",
+    "tip": "Common confusion: append([4, 5]) makes a nested list."
+  },
+  {
+    "id": "python-3bd53aa8",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "remove vs pop vs del?",
+    "answer": "remove(value) deletes the first matching value. pop(index) deletes by position and returns the item (last item by default). del deletes by index or slice, or deletes the whole variable.",
+    "points": [
+      "remove = by value",
+      "pop = by index, returns it",
+      "del = by index / slice"
+    ],
+    "code": "items = [\"a\", \"b\", \"c\", \"d\"]\nitems.remove(\"b\")     # ['a', 'c', 'd']\nlast = items.pop()    # 'd' -> ['a', 'c']\nfirst = items.pop(0)  # 'a' -> ['c']\n\nnums = [1, 2, 3, 4, 5]\ndel nums[1:3]         # [1, 4, 5]",
+    "memory": "Remember: remove value, pop position",
+    "tip": "remove raises ValueError if the value is not found."
+  },
+  {
+    "id": "python-1b1e046e",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "sort() vs sorted()?",
+    "answer": "list.sort() sorts the same list and returns None. sorted() returns a new sorted list and works on any iterable (tuple, dict keys, string). Both accept key= and reverse=.",
+    "points": [
+      "sort() = changes list, returns None",
+      "sorted() = new list",
+      "key= and reverse="
+    ],
+    "code": "nums = [3, 1, 2]\nnums.sort()                     # nums is now [1, 2, 3]\nnew = sorted([3, 1, 2], reverse=True)   # [3, 2, 1]\n\nusers = [{\"name\": \"Ravi\", \"age\": 30}, {\"name\": \"Amit\", \"age\": 25}]\nby_age = sorted(users, key=lambda u: u[\"age\"])",
+    "memory": "Remember: sorted() gives a new list",
+    "tip": "Bug: x = nums.sort() makes x None."
+  },
+  {
+    "id": "python-fb0a48fc",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "What is a list comprehension? Show example.",
+    "answer": "It is a short way to make a new list from another list in one line. It is easier to read and usually faster than a normal for loop with append.",
+    "points": [
+      "One line",
+      "New list",
+      "Can add if-condition"
+    ],
+    "code": "prices = [100, 250, 40, 900]\n\n# normal loop\nexpensive = []\nfor p in prices:\n    if p > 100:\n        expensive.append(p)\n\n# same thing with list comprehension\nexpensive = [p for p in prices if p > 100]   # [250, 900]\n\n# change every item\nwith_gst = [p * 1.18 for p in prices]",
+    "memory": "Remember: [what for item in list if condition]",
+    "tip": "Do not write very long comprehensions; use a normal loop when the logic is complex."
+  },
+  {
+    "id": "python-cdbb13eb",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is a dictionary?",
+    "answer": "A dictionary stores data as key-value pairs. For example, user = {'name':'Nagesh'}. We access values using the key.",
+    "points": [
+      "Key-value",
+      "Fast lookup",
+      "{}"
+    ],
+    "code": "user = {\"name\": \"Nagesh\", \"city\": \"Pune\", \"exp\": 10}\n\nprint(user[\"name\"])          # Nagesh\nuser[\"skill\"] = \"Python\"     # add a new key\nuser[\"city\"] = \"Mumbai\"      # update a value\ndel user[\"exp\"]              # delete a key\n\nfor key, value in user.items():\n    print(key, \"=\", value)",
+    "memory": "Remember: Dictionary = key → value",
+    "tip": "Use a real user example in an interview."
+  },
+  {
+    "id": "python-e4433f9a",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "How do you loop through a dictionary? What is dict.get()?",
+    "answer": "Use .items() to get key and value together. Use .get(key, default) to read a key safely: it returns the default instead of an error when the key is missing.",
+    "points": [
+      "items()",
+      "keys()",
+      "values()",
+      "get() = safe read"
+    ],
+    "code": "user = {\"name\": \"Nagesh\", \"city\": \"Pune\"}\n\nfor key, value in user.items():\n    print(key, value)\n\nprint(user.get(\"phone\"))          # None (no error)\nprint(user.get(\"phone\", \"N/A\"))   # N/A",
+    "memory": "Remember: get() never crashes on missing key",
+    "tip": "d['x'] raises KeyError if missing; d.get('x') returns None."
+  },
+  {
+    "id": "python-3193ce85",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "How do you check if a key exists in a dictionary?",
+    "answer": "Use the 'in' keyword: 'key' in my_dict. Use .get() if you also want the value with a default.",
+    "points": [
+      "'key' in dict",
+      "get(key, default)"
+    ],
+    "code": "user = {\"name\": \"Ravi\", \"city\": \"Pune\"}\n\nif \"city\" in user:\n    print(user[\"city\"])\n\nphone = user.get(\"phone\", \"not given\")",
+    "memory": "Remember: in for checking, get for reading",
+    "tip": "Do not use 'key in dict.keys()'; plain 'in' is enough."
+  },
+  {
+    "id": "python-c758e542",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "How do you merge two dictionaries?",
+    "answer": "Use the | operator (Python 3.9+) or {**a, **b}. If both have the same key, the value from the second one wins. update() changes the first dict in place.",
+    "points": [
+      "a ",
+      " b",
+      "{**a, **b}",
+      "update()",
+      "Second wins"
+    ],
+    "code": "a = {\"name\": \"Ravi\", \"city\": \"Pune\"}\nb = {\"city\": \"Mumbai\", \"points\": 100}\n\nc = a | b          # {'name': 'Ravi', 'city': 'Mumbai', 'points': 100}\nd = {**a, **b}     # same result\na.update(b)        # a itself is changed",
+    "memory": "Remember: Right side wins on same key",
+    "tip": "Mention update() changes the original."
+  },
+  {
+    "id": "python-26e1b97f",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is a dict comprehension?",
+    "answer": "Like a list comprehension, but it makes a dictionary in one line.",
+    "points": [
+      "{key: value for item in list}"
+    ],
+    "code": "prices = {\"apple\": 100, \"onion\": 40, \"mango\": 250}\n\n# only items costing more than 50\ncostly = {k: v for k, v in prices.items() if v > 50}\n# {'apple': 100, 'mango': 250}\n\n# id -> name lookup\nusers = [{\"id\": 1, \"name\": \"A\"}, {\"id\": 2, \"name\": \"B\"}]\nby_id = {u[\"id\"]: u[\"name\"] for u in users}   # {1: 'A', 2: 'B'}",
+    "memory": "Remember: Curly braces + key: value",
+    "tip": "Common use: make a lookup dict from a list of objects."
+  },
+  {
+    "id": "python-aa3a3c08",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is a set? When do you use it?",
+    "answer": "A set stores unique values with no order. It removes duplicates automatically and checking 'x in set' is very fast. Useful for removing duplicates and comparing two groups.",
+    "points": [
+      "Unique values",
+      "No order",
+      "Fast lookup",
+      "Union / intersection"
+    ],
+    "code": "ids = [1, 2, 2, 3, 3, 3]\nunique = set(ids)          # {1, 2, 3}\n\na = {1, 2, 3}\nb = {2, 3, 4}\nprint(a & b)   # {2, 3}       common\nprint(a | b)   # {1, 2, 3, 4} all\nprint(a - b)   # {1}          only in a",
+    "memory": "Remember: Set = no duplicates",
+    "tip": "Use a set when you only need to check 'is it there?'."
+  },
+  {
+    "id": "python-4bf91cee",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "What do enumerate and zip do?",
+    "answer": "enumerate gives the index and the value while looping. zip joins two or more lists item by item.",
+    "points": [
+      "enumerate = index + value",
+      "zip = pair lists"
+    ],
+    "code": "names = [\"Ravi\", \"Amit\"]\nscores = [90, 80]\n\nfor i, name in enumerate(names, start=1):\n    print(i, name)          # 1 Ravi, 2 Amit\n\nfor name, score in zip(names, scores):\n    print(name, score)      # Ravi 90, Amit 80",
+    "memory": "Remember: enumerate counts, zip pairs",
+    "tip": "Both make loops cleaner than using range(len(...))."
+  },
+  {
+    "id": "python-cbbb00ea",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "What do any() and all() do?",
+    "answer": "any() returns True if at least one item is True. all() returns True only if every item is True. They work well with generator expressions.",
+    "points": [
+      "any = at least one",
+      "all = every one",
+      "Generator expression"
+    ],
+    "code": "prices = [100, 250, 0, 40]\n\nprint(any(p == 0 for p in prices))   # True  (one free item)\nprint(all(p > 0 for p in prices))    # False\n\nfields = {\"name\": \"Ravi\", \"email\": \"\", \"city\": \"Pune\"}\nif not all(fields.values()):\n    print(\"Some fields are empty\")",
+    "memory": "Remember: any = OR, all = AND",
+    "tip": "Useful for validation checks."
+  },
+  {
+    "id": "python-7e59a7ea",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "What useful tools are in the collections module?",
+    "answer": "Counter: counts items. defaultdict: a dict with a default value for missing keys. deque: a fast queue where you add or remove from both ends. namedtuple: a tuple with field names.",
+    "points": [
+      "Counter",
+      "defaultdict",
+      "deque",
+      "namedtuple"
+    ],
+    "code": "from collections import defaultdict, deque\n\n# group orders by city\norders = [(\"Pune\", 1), (\"Mumbai\", 2), (\"Pune\", 3)]\nby_city = defaultdict(list)\nfor city, oid in orders:\n    by_city[city].append(oid)     # {'Pune': [1, 3], 'Mumbai': [2]}\n\nq = deque([1, 2, 3])\nq.appendleft(0)   # [0, 1, 2, 3]\nq.pop()           # removes 3",
+    "memory": "Remember: Count, Default, Queue, Named",
+    "tip": "defaultdict(list) is great for grouping data."
+  },
+  {
+    "id": "python-95bbb1a9",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Shallow copy vs deep copy?",
+    "answer": "A shallow copy copies only the outer object; inner lists or dicts are still shared. A deep copy copies everything, including inner objects, so changes do not affect the original.",
+    "points": [
+      "copy.copy = shallow",
+      "copy.deepcopy = deep",
+      "Inner objects shared"
+    ],
+    "code": "import copy\n\na = [[1, 2], [3, 4]]\ns = copy.copy(a)       # shallow\nd = copy.deepcopy(a)   # deep\n\na[0].append(99)\nprint(s)   # [[1, 2, 99], [3, 4]]  -> changed too\nprint(d)   # [[1, 2], [3, 4]]      -> not changed",
+    "memory": "Remember: Shallow = outer only, Deep = everything",
+    "tip": "Show the nested list example; it makes the difference clear."
+  },
+  {
+    "id": "python-7be9ec1b",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What are *args and **kwargs?",
+    "answer": "*args collects extra positional values into a tuple. **kwargs collects extra named values into a dictionary. They let a function accept any number of arguments.",
+    "points": [
+      "*args = tuple",
+      "**kwargs = dict",
+      "Flexible functions"
+    ],
+    "code": "def show(*args, **kwargs):\n    print(args)    # (1, 2, 3)\n    print(kwargs)  # {'name': 'Nagesh', 'city': 'Pune'}\n\nshow(1, 2, 3, name=\"Nagesh\", city=\"Pune\")",
+    "memory": "Remember: One star = list of values, two stars = key=value",
+    "tip": "Decorators often use *args and **kwargs."
+  },
+  {
+    "id": "python-32b83b3c",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is a lambda function?",
+    "answer": "A lambda is a small function without a name, written in one line. It is mostly used as a short helper, for example as the key for sorting.",
+    "points": [
+      "One line",
+      "No name",
+      "Used in sort, map, filter"
+    ],
+    "code": "square = lambda x: x * x\nprint(square(4))   # 16\n\nusers = [{\"name\": \"Ravi\", \"age\": 30}, {\"name\": \"Amit\", \"age\": 25}]\nusers.sort(key=lambda u: u[\"age\"])   # sort by age",
+    "memory": "Remember: lambda input: output",
+    "tip": "For bigger logic, use a normal def function."
+  },
+  {
+    "id": "python-8071def1",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "map, filter and reduce?",
+    "answer": "map applies a function to every item. filter keeps only the items where the function returns True. reduce combines all items into one value. In Python, list comprehensions are often clearer than map and filter.",
+    "points": [
+      "map = change all",
+      "filter = keep some",
+      "reduce = combine to one"
+    ],
+    "code": "from functools import reduce\n\nnums = [1, 2, 3, 4]\ndoubled = list(map(lambda x: x * 2, nums))         # [2, 4, 6, 8]\nevens   = list(filter(lambda x: x % 2 == 0, nums)) # [2, 4]\ntotal   = reduce(lambda a, b: a + b, nums)          # 10",
+    "memory": "Remember: Change, Keep, Combine",
+    "tip": "reduce comes from functools."
+  },
+  {
+    "id": "python-217403d5",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is variable scope? (LEGB)",
+    "answer": "Python looks for a variable in this order: Local (inside the function), Enclosing (outer function), Global (file level), Built-in (like len). Use 'global' to change a global variable and 'nonlocal' to change an outer function's variable.",
+    "points": [
+      "Local",
+      "Enclosing",
+      "Global",
+      "Built-in",
+      "global / nonlocal"
+    ],
+    "code": "x = \"global\"\n\ndef outer():\n    x = \"enclosing\"\n    def inner():\n        nonlocal x\n        x = \"changed by inner\"\n    inner()\n    print(x)          # changed by inner\n\ncount = 0\ndef increase():\n    global count\n    count += 1\n\nouter()\nincrease()\nprint(count)          # 1",
+    "memory": "Remember: L-E-G-B",
+    "tip": "Avoid global variables in real code."
+  },
+  {
+    "id": "python-3e6c27b4",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is a closure?",
+    "answer": "A closure is an inner function that remembers variables from its outer function, even after the outer function has finished. Decorators are built using closures.",
+    "points": [
+      "Inner function",
+      "Remembers outer variable",
+      "Used in decorators"
+    ],
+    "code": "def multiplier(n):\n    def multiply(x):\n        return x * n        # remembers n\n    return multiply\n\ndouble = multiplier(2)\ntriple = multiplier(3)\nprint(double(5), triple(5))   # 10 15",
+    "memory": "Remember: Function with a memory",
+    "tip": "Simple example: a function that makes multiplier functions."
+  },
+  {
+    "id": "python-e4561078",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is a decorator?",
+    "answer": "A decorator adds extra behavior to a function without changing the original function code. FastAPI uses decorators such as @app.get('/users') for routes.",
+    "points": [
+      "Wrap function",
+      "Add behavior",
+      "@ syntax"
+    ],
+    "code": "def log_call(func):\n    def wrapper(*args, **kwargs):\n        print(\"Calling\", func.__name__)\n        return func(*args, **kwargs)\n    return wrapper\n\n@log_call\ndef add(a, b):\n    return a + b\n\nadd(2, 3)   # prints \"Calling add\", returns 5\n\n# FastAPI uses decorators for routes:\n# @app.get(\"/users\")\n# def list_users(): ...",
+    "memory": "Remember: Decorator = extra layer",
+    "tip": "FastAPI route decorators are an easy example."
+  },
+  {
+    "id": "python-033e4b54",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is recursion? Write factorial.",
+    "answer": "Recursion is when a function calls itself. It needs a base case to stop. Factorial: n! = n × (n-1)!, and 0! = 1. Python has a recursion limit (about 1000), so for big inputs a loop is safer.",
+    "points": [
+      "Function calls itself",
+      "Base case",
+      "Recursion limit",
+      "Loop alternative"
+    ],
+    "code": "def factorial(n):\n    if n <= 1:              # base case\n        return 1\n    return n * factorial(n - 1)\n\ndef factorial_loop(n):\n    result = 1\n    for i in range(2, n + 1):\n        result *= i\n    return result\n\nprint(factorial(5), factorial_loop(5))   # 120 120",
+    "memory": "Remember: Always have a stop condition",
+    "tip": "Show both recursive and loop versions."
+  },
+  {
+    "id": "python-d2cb6730",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is the mutable default argument problem?",
+    "answer": "If you use a list or dict as a default value, Python creates it only once, so it is shared between calls and keeps old data. Use None as the default and create the list inside the function.",
+    "points": [
+      "Default created once",
+      "Shared between calls",
+      "Use None"
+    ],
+    "code": "# WRONG\ndef add_item(item, items=[]):\n    items.append(item)\n    return items\n\nadd_item(1)   # [1]\nadd_item(2)   # [1, 2]  <- old data!\n\n# RIGHT\ndef add_item(item, items=None):\n    if items is None:\n        items = []\n    items.append(item)\n    return items",
+    "memory": "Remember: Never use [] or {} as default",
+    "tip": "This is a very popular trick question."
+  },
+  {
+    "id": "python-b5a703a3",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is a generator? When do you use it?",
+    "answer": "A generator gives values one by one using yield, instead of making the full list in memory. It is useful for big data, like reading a very large file or processing lakhs of database rows.",
+    "points": [
+      "yield",
+      "One value at a time",
+      "Saves memory",
+      "Big data"
+    ],
+    "code": "def read_big_file(path):\n    with open(path) as f:\n        for line in f:\n            yield line.strip()     # gives one line at a time\n\nfor line in read_big_file(\"orders.csv\"):\n    process(line)                  # memory stays small",
+    "memory": "Remember: Generator = give one, wait, give next",
+    "tip": "Example use: reading a 2 GB log file line by line."
+  },
+  {
+    "id": "python-8f51bc04",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "What is a generator expression? How is it different from a list comprehension?",
+    "answer": "A list comprehension uses [ ] and builds the whole list in memory. A generator expression uses ( ) and gives items one by one, so it uses almost no memory. Use it when you only loop once, for example inside sum().",
+    "points": [
+      "[ ] = full list",
+      "( ) = one by one",
+      "Less memory",
+      "Use in sum / any"
+    ],
+    "code": "import sys\n\nsquares_list = [n * n for n in range(1_000_000)]\nsquares_gen  = (n * n for n in range(1_000_000))\n\nprint(sys.getsizeof(squares_list))   # about 8 MB\nprint(sys.getsizeof(squares_gen))    # about 200 bytes\n\ntotal = sum(n * n for n in range(1_000_000))",
+    "memory": "Remember: Round brackets = lazy",
+    "tip": "Big data → generator expression."
+  },
+  {
+    "id": "python-c1a98255",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Iterable vs iterator?",
+    "answer": "An iterable is something you can loop over, like a list or string. An iterator gives the next item each time you call next(), and remembers its position. iter(list) makes an iterator from an iterable. Generators are a simple way to make iterators.",
+    "points": [
+      "Iterable = can loop",
+      "Iterator = next()",
+      "StopIteration"
+    ],
+    "code": "nums = [10, 20]\nit = iter(nums)\nprint(next(it))   # 10\nprint(next(it))   # 20\n# next(it) again -> StopIteration",
+    "memory": "Remember: Iterable is the box, iterator takes items out one by one",
+    "tip": "A for loop calls iter() and next() for you."
+  },
+  {
+    "id": "python-3117f561",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is the walrus operator (:=)?",
+    "answer": "The walrus operator assigns a value inside an expression (Python 3.8+). It avoids calling the same function twice, for example in a while loop or an if condition.",
+    "points": [
+      "Assign inside expression",
+      "Python 3.8+",
+      "Avoid double calls"
+    ],
+    "code": "data = [1, 2, 3, 4, 5, 6]\n\nif (n := len(data)) > 5:\n    print(f\"List is long ({n} items)\")\n\nwhile (line := input(\"Command: \")) != \"quit\":\n    print(\"You typed\", line)",
+    "memory": "Remember: := = assign and use",
+    "tip": "Do not overuse it; keep code readable."
+  },
+  {
+    "id": "python-77eefb24",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What are type hints? Why use them?",
+    "answer": "Type hints show what type a variable, parameter or return value should be. Python does not enforce them at runtime, but editors and tools like mypy use them to find bugs. FastAPI and Pydantic use type hints for validation.",
+    "points": [
+      "Readable code",
+      "Editor help",
+      "mypy",
+      "FastAPI uses them"
+    ],
+    "code": "from typing import Optional\n\ndef get_discount(points: int, tier: str = \"Basic\") -> float:\n    return 0.1 if tier == \"Gold\" else 0.0\n\ndef find_user(user_id: int) -> Optional[dict]:\n    ...   # returns a dict or None",
+    "memory": "Remember: Type hints = documentation + early bug finding",
+    "tip": "Mention that FastAPI depends heavily on type hints."
+  },
+  {
+    "id": "python-e497d196",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is exception handling?",
+    "answer": "Exception handling manages runtime errors using try, except, else and finally. It helps the application handle errors safely instead of stopping unexpectedly.",
+    "points": [
+      "try",
+      "except",
+      "finally",
+      "Safe errors"
+    ],
+    "code": "def divide(a, b):\n    try:\n        result = a / b\n    except ZeroDivisionError:\n        print(\"Cannot divide by zero\")\n        return None\n    except TypeError:\n        print(\"Please give numbers\")\n        return None\n    else:\n        return result\n    finally:\n        print(\"divide() finished\")\n\ndivide(10, 2)   # 5.0\ndivide(10, 0)   # Cannot divide by zero",
+    "memory": "Remember: Try → Catch → Finally",
+    "tip": "Mention logging and proper API error responses."
+  },
+  {
+    "id": "python-907a2a13",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "How do you create a custom exception?",
+    "answer": "Make a class that inherits from Exception. Raise it with 'raise' when a business rule fails. This makes errors clear and easy to catch separately.",
+    "points": [
+      "class MyError(Exception)",
+      "raise",
+      "Catch separately"
+    ],
+    "code": "class InsufficientPointsError(Exception):\n    pass\n\ndef redeem(points_have, points_need):\n    if points_have < points_need:\n        raise InsufficientPointsError(\"Not enough points\")\n    return points_have - points_need\n\ntry:\n    redeem(100, 500)\nexcept InsufficientPointsError as e:\n    print(\"Error:\", e)",
+    "memory": "Remember: Own error name = clear meaning",
+    "tip": "In FastAPI, convert custom errors into proper HTTP responses with an exception handler."
+  },
+  {
+    "id": "python-9a700ff7",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is a context manager (with statement)?",
+    "answer": "A context manager sets something up and always cleans it up, even if an error happens. Example: 'with open(...)' always closes the file. Database sessions and locks also use this.",
+    "points": [
+      "with",
+      "Auto cleanup",
+      "__enter__ / __exit__",
+      "contextmanager"
+    ],
+    "code": "from contextlib import contextmanager\n\nwith open(\"data.txt\") as f:      # file closes automatically\n    text = f.read()\n\n@contextmanager\ndef db_session():\n    session = SessionLocal()\n    try:\n        yield session\n        session.commit()\n    except Exception:\n        session.rollback()\n        raise\n    finally:\n        session.close()",
+    "memory": "Remember: with = open and always close",
+    "tip": "You can make your own with @contextmanager."
+  },
+  {
+    "id": "python-b73f1f1c",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "How do you read and write JSON and CSV files?",
+    "answer": "Use the json module for JSON and the csv module for CSV. DictReader reads each CSV row as a dictionary.",
+    "points": [
+      "json.load / json.dump",
+      "csv.DictReader",
+      "with open"
+    ],
+    "code": "import json, csv\n\nwith open(\"config.json\") as f:\n    config = json.load(f)\n\nwith open(\"out.json\", \"w\") as f:\n    json.dump({\"status\": \"ok\"}, f, indent=2)\n\nwith open(\"prices.csv\", newline=\"\") as f:\n    for row in csv.DictReader(f):\n        print(row[\"commodity\"], row[\"price\"])",
+    "memory": "Remember: json for API data, csv for Excel-like data",
+    "tip": "Use pandas only for heavy data analysis."
+  },
+  {
+    "id": "python-387a0dd5",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "How do you handle date and time in Python?",
+    "answer": "Use the datetime module. datetime.now() gives the current time, strftime formats a date to text, strptime reads text into a date, and timedelta adds or subtracts time. Store times in UTC with timezone info; convert to IST only for display.",
+    "points": [
+      "datetime",
+      "strftime",
+      "strptime",
+      "timedelta",
+      "UTC + zoneinfo"
+    ],
+    "code": "from datetime import datetime, timedelta, timezone\nfrom zoneinfo import ZoneInfo\n\nnow_utc = datetime.now(timezone.utc)\nist = now_utc.astimezone(ZoneInfo(\"Asia/Kolkata\"))\n\nprint(ist.strftime(\"%d-%m-%Y %H:%M\"))           # 01-10-2026 14:30\nexpiry = now_utc + timedelta(days=30)\n\nd = datetime.strptime(\"2024-01-15\", \"%Y-%m-%d\")",
+    "memory": "Remember: Store UTC, show local",
+    "tip": "zoneinfo is built in since Python 3.9."
+  },
+  {
+    "id": "python-4d41637d",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: reverse a string and check palindrome.",
+    "answer": "Slicing with [::-1] reverses a string. A palindrome reads the same forwards and backwards, so compare the string with its reverse.",
+    "points": [
+      "[::-1]",
+      "Compare with reverse",
+      "Lowercase first"
+    ],
+    "code": "def is_palindrome(s: str) -> bool:\n    s = s.lower().replace(\" \", \"\")\n    return s == s[::-1]\n\nprint(\"hello\"[::-1])          # olleh\nprint(is_palindrome(\"Madam\")) # True",
+    "memory": "Remember: s == s[::-1]",
+    "tip": "Also explain the loop method if they ask you not to use slicing."
+  },
+  {
+    "id": "python-22c4dcc6",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: find duplicates in a list.",
+    "answer": "Loop through the list and keep a set of items already seen. If an item is already in 'seen', it is a duplicate. This is fast: O(n).",
+    "points": [
+      "seen set",
+      "duplicates set",
+      "O(n)"
+    ],
+    "code": "def find_duplicates(items):\n    seen, dups = set(), set()\n    for x in items:\n        if x in seen:\n            dups.add(x)\n        else:\n            seen.add(x)\n    return list(dups)\n\nprint(find_duplicates([1, 2, 3, 2, 4, 1]))   # [1, 2]",
+    "memory": "Remember: Seen before? It's a duplicate",
+    "tip": "Counter is another short way."
+  },
+  {
+    "id": "python-35c5a5e8",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: count word frequency.",
+    "answer": "Use collections.Counter. It counts how many times each item appears. most_common(n) gives the top n items.",
+    "points": [
+      "Counter",
+      "most_common",
+      "split words"
+    ],
+    "code": "from collections import Counter\n\ntext = \"onion price up onion demand up\"\ncount = Counter(text.split())\nprint(count[\"onion\"])        # 2\nprint(count.most_common(2))  # [('onion', 2), ('up', 2)]",
+    "memory": "Remember: Counter = automatic counting",
+    "tip": "You can also do it with a dict and .get(word, 0) + 1."
+  },
+  {
+    "id": "python-196b02c6",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: find the second largest number in a list.",
+    "answer": "Remove duplicates with set, sort, and take the second last item. Or loop once and keep the largest and second largest.",
+    "points": [
+      "set + sorted",
+      "One loop method",
+      "Handle small lists"
+    ],
+    "code": "def second_largest(nums):\n    unique = sorted(set(nums))\n    if len(unique) < 2:\n        return None\n    return unique[-2]\n\nprint(second_largest([10, 40, 30, 40]))   # 30",
+    "memory": "Remember: Unique → sort → [-2]",
+    "tip": "Always handle the case when the list has fewer than 2 unique numbers."
+  },
+  {
+    "id": "python-bd85998d",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: two sum (find two numbers that add to a target).",
+    "answer": "Loop once and use a dict to remember numbers already seen. For each number, check if (target - number) was seen before. This is O(n), faster than two loops.",
+    "points": [
+      "dict of seen numbers",
+      "target - num",
+      "O(n)"
+    ],
+    "code": "def two_sum(nums, target):\n    seen = {}                       # number -> index\n    for i, n in enumerate(nums):\n        need = target - n\n        if need in seen:\n            return [seen[need], i]\n        seen[n] = i\n    return None\n\nprint(two_sum([2, 7, 11, 15], 9))   # [0, 1]",
+    "memory": "Remember: Need = target - current",
+    "tip": "This is a very common coding question."
+  },
+  {
+    "id": "python-23df4a52",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Why use logging instead of print?",
+    "answer": "logging has levels (DEBUG, INFO, WARNING, ERROR), can write to files, shows time and module name, and can be turned on or off without changing code. print is only for quick tests.",
+    "points": [
+      "Levels",
+      "Time + module",
+      "Files",
+      "Configurable"
+    ],
+    "code": "import logging\n\nlogging.basicConfig(level=logging.INFO,\n                    format=\"%(asctime)s %(levelname)s %(name)s: %(message)s\")\nlogger = logging.getLogger(__name__)\n\nlogger.info(\"Order created\")\ntry:\n    1 / 0\nexcept ZeroDivisionError:\n    logger.exception(\"Failed to calculate\")",
+    "memory": "Remember: print for testing, logging for production",
+    "tip": "logger.exception() also prints the full error trace."
+  },
+  {
+    "id": "python-cd529048",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Explain class and object with example.",
+    "answer": "A class is a blueprint. An object is a real thing made from that blueprint. __init__ runs when an object is created and sets its data. self means 'this object'.",
+    "points": [
+      "Class = blueprint",
+      "Object = real thing",
+      "__init__",
+      "self"
+    ],
+    "code": "class Vehicle:\n    def __init__(self, number, km):\n        self.number = number\n        self.km = km\n\n    def add_trip(self, distance):\n        self.km += distance\n\ntruck = Vehicle(\"MH12-AB-1234\", 1000)   # object\ntruck.add_trip(250)\nprint(truck.km)   # 1250",
+    "memory": "Remember: Class is the design, object is the product",
+    "tip": "Use a real example like Customer or Vehicle from your projects."
+  },
+  {
+    "id": "python-ed82b39e",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is inheritance?",
+    "answer": "Inheritance lets a child class reuse the code of a parent class and add or change behavior. super() calls the parent's method.",
+    "points": [
+      "Parent → Child",
+      "Reuse code",
+      "super()",
+      "Override"
+    ],
+    "code": "class Vehicle:\n    def __init__(self, number):\n        self.number = number\n\n    def info(self):\n        return \"Vehicle \" + self.number\n\nclass Truck(Vehicle):\n    def __init__(self, number, load_kg):\n        super().__init__(number)\n        self.load_kg = load_kg\n\n    def info(self):                       # override\n        return super().info() + \" load \" + str(self.load_kg)",
+    "memory": "Remember: Child gets everything from parent",
+    "tip": "Keep inheritance simple; do not make very deep class trees."
+  },
+  {
+    "id": "python-671e963f",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What are the 4 pillars of OOP?",
+    "answer": "Encapsulation: keep data and methods together and hide inner details. Inheritance: a child class reuses the parent class. Polymorphism: the same method name works differently for different classes. Abstraction: show only what is needed and hide complex details.",
+    "points": [
+      "Encapsulation",
+      "Inheritance",
+      "Polymorphism",
+      "Abstraction"
+    ],
+    "code": "class Payment:\n    def pay(self, amount):\n        raise NotImplementedError\n\nclass UpiPayment(Payment):\n    def pay(self, amount):\n        return \"Paid \" + str(amount) + \" by UPI\"\n\nclass CardPayment(Payment):\n    def pay(self, amount):\n        return \"Paid \" + str(amount) + \" by card\"\n\n# polymorphism: same call, different behavior\nfor p in [UpiPayment(), CardPayment()]:\n    print(p.pay(500))",
+    "memory": "Remember: E-I-P-A",
+    "tip": "Give a one-line real example for each one."
+  },
+  {
+    "id": "python-42cff487",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Private variables in Python: _ and __ ?",
+    "answer": "Python has no real private variables. A single underscore (_name) means 'internal, please do not use from outside'. A double underscore (__name) changes the name internally (name mangling), so it is harder to access by mistake.",
+    "points": [
+      "_name = internal",
+      "__name = name mangling",
+      "No true private"
+    ],
+    "code": "class Account:\n    def __init__(self):\n        self._balance = 0     # internal (by convention)\n        self.__pin = 1234     # name mangled\n\nacc = Account()\nprint(acc._balance)           # works, but you should not do this\n# print(acc.__pin)            # AttributeError\nprint(acc._Account__pin)      # still possible: not truly private",
+    "memory": "Remember: _ is a polite warning",
+    "tip": "Use @property to control access in a clean way."
+  },
+  {
+    "id": "python-2987a4a4",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "@staticmethod vs @classmethod vs normal method?",
+    "answer": "A normal method gets self (the object). A classmethod gets cls (the class) and is often used to create objects in another way. A staticmethod gets neither; it is just a helper function kept inside the class.",
+    "points": [
+      "self = object",
+      "cls = class",
+      "static = no self, no cls"
+    ],
+    "code": "class Customer:\n    def __init__(self, name, points):\n        self.name = name\n        self.points = points\n\n    def add_points(self, p):           # normal method\n        self.points += p\n\n    @classmethod\n    def from_dict(cls, data):          # another way to create\n        return cls(data[\"name\"], data[\"points\"])\n\n    @staticmethod\n    def is_valid_points(p):            # just a helper\n        return p >= 0",
+    "memory": "Remember: Object, Class, Nothing",
+    "tip": "classmethod is common for 'from_dict' or 'from_json' factory methods."
+  },
+  {
+    "id": "python-5ea23f21",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is @property?",
+    "answer": "@property lets you use a method like a normal attribute. It is useful for calculated values or for adding checks when a value is set.",
+    "points": [
+      "Method looks like attribute",
+      "Getter",
+      "Setter with checks"
+    ],
+    "code": "class Customer:\n    def __init__(self, points):\n        self._points = points\n\n    @property\n    def tier(self):\n        return \"Gold\" if self._points >= 2000 else \"Silver\"\n\n    @property\n    def points(self):\n        return self._points\n\n    @points.setter\n    def points(self, value):\n        if value < 0:\n            raise ValueError(\"points cannot be negative\")\n        self._points = value\n\nc = Customer(2500)\nprint(c.tier)     # Gold (no brackets)",
+    "memory": "Remember: property = smart attribute",
+    "tip": "Use it instead of get_x() / set_x() methods."
+  },
+  {
+    "id": "python-5b2b4a55",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 1: Your first Python program",
+    "answer": "Install Python, create a file hello.py, and run it with 'python hello.py'. print() shows output on the screen. Lines starting with # are comments; Python ignores them. Python uses indentation (4 spaces) instead of { } to group code.",
+    "points": [
+      "print()",
+      "# comment",
+      "python file.py",
+      "4-space indentation"
+    ],
+    "code": "# hello.py\nprint(\"Hello, World!\")\nprint(\"My name is Nagesh\")\nprint(\"Experience:\", 10, \"years\")   # print can take many values\n\n# run in terminal:\n# python hello.py",
+    "memory": "Remember: Write → Save → python file.py",
+    "tip": "Practice: print your name, city and years of experience on three lines."
+  },
+  {
+    "id": "python-003362dc",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 2: Variables and data types",
+    "answer": "A variable is a name that stores a value. You do not write the type; Python finds it automatically. type() tells you the type. Variable names use snake_case.",
+    "points": [
+      "Variable = name for value",
+      "int, float, str, bool",
+      "type()",
+      "snake_case"
+    ],
+    "code": "name = \"Ravi\"          # str  (text)\nage = 28               # int  (whole number)\nsalary = 55000.50      # float (decimal number)\nis_active = True       # bool (True / False)\n\nprint(type(name))      # <class 'str'>\nprint(type(age))       # <class 'int'>\n\nage = age + 1          # change the value\nprint(name, \"is now\", age)",
+    "memory": "Remember: name = value",
+    "tip": "Practice: make variables for your name, age, salary and is_python_dev, then print their types."
+  },
+  {
+    "id": "python-3d068a0d",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 3: Taking input and converting types",
+    "answer": "input() reads text typed by the user. It always returns a string, so convert it with int() or float() before doing math. str() converts a number back to text.",
+    "points": [
+      "input() returns str",
+      "int()",
+      "float()",
+      "str()"
+    ],
+    "code": "name = input(\"Enter your name: \")\nage = int(input(\"Enter your age: \"))      # convert text to number\n\nprint(\"Hello\", name)\nprint(\"Next year you will be\", age + 1)\n\nprice = float(\"99.50\")    # \"99.50\" -> 99.5\ntext = str(100)           # 100 -> \"100\"",
+    "memory": "Remember: input gives text, convert before math",
+    "tip": "Practice: ask for two numbers and print their sum."
+  },
+  {
+    "id": "python-3fb2a268",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 4: Operators",
+    "answer": "Arithmetic: + - * / // (whole division) % (remainder) ** (power). Comparison: == != > < >= <= (they give True or False). Logical: and, or, not.",
+    "points": [
+      "+ - * /",
+      "// and %",
+      "**",
+      "== != > <",
+      "and or not"
+    ],
+    "code": "a, b = 17, 5\n\nprint(a + b)    # 22\nprint(a / b)    # 3.4\nprint(a // b)   # 3   (whole part)\nprint(a % b)    # 2   (remainder)\nprint(a ** 2)   # 289\n\nprint(a > b)               # True\nprint(a > 10 and b > 10)   # False\nprint(not (a == b))        # True\n\nprint(10 % 2 == 0)         # True -> 10 is even",
+    "memory": "Remember: / gives decimal, // gives whole number",
+    "tip": "Practice: check if a number is even using %."
+  },
+  {
+    "id": "python-89fbaf9a",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 5: Strings",
+    "answer": "A string is text inside quotes. You can read characters by index (starting at 0), take parts with slicing [start:end], and use methods like upper, lower, strip, replace and split. f-strings put variables inside text.",
+    "points": [
+      "Index from 0",
+      "Slicing [a:b]",
+      "Methods",
+      "f-strings",
+      "len()"
+    ],
+    "code": "city = \"Pune City\"\n\nprint(city[0])        # P\nprint(city[-1])       # y   (last character)\nprint(city[0:4])      # Pune\nprint(len(city))      # 9\nprint(city.upper())   # PUNE CITY\nprint(city.replace(\"City\", \"Maharashtra\"))\n\nfull = \"nagesh gavhane\"\nfirst, last = full.split()\nprint(f\"{first.title()} {last.title()}\")   # Nagesh Gavhane",
+    "memory": "Remember: s[0] first, s[-1] last",
+    "tip": "Practice: take a full name and print first name, last name and initials."
+  },
+  {
+    "id": "python-340d47c1",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 6: if, elif, else",
+    "answer": "if runs code only when a condition is True. elif checks another condition. else runs when nothing above was True. The code inside must be indented.",
+    "points": [
+      "if",
+      "elif",
+      "else",
+      "Indentation",
+      "Comparison"
+    ],
+    "code": "points = 2300\n\nif points >= 5000:\n    tier = \"Platinum\"\nelif points >= 2000:\n    tier = \"Gold\"\nelif points >= 500:\n    tier = \"Silver\"\nelse:\n    tier = \"Basic\"\n\nprint(\"Tier:\", tier)   # Tier: Gold\n\n# one-line version\nstatus = \"Adult\" if 20 >= 18 else \"Minor\"",
+    "memory": "Remember: if → elif → else",
+    "tip": "Practice: print the loyalty tier for a points value (Basic, Silver, Gold, Platinum)."
+  },
+  {
+    "id": "python-d0b8d2de",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 7: for loop and range()",
+    "answer": "A for loop repeats code for each item in a list, string or range. range(5) gives 0 to 4. range(1, 6) gives 1 to 5. range(0, 10, 2) gives 0, 2, 4, 6, 8.",
+    "points": [
+      "for item in list",
+      "range(n)",
+      "range(start, end, step)",
+      "end not included"
+    ],
+    "code": "for i in range(1, 6):\n    print(i)                  # 1 2 3 4 5\n\ncrops = [\"onion\", \"cotton\", \"soybean\"]\nfor crop in crops:\n    print(\"Price of\", crop)\n\nfor i, crop in enumerate(crops, start=1):\n    print(i, crop)            # 1 onion, 2 cotton ...\n\nfor n in range(1, 11):\n    print(7, \"x\", n, \"=\", 7 * n)",
+    "memory": "Remember: range end is NOT included",
+    "tip": "Practice: print the multiplication table of 7."
+  },
+  {
+    "id": "python-3927af75",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 8: while loop, break and continue",
+    "answer": "A while loop repeats as long as a condition is True. break stops the loop immediately. continue skips the rest of this round and goes to the next. Make sure the condition becomes False sometime, or the loop runs forever.",
+    "points": [
+      "while condition",
+      "break = stop",
+      "continue = skip",
+      "Avoid infinite loop"
+    ],
+    "code": "count = 1\nwhile count <= 5:\n    print(count)\n    count += 1            # without this, the loop never ends\n\nfor n in range(1, 11):\n    if n == 3:\n        continue          # skip 3\n    if n == 7:\n        break             # stop at 7\n    print(n)              # 1 2 4 5 6",
+    "memory": "Remember: break exits, continue skips",
+    "tip": "Practice: keep asking for a password until the user types 'admin123'."
+  },
+  {
+    "id": "python-9012f8a1",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 9: Lists",
+    "answer": "A list stores many values in order, inside [ ]. You can add (append, insert), remove (remove, pop), sort, and check membership with 'in'. Lists can change.",
+    "points": [
+      "[ ]",
+      "append / insert",
+      "remove / pop",
+      "sort",
+      "in",
+      "len"
+    ],
+    "code": "prices = [250, 100, 400]\n\nprices.append(150)        # add at end -> [250, 100, 400, 150]\nprices.insert(0, 50)      # add at position 0\nprices.remove(100)        # remove value 100\nlast = prices.pop()       # remove and return last item\nprices.sort()             # sort ascending\n\nprint(prices, len(prices), sum(prices), max(prices))\nprint(400 in prices)      # True\n\nsquares = [n * n for n in range(1, 6)]   # [1, 4, 9, 16, 25]",
+    "memory": "Remember: List = ordered, changeable",
+    "tip": "Practice: keep a list of 5 prices, add one, remove the smallest, and print the total."
+  },
+  {
+    "id": "python-da4349bf",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 10: Tuples and sets",
+    "answer": "A tuple is like a list but cannot change, written with ( ). Use it for fixed data like coordinates. A set stores only unique values, written with { }, and has no order. Use it to remove duplicates and compare groups.",
+    "points": [
+      "Tuple ( ) = fixed",
+      "Set { } = unique",
+      "No index in set",
+      "& ",
+      " -"
+    ],
+    "code": "location = (18.52, 73.85)          # tuple\nlat, lng = location                # unpack\n\nids = [101, 102, 101, 103, 102]\nunique_ids = set(ids)              # {101, 102, 103}\n\nmorning = {\"Ravi\", \"Amit\", \"Sita\"}\nevening = {\"Amit\", \"Neha\"}\nprint(morning & evening)           # {'Amit'}  in both\nprint(morning | evening)           # all names",
+    "memory": "Remember: Tuple = locked list, Set = no duplicates",
+    "tip": "Practice: remove duplicate customer IDs from a list using a set."
+  },
+  {
+    "id": "python-a12c3503",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 11: Dictionaries",
+    "answer": "A dictionary stores key: value pairs inside { }. Get a value by its key, add or change keys, and loop with .items(). Use .get() when a key may be missing. Dictionaries are like JSON objects.",
+    "points": [
+      "{key: value}",
+      "d[key]",
+      "d.get(key)",
+      "items()",
+      "Like JSON"
+    ],
+    "code": "customer = {\"name\": \"Ravi\", \"points\": 1200, \"tier\": \"Silver\"}\n\nprint(customer[\"name\"])              # Ravi\ncustomer[\"points\"] += 900            # update\ncustomer[\"city\"] = \"Pune\"            # add\nprint(customer.get(\"phone\", \"N/A\"))  # safe read\n\nfor key, value in customer.items():\n    print(key, \"->\", value)\n\nproducts = {\"rice\": 60, \"oil\": 180, \"dal\": 120}\ncostly = max(products, key=products.get)   # 'oil'",
+    "memory": "Remember: Dictionary = look up by name",
+    "tip": "Practice: store 3 products with prices and print the most expensive one."
+  },
+  {
+    "id": "python-ef276947",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 12: Functions",
+    "answer": "A function is a reusable block of code. Define it with def, give parameters, and return a result. Parameters can have default values. Call it by name with arguments.",
+    "points": [
+      "def",
+      "Parameters",
+      "return",
+      "Default values",
+      "Keyword arguments"
+    ],
+    "code": "def calculate_gst(amount, rate=18):\n    gst = amount * rate / 100\n    return amount + gst\n\nprint(calculate_gst(1000))             # 1180.0\nprint(calculate_gst(1000, rate=5))     # 1050.0\n\ndef greet(name, city=\"Pune\"):\n    return f\"Hello {name} from {city}\"\n\nprint(greet(\"Ravi\"))\nprint(greet(city=\"Mumbai\", name=\"Amit\"))   # keyword arguments",
+    "memory": "Remember: Define once, use many times",
+    "tip": "Practice: write calculate_gst(amount, rate=18) that returns the total with GST."
+  },
+  {
+    "id": "python-2bf94111",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 13: Modules and imports",
+    "answer": "A module is a .py file with functions. import brings it into your file. Python has many built-in modules like math, datetime, random and os. You can also import your own files.",
+    "points": [
+      "import",
+      "from x import y",
+      "math, datetime, random, os",
+      "Own modules"
+    ],
+    "code": "import math\nfrom datetime import date, timedelta\nimport random\n\nprint(math.sqrt(144))                  # 12.0\nprint(round(math.pi, 2))               # 3.14\n\ntoday = date.today()\nprint(today, today + timedelta(days=30))\n\nprint(random.randint(1, 6))            # dice roll\n\n# own module: helpers.py has def add(a, b)\n# from helpers import add",
+    "memory": "Remember: Do not write what Python already has",
+    "tip": "Practice: print today's date and the date 30 days later."
+  },
+  {
+    "id": "python-59dcd346",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 14: Reading and writing files",
+    "answer": "Use open() with 'with', so the file closes automatically. Mode 'r' reads, 'w' writes (replaces), 'a' adds to the end. Read the whole file with read(), or loop line by line for big files.",
+    "points": [
+      "with open()",
+      "r / w / a",
+      "read()",
+      "Loop lines",
+      "Auto close"
+    ],
+    "code": "with open(\"notes.txt\", \"w\") as f:\n    f.write(\"Line 1\\n\")\n    f.write(\"Line 2\\n\")\n\nwith open(\"notes.txt\", \"a\") as f:\n    f.write(\"Line 3\\n\")              # add to the end\n\nwith open(\"notes.txt\") as f:\n    for line in f:\n        print(line.strip())",
+    "memory": "Remember: with open = safe file handling",
+    "tip": "Practice: write 3 lines to notes.txt, then read and print them."
+  },
+  {
+    "id": "python-146404ff",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 15: Handling errors (try / except)",
+    "answer": "When an error happens, the program stops. try / except catches the error so you can handle it, for example ask again or show a message. finally runs always. raise creates your own error.",
+    "points": [
+      "try",
+      "except ErrorType",
+      "else",
+      "finally",
+      "raise"
+    ],
+    "code": "while True:\n    try:\n        qty = int(input(\"Quantity: \"))\n        if qty <= 0:\n            raise ValueError(\"must be positive\")\n        break\n    except ValueError as e:\n        print(\"Invalid input:\", e)\n\nprint(\"You ordered\", qty)",
+    "memory": "Remember: Try risky code, catch expected errors",
+    "tip": "Practice: ask for a number until the user types a valid one."
+  },
+  {
+    "id": "python-b2d40687",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 16: Classes and objects",
+    "answer": "A class groups data (attributes) and actions (methods) together. __init__ sets the starting data. self is the current object. Create objects by calling the class like a function.",
+    "points": [
+      "class",
+      "__init__",
+      "self",
+      "Methods",
+      "Objects"
+    ],
+    "code": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            print(\"Not enough balance\")\n            return\n        self.balance -= amount\n\nacc = BankAccount(\"Ravi\", 1000)\nacc.deposit(500)\nacc.withdraw(2000)       # Not enough balance\nprint(acc.owner, acc.balance)   # Ravi 1500",
+    "memory": "Remember: Class = design, object = real thing",
+    "tip": "Practice: create a BankAccount class with deposit, withdraw and balance."
+  },
+  {
+    "id": "python-76a23623",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 17: Inheritance",
+    "answer": "A child class gets all the code of the parent class and can add more or change methods. super() calls the parent's code. This avoids repeating code.",
+    "points": [
+      "class Child(Parent)",
+      "super()",
+      "Override methods",
+      "Reuse"
+    ],
+    "code": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\nclass SavingsAccount(BankAccount):\n    def __init__(self, owner, balance=0, rate=4):\n        super().__init__(owner, balance)\n        self.rate = rate\n\n    def add_interest(self):\n        self.balance += self.balance * self.rate / 100\n\ns = SavingsAccount(\"Sita\", 10000)\ns.add_interest()\nprint(s.balance)   # 10400.0",
+    "memory": "Remember: Child = parent + extra",
+    "tip": "Practice: make SavingsAccount(BankAccount) with an add_interest() method."
+  },
+  {
+    "id": "python-1a0f7192",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 18: JSON and calling an API",
+    "answer": "JSON is the common format for API data. json.loads turns JSON text into Python dict/list; json.dumps does the opposite. The requests library calls web APIs. Install it with pip install requests.",
+    "points": [
+      "json.loads / dumps",
+      "requests.get / post",
+      "timeout",
+      "r.json()"
+    ],
+    "code": "import json\nimport requests\n\ntext = '{\"name\": \"Ravi\", \"points\": 1200}'\ndata = json.loads(text)          # dict\nprint(data[\"points\"])\n\nback = json.dumps(data, indent=2)  # string again\n\nr = requests.get(\"https://jsonplaceholder.typicode.com/users/1\", timeout=5)\nr.raise_for_status()\nuser = r.json()\nprint(user[\"name\"], user[\"email\"])",
+    "memory": "Remember: API → JSON → dict",
+    "tip": "Practice: call a free public API and print 2 fields from the response."
+  },
+  {
+    "id": "python-bb30f96e",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 19: Working with a database (sqlite3)",
+    "answer": "Python has sqlite3 built in, so you can practice SQL without installing anything. Connect, create a table, insert with ? placeholders (safe from SQL injection), commit, and read rows.",
+    "points": [
+      "sqlite3",
+      "connect",
+      "execute",
+      "? placeholders",
+      "commit",
+      "fetchall"
+    ],
+    "code": "import sqlite3\n\nconn = sqlite3.connect(\"shop.db\")\ncur = conn.cursor()\n\ncur.execute(\"\"\"CREATE TABLE IF NOT EXISTS products (\n                 id INTEGER PRIMARY KEY,\n                 name TEXT,\n                 price REAL)\"\"\")\n\ncur.execute(\"INSERT INTO products (name, price) VALUES (?, ?)\", (\"Rice\", 60))\ncur.executemany(\"INSERT INTO products (name, price) VALUES (?, ?)\",\n                [(\"Oil\", 180), (\"Dal\", 120)])\nconn.commit()\n\nfor row in cur.execute(\"SELECT name, price FROM products WHERE price > ?\", (100,)):\n    print(row)\n\nconn.close()",
+    "memory": "Remember: Connect → Execute → Commit → Fetch",
+    "tip": "Practice: make a 'products' table, insert 3 rows, and print products costing more than 100."
+  },
+  {
+    "id": "python-2c96c601",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 20: Virtual environment and first FastAPI app",
+    "answer": "Make a virtual environment, install fastapi and uvicorn, write a small app, and run it. Open http://127.0.0.1:8000/docs to see and test your API in Swagger.",
+    "points": [
+      "venv",
+      "pip install fastapi uvicorn",
+      "@app.get",
+      "uvicorn main:app --reload",
+      "/docs"
+    ],
+    "code": "# terminal\npython -m venv venv\nvenv\\Scripts\\activate\npip install fastapi uvicorn\n\n# main.py\nfrom fastapi import FastAPI\n\napp = FastAPI()\n\n@app.get(\"/\")\ndef home():\n    return {\"message\": \"Hello Nagesh\"}\n\n@app.get(\"/gst/{amount}\")\ndef gst(amount: float, rate: float = 18):\n    return {\"amount\": amount, \"total\": amount * (1 + rate / 100)}\n\n# run:  uvicorn main:app --reload\n# open: http://127.0.0.1:8000/docs",
+    "memory": "Remember: venv → install → main.py → uvicorn → /docs",
+    "tip": "Practice: add a /square/{n} endpoint that returns n squared."
+  },
+  {
+    "id": "python-f36c6e8b",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 21: Mini project: FastAPI CRUD (create, read, update, delete)",
+    "answer": "Build a small product API with all four operations. A Pydantic model checks the input. For practice, data is kept in a dictionary; in a real project, you would use SQLAlchemy and a database.",
+    "points": [
+      "POST create",
+      "GET read",
+      "PUT update",
+      "DELETE delete",
+      "Pydantic model",
+      "404"
+    ],
+    "code": "from fastapi import FastAPI, HTTPException\nfrom pydantic import BaseModel, Field\n\napp = FastAPI()\n\nclass Product(BaseModel):\n    name: str = Field(min_length=2)\n    price: float = Field(gt=0)\n\ndb: dict[int, Product] = {}\nnext_id = 1\n\n@app.post(\"/products\", status_code=201)\ndef create(p: Product):\n    global next_id\n    db[next_id] = p\n    next_id += 1\n    return {\"id\": next_id - 1, **p.model_dump()}\n\n@app.get(\"/products\")\ndef list_all():\n    return [{\"id\": i, **p.model_dump()} for i, p in db.items()]\n\n@app.get(\"/products/{pid}\")\ndef get_one(pid: int):\n    if pid not in db:\n        raise HTTPException(404, \"Product not found\")\n    return {\"id\": pid, **db[pid].model_dump()}\n\n@app.put(\"/products/{pid}\")\ndef update(pid: int, p: Product):\n    if pid not in db:\n        raise HTTPException(404, \"Product not found\")\n    db[pid] = p\n    return {\"id\": pid, **p.model_dump()}\n\n@app.delete(\"/products/{pid}\", status_code=204)\ndef delete(pid: int):\n    if db.pop(pid, None) is None:\n        raise HTTPException(404, \"Product not found\")",
+    "memory": "Remember: CRUD = Create, Read, Update, Delete",
+    "tip": "Practice: add a 'search by name' endpoint, then replace the dict with SQLite + SQLAlchemy."
+  },
+  {
+    "id": "python-a04ec681",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "Lesson 22: Mini project: points calculator (all basics together)",
+    "answer": "This small program uses variables, input, if / elif, loops, lists, dictionaries, functions and error handling together. It is a good revision of all lessons.",
+    "points": [
+      "Functions",
+      "Dict of rules",
+      "Loop",
+      "try / except",
+      "f-strings"
+    ],
+    "code": "TIERS = [(\"Platinum\", 5000), (\"Gold\", 2000), (\"Silver\", 500), (\"Basic\", 0)]\n\ndef get_tier(points):\n    for name, minimum in TIERS:\n        if points >= minimum:\n            return name\n\ndef points_for(amount):\n    return int(amount // 100) * 10      # 10 points per Rs 100\n\ncustomers = {}\n\nwhile True:\n    name = input(\"Customer name (or 'q' to quit): \").strip()\n    if name.lower() == \"q\":\n        break\n    try:\n        amount = float(input(\"Bill amount: \"))\n    except ValueError:\n        print(\"Please enter a number\")\n        continue\n    customers[name] = customers.get(name, 0) + points_for(amount)\n    total = customers[name]\n    print(f\"{name}: {total} points, tier {get_tier(total)}\")\n\nprint(\"Final:\", customers)",
+    "memory": "Remember: Small project = best revision",
+    "tip": "Practice: add a 'redeem points' option and save the history to a JSON file."
+  },
+  {
+    "id": "python-a1c2764e",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What are magic (dunder) methods?",
+    "answer": "Special methods with double underscores, like __init__, __str__, __repr__, __len__ and __eq__. Python calls them automatically. For example print(obj) calls __str__, and len(obj) calls __len__.",
+    "points": [
+      "__init__",
+      "__str__",
+      "__repr__",
+      "__len__",
+      "__eq__"
+    ],
+    "code": "class Cart:\n    def __init__(self):\n        self.items = []\n\n    def __len__(self):\n        return len(self.items)\n\n    def __str__(self):\n        return \"Cart with \" + str(len(self.items)) + \" items\"\n\ncart = Cart()\ncart.items.append(\"rice\")\nprint(len(cart))   # 1\nprint(cart)        # Cart with 1 items",
+    "memory": "Remember: Double underscore = Python calls it for you",
+    "tip": "__str__ is for users; __repr__ is for developers and debugging."
+  },
+  {
+    "id": "python-cf2cf4ff",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is an abstract class?",
+    "answer": "An abstract class is a base class that cannot be used directly. It forces child classes to write certain methods. In Python, use ABC and @abstractmethod.",
+    "points": [
+      "ABC",
+      "@abstractmethod",
+      "Cannot create object",
+      "Forces child methods"
+    ],
+    "code": "from abc import ABC, abstractmethod\n\nclass Notifier(ABC):\n    @abstractmethod\n    def send(self, message): ...\n\nclass EmailNotifier(Notifier):\n    def send(self, message):\n        print(\"Email:\", message)\n\n# Notifier()  -> TypeError (cannot create)\nEmailNotifier().send(\"Points added\")",
+    "memory": "Remember: Abstract = rule for child classes",
+    "tip": "Good for payment gateways or notification channels."
+  },
+  {
+    "id": "python-dfd2b777",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is multiple inheritance and MRO?",
+    "answer": "A class can inherit from more than one parent. MRO (Method Resolution Order) is the order Python uses to search for a method: the class first, then parents from left to right. You can see it with ClassName.__mro__.",
+    "points": [
+      "Many parents",
+      "Left to right",
+      "__mro__",
+      "super()"
+    ],
+    "code": "class A:\n    def hello(self): return \"A\"\n\nclass B(A):\n    def hello(self): return \"B\"\n\nclass C(A):\n    def hello(self): return \"C\"\n\nclass D(B, C):\n    pass\n\nprint(D().hello())   # B  (B comes first)\nprint(D.__mro__)     # D -> B -> C -> A -> object",
+    "memory": "Remember: MRO = search order for methods",
+    "tip": "Avoid complex multiple inheritance in real projects."
+  },
+  {
+    "id": "python-7aaef727",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is a dataclass?",
+    "answer": "@dataclass creates a class that mainly holds data. Python automatically writes __init__, __repr__ and __eq__ for you, so there is less code.",
+    "points": [
+      "@dataclass",
+      "Auto __init__",
+      "Auto __repr__",
+      "Less code"
+    ],
+    "code": "from dataclasses import dataclass\n\n@dataclass\nclass Order:\n    id: int\n    amount: float\n    status: str = \"placed\"\n\no = Order(1, 499.0)\nprint(o)   # Order(id=1, amount=499.0, status='placed')",
+    "memory": "Remember: dataclass = class for data, less typing",
+    "tip": "Pydantic models are similar but also validate data."
+  },
+  {
+    "id": "python-70c10543",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Module vs package? What is if __name__ == '__main__'?",
+    "answer": "A module is one .py file. A package is a folder of modules (often with __init__.py). The code under if __name__ == '__main__' runs only when you run the file directly, not when it is imported.",
+    "points": [
+      "Module = file",
+      "Package = folder",
+      "__name__ check"
+    ],
+    "code": "# utils.py\ndef add(a, b):\n    return a + b\n\nif __name__ == \"__main__\":\n    print(add(2, 3))   # runs only with: python utils.py",
+    "memory": "Remember: Run directly = main, imported = not main",
+    "tip": "Use it for test code or scripts inside a module."
+  },
+  {
+    "id": "python-20301c2b",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is __init__.py?",
+    "answer": "__init__.py marks a folder as a Python package and runs when the package is imported. It can be empty, or it can import important names so users can write shorter imports. Since Python 3.3 it is optional (namespace packages), but most projects still use it.",
+    "points": [
+      "Marks a package",
+      "Runs on import",
+      "Short imports",
+      "Optional since 3.3"
+    ],
+    "code": "# app/services/__init__.py\nfrom .orders import OrderService\nfrom .points import PointsService\n\n# elsewhere\nfrom app.services import OrderService   # short import",
+    "memory": "Remember: __init__.py = package entry file",
+    "tip": "FastAPI projects often have app/__init__.py."
+  },
+  {
+    "id": "python-15710741",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is a virtual environment?",
+    "answer": "It creates an isolated Python environment for one project. It keeps dependencies separate and prevents package-version conflicts.",
+    "points": [
+      "Isolation",
+      "Dependencies",
+      "No conflicts"
+    ],
+    "code": "# create\npython -m venv venv\n\n# activate\nvenv\\Scripts\\activate        # Windows\nsource venv/bin/activate      # Linux / Mac\n\n# install and save packages\npip install fastapi\npip freeze > requirements.txt\n\n# leave the environment\ndeactivate",
+    "memory": "Remember: One project, one environment",
+    "tip": "Typical command: python -m venv venv."
+  },
+  {
+    "id": "python-5da7c271",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is PEP 8?",
+    "answer": "PEP 8 is the official style guide for Python code. Examples: 4 spaces for indentation, snake_case for functions and variables, PascalCase for classes, and lines not too long. Tools like black, flake8 and ruff check or fix it automatically.",
+    "points": [
+      "Style guide",
+      "4 spaces",
+      "snake_case",
+      "PascalCase",
+      "black / ruff"
+    ],
+    "code": "# Bad\ndef CalcTotal( Price,qty ):\n  return Price*qty\n\n# Good (PEP 8)\ndef calc_total(price, qty):\n    return price * qty\n\nclass OrderService:\n    MAX_ITEMS = 50          # constants in UPPER_CASE\n\n# auto-format:  pip install black   then   black .",
+    "memory": "Remember: PEP 8 = clean Python style",
+    "tip": "Say your team used a formatter so code looked the same everywhere."
+  },
+  {
+    "id": "python-94895b0f",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "How do you call an external API in Python?",
+    "answer": "Use the requests library (or httpx for async). Always set a timeout, check the status code, and handle errors.",
+    "points": [
+      "requests.get / post",
+      "timeout",
+      "raise_for_status",
+      "Handle errors"
+    ],
+    "code": "import requests\n\ntry:\n    r = requests.get(\"https://api.example.com/prices\",\n                     params={\"crop\": \"onion\"}, timeout=5)\n    r.raise_for_status()          # error if 4xx/5xx\n    data = r.json()\nexcept requests.RequestException as e:\n    print(\"API call failed:\", e)",
+    "memory": "Remember: Always timeout + check status",
+    "tip": "Without a timeout, your app can hang forever."
+  },
+  {
+    "id": "python-1cc624cf",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is the GIL?",
+    "answer": "GIL means Global Interpreter Lock. In normal Python (CPython), only one thread runs Python code at a time. So threads are good for I/O work, like API calls, files and database calls, because threads wait most of the time. For heavy CPU work, like big calculations, use multiprocessing or Celery workers.",
+    "points": [
+      "One thread at a time",
+      "Threads for I/O",
+      "Processes for CPU"
+    ],
+    "code": "import time\nfrom threading import Thread\nfrom multiprocessing import Process\n\ndef count():\n    n = 0\n    for _ in range(20_000_000):\n        n += 1\n\n# 2 threads  -> about the SAME time as running twice (GIL)\n# 2 processes -> about HALF the time on a 2+ core machine\nif __name__ == \"__main__\":\n    for kind in (Thread, Process):\n        start = time.time()\n        jobs = [kind(target=count) for _ in range(2)]\n        for j in jobs: j.start()\n        for j in jobs: j.join()\n        print(kind.__name__, round(time.time() - start, 2), \"sec\")",
+    "memory": "Remember: I/O → threads or async, CPU → processes",
+    "tip": "Do not say Python cannot do parallel work. Say: use processes for CPU work."
+  },
+  {
+    "id": "python-1564c6e2",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: Fibonacci series.",
+    "answer": "Each number is the sum of the two before it: 0, 1, 1, 2, 3, 5, 8... A loop is fast and simple. Plain recursion is very slow for big n unless you cache results.",
+    "points": [
+      "a, b = b, a + b",
+      "Loop is O(n)",
+      "Recursion slow",
+      "lru_cache"
+    ],
+    "code": "def fibonacci(n):\n    result = []\n    a, b = 0, 1\n    for _ in range(n):\n        result.append(a)\n        a, b = b, a + b\n    return result\n\nprint(fibonacci(8))   # [0, 1, 1, 2, 3, 5, 8, 13]\n\nfrom functools import lru_cache\n\n@lru_cache(maxsize=None)\ndef fib(n):\n    return n if n < 2 else fib(n - 1) + fib(n - 2)",
+    "memory": "Remember: a, b = b, a + b",
+    "tip": "Mention @lru_cache if they ask for recursion."
+  },
+  {
+    "id": "python-3bedd2ad",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: check if a number is prime.",
+    "answer": "A prime number is greater than 1 and divisible only by 1 and itself. Check divisors only up to the square root of n; this is much faster.",
+    "points": [
+      "n > 1",
+      "Check up to sqrt(n)",
+      "Skip even numbers"
+    ],
+    "code": "def is_prime(n):\n    if n < 2:\n        return False\n    if n % 2 == 0:\n        return n == 2\n    i = 3\n    while i * i <= n:\n        if n % i == 0:\n            return False\n        i += 2\n    return True\n\nprint([n for n in range(20) if is_prime(n)])   # [2, 3, 5, 7, 11, 13, 17, 19]",
+    "memory": "Remember: Only test up to square root",
+    "tip": "Explain why sqrt is enough: factors come in pairs."
+  },
+  {
+    "id": "python-c05b4495",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: FizzBuzz.",
+    "answer": "For numbers 1 to n: print 'Fizz' if divisible by 3, 'Buzz' if divisible by 5, 'FizzBuzz' if divisible by both, otherwise the number. Check 15 (both) first.",
+    "points": [
+      "% 15 first",
+      "% 3",
+      "% 5",
+      "Else number"
+    ],
+    "code": "for n in range(1, 16):\n    if n % 15 == 0:\n        print(\"FizzBuzz\")\n    elif n % 3 == 0:\n        print(\"Fizz\")\n    elif n % 5 == 0:\n        print(\"Buzz\")\n    else:\n        print(n)",
+    "memory": "Remember: Check both first",
+    "tip": "A very common warm-up question."
+  },
+  {
+    "id": "python-ccd9fe0b",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: count vowels in a string.",
+    "answer": "Loop through the lowercase string and count characters that are in 'aeiou'. sum() with a generator makes it one line.",
+    "points": [
+      "lower()",
+      "in 'aeiou'",
+      "sum(generator)"
+    ],
+    "code": "def count_vowels(text):\n    return sum(1 for ch in text.lower() if ch in \"aeiou\")\n\nprint(count_vowels(\"Nagesh Gavhane\"))   # 5",
+    "memory": "Remember: Check each letter",
+    "tip": "Ask whether 'y' should count."
+  },
+  {
+    "id": "python-104c748b",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: check if two words are anagrams.",
+    "answer": "Anagrams have the same letters in a different order, like 'listen' and 'silent'. Sort both and compare, or compare their Counters.",
+    "points": [
+      "sorted() compare",
+      "Counter compare",
+      "Ignore case / spaces"
+    ],
+    "code": "from collections import Counter\n\ndef is_anagram(a, b):\n    a, b = a.replace(\" \", \"\").lower(), b.replace(\" \", \"\").lower()\n    return Counter(a) == Counter(b)\n\nprint(is_anagram(\"Listen\", \"Silent\"))   # True",
+    "memory": "Remember: Same letters, same count",
+    "tip": "Counter is O(n); sorting is O(n log n)."
+  },
+  {
+    "id": "python-ea1db642",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: find the missing number from 1 to n.",
+    "answer": "The sum of 1..n is n × (n + 1) / 2. Subtract the sum of the given list; the difference is the missing number. This is O(n) and uses no extra memory.",
+    "points": [
+      "n(n+1)/2",
+      "Expected - actual",
+      "O(n)"
+    ],
+    "code": "def missing_number(nums, n):\n    expected = n * (n + 1) // 2\n    return expected - sum(nums)\n\nprint(missing_number([1, 2, 4, 5, 6], 6))   # 3",
+    "memory": "Remember: Expected sum minus real sum",
+    "tip": "Clever and short; interviewers like it."
+  },
+  {
+    "id": "python-13e34f2c",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: sort a dictionary by value.",
+    "answer": "Use sorted() on dict.items() with key=lambda item: item[1]. Wrap it in dict() to get a dictionary back (dicts keep insertion order since Python 3.7).",
+    "points": [
+      "sorted(d.items())",
+      "key=lambda x: x[1]",
+      "reverse=True",
+      "dict()"
+    ],
+    "code": "sales = {\"onion\": 120, \"potato\": 300, \"tomato\": 90}\n\ntop = dict(sorted(sales.items(), key=lambda x: x[1], reverse=True))\nprint(top)   # {'potato': 300, 'onion': 120, 'tomato': 90}",
+    "memory": "Remember: items → sort by [1] → dict",
+    "tip": "Common with 'top selling products' questions."
+  },
+  {
+    "id": "python-b4e417d7",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: flatten a nested list.",
+    "answer": "For one level of nesting, use a list comprehension with two for parts. For any depth, use recursion.",
+    "points": [
+      "Two-level comprehension",
+      "Recursion for any depth",
+      "isinstance"
+    ],
+    "code": "nested = [[1, 2], [3, 4], [5]]\nflat = [x for sub in nested for x in sub]   # [1, 2, 3, 4, 5]\n\ndef flatten(items):\n    result = []\n    for x in items:\n        if isinstance(x, list):\n            result.extend(flatten(x))\n        else:\n            result.append(x)\n    return result\n\nprint(flatten([1, [2, [3, [4]]]]))   # [1, 2, 3, 4]",
+    "memory": "Remember: for sub in big for x in sub",
+    "tip": "Ask how deep the nesting can be."
+  },
+  {
+    "id": "python-c09c98f4",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: find the most frequent element in a list.",
+    "answer": "Counter(list).most_common(1) gives the most common item and its count.",
+    "points": [
+      "Counter",
+      "most_common(1)"
+    ],
+    "code": "from collections import Counter\n\norders = [\"onion\", \"rice\", \"onion\", \"dal\", \"onion\", \"rice\"]\nitem, count = Counter(orders).most_common(1)[0]\nprint(item, count)   # onion 3",
+    "memory": "Remember: Counter does the counting",
+    "tip": "Also show a dict-based solution if they ask for no imports."
+  },
+  {
+    "id": "python-e81caa2b",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: merge two sorted lists.",
+    "answer": "Use two pointers, one for each list. Take the smaller item each time and move that pointer forward. At the end, add what is left. This is O(n + m).",
+    "points": [
+      "Two pointers",
+      "Take smaller",
+      "Add remaining",
+      "O(n + m)"
+    ],
+    "code": "def merge_sorted(a, b):\n    i = j = 0\n    result = []\n    while i < len(a) and j < len(b):\n        if a[i] <= b[j]:\n            result.append(a[i]); i += 1\n        else:\n            result.append(b[j]); j += 1\n    result.extend(a[i:])\n    result.extend(b[j:])\n    return result\n\nprint(merge_sorted([1, 4, 7], [2, 3, 8]))   # [1, 2, 3, 4, 7, 8]",
+    "memory": "Remember: Compare fronts, take smaller",
+    "tip": "This is the core idea of merge sort."
+  },
+  {
+    "id": "python-e8caf7dc",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: check balanced brackets.",
+    "answer": "Use a stack (a list). Push opening brackets. For a closing bracket, the top of the stack must be the matching opening one. At the end the stack must be empty.",
+    "points": [
+      "Stack",
+      "Push open",
+      "Pop and match on close",
+      "Empty at end"
+    ],
+    "code": "def is_balanced(s):\n    pairs = {\")\": \"(\", \"]\": \"[\", \"}\": \"{\"}\n    stack = []\n    for ch in s:\n        if ch in \"([{\":\n            stack.append(ch)\n        elif ch in pairs:\n            if not stack or stack.pop() != pairs[ch]:\n                return False\n    return not stack\n\nprint(is_balanced(\"{[()]}\"))   # True\nprint(is_balanced(\"([)]\"))     # False",
+    "memory": "Remember: Last opened, first closed",
+    "tip": "Classic stack question."
+  },
+  {
+    "id": "python-708236e6",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Coding: remove duplicates but keep the order.",
+    "answer": "set() removes duplicates but loses order. dict.fromkeys(list) keeps the first-seen order, because dict keys are unique and ordered.",
+    "points": [
+      "dict.fromkeys",
+      "Keeps order",
+      "set loses order"
+    ],
+    "code": "ids = [3, 1, 3, 2, 1]\nunique_ordered = list(dict.fromkeys(ids))   # [3, 1, 2]",
+    "memory": "Remember: dict.fromkeys = ordered unique",
+    "tip": "Short and clever one-liner."
+  },
+  {
+    "id": "python-9afaf690",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Threading vs multiprocessing vs asyncio?",
+    "answer": "Threading: many threads in one process; good for I/O waiting (API calls, files). Multiprocessing: many processes; good for heavy CPU work because each process has its own GIL. Asyncio: one thread runs many tasks by switching while they wait; very good for many network calls.",
+    "points": [
+      "Threads = I/O",
+      "Processes = CPU",
+      "Asyncio = many network waits"
+    ],
+    "code": "from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor\nimport requests\n\nurls = [\"https://example.com\"] * 5\n\ndef status(url):\n    return requests.get(url, timeout=5).status_code\n\ndef heavy(n):\n    return sum(i * i for i in range(n))\n\nif __name__ == \"__main__\":\n    # I/O work (network) -> threads\n    with ThreadPoolExecutor(max_workers=5) as pool:\n        codes = list(pool.map(status, urls))\n\n    # CPU work -> processes\n    with ProcessPoolExecutor() as pool:\n        results = list(pool.map(heavy, [5_000_000] * 4))",
+    "memory": "Remember: Wait → threads/async, Calculate → processes",
+    "tip": "FastAPI is built on asyncio."
+  },
+  {
+    "id": "python-0e444dd2",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Show an asyncio example that runs tasks together.",
+    "answer": "asyncio.gather runs many async tasks at the same time. If each task waits 1 second, three tasks take about 1 second in total, not 3.",
+    "points": [
+      "async def",
+      "await",
+      "asyncio.gather",
+      "asyncio.run"
+    ],
+    "code": "import asyncio\n\nasync def fetch(name):\n    await asyncio.sleep(1)       # pretend network call\n    return name + \" done\"\n\nasync def main():\n    results = await asyncio.gather(fetch(\"A\"), fetch(\"B\"), fetch(\"C\"))\n    print(results)   # takes about 1 second, not 3\n\nasyncio.run(main())",
+    "memory": "Remember: gather = run together",
+    "tip": "Use it to call several external APIs at once."
+  },
+  {
+    "id": "python-60b900e7",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "How does Python manage memory?",
+    "answer": "Python manages memory automatically. It counts how many references point to each object; when the count becomes 0, the memory is freed. A garbage collector also cleans up objects that point to each other (cycles). Developers do not free memory manually.",
+    "points": [
+      "Reference counting",
+      "Garbage collector",
+      "Cycles",
+      "Automatic"
+    ],
+    "code": "import sys\n\na = [1, 2, 3]\nb = a                       # 2 names point to the same list\nprint(sys.getrefcount(a))   # 3 (a, b, and the function argument)\n\ndel b                       # one reference less\na = None                    # no references left -> memory is freed",
+    "memory": "Remember: No references = memory freed",
+    "tip": "Big lists kept in global variables can still cause memory problems."
+  },
+  {
+    "id": "python-5776f125",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "How do you write a test with pytest?",
+    "answer": "Write functions starting with test_ and use plain assert. pytest finds and runs them. Use pytest.raises to check errors. For FastAPI, use TestClient to call APIs in tests.",
+    "points": [
+      "test_ functions",
+      "assert",
+      "pytest.raises",
+      "TestClient"
+    ],
+    "code": "# test_points.py\nimport pytest\nfrom fastapi.testclient import TestClient\nfrom main import app\nfrom points import redeem, InsufficientPointsError\n\ndef test_redeem_ok():\n    assert redeem(500, 200) == 300\n\ndef test_redeem_not_enough():\n    with pytest.raises(InsufficientPointsError):\n        redeem(100, 500)\n\nclient = TestClient(app)\n\ndef test_customer_not_found():\n    r = client.get(\"/customers/999999\")\n    assert r.status_code == 404",
+    "memory": "Remember: test_ + assert = pytest",
+    "tip": "Run with: pytest -v"
+  },
+  {
+    "id": "python-488ee2c0",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is mocking in tests?",
+    "answer": "Mocking replaces a real thing (like an external API, email or payment call) with a fake one during the test. Tests become fast and do not depend on other systems.",
+    "points": [
+      "Fake external calls",
+      "Fast tests",
+      "unittest.mock",
+      "patch"
+    ],
+    "code": "from unittest.mock import patch\nfrom rates import get_price\n\n@patch(\"rates.requests.get\")\ndef test_get_price(mock_get):\n    mock_get.return_value.json.return_value = {\"price\": 2500}\n    mock_get.return_value.raise_for_status.return_value = None\n    assert get_price(\"onion\") == 2500",
+    "memory": "Remember: Mock what you do not control",
+    "tip": "Mock external services, not your own business logic."
+  },
+  {
+    "id": "python-f5e39c5e",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Explain memory management in Python with an example.",
+    "answer": "Python manages memory automatically. 1) Every object (int, list, class instance) lives on a private heap managed by the Python memory manager. Small objects (up to 512 bytes) use a fast allocator called pymalloc. 2) Reference counting: every object keeps a count of how many names or containers point to it. When the count becomes 0, the memory is freed immediately. 3) Garbage collector: reference counting cannot free cycles (A points to B and B points to A), so a cyclic garbage collector (the gc module) finds and frees them. 4) Small integers (-5 to 256) and some strings are cached and reused. 'del x' removes the name, not the object; the object is freed only when no references are left.",
+    "points": [
+      "Private heap",
+      "pymalloc for small objects",
+      "Reference counting",
+      "Cyclic garbage collector (gc)",
+      "Small int cache",
+      "del removes the name only"
+    ],
+    "code": "import sys\nimport gc\n\na = []\nprint(sys.getrefcount(a))   # 2  (name 'a' + the temporary argument)\nb = a\nprint(sys.getrefcount(a))   # 3  (a, b, argument)\ndel b                       # count goes down again\n\n# A reference cycle: ref count never reaches 0\nclass Node:\n    pass\n\nn1, n2 = Node(), Node()\nn1.other, n2.other = n2, n1\ndel n1, n2\nprint(gc.collect())         # the cyclic GC finds and frees them (prints how many objects)\n\n# Small integer cache\nx, y = 256, 256\nprint(x is y)               # True: same cached object",
+    "memory": "Remember: Heap + Ref count + GC for cycles",
+    "tip": "To save memory: use generators, __slots__, del big objects you no longer need, and measure with tracemalloc."
+  },
+  {
+    "id": "python-4f36d453",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "*args and **kwargs: what are they and how are they stored in memory?",
+    "answer": "*args collects extra positional arguments and **kwargs collects extra keyword arguments. When the function is called, Python creates a new tuple for args and a new dict for kwargs. Both are stored as local variables in that call's frame, and the objects live on the heap. They hold references (pointers) to your original objects, not copies, so if you pass a list and change it inside, the caller sees the change. When the function returns, the frame is removed, the reference counts go down, and the tuple and dict are freed if nothing else uses them. You can also unpack at the call site: f(*my_list, **my_dict).",
+    "points": [
+      "args = new tuple",
+      "kwargs = new dict",
+      "Stored in the call's frame",
+      "References, not copies",
+      "Freed after return",
+      "Unpack with * and **"
+    ],
+    "code": "def show(*args, **kwargs):\n    print(type(args), args)       # <class 'tuple'> (1, 2, [10, 20])\n    print(type(kwargs), kwargs)   # <class 'dict'> {'name': 'Ravi', 'city': 'Pune'}\n    args[2].append(30)            # changes the caller's list (same object)\n\nnums = [10, 20]\nshow(1, 2, nums, name=\"Ravi\", city=\"Pune\")\nprint(nums)                       # [10, 20, 30]\n\ndef same_object(*args):\n    return args[0] is nums\nprint(same_object(nums))          # True: a reference, not a copy\n\n# Unpacking at the call site\ndef add(a, b, c):\n    return a + b + c\nvalues = [1, 2, 3]\noptions = {\"a\": 1, \"b\": 2, \"c\": 3}\nprint(add(*values), add(**options))   # 6 6",
+    "memory": "Remember: One star = tuple, two stars = dict, both hold references",
+    "tip": "Follow-up trap: changing a mutable object passed in *args changes the caller's object too."
+  },
+  {
+    "id": "python-c04144e1",
+    "subject": "Python",
+    "level": "Advanced",
+    "question": "Explain decorators in detail. How do they work?",
+    "answer": "A decorator is a function that takes another function, wraps it with extra behaviour, and returns the new function, without changing the original code. @my_decorator above a function is just a short way to write func = my_decorator(func). It works because functions are objects in Python and inner functions can remember outer variables (closures). Use *args and **kwargs in the wrapper so it works for any function, and functools.wraps to keep the original name and docstring. A decorator with arguments needs one more outer function.",
+    "points": [
+      "Function that wraps a function",
+      "@deco = func = deco(func)",
+      "Closures",
+      "*args, **kwargs in wrapper",
+      "functools.wraps",
+      "Decorator with arguments = 3 levels"
+    ],
+    "code": "import functools\n\ndef log_call(func):\n    @functools.wraps(func)                 # keep the original name and docstring\n    def wrapper(*args, **kwargs):\n        print(f\"Calling {func.__name__} with {args} {kwargs}\")\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__} returned {result}\")\n        return result\n    return wrapper\n\n@log_call\ndef add(a, b):\n    return a + b\n\nadd(2, 3)\n# Calling add with (2, 3) {}\n# add returned 5\n\n# What @log_call actually does:\n# add = log_call(add)\n\n# Decorator WITH arguments: one more level\ndef repeat(times):\n    def decorator(func):\n        @functools.wraps(func)\n        def wrapper(*args, **kwargs):\n            for _ in range(times):\n                func(*args, **kwargs)\n        return wrapper\n    return decorator\n\n@repeat(3)\ndef hello():\n    print(\"Hello\")\nhello()      # prints Hello 3 times",
+    "memory": "Remember: Decorator = wrapper that adds behaviour",
+    "tip": "Show the expanded form (func = deco(func)); it proves you understand what @ really does."
+  },
+  {
+    "id": "python-89c57143",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Generator vs iterator: explain with an example.",
+    "answer": "An iterator is any object with __iter__() and __next__() methods. next() gives the next value, and StopIteration is raised when there are no more values. A generator is the easy way to create an iterator: a function with yield. Each time next() is called, it runs until the next yield, returns that value, and pauses, remembering its local variables. Every generator is an iterator, but writing a class iterator needs more code. Both are lazy: they produce one value at a time, so they use very little memory even for millions of items.",
+    "points": [
+      "Iterator = __iter__ + __next__",
+      "StopIteration at the end",
+      "Generator = function with yield",
+      "Pauses and resumes",
+      "Every generator is an iterator",
+      "Lazy, low memory"
+    ],
+    "code": "# 1) Iterator written as a class\nclass Countdown:\n    def __init__(self, start):\n        self.current = start\n    def __iter__(self):\n        return self\n    def __next__(self):\n        if self.current <= 0:\n            raise StopIteration\n        value = self.current\n        self.current -= 1\n        return value\n\nprint(list(Countdown(3)))       # [3, 2, 1]\n\n# 2) Same thing as a generator: much shorter\ndef countdown(start):\n    while start > 0:\n        yield start\n        start -= 1\n\ngen = countdown(3)\nprint(next(gen), next(gen), next(gen))   # 3 2 1\n# next(gen) now raises StopIteration\n\n# 3) Memory difference\nimport sys\nbig_list = [n * n for n in range(1_000_000)]\nbig_gen = (n * n for n in range(1_000_000))\nprint(sys.getsizeof(big_list))   # about 8 MB\nprint(sys.getsizeof(big_gen))    # about 200 bytes",
+    "memory": "Remember: Iterator is the rule, generator is the shortcut",
+    "tip": "Show the memory difference: a list of 1 million items vs a generator."
+  },
+  {
+    "id": "python-fbc15928",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Where do you use generators and decorators in real projects?",
+    "answer": "Decorators: logging, timing, retry on failure, caching (functools.lru_cache), checking login or permissions, rate limiting, input validation, and registering things, like FastAPI routes with @app.get or Celery tasks with @app.task. Generators: reading huge files line by line, fetching database rows in batches, paging through an external API, building data pipelines (read → clean → save), infinite sequences like IDs, and streaming responses in FastAPI. Simple rule: use a decorator when you want to add the same behaviour to many functions, and a generator when you want to produce many values without keeping them all in memory.",
+    "points": [
+      "Decorator: log, time, retry, cache, auth",
+      "Decorator: @app.get, @app.task",
+      "Generator: big files, DB batches",
+      "Generator: API paging, pipelines, streaming",
+      "Decorator = reuse behaviour",
+      "Generator = save memory"
+    ],
+    "code": "# Generator: process a huge CSV file without loading it all\ndef read_rows(path):\n    with open(path, encoding=\"utf-8\") as f:\n        next(f)                          # skip header\n        for line in f:\n            yield line.rstrip().split(\",\")\n\ndef in_batches(rows, size=1000):\n    batch = []\n    for row in rows:\n        batch.append(row)\n        if len(batch) == size:\n            yield batch\n            batch = []\n    if batch:\n        yield batch\n\nfor batch in in_batches(read_rows(\"customers.csv\")):\n    save_to_db(batch)                    # 1000 rows at a time\n\n# Decorator: time any slow function\nimport functools, time\ndef timer(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        start = time.perf_counter()\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__}: {time.perf_counter() - start:.2f}s\")\n        return result\n    return wrapper",
+    "memory": "Remember: Decorator adds behaviour, generator saves memory",
+    "tip": "Give one real example of each from your own work, like a retry decorator for a payment API and a generator for a big CSV import."
+  },
+  {
+    "id": "python-a3f8d4a0",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Decorator vs iterator: what is the difference?",
+    "answer": "They solve different problems. A decorator changes or extends how a function behaves (adding logging, auth or caching around it). It runs when the function is called and returns a wrapped function. An iterator produces a series of values one at a time with next(). It is about looping over data. A decorator works on functions; an iterator works on data. They can be used together, for example a decorator that logs every value a generator yields.",
+    "points": [
+      "Decorator = wraps a function",
+      "Iterator = gives values one by one",
+      "Decorator: behaviour",
+      "Iterator: data / looping",
+      "Can be combined"
+    ],
+    "code": "import functools\n\n# A decorator that logs each value a generator yields\ndef log_values(gen_func):\n    @functools.wraps(gen_func)\n    def wrapper(*args, **kwargs):\n        for value in gen_func(*args, **kwargs):   # the generator is an iterator\n            print(\"yield:\", value)\n            yield value\n    return wrapper\n\n@log_values\ndef squares(n):\n    for i in range(1, n + 1):\n        yield i * i\n\nprint(list(squares(3)))\n# yield: 1\n# yield: 4\n# yield: 9\n# [1, 4, 9]",
+    "memory": "Remember: Decorator changes HOW a function works, iterator gives WHAT to loop over",
+    "tip": "Interviewers ask this to see if you mix up the two; keep the answer short and clear."
+  },
+  {
+    "id": "python-817213d9",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Explain multithreading in Python with an example.",
+    "answer": "Multithreading runs several threads inside one process. They share the same memory. Because of the GIL, only one thread runs Python code at a time, so threads do not make CPU-heavy work faster. But while one thread waits for I/O (network, database, files), another can run, so threads are great for I/O-bound work like calling many APIs or downloading files. Use concurrent.futures.ThreadPoolExecutor for simple code. Shared data can have race conditions, so protect it with a Lock.",
+    "points": [
+      "Many threads, one process",
+      "Shared memory",
+      "GIL: one runs Python at a time",
+      "Great for I/O-bound",
+      "ThreadPoolExecutor",
+      "Lock for shared data"
+    ],
+    "code": "import threading\nimport time\nfrom concurrent.futures import ThreadPoolExecutor\n\ndef download(url):\n    time.sleep(1)                 # pretend we wait 1 second for the network\n    return f\"done {url}\"\n\nurls = [f\"https://example.com/page{i}\" for i in range(5)]\n\nstart = time.perf_counter()\nwith ThreadPoolExecutor(max_workers=5) as pool:\n    results = list(pool.map(download, urls))\nprint(f\"{time.perf_counter() - start:.1f}s\")     # about 1.0s instead of 5s\n\n# Race condition fixed with a Lock\ncounter = 0\nlock = threading.Lock()\n\ndef add_many():\n    global counter\n    for _ in range(100_000):\n        with lock:                # only one thread changes counter at a time\n            counter += 1\n\nthreads = [threading.Thread(target=add_many) for _ in range(4)]\nfor t in threads:\n    t.start()\nfor t in threads:\n    t.join()\nprint(counter)                    # 400000, always correct",
+    "memory": "Remember: Threads are for waiting tasks (I/O)",
+    "tip": "Show both: the speed-up for I/O, and a Lock to fix a race condition."
+  },
+  {
+    "id": "python-eb3cca62",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Explain multiprocessing in Python with an example.",
+    "answer": "Multiprocessing starts several separate processes. Each one has its own Python interpreter, its own memory and its own GIL, so they really run in parallel on different CPU cores. This makes CPU-heavy work faster: image processing, big calculations, data crunching. Downsides: starting processes is slower, they use more memory, and they don't share memory, so data must be sent between them (pickled) through return values, Queue, Pipe or shared memory. Always put the start code under if __name__ == '__main__' (required on Windows).",
+    "points": [
+      "Separate processes",
+      "Own memory + own GIL",
+      "True parallel on many cores",
+      "Best for CPU-bound",
+      "ProcessPoolExecutor / Pool",
+      "No shared memory, data is pickled",
+      "if __name__ == '__main__'"
+    ],
+    "code": "import time\nfrom concurrent.futures import ProcessPoolExecutor\n\ndef heavy(n):\n    return sum(i * i for i in range(n))     # pure CPU work\n\nif __name__ == \"__main__\":\n    numbers = [10_000_000] * 4\n\n    start = time.perf_counter()\n    results = [heavy(n) for n in numbers]   # one by one\n    print(f\"normal loop: {time.perf_counter() - start:.1f}s\")\n\n    start = time.perf_counter()\n    with ProcessPoolExecutor() as pool:     # one process per CPU core\n        results = list(pool.map(heavy, numbers))\n    print(f\"processes:   {time.perf_counter() - start:.1f}s\")   # about 3-4x faster on 4 cores\n\n# Sending data between processes\nfrom multiprocessing import Process, Queue\n\ndef worker(q):\n    q.put(\"result from child\")\n\nif __name__ == \"__main__\":\n    q = Queue()\n    p = Process(target=worker, args=(q,))\n    p.start()\n    print(q.get())\n    p.join()",
+    "memory": "Remember: Processes are for heavy calculation (CPU)",
+    "tip": "For work across many servers, mention Celery workers."
+  },
+  {
+    "id": "python-29bc9f13",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Multithreading vs multiprocessing: which one when?",
+    "answer": "Use multithreading for I/O-bound work, where the program mostly waits: API calls, database queries, file or network I/O. Threads are light and share memory, and the GIL is released while waiting. Use multiprocessing for CPU-bound work, where the program mostly calculates: image or video processing, big math, data processing. Each process has its own GIL, so all cores are used. For a very large number of I/O tasks (thousands of connections), asyncio is often better than threads. In web apps, CPU-heavy or slow jobs usually go to Celery workers instead.",
+    "points": [
+      "Threads = I/O-bound",
+      "Processes = CPU-bound",
+      "Threads share memory, light",
+      "Processes: own memory, heavier",
+      "asyncio for thousands of I/O tasks",
+      "Celery for background jobs"
+    ],
+    "code": "",
+    "memory": "Remember: Waiting → threads (or asyncio), Calculating → processes",
+    "tip": "Draw a 2-column table on the whiteboard: threads vs processes (memory, GIL, startup cost, use case)."
+  },
+  {
+    "id": "python-b8b545ed",
+    "subject": "Python",
+    "level": "Advanced",
+    "question": "What is the GIL (Global Interpreter Lock)? Explain in detail.",
+    "answer": "The GIL is a lock inside CPython (the standard Python) that lets only one thread run Python bytecode at a time, even on a multi-core CPU. Why it exists: Python's memory management (reference counting) is not thread-safe, and one big lock keeps it simple and makes single-threaded code and C extensions fast. Effect: threads do not speed up CPU-heavy Python code. But the GIL is released during I/O waits (network, disk, sleep) and inside many C libraries (NumPy, hashlib), so threads still help for I/O. Workarounds for CPU work: multiprocessing, C extensions, or NumPy. Note: the GIL does NOT make your code thread-safe; counter += 1 can still race. Python 3.13 added an optional free-threaded build without the GIL (PEP 703), and in Python 3.14 it is officially supported, but the normal build still has the GIL.",
+    "points": [
+      "Lock in CPython",
+      "One thread runs bytecode at a time",
+      "Protects reference counting",
+      "Hurts CPU-bound threads",
+      "Released during I/O and in C libs",
+      "Not a thread-safety guarantee",
+      "3.13+ optional free-threaded build"
+    ],
+    "code": "import time\nfrom threading import Thread\n\ndef count(n):\n    while n > 0:\n        n -= 1          # pure CPU work\n\nN = 50_000_000\n\nstart = time.perf_counter()\ncount(N)\nprint(f\"one thread:  {time.perf_counter() - start:.1f}s\")\n\nstart = time.perf_counter()\nt1 = Thread(target=count, args=(N // 2,))\nt2 = Thread(target=count, args=(N // 2,))\nt1.start(); t2.start(); t1.join(); t2.join()\nprint(f\"two threads: {time.perf_counter() - start:.1f}s\")   # NOT faster, because of the GIL\n\n# Check for a free-threaded build (Python 3.13+)\nimport sys\nprint(getattr(sys, \"_is_gil_enabled\", lambda: True)())   # True on the normal build",
+    "memory": "Remember: GIL = one Python thread at a time",
+    "tip": "Mentioning the free-threaded build (python3.13t / 3.14t) shows you keep up with Python."
+  },
+  {
+    "id": "python-3e9cf0f5",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "What is the difference between a list and an array in Python?",
+    "answer": "A Python list is built in, can hold mixed types (int, str, dict together), and grows or shrinks as needed. Inside, it stores pointers to separate objects, so it uses more memory. An array from the array module holds only one type (like 'i' for int or 'd' for float) and stores the raw values next to each other, so it uses much less memory, but it has fewer features. A NumPy array also holds one type, supports many dimensions, and does fast vector math (arr * 2 multiplies every item). Use a list for general work, array.array for large plain number data, and NumPy for maths and data science.",
+    "points": [
+      "list: built in, mixed types, flexible",
+      "list stores pointers, more memory",
+      "array.array: one type, compact",
+      "NumPy: one type, fast vector math",
+      "list * 2 repeats, NumPy * 2 multiplies"
+    ],
+    "code": "import sys\nimport array\n\nnums_list = list(range(1000))\nnums_array = array.array(\"i\", range(1000))     # 'i' = signed int only\n\nprint(sys.getsizeof(nums_list))    # about 8 KB (only the pointers!)\nprint(sys.getsizeof(nums_array))   # about 4 KB (raw ints)\n\nmixed = [1, \"two\", 3.0, {\"four\": 4}]   # fine in a list\n# array.array(\"i\", [1, \"two\"])         # TypeError: only ints allowed\n\nimport numpy as np\narr = np.array([1, 2, 3])\nprint(arr * 2)          # [2 4 6]   math on every item\nprint([1, 2, 3] * 2)    # [1, 2, 3, 1, 2, 3]   list is repeated",
+    "memory": "Remember: List = flexible, Array = compact, NumPy = fast maths",
+    "tip": "The 'list * 2 vs numpy * 2' example is a quick way to show the difference."
+  },
+  {
+    "id": "python-7d97ffc5",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Explain OOP concepts with one real example.",
+    "answer": "OOP organises code into classes (blueprints) and objects (real items made from them). The 4 pillars: 1) Encapsulation: keep data and the methods that change it together, and hide internal data (for example, a private __balance changed only through methods that validate). 2) Abstraction: show only what is needed and hide details (an abstract Payment class with pay(), without saying how). 3) Inheritance: a child class reuses and extends a parent class (UpiPayment is a Payment). 4) Polymorphism: different classes have the same method name, and each behaves in its own way (pay() works differently for UPI and card), so the calling code stays the same.",
+    "points": [
+      "Class = blueprint, object = instance",
+      "Encapsulation = hide + protect data",
+      "Abstraction = hide details (ABC)",
+      "Inheritance = reuse parent",
+      "Polymorphism = same method, different behaviour"
+    ],
+    "code": "from abc import ABC, abstractmethod\n\nclass Wallet:\n    def __init__(self, balance=0):\n        self.__balance = balance            # Encapsulation: private data\n\n    @property\n    def balance(self):\n        return self.__balance\n\n    def add(self, amount):\n        if amount <= 0:\n            raise ValueError(\"Amount must be positive\")\n        self.__balance += amount\n\nclass Payment(ABC):                         # Abstraction: what, not how\n    @abstractmethod\n    def pay(self, amount): ...\n\nclass UpiPayment(Payment):                  # Inheritance\n    def pay(self, amount):\n        return f\"Paid {amount} by UPI\"\n\nclass CardPayment(Payment):\n    def pay(self, amount):\n        return f\"Paid {amount} by card\"\n\nfor method in [UpiPayment(), CardPayment()]:   # Polymorphism: same call\n    print(method.pay(500))\n\nw = Wallet(100)\nw.add(50)\nprint(w.balance)          # 150\n# w.__balance             # AttributeError: hidden",
+    "memory": "Remember: A PIE: Abstraction, Polymorphism, Inheritance, Encapsulation",
+    "tip": "Use one connected example (payments or wallet) for all 4 pillars instead of 4 random examples."
+  },
+  {
+    "id": "python-4263b90c",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "Does Python support method overloading and overriding? Explain.",
+    "answer": "Overriding: yes. A child class can redefine a parent method with the same name, and super() can call the parent version. Method overloading (same method name, different parameters): not like Java. If you define the same method twice, the last one replaces the first. To get similar behaviour, use default arguments, *args and **kwargs, or functools.singledispatchmethod to choose a version by argument type. Operator overloading: yes, with special methods like __add__, __eq__ and __len__, so your objects can use +, == and len().",
+    "points": [
+      "Overriding: yes (child redefines)",
+      "super() calls parent",
+      "Method overloading: no, last one wins",
+      "Use defaults, *args, singledispatch",
+      "Operator overloading: yes (__add__)"
+    ],
+    "code": "# 1) Overriding: supported\nclass Animal:\n    def sound(self):\n        return \"Some sound\"\n\nclass Dog(Animal):\n    def sound(self):                       # overrides the parent\n        return \"Bark (and parent says: \" + super().sound() + \")\"\n\nprint(Dog().sound())\n\n# 2) Method overloading: NOT supported, the last definition wins\nclass Calc:\n    def add(self, a, b):\n        return a + b\n    def add(self, a, b, c):                # replaces the first add\n        return a + b + c\n# Calc().add(1, 2)  -> TypeError: missing 1 required positional argument: 'c'\n\n# The Python way: default values / *args\nclass Calc:\n    def add(self, *numbers):\n        return sum(numbers)\nprint(Calc().add(1, 2), Calc().add(1, 2, 3))   # 3 6\n\n# Choose by type with singledispatchmethod\nfrom functools import singledispatchmethod\nclass Printer:\n    @singledispatchmethod\n    def show(self, value):\n        print(\"object:\", value)\n    @show.register\n    def _(self, value: int):\n        print(\"int:\", value)\n    @show.register\n    def _(self, value: str):\n        print(\"str:\", value)\nPrinter().show(5); Printer().show(\"hi\")\n\n# 3) Operator overloading: supported\nclass Money:\n    def __init__(self, amount):\n        self.amount = amount\n    def __add__(self, other):\n        return Money(self.amount + other.amount)\n    def __repr__(self):\n        return f\"Money({self.amount})\"\nprint(Money(100) + Money(50))     # Money(150)",
+    "memory": "Remember: Override yes, overload no (fake it), operators yes",
+    "tip": "typing.overload exists, but it only helps type checkers; it does not create real overloads."
+  },
+  {
+    "id": "python-f8d2a3ed",
+    "subject": "Python",
+    "level": "Intermediate",
+    "question": "for loop vs while loop: what is the difference?",
+    "answer": "A for loop goes through the items of a sequence or iterable (list, string, range, dict, file) and stops automatically at the end. Use it when you know what you are looping over. A while loop repeats as long as a condition is true. Use it when you don't know how many times it will run, like retrying until success, reading until the user types 'exit', or paging until no more data. A while loop can run forever if the condition never becomes false. Both support break, continue and an else block, which runs only if the loop did not break.",
+    "points": [
+      "for = over items, ends by itself",
+      "while = until condition is false",
+      "for: known collection",
+      "while: unknown count, retries",
+      "while can loop forever",
+      "break, continue, else"
+    ],
+    "code": "# for: loop over known items\nfor i in range(1, 6):\n    print(i)                    # 1 2 3 4 5\n\n# while: same result, but you manage the counter\ni = 1\nwhile i <= 5:\n    print(i)\n    i += 1                      # forget this line = infinite loop\n\n# while: unknown number of tries\nattempts = 0\nwhile attempts < 3 and not connect_to_db():\n    attempts += 1\n\n# loop-else: runs only if there was no break\nfor n in [3, 5, 7]:\n    if n % 2 == 0:\n        print(\"found an even number\")\n        break\nelse:\n    print(\"no even number\")     # this prints",
+    "memory": "Remember: for = for each item, while = while true",
+    "tip": "Mention loop-else; few candidates know it."
+  },
+  {
+    "id": "python-e52047e2",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is cache management? When should you use caching?",
+    "answer": "Caching means keeping the result of slow or expensive work (a database query, an API call, a calculation) in fast storage, so the next request gets it quickly. Levels: in-process memory (functools.lru_cache, only for one process), a shared cache like Redis or Memcached (for all servers), HTTP and CDN caching, and database caches. Cache management means deciding what to cache, for how long (TTL), how much (size limit with an eviction policy like LRU), and how to update or delete it when data changes (invalidation). Patterns: cache-aside (check cache, else load from DB and save), write-through (update the cache when you write to the DB). Use caching for data that is read often and changes rarely. Avoid it for data that must always be exact, like a wallet balance or stock during checkout.",
+    "points": [
+      "Store slow results in fast storage",
+      "lru_cache (one process) vs Redis (shared)",
+      "TTL + size limit + LRU",
+      "Invalidate on update",
+      "Cache-aside, write-through",
+      "Read often, change rarely"
+    ],
+    "code": "# 1) In-process cache for a pure function\nfrom functools import lru_cache\n\n@lru_cache(maxsize=256)\ndef gst_rate(state_code: str) -> float:\n    return load_rate_from_db(state_code)     # slow call happens once per state\n\ngst_rate(\"MH\"); gst_rate(\"MH\")               # second call is instant\nprint(gst_rate.cache_info())                 # hits=1, misses=1, ...\ngst_rate.cache_clear()\n\n# 2) Shared Redis cache (cache-aside pattern) with TTL\nimport json\nimport redis\n\nr = redis.Redis(host=\"localhost\", port=6379, decode_responses=True)\n\ndef get_product(product_id: int) -> dict:\n    key = f\"product:{product_id}\"\n    cached = r.get(key)\n    if cached:\n        return json.loads(cached)                 # cache hit\n    product = fetch_product_from_db(product_id)   # cache miss\n    r.setex(key, 300, json.dumps(product))        # keep for 5 minutes\n    return product\n\ndef update_product(product_id: int, data: dict):\n    save_product_to_db(product_id, data)\n    r.delete(f\"product:{product_id}\")             # invalidate",
+    "memory": "Remember: What to cache, how long, how big, when to clear",
+    "tip": "The hard part is invalidation; always explain how you delete or refresh the cache when data changes."
+  },
+  {
+    "id": "python-b6ac139e",
+    "subject": "Python",
+    "level": "Beginner",
+    "question": "What is PyTables?",
+    "answer": "PyTables is a Python library for storing and querying very large amounts of numeric and table data in HDF5 files. It is built on NumPy and HDF5, supports compression, and can search millions of rows fast without loading the whole file into memory. It is used in science, finance and sensor or IoT data. pandas can also read and write HDF5 files using PyTables (df.to_hdf). Note: if the interviewer meant pytest (testing) or a table-printing library like tabulate or PrettyTable, clarify first; see the Testing subject for pytest.",
+    "points": [
+      "HDF5 files",
+      "Large numeric / table data",
+      "Built on NumPy",
+      "Compression",
+      "Fast queries without loading everything",
+      "pandas to_hdf uses it"
+    ],
+    "code": "# pip install tables\nimport tables as tb\n\nclass Reading(tb.IsDescription):\n    sensor = tb.StringCol(16)\n    value = tb.Float64Col()\n\nwith tb.open_file(\"readings.h5\", mode=\"w\") as f:\n    table = f.create_table(\"/\", \"readings\", Reading)\n    row = table.row\n    for i in range(5):\n        row[\"sensor\"] = f\"s{i}\"\n        row[\"value\"] = i * 1.5\n        row.append()\n    table.flush()\n\n    # Query on disk, without loading the whole table\n    print([r[\"value\"] for r in table.where(\"value > 3\")])   # [4.5, 6.0]\n\n# With pandas (uses PyTables underneath)\n# df.to_hdf(\"data.h5\", key=\"sales\")\n# df = pd.read_hdf(\"data.h5\", key=\"sales\")",
+    "memory": "Remember: PyTables = big data tables in HDF5 files",
+    "tip": "If you are not sure what the interviewer means, asking 'Do you mean PyTables for HDF5, or pytest?' is perfectly fine."
+  },
+  {
+    "id": "python-progr-30abf3a2",
+    "subject": "Python Programs",
+    "level": "Intermediate",
+    "question": "Program 1: Fibonacci series using a generator",
+    "answer": "Logic: keep two numbers a and b, starting at 0 and 1. In a loop, yield a, then move forward: a becomes b, and b becomes a + b. Because of yield, numbers are produced one at a time and nothing is stored in a list, so even an endless series uses almost no memory.",
+    "points": [
+      "yield a",
+      "a, b = b, a + b",
+      "Lazy, low memory",
+      "next() or list()",
+      "Infinite version with islice"
+    ],
+    "code": "def fibonacci(n):\n    a, b = 0, 1\n    for _ in range(n):\n        yield a\n        a, b = b, a + b\n\nprint(list(fibonacci(10)))    # [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]\n\ngen = fibonacci(5)\nprint(next(gen), next(gen), next(gen))   # 0 1 1\n\n# Infinite generator: take only what you need\nfrom itertools import islice\n\ndef fibonacci_forever():\n    a, b = 0, 1\n    while True:\n        yield a\n        a, b = b, a + b\n\nprint(list(islice(fibonacci_forever(), 7)))   # [0, 1, 1, 2, 3, 5, 8]\n\n# Fibonacci numbers below 50\nfor num in fibonacci_forever():\n    if num > 50:\n        break\n    print(num, end=\" \")       # 0 1 1 2 3 5 8 13 21 34",
+    "memory": "Remember: yield a, then a, b = b, a + b",
+    "tip": "Show both the n-items version and the infinite version with itertools.islice."
+  },
+  {
+    "id": "python-progr-480f7607",
+    "subject": "Python Programs",
+    "level": "Intermediate",
+    "question": "Program 2: Write a program using decorators (timer and retry)",
+    "answer": "Logic: a decorator is a function that receives a function, defines a wrapper that adds extra work before and after calling it, and returns the wrapper. timer measures how long the function takes. retry runs the function again if it raises an error. It takes arguments (times and delay), so it needs one more outer function. functools.wraps keeps the original function name.",
+    "points": [
+      "Outer function receives func",
+      "Wrapper adds behaviour",
+      "*args, **kwargs",
+      "functools.wraps",
+      "Decorator with arguments = 3 levels"
+    ],
+    "code": "import functools\nimport random\nimport time\n\ndef timer(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        start = time.perf_counter()\n        result = func(*args, **kwargs)\n        print(f\"{func.__name__} took {time.perf_counter() - start:.3f}s\")\n        return result\n    return wrapper\n\ndef retry(times=3, delay=0.5):\n    def decorator(func):\n        @functools.wraps(func)\n        def wrapper(*args, **kwargs):\n            for attempt in range(1, times + 1):\n                try:\n                    return func(*args, **kwargs)\n                except Exception as e:\n                    print(f\"Attempt {attempt} failed: {e}\")\n                    if attempt == times:\n                        raise\n                    time.sleep(delay)\n        return wrapper\n    return decorator\n\n@timer\ndef slow_add(a, b):\n    time.sleep(0.5)\n    return a + b\n\n@retry(times=3)\ndef call_payment_api():\n    if random.random() < 0.7:\n        raise ConnectionError(\"gateway timeout\")\n    return \"payment ok\"\n\nprint(slow_add(2, 3))\n# slow_add took 0.501s\n# 5\nprint(call_payment_api())",
+    "memory": "Remember: deco(func) returns wrapper",
+    "tip": "Pick a practical example (timer, retry, login check); it sounds more real than printing 'before' and 'after'."
+  },
+  {
+    "id": "python-progr-34e0540e",
+    "subject": "Python Programs",
+    "level": "Intermediate",
+    "question": "Program 3: Take 2 strings, check each character of the first in the second (True if found, else False)",
+    "answer": "Logic: loop over each character of the first string and check it with the 'in' operator against the second string. Store the result per character in a dictionary or list. Use all() to check if every character is found. For long strings, convert the second string to a set first, so each check is O(1) instead of O(n).",
+    "points": [
+      "for ch in s1",
+      "ch in s2 → True / False",
+      "Dict or list of results",
+      "all() for every char",
+      "set(s2) for speed"
+    ],
+    "code": "def check_chars(s1, s2):\n    lookup = set(s2)                      # fast O(1) lookups\n    return {ch: ch in lookup for ch in s1}\n\ns1 = \"hello\"\ns2 = \"world\"\n\nprint(check_chars(s1, s2))\n# {'h': False, 'e': False, 'l': True, 'o': True}\n\n# Keep every character (including repeats) in order\nprint([(ch, ch in s2) for ch in s1])\n# [('h', False), ('e', False), ('l', True), ('l', True), ('o', True)]\n\n# Are ALL characters found?\nprint(all(ch in s2 for ch in s1))          # False\n\n# Without the 'in' operator (if the interviewer asks)\ndef contains(text, target):\n    for c in text:\n        if c == target:\n            return True\n    return False\n\nfor ch in s1:\n    print(ch, contains(s2, ch))",
+    "memory": "Remember: for each char → char in other string",
+    "tip": "Ask about case sensitivity and repeated characters; asking questions is a good habit in coding rounds."
+  },
+  {
+    "id": "python-progr-824b26be",
+    "subject": "Python Programs",
+    "level": "Intermediate",
+    "question": "Program 4: Flatten num_list = [1, 2, 3, [4, 5]] → [1, 2, 3, 4, 5]",
+    "answer": "Logic: go through each item. If the item is a list, flatten it too (recursion) and add its items. Otherwise, add the item itself. Recursion handles any depth, like [1, [2, [3, [4]]]]. A generator version with 'yield from' is memory friendly.",
+    "points": [
+      "Loop items",
+      "isinstance(item, list)",
+      "Recursion for nested lists",
+      "extend vs append",
+      "yield from"
+    ],
+    "code": "num_list = [1, 2, 3, [4, 5]]\n\ndef flatten(items):\n    result = []\n    for item in items:\n        if isinstance(item, list):\n            result.extend(flatten(item))   # go inside\n        else:\n            result.append(item)\n    return result\n\nprint(flatten(num_list))              # [1, 2, 3, 4, 5]\nprint(flatten([1, [2, [3, [4]]]]))    # [1, 2, 3, 4]  any depth\n\n# Generator version\ndef flatten_gen(items):\n    for item in items:\n        if isinstance(item, list):\n            yield from flatten_gen(item)\n        else:\n            yield item\n\nprint(list(flatten_gen(num_list)))    # [1, 2, 3, 4, 5]\n\n# One-level only, with a comprehension\nprint([x for item in num_list for x in (item if isinstance(item, list) else [item])])",
+    "memory": "Remember: If list → go inside, else → add",
+    "tip": "Ask: 'Can it be nested deeper than one level?' Then show the recursive version."
+  },
+  {
+    "id": "python-progr-a91b8c7f",
+    "subject": "Python Programs",
+    "level": "Intermediate",
+    "question": "Program 5: Merge num_list = [[1,4,5], [1,3,4], [2,6]] → [1, 1, 2, 3, 4, 4, 5, 6]",
+    "answer": "Logic: join all inner lists into one list, then sort it. Duplicates are kept. A comprehension or itertools.chain joins the lists. Because each inner list is already sorted, heapq.merge can merge them efficiently without sorting everything again. This is the classic 'merge k sorted lists' problem.",
+    "points": [
+      "Join all lists",
+      "Sort, keep duplicates",
+      "itertools.chain",
+      "heapq.merge for sorted lists",
+      "Merge k sorted lists"
+    ],
+    "code": "num_list = [[1, 4, 5], [1, 3, 4], [2, 6]]\n\n# 1) Simple: combine and sort\nprint(sorted(x for sub in num_list for x in sub))\n# [1, 1, 2, 3, 4, 4, 5, 6]\n\n# 2) itertools.chain\nfrom itertools import chain\nprint(sorted(chain.from_iterable(num_list)))\n# [1, 1, 2, 3, 4, 4, 5, 6]\n\n# 3) Inner lists are already sorted: heapq.merge (efficient)\nimport heapq\nprint(list(heapq.merge(*num_list)))\n# [1, 1, 2, 3, 4, 4, 5, 6]\n\n# 4) Without built-ins: manual loop + sort\nresult = []\nfor sub in num_list:\n    for x in sub:\n        result.append(x)\nresult.sort()\nprint(result)",
+    "memory": "Remember: Combine, then sort (or heapq.merge if already sorted)",
+    "tip": "Mention heapq.merge when you notice the inner lists are sorted; it shows good problem analysis."
+  },
+  {
+    "id": "python-progr-b5d29b57",
+    "subject": "Python Programs",
+    "level": "Intermediate",
+    "question": "Program 6: Count each word's occurrences (case sensitive) in a dictionary",
+    "answer": "Logic: remove punctuation so 'Hello,' and 'Hello' become the same word, but keep the case, so 'world' and 'World' stay different. Then count with a dictionary: for each word, count[word] = count.get(word, 0) + 1. collections.Counter does the same in one line. For text = 'Hello, world! Hello again. World.' the output is {'Hello': 2, 'world': 1, 'again': 1, 'World': 1}.",
+    "points": [
+      "Remove punctuation",
+      "Keep case (case sensitive)",
+      "dict.get(word, 0) + 1",
+      "collections.Counter",
+      "re.findall for words"
+    ],
+    "code": "import re\nfrom collections import Counter\n\ntext = \"Hello, world! Hello again. World.\"\n\n# 1) Manual dictionary\ncounts = {}\nfor word in text.split():\n    word = word.strip(\",.!?;:\")          # remove punctuation, keep case\n    counts[word] = counts.get(word, 0) + 1\nprint(counts)\n# {'Hello': 2, 'world': 1, 'again': 1, 'World': 1}\n\n# 2) Regex + Counter\nwords = re.findall(r\"[A-Za-z]+\", text)\nprint(dict(Counter(words)))\n# {'Hello': 2, 'world': 1, 'again': 1, 'World': 1}\n\n# Case-insensitive version (if asked)\nprint(dict(Counter(w.lower() for w in words)))\n# {'hello': 2, 'world': 2, 'again': 1}",
+    "memory": "Remember: Clean, Split, Count",
+    "tip": "Say what you would change for case-insensitive counting: call .lower() first."
+  },
+  {
+    "id": "python-progr-b1b29286",
+    "subject": "Python Programs",
+    "level": "Intermediate",
+    "question": "Program 7: MRO: what is the output of this code? (class A, B(A), C(B), obj = C(); obj.show())",
+    "answer": "Output: C. Reason: MRO (Method Resolution Order) is the order Python searches for a method: C → B → A → object. Python finds show() in C first and runs it. C.show() does not call super().show(), so B.show() and A.show() never run. If C.show() called super().show() before printing, the output would be A, B, C on separate lines, because C calls B, and B calls A first, then prints. For multiple inheritance, Python builds the MRO with the C3 algorithm; check it with ClassName.__mro__ or ClassName.mro().",
+    "points": [
+      "Output = C",
+      "MRO: C → B → A → object",
+      "First match wins",
+      "No super() in C, so B and A don't run",
+      "With super(): A B C",
+      "C3 algorithm, __mro__"
+    ],
+    "code": "class A:\n    def show(self):\n        print(\"A\")\n\nclass B(A):\n    def show(self):\n        super().show()\n        print(\"B\")\n\nclass C(B):\n    def show(self):\n        print(\"C\")\n\nobj = C()\nobj.show()                 # Output: C\n\nprint([cls.__name__ for cls in C.__mro__])   # ['C', 'B', 'A', 'object']\n\n# If C also calls super():\nclass C2(B):\n    def show(self):\n        super().show()     # B.show -> A.show\n        print(\"C\")\n\nC2().show()\n# A\n# B\n# C\n\n# Diamond (multiple inheritance) MRO\nclass X: pass\nclass Y(X): pass\nclass Z(X): pass\nclass W(Y, Z): pass\nprint([c.__name__ for c in W.__mro__])   # ['W', 'Y', 'Z', 'X', 'object']",
+    "memory": "Remember: Python looks in the child first; super() continues the chain",
+    "tip": "Always explain why, not just the output, and show what changes with super()."
+  },
+  {
+    "id": "python-progr-56f70f71",
+    "subject": "Python Programs",
+    "level": "Intermediate",
+    "question": "Program 8: Find missing values from lists = [3, 1, 4, 0, 8] → [2, 5, 6, 7]",
+    "answer": "Logic: the full range is from the smallest to the largest number (0 to 8). The missing values are the numbers in that range that are not in the list. Turn the list into a set for fast lookups, then keep each number of the range that is not in the set. Set difference does the same in one line.",
+    "points": [
+      "Range min to max",
+      "set() for fast lookup",
+      "Keep numbers not in the set",
+      "Set difference + sorted",
+      "O(n) time"
+    ],
+    "code": "lists = [3, 1, 4, 0, 8]\n\n# 1) Set difference\nmissing = sorted(set(range(min(lists), max(lists) + 1)) - set(lists))\nprint(missing)        # [2, 5, 6, 7]\n\n# 2) Comprehension with a set for O(1) lookups\nseen = set(lists)\nprint([n for n in range(min(lists), max(lists) + 1) if n not in seen])   # [2, 5, 6, 7]\n\n# 3) Without built-in min/max/set (manual)\nlow, high = lists[0], lists[0]\nfor n in lists:\n    if n < low:\n        low = n\n    if n > high:\n        high = n\nresult = []\nfor n in range(low, high + 1):\n    if n not in lists:\n        result.append(n)\nprint(result)         # [2, 5, 6, 7]",
+    "memory": "Remember: Full range minus what you have",
+    "tip": "Ask: 'Should the range start at 0, or at the smallest value?' Here min is 0, so both give the same answer."
+  },
+  {
+    "id": "python-progr-027d62a7",
+    "subject": "Python Programs",
+    "level": "Intermediate",
+    "question": "Program 9: Second largest number: num_list = [10, 20, 25, 32, 60, 30, 70] → 60",
+    "answer": "Logic: the simple way is to remove duplicates with set(), sort, and take the second last item. The best way is one pass: keep two variables, first (largest) and second (second largest). For each number: if it is bigger than first, the old first becomes second and the number becomes first; else if it is between second and first, it becomes the new second. This is O(n) time and O(1) memory, and handles duplicates.",
+    "points": [
+      "sorted(set(...))[-2]",
+      "One pass: first and second",
+      "Update rules",
+      "O(n), no sorting",
+      "Handle duplicates"
+    ],
+    "code": "num_list = [10, 20, 25, 32, 60, 30, 70]\n\n# 1) Simple\nprint(sorted(set(num_list))[-2])          # 60\n\n# 2) One pass, no sorting (best answer)\nfirst = second = float(\"-inf\")\nfor n in num_list:\n    if n > first:\n        second, first = first, n\n    elif first > n > second:\n        second = n\nprint(second)                              # 60\n\n# 3) heapq\nimport heapq\nprint(heapq.nlargest(2, set(num_list))[1])   # 60",
+    "memory": "Remember: Track the top two in one loop",
+    "tip": "Interviewers often ask 'without sort()'. Lead with the one-pass solution."
+  },
+  {
+    "id": "python-progr-07555b10",
+    "subject": "Python Programs",
+    "level": "Intermediate",
+    "question": "Program 10: Add two lists without a loop, using lambda: a = [1, 2, 3], b = [4, 5, 6] → [5, 7, 9]",
+    "answer": "Logic: zip(a, b) pairs the items: (1, 4), (2, 5), (3, 6). map() applies a lambda to each pair and adds the two values. list() collects the results. map can also take two lists directly, so the lambda receives x and y. operator.add does the same without writing a lambda.",
+    "points": [
+      "zip pairs items",
+      "map applies the function",
+      "lambda value: value[0] + value[1]",
+      "map(lambda x, y: x + y, a, b)",
+      "operator.add"
+    ],
+    "code": "a = [1, 2, 3]\nb = [4, 5, 6]\n\n# 1) Interview answer: zip + map + lambda\nc = list(map(lambda value: value[0] + value[1], zip(a, b)))\nprint(c)            # [5, 7, 9]\n\n# 2) map with two lists: lambda gets x and y directly\nprint(list(map(lambda x, y: x + y, a, b)))     # [5, 7, 9]\n\n# 3) operator.add instead of a lambda\nfrom operator import add\nprint(list(map(add, a, b)))                    # [5, 7, 9]\n\n# 4) Most readable in real code (a comprehension)\nprint([x + y for x, y in zip(a, b)])           # [5, 7, 9]\n\n# Bonus: NumPy\nimport numpy as np\nprint(np.array(a) + np.array(b))               # [5 7 9]",
+    "memory": "Remember: zip to pair, map to apply, list to collect",
+    "tip": "Mention that a list comprehension is usually more readable in real code."
+  }
+]

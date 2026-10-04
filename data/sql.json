@@ -1,0 +1,1053 @@
+[
+  {
+    "id": "sql-6489f58e",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is SQL?",
+    "answer": "SQL (Structured Query Language) is the standard language to create, read, update and delete data in relational databases. It has DDL (CREATE, ALTER, DROP), DML (SELECT, INSERT, UPDATE, DELETE), DCL (GRANT, REVOKE) and TCL (COMMIT, ROLLBACK).",
+    "points": [
+      "DDL",
+      "DML",
+      "DCL",
+      "TCL"
+    ],
+    "code": "",
+    "memory": "Remember: Define, Manipulate, Control, Transaction",
+    "tip": "Give one example command for each group."
+  },
+  {
+    "id": "sql-7a4ba981",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What are the types of JOIN?",
+    "answer": "INNER JOIN returns only matching rows from both tables. LEFT JOIN returns all rows from the left table and matches from the right (NULL if none). RIGHT JOIN is the opposite. FULL OUTER JOIN returns all rows from both. CROSS JOIN returns every combination. SELF JOIN joins a table to itself, such as employee and manager.",
+    "points": [
+      "INNER",
+      "LEFT",
+      "RIGHT",
+      "FULL",
+      "CROSS",
+      "SELF"
+    ],
+    "code": "",
+    "memory": "Remember: INNER = common, LEFT = all left",
+    "tip": "Draw two circles if you need to explain."
+  },
+  {
+    "id": "sql-009c195a",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Primary key vs unique key vs foreign key?",
+    "answer": "A primary key uniquely identifies each row and cannot be NULL; a table has only one. A unique key also prevents duplicates but can allow NULL, and a table can have many. A foreign key references a primary key in another table to keep relations valid.",
+    "points": [
+      "Primary = unique + not null",
+      "Unique = no duplicates",
+      "Foreign = relation"
+    ],
+    "code": "",
+    "memory": "Remember: PK identifies, FK connects",
+    "tip": "Example: orders.user_id references users.id."
+  },
+  {
+    "id": "sql-e0a8a5de",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "DELETE vs TRUNCATE vs DROP?",
+    "answer": "DELETE removes selected rows with a WHERE clause, can be rolled back and fires triggers. TRUNCATE removes all rows quickly, resets auto-increment and usually cannot be filtered. DROP removes the whole table, including its structure.",
+    "points": [
+      "DELETE = rows",
+      "TRUNCATE = all rows",
+      "DROP = table"
+    ],
+    "code": "",
+    "memory": "Remember: Some rows, all rows, whole table",
+    "tip": "Always run DELETE with WHERE carefully in production."
+  },
+  {
+    "id": "sql-3887c7a0",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is GROUP BY?",
+    "answer": "GROUP BY groups rows with the same values so aggregate functions like COUNT, SUM, AVG, MIN and MAX work per group. Example: SELECT city, COUNT(*) FROM users GROUP BY city.",
+    "points": [
+      "Group rows",
+      "COUNT",
+      "SUM",
+      "AVG"
+    ],
+    "code": "",
+    "memory": "Remember: Group then aggregate",
+    "tip": "Use HAVING to filter the groups."
+  },
+  {
+    "id": "sql-9e308481",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "WHERE vs HAVING?",
+    "answer": "WHERE filters rows before grouping. HAVING filters groups after GROUP BY.",
+    "points": [
+      "WHERE = rows",
+      "HAVING = groups"
+    ],
+    "code": "",
+    "memory": "Remember: WHERE before GROUP, HAVING after",
+    "tip": "Use COUNT/SUM with HAVING as an example."
+  },
+  {
+    "id": "sql-b4b70939",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "What is a subquery vs a JOIN?",
+    "answer": "A subquery is a query inside another query, for example in WHERE or FROM. A JOIN combines tables side by side. JOINs are often faster and clearer for combining data; subqueries are useful for filters like IN or EXISTS.",
+    "points": [
+      "Subquery = query inside",
+      "JOIN = combine tables",
+      "EXISTS"
+    ],
+    "code": "",
+    "memory": "Remember: JOIN to combine, subquery to filter",
+    "tip": "EXISTS stops at the first match, so it can be faster than IN."
+  },
+  {
+    "id": "sql-64eb5f67",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What are window functions?",
+    "answer": "Window functions calculate over a set of rows without collapsing them like GROUP BY. Examples: ROW_NUMBER, RANK, DENSE_RANK, LAG, LEAD and SUM() OVER (PARTITION BY ... ORDER BY ...). Useful for rankings, running totals and top-N per group.",
+    "points": [
+      "OVER",
+      "PARTITION BY",
+      "ROW_NUMBER",
+      "RANK",
+      "LAG/LEAD"
+    ],
+    "code": "",
+    "memory": "Remember: Aggregate but keep rows",
+    "tip": "Common task: find the latest order per user."
+  },
+  {
+    "id": "sql-bd8e2716",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "How do you find the second highest salary?",
+    "answer": "Use SELECT MAX(salary) FROM employees WHERE salary < (SELECT MAX(salary) FROM employees). Or use DENSE_RANK() OVER (ORDER BY salary DESC) and pick rank 2. Or ORDER BY salary DESC LIMIT 1 OFFSET 1 with DISTINCT.",
+    "points": [
+      "Subquery",
+      "DENSE_RANK",
+      "LIMIT OFFSET"
+    ],
+    "code": "",
+    "memory": "Remember: Max below max",
+    "tip": "Mention DENSE_RANK handles ties correctly."
+  },
+  {
+    "id": "sql-d6f58370",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "How do you find duplicate records?",
+    "answer": "SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) > 1. To delete duplicates, keep the row with the smallest id using ROW_NUMBER or a self join.",
+    "points": [
+      "GROUP BY",
+      "HAVING COUNT > 1",
+      "ROW_NUMBER"
+    ],
+    "code": "",
+    "memory": "Remember: Group and count more than one",
+    "tip": "Add a unique index afterwards to stop new duplicates."
+  },
+  {
+    "id": "sql-f856d2b4",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What are ACID properties?",
+    "answer": "Atomicity: all or nothing. Consistency: data stays valid by the rules. Isolation: concurrent transactions do not interfere. Durability: committed data survives a crash.",
+    "points": [
+      "Atomicity",
+      "Consistency",
+      "Isolation",
+      "Durability"
+    ],
+    "code": "",
+    "memory": "Remember: All, Valid, Separate, Saved",
+    "tip": "Use a bank transfer as the example."
+  },
+  {
+    "id": "sql-2ed71391",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What are transaction isolation levels?",
+    "answer": "Read Uncommitted allows dirty reads. Read Committed prevents dirty reads. Repeatable Read also prevents non-repeatable reads. Serializable is the strictest and prevents phantom reads. Higher isolation means more locking and lower concurrency.",
+    "points": [
+      "Dirty read",
+      "Non-repeatable read",
+      "Phantom read",
+      "4 levels"
+    ],
+    "code": "",
+    "memory": "Remember: Higher level, safer but slower",
+    "tip": "MySQL InnoDB default is Repeatable Read; PostgreSQL default is Read Committed."
+  },
+  {
+    "id": "sql-5bc40db4",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is a view?",
+    "answer": "A view is a saved SELECT query that behaves like a virtual table. It simplifies complex queries and can hide sensitive columns. A normal view stores no data; it runs the query each time.",
+    "points": [
+      "Virtual table",
+      "Saved query",
+      "Security"
+    ],
+    "code": "",
+    "memory": "Remember: View = saved SELECT",
+    "tip": "A materialized view stores the result and must be refreshed."
+  },
+  {
+    "id": "sql-6038cd5a",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Stored procedure vs function vs trigger?",
+    "answer": "A stored procedure is saved SQL logic you call, and it can return multiple results or none. A function returns a single value and can be used inside a SELECT. A trigger runs automatically on INSERT, UPDATE or DELETE.",
+    "points": [
+      "Procedure = call",
+      "Function = returns value",
+      "Trigger = automatic"
+    ],
+    "code": "",
+    "memory": "Remember: Call, Return, Auto-run",
+    "tip": "Keep heavy business logic in the application when possible."
+  },
+  {
+    "id": "sql-c367368b",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "What is SQL injection and how do you prevent it?",
+    "answer": "SQL injection happens when user input is added directly into a query, letting an attacker change it. Prevent it with prepared statements or parameterized queries, input validation, least-privilege database users and ORM query builders.",
+    "points": [
+      "Prepared statements",
+      "Parameters",
+      "Validation",
+      "Least privilege"
+    ],
+    "code": "",
+    "memory": "Remember: Never concatenate user input",
+    "tip": "In CodeIgniter use query bindings or the Query Builder."
+  },
+  {
+    "id": "sql-1123d019",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is an index?",
+    "answer": "An index improves search performance on frequently queried columns. But indexes use storage and can make writes slower.",
+    "points": [
+      "Faster reads",
+      "Extra storage",
+      "Write cost"
+    ],
+    "code": "",
+    "memory": "Remember: Read faster, write cost",
+    "tip": "Choose indexes based on real query patterns."
+  },
+  {
+    "id": "sql-f8476ef9",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is normalization?",
+    "answer": "Normalization organizes database data to reduce duplicate data and improve consistency. Common forms include 1NF, 2NF and 3NF.",
+    "points": [
+      "Reduce duplication",
+      "Consistency",
+      "1NF",
+      "2NF",
+      "3NF"
+    ],
+    "code": "",
+    "memory": "Remember: Less duplicate data",
+    "tip": "Mention denormalization only when performance/read requirements justify it."
+  },
+  {
+    "id": "mysql-4be5c685",
+    "subject": "MySQL",
+    "level": "Intermediate",
+    "question": "What storage engines does MySQL have?",
+    "answer": "InnoDB is the default: it supports transactions, row-level locking, foreign keys and crash recovery. MyISAM is older: no transactions, table-level locking, but simple and fast for read-only data. Memory engine keeps data in RAM.",
+    "points": [
+      "InnoDB",
+      "MyISAM",
+      "Memory"
+    ],
+    "code": "",
+    "memory": "Remember: InnoDB for almost everything",
+    "tip": "Say you use InnoDB for transactional applications."
+  },
+  {
+    "id": "mysql-b53085dd",
+    "subject": "MySQL",
+    "level": "Intermediate",
+    "question": "What index types does MySQL support?",
+    "answer": "B-Tree indexes are the default and work for equality, range and sorting. Unique indexes prevent duplicates. Composite indexes cover several columns. Full-text indexes support text search. InnoDB tables are clustered by the primary key, and secondary indexes store the primary key.",
+    "points": [
+      "B-Tree",
+      "Unique",
+      "Composite",
+      "Full-text",
+      "Clustered PK"
+    ],
+    "code": "",
+    "memory": "Remember: Primary key is the clustered index",
+    "tip": "Keep the primary key small, like an INT or BIGINT."
+  },
+  {
+    "id": "mysql-cba96e9d",
+    "subject": "MySQL",
+    "level": "Beginner",
+    "question": "What is the leftmost prefix rule?",
+    "answer": "A composite index on (a, b, c) can be used for queries on a, a+b, or a+b+c, but not for b alone or c alone. Put the most commonly filtered and most selective equality columns first.",
+    "points": [
+      "Composite index",
+      "Leftmost",
+      "Column order"
+    ],
+    "code": "",
+    "memory": "Remember: Index works from the left",
+    "tip": "Range conditions stop the use of later columns."
+  },
+  {
+    "id": "mysql-66536021",
+    "subject": "MySQL",
+    "level": "Intermediate",
+    "question": "How do you use EXPLAIN in MySQL?",
+    "answer": "Run EXPLAIN before a SELECT to see the plan. Check type (ALL means full table scan; ref, range or const are better), key (which index is used), rows (estimated rows scanned) and Extra (Using filesort or Using temporary are warning signs). EXPLAIN ANALYZE shows actual timing.",
+    "points": [
+      "type",
+      "key",
+      "rows",
+      "Extra",
+      "EXPLAIN ANALYZE"
+    ],
+    "code": "",
+    "memory": "Remember: Avoid ALL, filesort, temporary",
+    "tip": "Also enable the slow query log to find slow queries."
+  },
+  {
+    "id": "mysql-4448d78e",
+    "subject": "MySQL",
+    "level": "Intermediate",
+    "question": "CHAR vs VARCHAR vs TEXT?",
+    "answer": "CHAR is fixed length and padded, good for fixed codes like country codes. VARCHAR is variable length up to a limit and is used for most strings. TEXT holds long content and has limits on indexing and defaults.",
+    "points": [
+      "CHAR = fixed",
+      "VARCHAR = variable",
+      "TEXT = long"
+    ],
+    "code": "",
+    "memory": "Remember: Fixed, Flexible, Big",
+    "tip": "Use utf8mb4 so emoji and all languages work."
+  },
+  {
+    "id": "mysql-0f967a50",
+    "subject": "MySQL",
+    "level": "Beginner",
+    "question": "What is MySQL replication?",
+    "answer": "The primary server writes changes to the binary log, and replicas read and apply it. Replication is usually asynchronous, so replicas may lag. It is used for read scaling, backups and failover.",
+    "points": [
+      "Binlog",
+      "Primary",
+      "Replica",
+      "Async",
+      "Lag"
+    ],
+    "code": "",
+    "memory": "Remember: Binlog copied to replicas",
+    "tip": "Semi-synchronous replication reduces data loss risk."
+  },
+  {
+    "id": "mysql-2d53011e",
+    "subject": "MySQL",
+    "level": "Intermediate",
+    "question": "How does locking work in InnoDB?",
+    "answer": "InnoDB uses row-level locks. Shared locks allow reading; exclusive locks are for writing. SELECT ... FOR UPDATE locks selected rows. Gap and next-key locks prevent phantom rows in Repeatable Read. Deadlocks are detected automatically and one transaction is rolled back.",
+    "points": [
+      "Row lock",
+      "FOR UPDATE",
+      "Gap lock",
+      "Deadlock"
+    ],
+    "code": "",
+    "memory": "Remember: Lock rows, not tables",
+    "tip": "Keep transactions short and access tables in the same order to avoid deadlocks."
+  },
+  {
+    "id": "mysql-bae2ae89",
+    "subject": "MySQL",
+    "level": "Intermediate",
+    "question": "How do you paginate large tables efficiently?",
+    "answer": "LIMIT with a large OFFSET is slow because MySQL still reads and skips all earlier rows. Use keyset (cursor) pagination instead: WHERE id > last_seen_id ORDER BY id LIMIT 20.",
+    "points": [
+      "OFFSET is slow",
+      "Keyset",
+      "Cursor",
+      "Index"
+    ],
+    "code": "",
+    "memory": "Remember: Remember the last id",
+    "tip": "Needs an index on the sort column."
+  },
+  {
+    "id": "mysql-b7108609",
+    "subject": "MySQL",
+    "level": "Intermediate",
+    "question": "What is the difference between MySQL and MariaDB?",
+    "answer": "MariaDB is a community fork of MySQL created by the original developers. It is mostly compatible but has differences in some features, storage engines and JSON handling. MySQL is owned by Oracle.",
+    "points": [
+      "Fork",
+      "Compatible",
+      "Oracle"
+    ],
+    "code": "",
+    "memory": "Remember: MariaDB = MySQL fork",
+    "tip": "XAMPP ships with MariaDB."
+  },
+  {
+    "id": "mysql-c40bbc78",
+    "subject": "MySQL",
+    "level": "Intermediate",
+    "question": "How do you back up a MySQL database?",
+    "answer": "Logical backup with mysqldump creates SQL statements and is simple for small databases. Physical backup with tools like Percona XtraBackup is faster for large databases. Binary logs allow point-in-time recovery.",
+    "points": [
+      "mysqldump",
+      "XtraBackup",
+      "Binlog",
+      "Point-in-time"
+    ],
+    "code": "",
+    "memory": "Remember: Dump, Copy, Replay",
+    "tip": "Always test restoring a backup."
+  },
+  {
+    "id": "mysql-c839403d",
+    "subject": "MySQL",
+    "level": "Intermediate",
+    "question": "How do you optimize a slow MySQL query?",
+    "answer": "Find it using the slow query log. Run EXPLAIN. Add or fix indexes, avoid SELECT *, avoid functions on indexed columns in WHERE, rewrite subqueries as joins where useful, and paginate with keyset. Measure again after the change.",
+    "points": [
+      "Slow log",
+      "EXPLAIN",
+      "Indexes",
+      "No SELECT *",
+      "Measure"
+    ],
+    "code": "",
+    "memory": "Remember: Find → Explain → Index → Verify",
+    "tip": "WHERE YEAR(created_at)=2024 cannot use the index; use a date range instead."
+  },
+  {
+    "id": "sql-5dd11af2",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "In what order does SQL run a SELECT query?",
+    "answer": "SQL does not run in the order you write it. The real order: FROM / JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT. That is why you cannot use a SELECT alias inside WHERE.",
+    "points": [
+      "FROM",
+      "WHERE",
+      "GROUP BY",
+      "HAVING",
+      "SELECT",
+      "ORDER BY",
+      "LIMIT"
+    ],
+    "code": "",
+    "memory": "Remember: From Where Group Having Select Order Limit",
+    "tip": "This explains many 'unknown column' errors."
+  },
+  {
+    "id": "sql-4949a8ee",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What does DISTINCT do?",
+    "answer": "DISTINCT removes duplicate rows from the result. It works on all selected columns together, not just the first one.",
+    "points": [
+      "Removes duplicates",
+      "All selected columns"
+    ],
+    "code": "SELECT DISTINCT city FROM customers;\n\nSELECT COUNT(DISTINCT customer_id) AS buyers FROM orders;",
+    "memory": "Remember: DISTINCT = unique rows",
+    "tip": "GROUP BY can often do the same and also count."
+  },
+  {
+    "id": "sql-e78f67a3",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "How does LIKE work?",
+    "answer": "LIKE searches text with patterns. % means any number of characters, _ means exactly one character. A pattern starting with % (like '%abc') cannot use a normal index, so it is slow on big tables.",
+    "points": [
+      "% = many chars",
+      "_ = one char",
+      "Leading % = no index"
+    ],
+    "code": "SELECT * FROM vehicles WHERE number LIKE 'MH12%';   -- starts with MH12\nSELECT * FROM users WHERE email LIKE '%@gmail.com'; -- ends with (slow)\nSELECT * FROM codes WHERE code LIKE 'A_1';          -- A + one char + 1",
+    "memory": "Remember: % anything, _ one",
+    "tip": "For real text search use FULLTEXT or a search engine."
+  },
+  {
+    "id": "sql-2e01e676",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "IN vs BETWEEN?",
+    "answer": "IN checks if a value is in a list. BETWEEN checks a range, and includes both ends.",
+    "points": [
+      "IN = list",
+      "BETWEEN = range, both ends included"
+    ],
+    "code": "SELECT * FROM orders WHERE status IN ('placed', 'confirmed');\n\nSELECT * FROM orders WHERE amount BETWEEN 100 AND 500;\n\nSELECT * FROM orders\nWHERE created_at >= '2024-01-01' AND created_at < '2024-02-01';",
+    "memory": "Remember: IN picks, BETWEEN ranges",
+    "tip": "For datetime columns, prefer >= start AND < next_day to avoid missing the last day."
+  },
+  {
+    "id": "sql-230cfe12",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "How do you handle NULL in SQL?",
+    "answer": "NULL means 'unknown'. You cannot compare it with = or !=; use IS NULL or IS NOT NULL. COALESCE (or IFNULL in MySQL) gives a default when the value is NULL. Any math with NULL gives NULL.",
+    "points": [
+      "IS NULL",
+      "IS NOT NULL",
+      "COALESCE",
+      "NULL + 1 = NULL"
+    ],
+    "code": "SELECT * FROM customers WHERE phone IS NULL;\n\nSELECT name, COALESCE(phone, 'Not given') AS phone FROM customers;",
+    "memory": "Remember: NULL is not equal to anything, even NULL",
+    "tip": "WHERE phone = NULL never matches anything."
+  },
+  {
+    "id": "sql-a0ea38a2",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is CASE WHEN?",
+    "answer": "CASE is like if-else inside SQL. It returns different values based on conditions. It is useful for labels, groups and conditional counts.",
+    "points": [
+      "if-else in SQL",
+      "WHEN ... THEN",
+      "ELSE",
+      "END"
+    ],
+    "code": "SELECT name, points,\n       CASE\n           WHEN points >= 5000 THEN 'Platinum'\n           WHEN points >= 2000 THEN 'Gold'\n           WHEN points >= 500  THEN 'Silver'\n           ELSE 'Basic'\n       END AS tier\nFROM customers;",
+    "memory": "Remember: CASE WHEN THEN ELSE END",
+    "tip": "Also useful inside SUM() for pivot reports."
+  },
+  {
+    "id": "sql-f9d995a4",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "UNION vs UNION ALL?",
+    "answer": "Both combine the results of two queries with the same columns. UNION removes duplicate rows (slower). UNION ALL keeps all rows (faster).",
+    "points": [
+      "UNION = remove duplicates",
+      "UNION ALL = keep all, faster"
+    ],
+    "code": "SELECT email FROM customers\nUNION\nSELECT email FROM newsletter_users;",
+    "memory": "Remember: ALL = all rows, no checking",
+    "tip": "Use UNION ALL when you know there are no duplicates."
+  },
+  {
+    "id": "sql-13a2d37b",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "What constraints are there in SQL?",
+    "answer": "NOT NULL: value required. UNIQUE: no duplicates. PRIMARY KEY: unique + not null row id. FOREIGN KEY: must match a row in another table. CHECK: value must pass a rule. DEFAULT: value used when none is given.",
+    "points": [
+      "NOT NULL",
+      "UNIQUE",
+      "PRIMARY KEY",
+      "FOREIGN KEY",
+      "CHECK",
+      "DEFAULT"
+    ],
+    "code": "CREATE TABLE products (\n    id       INT AUTO_INCREMENT PRIMARY KEY,\n    sku      VARCHAR(30) NOT NULL UNIQUE,\n    price    DECIMAL(10,2) NOT NULL CHECK (price >= 0),\n    status   VARCHAR(20) DEFAULT 'active',\n    category_id INT,\n    FOREIGN KEY (category_id) REFERENCES categories(id)\n);",
+    "memory": "Remember: Rules the database enforces for you",
+    "tip": "Constraints protect data even if the application has a bug."
+  },
+  {
+    "id": "sql-c9864784",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "How do you change a table (ALTER TABLE)?",
+    "answer": "ALTER TABLE adds, changes or removes columns and indexes. On a big production table, it can lock the table, so run it at a quiet time or use online schema-change tools.",
+    "points": [
+      "ADD COLUMN",
+      "MODIFY",
+      "DROP COLUMN",
+      "ADD INDEX",
+      "Lock risk"
+    ],
+    "code": "ALTER TABLE customers ADD COLUMN tier VARCHAR(20) DEFAULT 'Basic';\nALTER TABLE customers MODIFY COLUMN name VARCHAR(150) NOT NULL;\nALTER TABLE customers ADD INDEX idx_tier (tier);\nALTER TABLE customers DROP COLUMN old_flag;",
+    "memory": "Remember: ALTER = change table structure",
+    "tip": "Do schema changes through migrations (Alembic, Laravel)."
+  },
+  {
+    "id": "sql-b038d825",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "When should you NOT add an index?",
+    "answer": "Do not add indexes on small tables, on columns with very few different values (like a yes/no flag), on columns you never search by, or on tables with very heavy writes. Every index slows INSERT and UPDATE and uses space.",
+    "points": [
+      "Small tables",
+      "Low variety columns",
+      "Never searched",
+      "Write-heavy"
+    ],
+    "code": "",
+    "memory": "Remember: Index only what you search",
+    "tip": "Remove unused indexes; they cost on every write."
+  },
+  {
+    "id": "sql-b4bb34ab",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Clustered vs non-clustered index?",
+    "answer": "A clustered index decides the physical order of rows in the table; there is only one (in MySQL InnoDB it is the primary key). A non-clustered (secondary) index is a separate structure that points to the rows; a table can have many.",
+    "points": [
+      "Clustered = row order, only one",
+      "Non-clustered = separate, many"
+    ],
+    "code": "",
+    "memory": "Remember: Clustered = the book order, non-clustered = the index at the back",
+    "tip": "In InnoDB, secondary indexes store the primary key value."
+  },
+  {
+    "id": "sql-ab660c5c",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is a covering index?",
+    "answer": "A covering index contains all the columns a query needs, so the database can answer from the index alone without reading the table. This is very fast. EXPLAIN shows 'Using index'.",
+    "points": [
+      "All needed columns in index",
+      "No table read",
+      "'Using index'"
+    ],
+    "code": "CREATE INDEX idx_orders_cust_status_amount\n    ON orders (customer_id, status, amount);\n\n-- answered from the index only\nSELECT status, amount FROM orders WHERE customer_id = 42;",
+    "memory": "Remember: Index covers the whole query",
+    "tip": "Do not add too many columns; the index becomes large."
+  },
+  {
+    "id": "sql-2163d359",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Find the highest salary in each department.",
+    "answer": "Use GROUP BY department with MAX(salary). To also get the employee name, use a window function with RANK() or a join to the grouped result.",
+    "points": [
+      "GROUP BY + MAX",
+      "Window function for names"
+    ],
+    "code": "-- only the value\nSELECT department_id, MAX(salary) AS top_salary\nFROM employees\nGROUP BY department_id;\n\n-- with employee names\nSELECT name, department_id, salary\nFROM (\n    SELECT name, department_id, salary,\n           RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS rnk\n    FROM employees\n) t\nWHERE rnk = 1;",
+    "memory": "Remember: Group by dept, take max",
+    "tip": "Ask whether ties should return more than one person."
+  },
+  {
+    "id": "sql-ad12271e",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Find the top 3 orders for each customer.",
+    "answer": "Use ROW_NUMBER() with PARTITION BY customer, ordered by amount, then keep rows where the number is 3 or less.",
+    "points": [
+      "ROW_NUMBER",
+      "PARTITION BY",
+      "<= 3"
+    ],
+    "code": "SELECT *\nFROM (\n    SELECT o.*,\n           ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY amount DESC) AS rn\n    FROM orders o\n) t\nWHERE rn <= 3;",
+    "memory": "Remember: Number inside each group, then filter",
+    "tip": "This 'top N per group' question is very common."
+  },
+  {
+    "id": "sql-c8322b78",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "How do you calculate a running total?",
+    "answer": "Use SUM() OVER (ORDER BY date). It adds each row's value to the total of all previous rows. Add PARTITION BY to restart the total for each group.",
+    "points": [
+      "SUM() OVER",
+      "ORDER BY",
+      "PARTITION BY restarts"
+    ],
+    "code": "SELECT order_date,\n       amount,\n       SUM(amount) OVER (ORDER BY order_date) AS running_total\nFROM daily_sales;",
+    "memory": "Remember: Window SUM = running total",
+    "tip": "Useful for daily sales and points balance."
+  },
+  {
+    "id": "sql-7f0febd2",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Find employees who earn more than their manager.",
+    "answer": "Join the employees table to itself (self join): one copy for the employee and one for the manager, then compare salaries.",
+    "points": [
+      "Self join",
+      "e.manager_id = m.id",
+      "Compare salaries"
+    ],
+    "code": "SELECT e.name AS employee, e.salary, m.name AS manager, m.salary AS manager_salary\nFROM employees e\nJOIN employees m ON e.manager_id = m.id\nWHERE e.salary > m.salary;",
+    "memory": "Remember: Same table, two names",
+    "tip": "Classic self-join question."
+  },
+  {
+    "id": "sql-beafe6ed",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Find customers who never placed an order.",
+    "answer": "Use LEFT JOIN and keep rows where the order side is NULL. NOT EXISTS also works well.",
+    "points": [
+      "LEFT JOIN + IS NULL",
+      "NOT EXISTS"
+    ],
+    "code": "SELECT c.id, c.name\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nWHERE o.id IS NULL;\n\n-- or\nSELECT c.id, c.name\nFROM customers c\nWHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.id);",
+    "memory": "Remember: Left join, then find the empty right side",
+    "tip": "Avoid NOT IN if the subquery can return NULL; it gives no rows."
+  },
+  {
+    "id": "sql-9d68a94b",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Count orders per customer, including customers with zero orders.",
+    "answer": "Use LEFT JOIN so customers without orders still appear, and COUNT(o.id), not COUNT(*). COUNT(*) would count 1 for customers with no orders.",
+    "points": [
+      "LEFT JOIN",
+      "COUNT(o.id)",
+      "Zero shows as 0"
+    ],
+    "code": "SELECT c.name, COUNT(o.id) AS total_orders\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name;",
+    "memory": "Remember: COUNT(column) skips NULL",
+    "tip": "Interviewers check if you know COUNT(*) vs COUNT(column)."
+  },
+  {
+    "id": "sql-aa232978",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "COUNT(*) vs COUNT(column) vs COUNT(DISTINCT column)?",
+    "answer": "COUNT(*) counts all rows. COUNT(column) counts rows where that column is not NULL. COUNT(DISTINCT column) counts unique non-NULL values.",
+    "points": [
+      "COUNT(*) = all rows",
+      "COUNT(col) = not NULL",
+      "COUNT(DISTINCT) = unique"
+    ],
+    "code": "",
+    "memory": "Remember: Star counts everything",
+    "tip": "Same answer for MySQL and PostgreSQL."
+  },
+  {
+    "id": "sql-6d4ad04a",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Delete duplicate rows but keep one.",
+    "answer": "Find duplicates by the columns that should be unique, keep the row with the smallest id, and delete the others. Afterwards, add a UNIQUE index so duplicates cannot come back.",
+    "points": [
+      "Self join or ROW_NUMBER",
+      "Keep smallest id",
+      "Add UNIQUE after"
+    ],
+    "code": "-- MySQL: keep the lowest id for each email\nDELETE c1\nFROM customers c1\nJOIN customers c2\n  ON c1.email = c2.email\n AND c1.id > c2.id;\n\nALTER TABLE customers ADD UNIQUE KEY uq_email (email);",
+    "memory": "Remember: Keep one, delete rest, then block",
+    "tip": "Always take a backup or test with SELECT before DELETE."
+  },
+  {
+    "id": "sql-c192d0b9",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "How do you get records from the last 30 days?",
+    "answer": "Compare the date column with the current date minus 30 days. Do not wrap the column in a function (like DATE(created_at)), because then the index cannot be used.",
+    "points": [
+      "NOW() - INTERVAL",
+      "Keep column clean",
+      "Index friendly"
+    ],
+    "code": "-- MySQL\nSELECT * FROM orders\nWHERE created_at >= NOW() - INTERVAL 30 DAY;\n\n-- PostgreSQL\nSELECT * FROM orders\nWHERE created_at >= NOW() - INTERVAL '30 days';",
+    "memory": "Remember: Do math on the value side, not the column",
+    "tip": "PostgreSQL: NOW() - INTERVAL '30 days'."
+  },
+  {
+    "id": "sql-71a55cd6",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Common SQL string and date functions?",
+    "answer": "String: CONCAT, UPPER, LOWER, TRIM, SUBSTRING, LENGTH, REPLACE. Date: NOW, CURDATE, DATE_FORMAT (MySQL), DATEDIFF, DATE_ADD, EXTRACT / YEAR / MONTH.",
+    "points": [
+      "CONCAT",
+      "TRIM",
+      "SUBSTRING",
+      "NOW",
+      "DATEDIFF",
+      "DATE_FORMAT"
+    ],
+    "code": "SELECT CONCAT(first_name, ' ', last_name) AS full_name,\n       UPPER(city),\n       DATE_FORMAT(created_at, '%d-%m-%Y') AS joined,\n       DATEDIFF(NOW(), created_at) AS days_since_join\nFROM customers;",
+    "memory": "Remember: Format in SQL only when needed; often better in code",
+    "tip": "Functions on indexed columns in WHERE stop index use."
+  },
+  {
+    "id": "sql-13836257",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "How do you make a pivot report (monthly sales in columns)?",
+    "answer": "Use SUM with CASE WHEN for each column you want. Each CASE adds the amount only when the row matches that month.",
+    "points": [
+      "SUM(CASE WHEN ...)",
+      "One column per value",
+      "GROUP BY"
+    ],
+    "code": "SELECT product_id,\n       SUM(CASE WHEN MONTH(order_date) = 1 THEN amount ELSE 0 END) AS jan,\n       SUM(CASE WHEN MONTH(order_date) = 2 THEN amount ELSE 0 END) AS feb,\n       SUM(CASE WHEN MONTH(order_date) = 3 THEN amount ELSE 0 END) AS mar\nFROM orders\nWHERE order_date >= '2024-01-01' AND order_date < '2024-04-01'\nGROUP BY product_id;",
+    "memory": "Remember: CASE inside SUM = pivot",
+    "tip": "Useful for dashboard reports."
+  },
+  {
+    "id": "sql-27c2e294",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "EXISTS vs IN?",
+    "answer": "IN compares a value with a list of values from a subquery. EXISTS only checks if at least one matching row exists and stops at the first match. EXISTS is often faster for big subqueries, and NOT EXISTS is safer than NOT IN when NULLs are possible.",
+    "points": [
+      "IN = list",
+      "EXISTS = any row?",
+      "Stops at first match",
+      "NOT IN + NULL problem"
+    ],
+    "code": "",
+    "memory": "Remember: EXISTS asks 'is there any?'",
+    "tip": "Modern databases often optimize both similarly; check with EXPLAIN."
+  },
+  {
+    "id": "sql-c877cab2",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is a correlated subquery?",
+    "answer": "A correlated subquery uses a value from the outer query, so it runs once for each outer row. It is easy to write but can be slow on big tables; a JOIN or window function is often faster.",
+    "points": [
+      "Uses outer value",
+      "Runs per row",
+      "Can be slow",
+      "Rewrite as JOIN"
+    ],
+    "code": "SELECT e.name, e.salary\nFROM employees e\nWHERE e.salary > (\n    SELECT AVG(e2.salary)\n    FROM employees e2\n    WHERE e2.department_id = e.department_id   -- uses outer row\n);",
+    "memory": "Remember: Correlated = depends on outer row",
+    "tip": "Example: employees earning above their department average."
+  },
+  {
+    "id": "sql-305ee19f",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "CTE vs subquery vs temporary table?",
+    "answer": "Subquery: a query inside another query. CTE (WITH): a named subquery that makes long queries easier to read and can be recursive. Temporary table: a real table that exists only for your session; useful when you reuse a big result many times.",
+    "points": [
+      "Subquery = inline",
+      "CTE = named, readable",
+      "Temp table = stored for session"
+    ],
+    "code": "WITH monthly AS (\n    SELECT customer_id, SUM(amount) AS total\n    FROM orders\n    WHERE order_date >= '2024-01-01'\n    GROUP BY customer_id\n)\nSELECT c.name, m.total\nFROM monthly m\nJOIN customers c ON c.id = m.customer_id\nWHERE m.total > 10000;",
+    "memory": "Remember: Readability → CTE, reuse many times → temp table",
+    "tip": "Mention recursive CTEs for tree data."
+  },
+  {
+    "id": "sql-ac64c14d",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is denormalization? When do you use it?",
+    "answer": "Denormalization means keeping some duplicate data on purpose to make reads faster, for example storing customer_name inside orders, or keeping summary tables. It is used for heavy reports and dashboards. The cost is that you must keep the copies updated.",
+    "points": [
+      "Duplicate on purpose",
+      "Faster reads",
+      "Summary tables",
+      "Must keep in sync"
+    ],
+    "code": "",
+    "memory": "Remember: Normalize first, denormalize when reads are slow",
+    "tip": "Daily summary tables for dashboards are a good real-world example."
+  },
+  {
+    "id": "sql-1d8eaae6",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "OLTP vs OLAP?",
+    "answer": "OLTP (online transaction processing) handles many small, fast reads and writes, like orders and payments; it uses normalized tables. OLAP (online analytical processing) handles big reports over lots of data; it uses data warehouses and denormalized tables.",
+    "points": [
+      "OLTP = daily transactions",
+      "OLAP = reports / analytics"
+    ],
+    "code": "",
+    "memory": "Remember: OLTP runs the business, OLAP analyzes it",
+    "tip": "MySQL / PostgreSQL = OLTP; BigQuery / Redshift = OLAP."
+  },
+  {
+    "id": "sql-b1f5edfb",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "What is a deadlock? How do you avoid it?",
+    "answer": "A deadlock happens when two transactions each hold a lock the other one needs, so both wait forever. The database detects it and cancels one. Avoid it by keeping transactions short, locking rows in the same order everywhere, and using proper indexes. Retry the cancelled transaction.",
+    "points": [
+      "Two transactions wait for each other",
+      "DB cancels one",
+      "Same lock order",
+      "Short transactions",
+      "Retry"
+    ],
+    "code": "",
+    "memory": "Remember: Same order, short time, retry",
+    "tip": "MySQL: SHOW ENGINE INNODB STATUS shows the last deadlock."
+  },
+  {
+    "id": "sql-ec908c64",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "Optimistic vs pessimistic locking?",
+    "answer": "Pessimistic locking locks the row while you work (SELECT ... FOR UPDATE), so others must wait. Optimistic locking does not lock; it keeps a version number and checks it when updating. If someone else changed the row, the update fails and you retry.",
+    "points": [
+      "Pessimistic = lock first",
+      "Optimistic = check version on update"
+    ],
+    "code": "-- pessimistic\nSTART TRANSACTION;\nSELECT points FROM customers WHERE id = 42 FOR UPDATE;\nUPDATE customers SET points = points - 500 WHERE id = 42;\nCOMMIT;\n\n-- optimistic\nUPDATE customers\nSET points = points - 500, version = version + 1\nWHERE id = 42 AND version = 7;   -- 0 rows updated = someone changed it",
+    "memory": "Remember: Pessimistic waits, optimistic checks",
+    "tip": "Use pessimistic for money and stock; optimistic when conflicts are rare."
+  },
+  {
+    "id": "sql-4e87cf7e",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is a soft delete?",
+    "answer": "Instead of deleting a row, you set a column like deleted_at or is_deleted. The data stays for history and can be restored. All normal queries must filter out deleted rows.",
+    "points": [
+      "deleted_at column",
+      "Keep history",
+      "Can restore",
+      "Filter in queries"
+    ],
+    "code": "UPDATE customers SET deleted_at = NOW() WHERE id = 42;\n\nSELECT * FROM customers WHERE deleted_at IS NULL;",
+    "memory": "Remember: Hide, don't delete",
+    "tip": "Laravel has SoftDeletes built in."
+  },
+  {
+    "id": "sql-522b9e38",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "How do you store money, dates and time zones correctly?",
+    "answer": "Money: DECIMAL(10,2), never FLOAT, because FLOAT gives rounding errors. Dates and times: store in UTC (DATETIME or TIMESTAMP) and convert to the user's time zone when showing. Use utf8mb4 for text so all languages and emoji work.",
+    "points": [
+      "DECIMAL for money",
+      "UTC for time",
+      "Convert on display",
+      "utf8mb4"
+    ],
+    "code": "",
+    "memory": "Remember: Money = DECIMAL, Time = UTC",
+    "tip": "0.1 + 0.2 in FLOAT is not exactly 0.3."
+  },
+  {
+    "id": "sql-ed920e5d",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What are 1-to-1, 1-to-many and many-to-many relationships?",
+    "answer": "1-to-1: one user has one profile. 1-to-many: one customer has many orders (put customer_id in orders). Many-to-many: a product can be in many orders and an order has many products; use a middle (junction) table like order_items.",
+    "points": [
+      "1:1",
+      "1:N = foreign key",
+      "M:N = junction table"
+    ],
+    "code": "CREATE TABLE order_items (\n    order_id   BIGINT NOT NULL,\n    product_id BIGINT NOT NULL,\n    quantity   INT NOT NULL,\n    price      DECIMAL(10,2) NOT NULL,\n    PRIMARY KEY (order_id, product_id),\n    FOREIGN KEY (order_id)   REFERENCES orders(id),\n    FOREIGN KEY (product_id) REFERENCES products(id)\n);",
+    "memory": "Remember: Many-to-many needs a middle table",
+    "tip": "order_items is the classic junction table example."
+  },
+  {
+    "id": "sql-ff5cd812",
+    "subject": "SQL",
+    "level": "Advanced",
+    "question": "What are the best practices for database changes in production?",
+    "answer": "Always use migration files in Git. Take a backup first. Test on staging. Make changes backward compatible (for example, add a column first, deploy code, then remove old columns later). Avoid long locks on big tables during busy hours.",
+    "points": [
+      "Migrations in Git",
+      "Backup",
+      "Staging test",
+      "Backward compatible",
+      "Quiet hours"
+    ],
+    "code": "",
+    "memory": "Remember: Backup → Test → Small steps",
+    "tip": "Interviewers like the 'expand then contract' idea for zero-downtime changes."
+  },
+  {
+    "id": "sql-197cbaf2",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "What is the difference between DELETE with a JOIN and a normal DELETE?",
+    "answer": "A normal DELETE removes rows based on conditions on one table. DELETE with JOIN lets you remove rows based on data in another table, for example delete orders of blocked customers. Always run the same query as SELECT first to check which rows will be deleted.",
+    "points": [
+      "Normal = one table",
+      "With JOIN = based on other table",
+      "SELECT first"
+    ],
+    "code": "-- check first\nSELECT o.* FROM orders o\nJOIN customers c ON c.id = o.customer_id\nWHERE c.status = 'blocked';\n\n-- then delete (MySQL)\nDELETE o FROM orders o\nJOIN customers c ON c.id = o.customer_id\nWHERE c.status = 'blocked';",
+    "memory": "Remember: SELECT before DELETE",
+    "tip": "Use transactions so you can roll back a mistake."
+  },
+  {
+    "id": "sql-a0813772",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "RANK vs DENSE_RANK vs ROW_NUMBER?",
+    "answer": "ROW_NUMBER gives every row a unique number (1, 2, 3, 4). RANK gives the same number for ties and then skips (1, 2, 2, 4). DENSE_RANK gives the same number for ties without skipping (1, 2, 2, 3).",
+    "points": [
+      "ROW_NUMBER = always unique",
+      "RANK = ties, gaps",
+      "DENSE_RANK = ties, no gaps"
+    ],
+    "code": "",
+    "memory": "Remember: Row unique, Rank skips, Dense doesn't",
+    "tip": "Draw a small table with two equal salaries to explain."
+  },
+  {
+    "id": "sql-57faf84b",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "DROP vs TRUNCATE vs DELETE: rollback, triggers, speed and identity?",
+    "answer": "DELETE (DML) removes rows, optionally with WHERE. It removes row by row, fires DELETE triggers, can be rolled back, and keeps the AUTO_INCREMENT counter. It is slowest on big tables. TRUNCATE removes all rows at once (no WHERE). It is very fast and resets the AUTO_INCREMENT counter, and does not fire DELETE triggers. In MySQL it is DDL with an automatic commit, so you cannot roll it back, and it fails if other tables have foreign keys pointing to it. In PostgreSQL TRUNCATE can be rolled back inside a transaction, and you choose RESTART IDENTITY and CASCADE. DROP removes the whole table: data, structure, indexes and triggers. In MySQL it cannot be rolled back.",
+    "points": [
+      "DELETE: rows, WHERE, triggers, rollback",
+      "TRUNCATE: all rows, fast, resets ID",
+      "TRUNCATE in MySQL: auto-commit, no rollback",
+      "TRUNCATE in PostgreSQL: transactional",
+      "DROP: removes the table itself"
+    ],
+    "code": "-- DELETE: some rows, can be rolled back, fires triggers\nSTART TRANSACTION;\nDELETE FROM orders WHERE status = 'cancelled';\nROLLBACK;                         -- rows come back\n\n-- TRUNCATE: all rows, fast, ID counter reset\nTRUNCATE TABLE order_logs;        -- MySQL: auto-commit, no rollback\n-- PostgreSQL:\n-- BEGIN;\n-- TRUNCATE TABLE order_logs RESTART IDENTITY CASCADE;\n-- ROLLBACK;                      -- works in PostgreSQL\n\n-- DROP: table is gone (structure + data + indexes)\nDROP TABLE IF EXISTS temp_import;",
+    "memory": "Remember: DELETE = some rows, TRUNCATE = all rows, DROP = the table",
+    "tip": "Say 'it depends on the database' for rollback: MySQL and PostgreSQL behave differently."
+  },
+  {
+    "id": "sql-489c4235",
+    "subject": "SQL",
+    "level": "Intermediate",
+    "question": "What is a view? Explain with an example. View vs materialized view?",
+    "answer": "A view is a saved SELECT query with a name that you use like a table. It stores no data (a normal view); the query runs every time you select from it. Uses: hide complex joins, give users only some columns (security), and keep a stable interface even if tables change. Simple views on one table can sometimes be updated. A materialized view (PostgreSQL, Oracle) stores the result on disk, so reads are very fast, but the data can be old until you refresh it. MySQL has no materialized views; you use a summary table refreshed by a job instead.",
+    "points": [
+      "Saved SELECT query",
+      "No data stored (normal view)",
+      "Hide joins, limit columns",
+      "Materialized = stored result",
+      "Refresh materialized views",
+      "MySQL: summary table instead"
+    ],
+    "code": "-- Normal view: hides the join\nCREATE VIEW customer_order_summary AS\nSELECT c.id, c.name, COUNT(o.id) AS total_orders, COALESCE(SUM(o.amount), 0) AS total_spent\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name;\n\nSELECT * FROM customer_order_summary WHERE total_spent > 10000;\n\n-- Security: expose only safe columns\nCREATE VIEW public_users AS SELECT id, name, city FROM users;\n\n-- PostgreSQL materialized view: stored result\nCREATE MATERIALIZED VIEW daily_sales AS\nSELECT DATE(created_at) AS day, SUM(amount) AS total\nFROM orders GROUP BY DATE(created_at);\n\nREFRESH MATERIALIZED VIEW daily_sales;    -- run from a nightly job",
+    "memory": "Remember: View = saved query, Materialized view = saved result",
+    "tip": "Use materialized views for heavy reports and dashboards that can be a few minutes old."
+  },
+  {
+    "id": "sql-49577e59",
+    "subject": "SQL",
+    "level": "Beginner",
+    "question": "What is a trigger? Write a trigger example.",
+    "answer": "A trigger is SQL code that runs automatically BEFORE or AFTER an INSERT, UPDATE or DELETE on a table, for each affected row. Inside it, OLD is the row before the change and NEW is the row after. Uses: audit logs (who changed what), automatically setting updated_at, keeping a summary column in sync, or blocking invalid changes. Downsides: the logic is hidden from application code, it is harder to debug and test, and it slows down writes. So keep triggers small and keep main business logic in the application.",
+    "points": [
+      "Runs automatically",
+      "BEFORE / AFTER",
+      "INSERT / UPDATE / DELETE",
+      "OLD and NEW rows",
+      "Audit log, updated_at",
+      "Hidden logic, slower writes"
+    ],
+    "code": "-- MySQL: audit every order status change\nCREATE TABLE order_audit (\n    id INT AUTO_INCREMENT PRIMARY KEY,\n    order_id INT,\n    old_status VARCHAR(20),\n    new_status VARCHAR(20),\n    changed_at DATETIME DEFAULT CURRENT_TIMESTAMP\n);\n\nDELIMITER //\nCREATE TRIGGER trg_order_status_audit\nAFTER UPDATE ON orders\nFOR EACH ROW\nBEGIN\n    IF OLD.status <> NEW.status THEN\n        INSERT INTO order_audit (order_id, old_status, new_status)\n        VALUES (NEW.id, OLD.status, NEW.status);\n    END IF;\nEND //\nDELIMITER ;\n\n-- PostgreSQL: auto-update updated_at\nCREATE OR REPLACE FUNCTION set_updated_at() RETURNS TRIGGER AS $$\nBEGIN\n    NEW.updated_at = NOW();\n    RETURN NEW;\nEND;\n$$ LANGUAGE plpgsql;\n\nCREATE TRIGGER trg_orders_updated_at\nBEFORE UPDATE ON orders\nFOR EACH ROW EXECUTE FUNCTION set_updated_at();",
+    "memory": "Remember: Trigger = automatic reaction to a data change",
+    "tip": "A good real example to mention is an audit table that records order status changes."
+  }
+]
