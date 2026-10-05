@@ -2108,5 +2108,224 @@
     "code": "# authors.txt\n#   nagesh = Nagesh Gavhane <nagesh@example.com>\n\ngit svn clone https://svn.example.com/repo --stdlayout --authors-file=authors.txt --no-metadata project-git\ncd project-git\n\n# Turn SVN tags (imported as remote branches) into real Git tags\ngit for-each-ref --format=\"%(refname:short)\" refs/remotes/origin/tags | while read tag; do\n  git tag \"${tag#origin/tags/}\" \"$tag\"\ndone\n\ngit remote add origin git@bitbucket.org:team/project.git\ngit push -u origin --all\ngit push origin --tags",
     "memory": "Remember: Map authors, clone with history, push, freeze SVN",
     "tip": "A tool like svn2git automates the branch and tag conversion."
+  },
+  {
+    "id": "aws-606212ad",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "AWS vs Azure vs Google Cloud: what are the main differences?",
+    "answer": "All three offer the same building blocks (virtual machines, storage, databases, serverless, containers, AI) and are reliable for production. The differences are in strengths and fit. AWS is the oldest and largest, with the widest range of services, the most regions and the biggest community, so most backend and startup jobs ask for AWS. Azure is strongest in companies that already use Microsoft: Windows Server, SQL Server, .NET, Office 365 and Microsoft Entra ID (formerly Azure Active Directory) for login, and it has good hybrid (on-premises plus cloud) support. Google Cloud (GCP) is strongest in data, analytics and Kubernetes: BigQuery, GKE (Kubernetes was created at Google) and Vertex AI, and many developers find its console and networking simpler. In an interview, say that the concepts transfer: if you know AWS well, you can learn Azure or GCP quickly, because only the names and some details change.",
+    "points": [
+      "AWS = largest, most services, most jobs",
+      "Azure = best for Microsoft shops (Windows, .NET, SQL Server, Entra ID)",
+      "Google Cloud = data, analytics, Kubernetes, AI",
+      "Same building blocks, different names",
+      "Concepts transfer between clouds"
+    ],
+    "code": "",
+    "memory": "Remember: AWS = breadth, Azure = Microsoft, Google = data and Kubernetes",
+    "tip": "Don't say one cloud is 'the best'; say which one fits which company and why. Market share changes every year, so avoid quoting exact percentages unless you are sure."
+  },
+  {
+    "id": "aws-5219f35b",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "Map common AWS services to Azure and Google Cloud.",
+    "answer": "Most services have a direct equivalent; learning the mapping makes you useful on any cloud. Virtual machines: EC2 / Azure Virtual Machines / Compute Engine. Object storage: S3 / Blob Storage / Cloud Storage. Serverless functions: Lambda / Azure Functions / Cloud Run functions (formerly Cloud Functions). Serverless containers: Fargate or App Runner / Azure Container Apps / Cloud Run. Kubernetes: EKS / AKS / GKE. Relational database: RDS and Aurora / Azure SQL Database and Azure Database for PostgreSQL or MySQL / Cloud SQL and AlloyDB. NoSQL: DynamoDB / Cosmos DB / Firestore and Bigtable. Redis cache: ElastiCache / Azure Managed Redis (Azure Cache for Redis) / Memorystore. Queues and messaging: SQS and SNS / Service Bus and Event Grid / Pub/Sub and Cloud Tasks. Identity and permissions: IAM / Microsoft Entra ID with Azure RBAC / Cloud IAM. Monitoring: CloudWatch / Azure Monitor and Application Insights / Cloud Monitoring and Cloud Logging. Secrets: Secrets Manager / Key Vault / Secret Manager. CDN: CloudFront / Azure Front Door / Cloud CDN. DNS: Route 53 / Azure DNS / Cloud DNS. Data warehouse: Redshift / Synapse Analytics or Microsoft Fabric / BigQuery. Infrastructure as code: CloudFormation and CDK / ARM templates and Bicep / Infrastructure Manager (Terraform), and Terraform works on all three.",
+    "points": [
+      "EC2 = Azure VM = Compute Engine",
+      "S3 = Blob Storage = Cloud Storage",
+      "Lambda = Azure Functions = Cloud Run functions",
+      "EKS = AKS = GKE",
+      "RDS = Azure SQL / Azure Database = Cloud SQL",
+      "DynamoDB = Cosmos DB = Firestore",
+      "SQS / SNS = Service Bus / Event Grid = Pub/Sub",
+      "CloudWatch = Azure Monitor = Cloud Monitoring",
+      "Terraform works on all three"
+    ],
+    "code": "Service              AWS                     Azure                              Google Cloud\n-------------------  ----------------------  ---------------------------------  --------------------------\nVirtual machines     EC2                     Virtual Machines                   Compute Engine\nObject storage       S3                      Blob Storage                       Cloud Storage\nBlock disks          EBS                     Managed Disks                      Persistent Disk\nFunctions            Lambda                  Azure Functions                    Cloud Run functions\nServerless containers Fargate / App Runner   Container Apps                     Cloud Run\nKubernetes           EKS                     AKS                                GKE\nContainer registry   ECR                     Container Registry (ACR)           Artifact Registry\nPaaS web apps        Elastic Beanstalk       App Service                        App Engine\nRelational DB        RDS / Aurora            Azure SQL / Azure Database for     Cloud SQL / AlloyDB\n                                             PostgreSQL / MySQL\nNoSQL                DynamoDB                Cosmos DB                          Firestore / Bigtable\nRedis cache          ElastiCache             Azure Managed Redis                Memorystore\nQueue                SQS                     Service Bus / Storage Queues       Cloud Tasks / Pub/Sub\nPub/sub, events      SNS / EventBridge       Event Grid / Event Hubs            Pub/Sub / Eventarc\nPrivate network      VPC                     Virtual Network (VNet)             VPC (global)\nLoad balancer        ELB (ALB / NLB)         Load Balancer / Application GW     Cloud Load Balancing\nCDN                  CloudFront              Front Door                         Cloud CDN\nDNS                  Route 53                Azure DNS                          Cloud DNS\nIdentity, access     IAM                     Entra ID + Azure RBAC              Cloud IAM\nSecrets              Secrets Manager         Key Vault                          Secret Manager\nMonitoring, logs     CloudWatch              Azure Monitor / App Insights       Cloud Monitoring / Logging\nData warehouse       Redshift                Synapse / Microsoft Fabric         BigQuery\nGenAI models         Bedrock                 Azure OpenAI (AI Foundry)          Vertex AI (Gemini)\nInfra as code        CloudFormation / CDK    ARM / Bicep                        Infrastructure Manager\n                     (Terraform works on all three)",
+    "memory": "Remember: same jobs, three names: server, storage, function, database, queue, monitor",
+    "tip": "Learn the mapping for the services you actually used (EC2, S3, RDS, Lambda, CloudWatch), so you can answer 'what is the Azure equivalent of X?' instantly.",
+    "language": "plaintext"
+  },
+  {
+    "id": "aws-3f0119ac",
+    "subject": "AWS",
+    "level": "Advanced",
+    "question": "How do you choose between AWS, Azure and Google Cloud for a project?",
+    "answer": "Decide on facts, not habit. 1) Existing ecosystem: a company on Microsoft 365, Windows, .NET and Entra ID usually fits Azure; a data-heavy company using BigQuery or Kubernetes may fit GCP; a startup that wants the widest choice and the easiest hiring often picks AWS. 2) Team skills: the cloud your team already knows is faster and safer to run. 3) Required services and regions: check that the exact services (for example a managed database version or a GenAI model) and regions close to your users (for example Mumbai or Hyderabad for India) exist, plus any data-residency rules. 4) Cost: compare the real monthly bill for your workload with discounts (reserved, savings plans, committed use) and data-transfer (egress) costs, not just list prices; credits and existing enterprise agreements matter too. 5) Compliance and support needs. 6) Lock-in risk: prefer portable building blocks (Docker, PostgreSQL, Redis, Terraform, OpenTelemetry) for the core so moving later is possible. For most teams one primary cloud is simpler than multi-cloud.",
+    "points": [
+      "Existing ecosystem (Microsoft → Azure, data / Kubernetes → GCP)",
+      "Team skills and hiring",
+      "Exact services + nearby regions + data residency",
+      "Real cost incl. discounts and egress",
+      "Compliance and support",
+      "Portable core to limit lock-in",
+      "One primary cloud is usually simpler"
+    ],
+    "code": "",
+    "memory": "Remember: Ecosystem, Skills, Services, Cost, Compliance, Lock-in",
+    "tip": "A strong answer ends with a recommendation for a concrete case, for example: 'For a FastAPI + PostgreSQL + Redis product with an AWS-skilled team, I would choose AWS: ECS or Lambda, RDS, ElastiCache.'"
+  },
+  {
+    "id": "aws-e0c3eee9",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "Serverless: AWS Lambda vs Azure Functions vs Google Cloud Run functions (and Cloud Run)?",
+    "answer": "All three run your code on events (HTTP requests, file uploads, queue messages, schedules) and bill only for usage. AWS Lambda: the most mature, with the deepest integration with other AWS services (S3, SQS, DynamoDB Streams, EventBridge); one request per execution environment; maximum 15 minutes per run. Azure Functions: triggers and bindings let you connect to storage, queues and Cosmos DB with little code; several hosting plans (Consumption or Flex Consumption for pay-per-use, Premium for pre-warmed instances, or a dedicated App Service plan); Durable Functions add stateful workflows. Google Cloud Run functions (formerly Cloud Functions) run on top of Cloud Run, and Cloud Run itself runs any container on demand, scales to zero, and one instance can handle many requests at once, which reduces cold starts and cost for web APIs. All three have cold starts, timeouts and memory limits; for long or steady workloads, containers on ECS, AKS or GKE can be cheaper.",
+    "points": [
+      "Event-driven, pay per use",
+      "Lambda = most mature, deep AWS integration, 15 min max",
+      "Azure Functions = triggers + bindings, several plans, Durable Functions",
+      "Cloud Run = any container, scales to zero, many requests per instance",
+      "All have cold starts and limits",
+      "Steady load → containers can be cheaper"
+    ],
+    "code": "",
+    "memory": "Remember: Lambda integrates, Azure binds, Cloud Run runs any container",
+    "tip": "Mention that FastAPI runs on all three: Lambda with Mangum, Azure Functions with its ASGI support, or directly as a container on Cloud Run."
+  },
+  {
+    "id": "aws-23063d6e",
+    "subject": "AWS",
+    "level": "Advanced",
+    "question": "Kubernetes: EKS vs AKS vs GKE?",
+    "answer": "All three are managed Kubernetes services: the cloud runs the control plane and you run your workloads on worker nodes. GKE (Google) is often seen as the most polished, since Kubernetes came from Google: fast upgrades, strong autoscaling, and Autopilot mode, where Google manages the nodes and you pay per pod. AKS (Azure) offers a free control-plane tier and tight integration with Entra ID, Azure Monitor and Azure DevOps. EKS (AWS) integrates with IAM (IAM roles for service accounts or Pod Identity), VPC networking, ALB and the rest of AWS; you can run nodes on EC2, use Fargate for serverless pods, or use EKS Auto Mode for AWS-managed nodes; the control plane has an hourly charge. Your Kubernetes YAML, Helm charts and Docker images work on all three; the differences are in networking, identity, add-ons, upgrades and pricing.",
+    "points": [
+      "All = managed control plane",
+      "GKE = most polished, Autopilot mode",
+      "AKS = free control-plane tier, Entra ID integration",
+      "EKS = deep AWS integration, Fargate / Auto Mode, hourly control-plane fee",
+      "Same YAML, Helm and images everywhere",
+      "Differences: networking, identity, upgrades, cost"
+    ],
+    "code": "",
+    "memory": "Remember: Kubernetes is the same; the cloud glue is different",
+    "tip": "If you haven't used Kubernetes in production, say so and explain that you deployed containers with Docker on EC2 or ECS, and know how Kubernetes concepts (pods, deployments, services) map to that."
+  },
+  {
+    "id": "aws-3b14fce0",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "How do pricing and discounts differ between AWS, Azure and Google Cloud?",
+    "answer": "All three charge pay-as-you-go for compute, storage, requests and network, and all charge for data leaving the cloud (egress), which is often a surprise in bills. Discounts for steady usage: AWS has Savings Plans and Reserved Instances (1 or 3 years, large savings) and Spot Instances for interruptible jobs. Azure has Reservations and Azure savings plans, Spot VMs, and Azure Hybrid Benefit, which lets you reuse existing Windows Server and SQL Server licences, a big saving for Microsoft customers. Google Cloud has committed use discounts (1 or 3 years), Spot VMs, and sustained use discounts that apply automatically to some VM types when they run most of the month. All three offer a free tier and new-customer credits, and pricing calculators to estimate costs. To control costs anywhere: right-size resources, turn off non-production at night, use autoscaling, set budgets and alerts, and tag resources by team or project.",
+    "points": [
+      "Pay as you go everywhere",
+      "Egress (data out) costs extra",
+      "AWS: Savings Plans, Reserved Instances, Spot",
+      "Azure: Reservations, savings plans, Spot, Hybrid Benefit",
+      "GCP: committed use, Spot, automatic sustained use discounts",
+      "Budgets, alerts, tags, right-sizing"
+    ],
+    "code": "",
+    "memory": "Remember: commit for discounts, Spot for cheap interruptible work, watch egress",
+    "tip": "Free-tier limits and discount percentages change often; describe the models and say you would check the current pricing calculator."
+  },
+  {
+    "id": "aws-e44303ee",
+    "subject": "AWS",
+    "level": "Advanced",
+    "question": "How do accounts, resource hierarchy and IAM differ between AWS, Azure and Google Cloud?",
+    "answer": "AWS: the boundary is the account. Companies use AWS Organizations with many accounts (for example dev, staging, prod) and Service Control Policies; IAM users, groups and roles get JSON policies attached, and services use roles for temporary credentials. Azure: Microsoft Entra ID (formerly Azure AD) holds users and groups; resources sit in a hierarchy of management groups → subscriptions → resource groups → resources, and access is given with Azure RBAC role assignments at any level, inherited downwards; apps and services use managed identities instead of keys. Google Cloud: organization → folders → projects → resources; Cloud IAM grants roles to principals (users, groups, service accounts) on any level, inherited downwards; workloads use service accounts. The common rules on all three: least privilege, no long-lived keys in code (use roles, managed identities or service accounts), MFA for humans, and separate environments.",
+    "points": [
+      "AWS: Organizations → accounts, IAM policies, roles",
+      "Azure: Entra ID; management groups → subscriptions → resource groups; RBAC; managed identities",
+      "GCP: organization → folders → projects; IAM roles; service accounts",
+      "Permissions inherit downwards (Azure, GCP)",
+      "Least privilege, no keys in code, MFA"
+    ],
+    "code": "",
+    "memory": "Remember: AWS account, Azure subscription + resource group, GCP project",
+    "tip": "The question 'what is the GCP equivalent of an AWS account?' is common: the closest answer is a project (for isolation) or a folder (for grouping)."
+  },
+  {
+    "id": "aws-4b685bb0",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "Databases: RDS / DynamoDB vs Azure SQL / Cosmos DB vs Cloud SQL / Firestore?",
+    "answer": "Managed relational databases: AWS RDS (MySQL, PostgreSQL, MariaDB, SQL Server, Oracle) and Aurora (AWS's high-performance MySQL- and PostgreSQL-compatible engine); Azure SQL Database (managed SQL Server) and Azure Database for PostgreSQL or MySQL; Google Cloud SQL (MySQL, PostgreSQL, SQL Server), AlloyDB (high-performance PostgreSQL) and Spanner (globally distributed relational database with strong consistency). Managed NoSQL: DynamoDB (key-value and document, single-digit millisecond latency, scales automatically); Cosmos DB (multi-model with several APIs, including NoSQL, MongoDB and Cassandra, global distribution and selectable consistency levels); Firestore (document database, popular for mobile and web apps) and Bigtable (wide-column, huge analytics and time-series workloads). For portability, standard PostgreSQL or MySQL on the managed service is easiest to move between clouds; proprietary NoSQL designs (DynamoDB tables, Cosmos DB) are harder to migrate.",
+    "points": [
+      "RDS / Aurora = Azure SQL, Azure Database = Cloud SQL / AlloyDB",
+      "Spanner = global relational with strong consistency",
+      "DynamoDB = Cosmos DB = Firestore / Bigtable",
+      "Cosmos DB: many APIs, tunable consistency",
+      "PostgreSQL / MySQL = easiest to move",
+      "Proprietary NoSQL = more lock-in"
+    ],
+    "code": "",
+    "memory": "Remember: SQL moves easily, cloud-specific NoSQL locks you in",
+    "tip": "Connect it to your experience: you used MySQL and PostgreSQL, which run as managed services on all three clouds."
+  },
+  {
+    "id": "aws-1462fd7b",
+    "subject": "AWS",
+    "level": "Advanced",
+    "question": "What is multi-cloud? How do you avoid vendor lock-in?",
+    "answer": "Multi-cloud means using more than one cloud provider, for example the main app on AWS and analytics on BigQuery, or the same app deployable on two clouds. Reasons: best service for each job, negotiating power, regulations, or resilience. Costs: more complexity, more skills needed, duplicated tooling, and cross-cloud data transfer fees, so most companies choose one primary cloud and stay portable instead. To reduce lock-in: package apps as Docker containers (they run on ECS, Cloud Run, AKS or any Kubernetes); use open databases and tools (PostgreSQL, MySQL, Redis, Kafka or RabbitMQ); define infrastructure with Terraform; use OpenTelemetry for logs, metrics and traces; keep business logic in your code behind small interfaces (the adapter pattern) instead of tying it to one provider's SDK everywhere; and use standards like S3-compatible storage APIs and OIDC for login. Accept some lock-in where a managed service saves a lot of work; just make it a conscious decision.",
+    "points": [
+      "Multi-cloud = more than one provider",
+      "Pros: best tool per job, leverage, resilience",
+      "Cons: complexity, skills, cross-cloud data costs",
+      "Containers + Kubernetes / Cloud Run",
+      "Open tools: PostgreSQL, Redis, Kafka, Terraform, OpenTelemetry",
+      "Adapters around provider SDKs",
+      "Lock-in can be a conscious trade-off"
+    ],
+    "code": "",
+    "memory": "Remember: one main cloud, portable core, conscious lock-in",
+    "tip": "Saying 'multi-cloud is not automatically better' shows senior judgement."
+  },
+  {
+    "id": "aws-c4f0414a",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "GenAI on the cloud: Amazon Bedrock vs Azure OpenAI vs Google Vertex AI?",
+    "answer": "All three let you use large language models through an API inside your cloud account, with your cloud's security, networking, logging and billing. Amazon Bedrock: one API for many model providers (for example Anthropic's Claude, Amazon Nova, Meta Llama and Mistral), plus knowledge bases for RAG, agents and guardrails; IAM controls access. Azure OpenAI Service, part of Azure AI Foundry: OpenAI models (GPT family) hosted by Microsoft with Azure security and Entra ID, and Foundry also offers other models; a natural choice for Microsoft-centred companies. Google Vertex AI: Google's Gemini models plus a Model Garden with other models, and strong integration with BigQuery and Google's search and data tools. For a RAG app, each cloud also offers vector search (OpenSearch or Aurora with pgvector on AWS, Azure AI Search, Vertex AI Vector Search). Choose based on the models you need, your existing cloud, data-residency rules and cost per token.",
+    "points": [
+      "LLMs via API inside your cloud account",
+      "Bedrock = many model providers, RAG knowledge bases, guardrails",
+      "Azure OpenAI (AI Foundry) = GPT models with Azure security",
+      "Vertex AI = Gemini + Model Garden, BigQuery integration",
+      "Vector search on each cloud for RAG",
+      "Choose: models, existing cloud, residency, cost per token"
+    ],
+    "code": "",
+    "memory": "Remember: Bedrock = many models, Azure = OpenAI, Vertex = Gemini",
+    "tip": "Model names and regional availability change fast; talk about the platforms and how you would evaluate them, not a fixed model list."
+  },
+  {
+    "id": "aws-bcec7846",
+    "subject": "AWS",
+    "level": "Intermediate",
+    "question": "Upload a file to object storage in Python on AWS, Azure and Google Cloud.",
+    "answer": "The idea is identical on all three: create a client with credentials from the environment (an IAM role on AWS, a managed identity on Azure, a service account on Google Cloud, never keys in code), choose a bucket or container and a key or blob name, and upload. AWS uses boto3 with S3 buckets; Azure uses azure-storage-blob with storage accounts and containers, and azure-identity for DefaultAzureCredential; Google Cloud uses google-cloud-storage with buckets and blobs. Only the SDK and naming change.",
+    "points": [
+      "Same idea everywhere: client → bucket / container → upload",
+      "AWS: boto3, S3 bucket",
+      "Azure: storage account → container → blob",
+      "GCP: bucket → blob",
+      "Credentials from roles / managed identity / service account"
+    ],
+    "code": "# AWS S3        pip install boto3\nimport boto3\n\ns3 = boto3.client(\"s3\")                                   # IAM role / env credentials\ns3.upload_file(\"receipt.jpg\", \"my-bucket\", \"receipts/receipt.jpg\")\n\n\n# Azure Blob    pip install azure-storage-blob azure-identity\nfrom azure.identity import DefaultAzureCredential\nfrom azure.storage.blob import BlobServiceClient\n\nservice = BlobServiceClient(account_url=\"https://myaccount.blob.core.windows.net\",\n                            credential=DefaultAzureCredential())   # managed identity\nblob = service.get_blob_client(container=\"receipts\", blob=\"receipt.jpg\")\nwith open(\"receipt.jpg\", \"rb\") as f:\n    blob.upload_blob(f, overwrite=True)\n\n\n# Google Cloud Storage    pip install google-cloud-storage\nfrom google.cloud import storage\n\nclient = storage.Client()                                  # service account credentials\nbucket = client.bucket(\"my-bucket\")\nbucket.blob(\"receipts/receipt.jpg\").upload_from_filename(\"receipt.jpg\")",
+    "memory": "Remember: bucket (AWS, GCP) = container (Azure)",
+    "tip": "Wrapping these behind one small interface (upload_file(path, key)) makes switching clouds easy; that's the adapter pattern in practice."
+  },
+  {
+    "id": "aws-aa3a26ae",
+    "subject": "AWS",
+    "level": "Beginner",
+    "question": "Regions and availability zones: how do AWS, Azure and Google Cloud compare?",
+    "answer": "All three split the world into regions (a geographic area, for example Mumbai) and, inside most regions, availability zones (separate data centres with their own power and network). Running your app in two or more zones protects you from one data centre failing. AWS: regions with usually three or more Availability Zones each. Azure: regions, availability zones in many regions, and region pairs used for disaster recovery. Google Cloud: regions with zones (for example asia-south1-a), and its VPC network is global, so one network can span regions. All three have Indian regions (Mumbai, and Hyderabad or Delhi depending on the provider). Choose a region close to your users for low latency and to meet data-residency rules.",
+    "points": [
+      "Region = geographic area",
+      "Zone = separate data centre in a region",
+      "Use 2+ zones for high availability",
+      "Azure: region pairs for disaster recovery",
+      "GCP: global VPC network",
+      "Pick region by latency + data residency"
+    ],
+    "code": "",
+    "memory": "Remember: region = city, zone = building",
+    "tip": "Mention multi-AZ for databases (RDS Multi-AZ) as a concrete example of using zones."
   }
 ]

@@ -162,7 +162,7 @@
   IPH.LANG_LABEL = {
     python: "Python", sql: "SQL", php: "PHP", javascript: "JavaScript", yaml: "YAML",
     bash: "Bash", dockerfile: "Dockerfile", json: "JSON", nginx: "Nginx",
-    html: "HTML", css: "CSS", http: "HTTP"
+    html: "HTML", css: "CSS", http: "HTTP", plaintext: "Text"
   };
   // highlight.js language names (and languages not in its default bundle)
   IPH.HLJS_CLASS = { nginx: "plaintext", html: "xml", http: "plaintext" };

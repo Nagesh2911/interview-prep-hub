@@ -986,5 +986,427 @@
     "code": "from sqlalchemy import insert, update\nfrom sqlalchemy.dialects.postgresql import insert as pg_insert\n\ndef chunks(items, size=1000):\n    for i in range(0, len(items), size):\n        yield items[i:i + size]\n\n# Bulk insert in chunks\nrows = [{\"customer_id\": c, \"points\": 50, \"reason\": \"Diwali bonus\"} for c in customer_ids]\nfor batch in chunks(rows):\n    session.execute(insert(PointsLedger), batch)\n    session.commit()\n\n# Bulk update by primary key (each dict must contain the primary key)\nsession.execute(update(Customer), [{\"id\": 1, \"tier\": \"gold\"}, {\"id\": 2, \"tier\": \"silver\"}])\nsession.commit()\n\n# PostgreSQL upsert\nstmt = pg_insert(Product).values(sku=\"P100\", price=499)\nstmt = stmt.on_conflict_do_update(index_elements=[\"sku\"], set_={\"price\": stmt.excluded.price})\nsession.execute(stmt)\n\n# Pool: 4 app containers x (10 + 20) = 120 connections max, must be below DB max_connections\nengine = create_engine(url, pool_size=10, max_overflow=20, pool_timeout=30,\n                       pool_recycle=1800, pool_pre_ping=True)",
     "memory": "Remember: Batch the rows, chunk the work, size the pool",
     "tip": "Mention the lakhs-of-rows imports you processed with Celery in chunks."
+  },
+  {
+    "id": "rest-api-7d85dc62",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "What are the REST constraints? What is HATEOAS and the Richardson maturity model?",
+    "answer": "REST (Representational State Transfer) is an architectural style with six constraints: 1) Client-server: UI and data storage are separated. 2) Stateless: every request carries everything needed (for example the token); the server keeps no session between requests, which makes scaling easy. 3) Cacheable: responses say whether they can be cached. 4) Uniform interface: resources identified by URLs, manipulated through representations (JSON), standard methods and self-descriptive messages. 5) Layered system: clients don't know if they talk to the server, a load balancer or a cache. 6) Code on demand (optional). The Richardson maturity model describes how RESTful an API is: Level 0 = one URL and POST for everything (RPC style); Level 1 = separate resource URLs; Level 2 = correct HTTP methods and status codes (most real APIs); Level 3 = HATEOAS (Hypermedia as the Engine of Application State): responses include links to the next possible actions, so clients discover the API instead of hard-coding URLs. Level 3 is rare in practice.",
+    "points": [
+      "Client-server",
+      "Stateless = request carries everything",
+      "Cacheable",
+      "Uniform interface: URLs, methods, representations",
+      "Layered system",
+      "Richardson levels 0–3",
+      "Level 2 = methods + status codes (common)",
+      "HATEOAS = links to next actions (rare)"
+    ],
+    "code": "// Level 3 (HATEOAS): the response tells the client what it can do next\n{\n  \"id\": 42,\n  \"status\": \"placed\",\n  \"total\": 1499,\n  \"_links\": {\n    \"self\":    { \"href\": \"/api/v1/orders/42\" },\n    \"cancel\":  { \"href\": \"/api/v1/orders/42/cancel\", \"method\": \"POST\" },\n    \"payment\": { \"href\": \"/api/v1/orders/42/payment\", \"method\": \"POST\" }\n  }\n}",
+    "memory": "Remember: Stateless, Cacheable, Uniform, Layered; most APIs are level 2",
+    "tip": "Say honestly that most production APIs stop at level 2, and that is fine; mention HATEOAS to show you know the full picture.",
+    "language": "json"
+  },
+  {
+    "id": "rest-api-700ac0b2",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "How do you design resource URLs, nested resources and actions that are not CRUD?",
+    "answer": "Resources are nouns in plural form, and HTTP methods are the verbs: GET /customers, POST /customers, GET /customers/7, PATCH /customers/7, DELETE /customers/7. Use nesting only for clear ownership and keep it one level deep: GET /customers/7/orders (orders of customer 7). For deeper relations, give the child its own top-level URL (GET /orders/42) and use filters (GET /orders?customer_id=7). Use lowercase, hyphens for multi-word names (/loyalty-tiers), and never put verbs in URLs for normal CRUD (not /getOrders or /createOrder). For real business actions that don't map to CRUD, two good options: a sub-resource action with POST (POST /orders/42/cancel, POST /payments/9/refund) or modelling the action as a resource (POST /orders/42/cancellations, which also keeps a history). Keep IDs opaque and stable, and don't expose database internals.",
+    "points": [
+      "Plural nouns + HTTP methods",
+      "Nest one level only: /customers/7/orders",
+      "Deeper → top-level URL + filters",
+      "lowercase, hyphens",
+      "No verbs for CRUD",
+      "Actions: POST /orders/42/cancel",
+      "Or action as a resource: /cancellations"
+    ],
+    "code": "from fastapi import FastAPI, HTTPException, Response, status\n\napp = FastAPI()\n\n@app.get(\"/api/v1/customers/{customer_id}/orders\", response_model=list[OrderOut])\ndef customer_orders(customer_id: int, limit: int = 20):\n    return orders.list(customer_id=customer_id, limit=limit)\n\n@app.post(\"/api/v1/orders\", response_model=OrderOut, status_code=status.HTTP_201_CREATED)\ndef create_order(body: OrderIn, response: Response):\n    order = orders.create(body)\n    response.headers[\"Location\"] = f\"/api/v1/orders/{order.id}\"   # where the new resource lives\n    return order\n\n@app.post(\"/api/v1/orders/{order_id}/cancel\", response_model=OrderOut)\ndef cancel_order(order_id: int):\n    order = orders.get(order_id)\n    if order is None:\n        raise HTTPException(status.HTTP_404_NOT_FOUND, \"Order not found\")\n    if order.status == \"delivered\":\n        raise HTTPException(status.HTTP_409_CONFLICT, \"Delivered orders cannot be cancelled\")\n    return orders.cancel(order)          # refund + restock happen in the service\n\n@app.delete(\"/api/v1/orders/{order_id}\", status_code=status.HTTP_204_NO_CONTENT)\ndef delete_order(order_id: int):\n    orders.delete(order_id)",
+    "memory": "Remember: nouns for things, methods for CRUD, POST for business actions",
+    "tip": "Interviewers often ask 'how would you design cancel order?'. Answer with POST /orders/{id}/cancel and explain why it is not PATCH status=cancelled when cancelling has side effects (refund, stock)."
+  },
+  {
+    "id": "rest-api-5aafc82f",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "Safe vs idempotent HTTP methods, and how do you choose the right status code?",
+    "answer": "Safe methods only read and never change data: GET, HEAD, OPTIONS. Idempotent methods give the same result no matter how many times you repeat them: GET, HEAD, OPTIONS, PUT and DELETE. POST is neither (two POSTs can create two orders), and PATCH is not guaranteed to be idempotent. This matters because clients, proxies and retry logic may safely repeat idempotent requests. Status codes that are often confused: 200 OK (success with a body) vs 201 Created (new resource, with a Location header) vs 202 Accepted (work started, finished later) vs 204 No Content (success, no body, for example DELETE). 400 Bad Request (malformed request, for example invalid JSON) vs 422 Unprocessable Entity (valid JSON but failed validation; FastAPI uses 422). 401 Unauthorized (not logged in or bad token) vs 403 Forbidden (logged in but not allowed). 404 Not Found vs 410 Gone (deleted on purpose). 409 Conflict (state conflict, such as a duplicate email or cancelling a delivered order). 412 Precondition Failed (ETag mismatch). 429 Too Many Requests (rate limited). 500 (server bug) vs 502/503/504 (problem with an upstream service or overload).",
+    "points": [
+      "Safe: GET, HEAD, OPTIONS",
+      "Idempotent: + PUT, DELETE",
+      "POST not idempotent, PATCH not guaranteed",
+      "200 vs 201 vs 202 vs 204",
+      "400 vs 422",
+      "401 vs 403",
+      "409 conflict, 412 precondition, 429 rate limit",
+      "5xx = server side"
+    ],
+    "code": "Method   Safe  Idempotent  Typical success code\n-------  ----  ----------  ------------------------------\nGET      yes   yes         200 OK\nHEAD     yes   yes         200 OK (headers only)\nOPTIONS  yes   yes         204 / 200 (CORS preflight)\nPOST     no    no          201 Created / 202 Accepted / 200\nPUT      no    yes         200 OK / 204 No Content\nPATCH    no    not always  200 OK\nDELETE   no    yes         204 No Content",
+    "memory": "Remember: 401 = who are you?, 403 = you can't, 409 = state conflict, 422 = bad data",
+    "tip": "The 401 vs 403 question is very common; give the one-line difference and a real example.",
+    "language": "plaintext"
+  },
+  {
+    "id": "rest-api-142c2587",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "How do you use HTTP caching (Cache-Control, ETag) and optimistic locking in an API?",
+    "answer": "Caching: the server tells clients and CDNs how long a response can be reused with Cache-Control (public, max-age=300 for shared data like a product catalogue; private for user-specific data; no-store for sensitive data like account balances). Validation with ETag: the server sends a fingerprint of the resource (ETag). Next time the client sends If-None-Match with that value; if nothing changed, the server answers 304 Not Modified with no body, saving bandwidth. Optimistic locking with If-Match: when updating, the client sends the ETag it read. If someone else changed the resource in between, the ETag no longer matches and the server returns 412 Precondition Failed instead of silently overwriting the other change (the 'lost update' problem). This is simpler and scales better than locking rows while a user edits.",
+    "points": [
+      "Cache-Control: public / private / no-store, max-age",
+      "ETag = fingerprint of the resource",
+      "If-None-Match → 304 Not Modified",
+      "If-Match → 412 if changed (optimistic locking)",
+      "Prevents lost updates",
+      "No caching for sensitive data"
+    ],
+    "code": "import hashlib\nimport json\nfrom fastapi import FastAPI, Header, HTTPException, Request, Response\n\napp = FastAPI()\n\ndef etag_of(product: dict) -> str:\n    raw = json.dumps(product, sort_keys=True, default=str).encode()\n    return '\"' + hashlib.sha256(raw).hexdigest()[:32] + '\"'\n\n@app.get(\"/api/v1/products/{pid}\")\ndef get_product(pid: int, request: Request, response: Response):\n    product = repo.get(pid)\n    etag = etag_of(product)\n    if request.headers.get(\"if-none-match\") == etag:\n        return Response(status_code=304, headers={\"ETag\": etag})   # client copy is still valid\n    response.headers[\"ETag\"] = etag\n    response.headers[\"Cache-Control\"] = \"public, max-age=60\"\n    return product\n\n@app.put(\"/api/v1/products/{pid}\")\ndef update_product(pid: int, body: ProductIn, if_match: str = Header(...)):\n    current = repo.get(pid)\n    if if_match != etag_of(current):\n        raise HTTPException(412, \"This product was changed by someone else. Reload and try again.\")\n    return repo.update(pid, body)",
+    "memory": "Remember: ETag for read (304) and for write (412)",
+    "tip": "Lost updates are a real problem in admin panels where two people edit the same record; ETag + If-Match is the textbook fix."
+  },
+  {
+    "id": "rest-api-3d5980dc",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "How do you design an API for long-running operations (202 Accepted)?",
+    "answer": "If work takes more than a few seconds (generating a report, importing a large file, video processing), don't keep the HTTP request open: it can time out at the load balancer and wastes server workers. Instead: 1) The POST validates the input, puts a job on a queue (Celery, SQS) and immediately returns 202 Accepted with a job ID and a Location header pointing to a status resource. 2) The client polls GET /jobs/{id} (with a sensible interval or the Retry-After header), or the server notifies it with a webhook, WebSocket or Server-Sent Events. 3) The status resource shows queued, running (optionally with progress), succeeded (with a link to the result) or failed (with an error). Make the POST idempotent (Idempotency-Key) so a retry doesn't start the job twice, and expire old job records.",
+    "points": [
+      "Don't block the request",
+      "POST → queue job → 202 Accepted",
+      "Location: /jobs/{id}",
+      "Poll, webhook, WebSocket or SSE",
+      "States: queued, running, succeeded, failed",
+      "Link to result when done",
+      "Idempotency-Key on the POST"
+    ],
+    "code": "from celery.result import AsyncResult\nfrom fastapi import FastAPI, Response\n\napp = FastAPI()\n\n@app.post(\"/api/v1/reports\", status_code=202)\ndef create_report(body: ReportIn, response: Response):\n    task = generate_report.delay(body.month)                  # Celery task\n    response.headers[\"Location\"] = f\"/api/v1/jobs/{task.id}\"\n    response.headers[\"Retry-After\"] = \"5\"                     # suggested polling interval\n    return {\"job_id\": task.id, \"status\": \"queued\"}\n\n@app.get(\"/api/v1/jobs/{job_id}\")\ndef job_status(job_id: str):\n    result = AsyncResult(job_id, app=celery_app)\n    states = {\"PENDING\": \"queued\", \"STARTED\": \"running\", \"RETRY\": \"running\",\n              \"SUCCESS\": \"succeeded\", \"FAILURE\": \"failed\"}\n    body = {\"job_id\": job_id, \"status\": states.get(result.state, \"queued\")}\n    if result.successful():\n        body[\"result_url\"] = result.result[\"url\"]            # e.g. S3 pre-signed URL\n    elif result.failed():\n        body[\"error\"] = \"Report generation failed\"\n    return body",
+    "memory": "Remember: Accept now, work later, report status",
+    "tip": "Link it to Celery: you have used background jobs for heavy processing, so describe exactly this pattern."
+  },
+  {
+    "id": "rest-api-588112a6",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "How do you design bulk (batch) API operations and handle partial failures?",
+    "answer": "Bulk endpoints (POST /customers/bulk with up to N items) reduce round trips for imports and sync jobs. Design choices: 1) Limit the batch size (for example 500 items) and return 413 or 422 if it is larger. 2) Decide all-or-nothing vs partial success. All-or-nothing runs in one transaction and is simpler for clients. Partial success processes each item and returns a result per item (index, status, ID or error code), using 207 Multi-Status or 200 with a results array, so the client can retry only the failed items. 3) Validate everything first, then write. 4) For very large data, accept a file and process it asynchronously (202 + job) instead. 5) Support idempotency (an Idempotency-Key or a client-generated ID per item) so retries don't create duplicates.",
+    "points": [
+      "Fewer round trips",
+      "Max batch size → 413 / 422",
+      "All-or-nothing (transaction) vs partial success",
+      "Per-item results: index, status, id / error",
+      "207 Multi-Status or 200 + results",
+      "Huge data → file + async job",
+      "Idempotent items"
+    ],
+    "code": "from fastapi import FastAPI, HTTPException\nfrom fastapi.responses import JSONResponse\n\napp = FastAPI()\nMAX_BATCH = 500\n\n@app.post(\"/api/v1/customers/bulk\")\ndef bulk_create(items: list[CustomerIn]):\n    if len(items) > MAX_BATCH:\n        raise HTTPException(413, f\"Send at most {MAX_BATCH} customers per request\")\n\n    results = []\n    for index, item in enumerate(items):\n        try:\n            customer = customers.create(item)\n            results.append({\"index\": index, \"status\": 201, \"id\": customer.id})\n        except DuplicateEmailError:\n            results.append({\"index\": index, \"status\": 409, \"error\": \"EMAIL_ALREADY_EXISTS\"})\n\n    failed = any(r[\"status\"] >= 400 for r in results)\n    return JSONResponse(status_code=207 if failed else 201, content={\"results\": results})",
+    "memory": "Remember: limit it, report per item, make it safe to retry",
+    "tip": "Always ask the interviewer whether partial success is acceptable for the business case; for payments it usually isn't."
+  },
+  {
+    "id": "rest-api-1279950e",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "How do you design file uploads in a REST API?",
+    "answer": "Small files: accept multipart/form-data on the API (FastAPI UploadFile), check size and type, and stream the file to object storage instead of keeping it in memory. Large files or many users: use direct-to-storage uploads with pre-signed URLs. The client asks the API for an upload URL (POST /uploads with file name, type and size), the API checks permissions and returns a short-lived pre-signed S3 (or Azure SAS / GCS signed) URL, the client uploads the file straight to storage, then calls the API to confirm (or a storage event triggers processing). This keeps big files off your servers, saving bandwidth and workers. Always: limit size, check the real content type (not just the extension), generate your own file names (never trust the user's path), scan for malware if needed, and keep buckets private.",
+    "points": [
+      "Small: multipart/form-data + UploadFile",
+      "Stream, don't load into memory",
+      "Large: pre-signed URL, client uploads to S3 directly",
+      "Confirm upload or use storage events",
+      "Limit size, check real type",
+      "Own file names, private buckets"
+    ],
+    "code": "import uuid\nimport boto3\nfrom fastapi import Depends, FastAPI, HTTPException\nfrom pydantic import BaseModel, Field\n\napp = FastAPI()\ns3 = boto3.client(\"s3\")\nALLOWED = {\"image/jpeg\", \"image/png\", \"application/pdf\"}\n\nclass UploadRequest(BaseModel):\n    content_type: str\n    size: int = Field(gt=0, le=10 * 1024 * 1024)        # max 10 MB\n\n@app.post(\"/api/v1/uploads\")\ndef create_upload(body: UploadRequest, user=Depends(get_current_user)):\n    if body.content_type not in ALLOWED:\n        raise HTTPException(422, \"Only JPEG, PNG or PDF files are allowed\")\n    key = f\"receipts/{user.id}/{uuid.uuid4()}\"            # our own file name\n    url = s3.generate_presigned_url(\n        \"put_object\",\n        Params={\"Bucket\": \"my-private-bucket\", \"Key\": key, \"ContentType\": body.content_type},\n        ExpiresIn=300,                                       # valid for 5 minutes\n    )\n    return {\"upload_url\": url, \"key\": key}\n\n# Client: PUT the file to upload_url with the same Content-Type,\n# then POST /api/v1/receipts {\"key\": \"...\"} to start processing.",
+    "memory": "Remember: small through the API, big straight to storage",
+    "tip": "Receipt or document uploads are a good real example; mention the pre-signed URL flow and duplicate checks."
+  },
+  {
+    "id": "rest-api-5f8d22c9",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "What counts as a breaking change in an API, and how do you evolve an API safely?",
+    "answer": "A breaking change is anything that can make an existing client fail. Breaking: removing or renaming a field or endpoint, changing a field's type or format (number to string, date format), changing the meaning of a value, making an optional request field required, adding a new required field, changing status codes or error codes clients depend on, tightening validation, and changing authentication. Usually non-breaking: adding a new endpoint, adding an optional request field, or adding a new response field (as long as clients ignore unknown fields). How to evolve safely: design contract-first with an OpenAPI spec reviewed before coding; follow 'expand, then contract' (add the new field, migrate clients, remove the old one much later); version only for real breaking changes; mark old fields and endpoints as deprecated with Deprecation and Sunset headers and a changelog; monitor who still uses old versions; and run contract tests in CI that compare the new OpenAPI spec with the old one to catch accidental breaks.",
+    "points": [
+      "Breaking: remove / rename / change type / new required field",
+      "Breaking: changed status or error codes, stricter validation",
+      "Safe: new endpoint, new optional field",
+      "Contract-first OpenAPI",
+      "Expand, then contract",
+      "Deprecation + Sunset headers",
+      "Contract tests in CI"
+    ],
+    "code": "",
+    "memory": "Remember: adding is safe, changing or removing breaks",
+    "tip": "Mobile apps make this critical: old app versions stay installed for months, so the API must keep working for them."
+  },
+  {
+    "id": "rest-api-b3c3a1ef",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "Session cookies vs JWT tokens: which should you use?",
+    "answer": "Server-side sessions: after login the server stores session data (in Redis or the database) and sends only a random session ID in a secure, HttpOnly cookie. Pros: easy and instant logout or revocation (delete the session), small cookie, no sensitive data on the client. Cons: every request needs a session lookup, and it is tied to cookies, so it is less convenient for mobile apps and third-party API clients. JWT: the server signs a token containing the user ID, roles and expiry; any service with the key can verify it without a database lookup (stateless), which suits mobile apps, SPAs calling several APIs, and microservices. Cons: it can't be revoked before it expires (unless you add a blocklist), tokens are larger, the payload is readable by anyone, and storing it safely in a browser is tricky. Practical rule: for a classic web app on one domain, sessions are simpler and safer; for mobile apps, public APIs and microservices, use short-lived JWT access tokens plus refresh tokens, often issued by an identity provider (OAuth2 / OpenID Connect).",
+    "points": [
+      "Session: ID in HttpOnly cookie, data on server",
+      "Session: instant logout, needs lookup",
+      "JWT: signed, stateless, no lookup",
+      "JWT: hard to revoke, readable payload",
+      "Web app on one domain → sessions",
+      "Mobile, APIs, microservices → short JWT + refresh"
+    ],
+    "code": "",
+    "memory": "Remember: sessions are easy to kill, JWTs are easy to scale",
+    "tip": "Avoid saying JWT is always better; showing the trade-off is what interviewers look for."
+  },
+  {
+    "id": "rest-api-f11a6939",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "Build JWT login and a protected endpoint in FastAPI.",
+    "answer": "Flow: 1) POST /auth/token receives email and password (OAuth2PasswordRequestForm), loads the user, and verifies the password against a slow hash (Argon2 or bcrypt), never a plain or fast hash. 2) On success it returns a short-lived access token (for example 15 minutes) signed with a secret from the environment. 3) Protected endpoints depend on get_current_user, which decodes the token, checks the signature, expiry and required claims, loads the user and checks they are still active. Return the same generic 401 message for a wrong email or a wrong password, so attackers can't find out which emails are registered, and send the WWW-Authenticate: Bearer header. Add rate limiting on the login endpoint and refresh tokens for longer sessions.",
+    "points": [
+      "OAuth2PasswordRequestForm for login",
+      "Argon2 / bcrypt password hash",
+      "Short-lived access token",
+      "Secret from environment",
+      "get_current_user dependency",
+      "Check signature, exp, required claims, active user",
+      "Same generic 401 message"
+    ],
+    "code": "# pip install fastapi pyjwt argon2-cffi python-multipart\nfrom datetime import datetime, timedelta, timezone\n\nimport jwt\nfrom argon2 import PasswordHasher\nfrom argon2.exceptions import VerifyMismatchError\nfrom fastapi import Depends, FastAPI, HTTPException, status\nfrom fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm\n\nSECRET_KEY = settings.jwt_secret          # long random value from the environment\nALGORITHM = \"HS256\"\nph = PasswordHasher()                     # Argon2\noauth2_scheme = OAuth2PasswordBearer(tokenUrl=\"/api/v1/auth/token\")\napp = FastAPI()\n\nUNAUTHORIZED = HTTPException(status.HTTP_401_UNAUTHORIZED, \"Incorrect email or password\",\n                             headers={\"WWW-Authenticate\": \"Bearer\"})\n\ndef create_access_token(user_id: int) -> str:\n    now = datetime.now(timezone.utc)\n    claims = {\"sub\": str(user_id), \"iat\": now, \"exp\": now + timedelta(minutes=15), \"type\": \"access\"}\n    return jwt.encode(claims, SECRET_KEY, algorithm=ALGORITHM)\n\n@app.post(\"/api/v1/auth/token\")\ndef login(form: OAuth2PasswordRequestForm = Depends()):\n    user = users.get_by_email(form.username)\n    try:\n        if user is None:\n            raise VerifyMismatchError()\n        ph.verify(user.password_hash, form.password)\n    except VerifyMismatchError:\n        raise UNAUTHORIZED                # same message for unknown email and wrong password\n    return {\"access_token\": create_access_token(user.id), \"token_type\": \"bearer\"}\n\ndef get_current_user(token: str = Depends(oauth2_scheme)):\n    try:\n        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM],\n                             options={\"require\": [\"exp\", \"sub\"]})\n    except jwt.InvalidTokenError:         # also covers ExpiredSignatureError\n        raise HTTPException(401, \"Invalid or expired token\", headers={\"WWW-Authenticate\": \"Bearer\"})\n    if payload.get(\"type\") != \"access\":\n        raise HTTPException(401, \"Wrong token type\")\n    user = users.get(int(payload[\"sub\"]))\n    if user is None or not user.is_active:\n        raise HTTPException(401, \"User not found or disabled\")\n    return user\n\n@app.get(\"/api/v1/me\")\ndef me(user=Depends(get_current_user)):\n    return {\"id\": user.id, \"email\": user.email}",
+    "memory": "Remember: verify hash → sign token → verify token on every request",
+    "tip": "Mention that you would add refresh tokens, rate limiting on /auth/token and MFA for admin users."
+  },
+  {
+    "id": "rest-api-902b1931",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "How do you validate a JWT correctly? What are common JWT security mistakes?",
+    "answer": "Validation checklist: 1) Verify the signature with the expected key. 2) Pin the allowed algorithms (for example only RS256) and never accept 'none'. 3) Check exp (expiry) and nbf (not before), with a small clock-skew allowance. 4) Check iss (issuer: who created it) and aud (audience: is this token meant for my API?). 5) Require the claims you rely on (sub, exp, iss, aud). 6) Check the token type (access vs refresh). Common mistakes: accepting alg 'none' or letting the token choose the algorithm (algorithm confusion: an RS256 public key used as an HS256 secret); not checking audience, so a token for another service works on yours; long-lived access tokens; weak HS256 secrets that can be brute-forced; putting personal or secret data in the payload (it is only base64-encoded, not encrypted); storing tokens in localStorage where XSS can steal them; and no key rotation. With an identity provider (Auth0, Cognito, Keycloak, Entra ID), use RS256 or ES256 and fetch the public keys from its JWKS endpoint, selected by the token's kid header, so keys can rotate without code changes.",
+    "points": [
+      "Verify signature",
+      "Pin algorithms, never 'none'",
+      "Check exp, nbf (small leeway)",
+      "Check iss + aud",
+      "Require needed claims",
+      "Check token type",
+      "Payload is readable: no secrets",
+      "JWKS + kid for key rotation"
+    ],
+    "code": "# pip install \"pyjwt[crypto]\"\nimport jwt\n\nISSUER = \"https://auth.example.com/\"\nAUDIENCE = \"orders-api\"\njwks_client = jwt.PyJWKClient(f\"{ISSUER}.well-known/jwks.json\")    # public keys, cached\n\ndef verify_access_token(token: str) -> dict:\n    signing_key = jwks_client.get_signing_key_from_jwt(token)         # picked by the \"kid\" header\n    claims = jwt.decode(\n        token,\n        signing_key.key,\n        algorithms=[\"RS256\"],              # pinned: never trust the token's own \"alg\"\n        audience=AUDIENCE,                 # token must be meant for THIS API\n        issuer=ISSUER,\n        leeway=30,                         # seconds of clock skew allowed\n        options={\"require\": [\"exp\", \"iat\", \"iss\", \"aud\", \"sub\"]},\n    )\n    if claims.get(\"token_use\", \"access\") != \"access\":\n        raise jwt.InvalidTokenError(\"not an access token\")\n    return claims",
+    "memory": "Remember: Signature, Algorithm, Expiry, Issuer, Audience",
+    "tip": "Mentioning 'algorithm confusion' and audience checks marks you as someone who has thought about JWT security, not just used it."
+  },
+  {
+    "id": "rest-api-1fbbf7de",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "How do refresh tokens work? How do you rotate them and where should a browser store tokens?",
+    "answer": "Access tokens are short-lived (5–15 minutes) to limit damage if stolen. A refresh token is long-lived (days or weeks) and is used only to get new access tokens from the auth endpoint. Rotation: every time a refresh token is used, issue a new refresh token and invalidate the old one (one-time use). Reuse detection: if an already-used refresh token appears again, someone probably stole it, so revoke the whole session family and force a new login. Store refresh tokens server-side as hashes or IDs (jti) so you can revoke them, for example on logout or password change. Browser storage: localStorage and sessionStorage are readable by any JavaScript, so an XSS bug can steal tokens. Safer: keep the refresh token in an HttpOnly, Secure, SameSite cookie scoped to the refresh path, and keep the access token in memory only (re-fetch it on page load with the cookie). Cookies bring CSRF risk, which SameSite=Strict or Lax plus CSRF tokens handle. Mobile apps should use the platform's secure storage (Keychain, Android Keystore).",
+    "points": [
+      "Short access token, long refresh token",
+      "Rotate: new refresh token on every use",
+      "Reuse of old token → revoke session family",
+      "Store refresh token IDs server-side (revocable)",
+      "Not localStorage (XSS)",
+      "Refresh token in HttpOnly Secure SameSite cookie",
+      "Access token in memory",
+      "Mobile: Keychain / Keystore"
+    ],
+    "code": "import secrets\nfrom datetime import datetime, timedelta, timezone\n\nimport jwt\nimport redis\nfrom fastapi import Cookie, FastAPI, HTTPException, Response\n\nr = redis.Redis(decode_responses=True)\napp = FastAPI()\nREFRESH_DAYS = 7\n\ndef issue_tokens(user_id: str, response: Response) -> dict:\n    jti = secrets.token_urlsafe(16)\n    now = datetime.now(timezone.utc)\n    refresh = jwt.encode({\"sub\": user_id, \"jti\": jti, \"type\": \"refresh\",\n                          \"exp\": now + timedelta(days=REFRESH_DAYS)}, REFRESH_SECRET, algorithm=\"HS256\")\n    r.setex(f\"refresh:{jti}\", timedelta(days=REFRESH_DAYS), user_id)     # revocable, one-time use\n    response.set_cookie(\"refresh_token\", refresh, httponly=True, secure=True, samesite=\"strict\",\n                        path=\"/api/v1/auth/refresh\", max_age=REFRESH_DAYS * 86400)\n    return {\"access_token\": create_access_token(int(user_id)), \"token_type\": \"bearer\"}\n\n@app.post(\"/api/v1/auth/refresh\")\ndef refresh(response: Response, refresh_token: str | None = Cookie(default=None)):\n    if not refresh_token:\n        raise HTTPException(401, \"Please log in again\")\n    try:\n        data = jwt.decode(refresh_token, REFRESH_SECRET, algorithms=[\"HS256\"],\n                          options={\"require\": [\"exp\", \"jti\", \"sub\"]})\n    except jwt.InvalidTokenError:\n        raise HTTPException(401, \"Please log in again\")\n    if r.getdel(f\"refresh:{data['jti']}\") is None:       # atomic: each refresh token works once\n        revoke_all_sessions(data[\"sub\"])                   # reused token = likely theft\n        raise HTTPException(401, \"Session expired, please log in again\")\n    return issue_tokens(data[\"sub\"], response)            # rotation: brand-new refresh token",
+    "memory": "Remember: short access, rotating refresh, HttpOnly cookie, never localStorage",
+    "tip": "'Where do you store JWTs in the browser?' is a classic question; explain the XSS vs CSRF trade-off clearly."
+  },
+  {
+    "id": "rest-api-b833904b",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "What are the OAuth2 grant types? Explain Authorization Code with PKCE.",
+    "answer": "OAuth2 lets an application access an API on behalf of a user (or itself) without handling the user's password. Roles: resource owner (user), client (the app), authorization server (issues tokens, for example Google, Auth0, Cognito, Keycloak), and resource server (your API). Grant types: Authorization Code + PKCE, the standard for web, mobile and single-page apps; Client Credentials, for machine-to-machine calls with no user (service A calls service B); Refresh Token, to get new access tokens; Device Code, for TVs and CLIs without a browser. Implicit and Resource Owner Password grants are deprecated (OAuth 2.1 removes them) because they leak tokens or passwords. Authorization Code + PKCE flow: 1) The app creates a random code_verifier and its SHA-256 hash, the code_challenge. 2) It redirects the user to the authorization server with client_id, redirect_uri, scope, state (CSRF protection) and code_challenge. 3) The user logs in and consents; the server redirects back with a short-lived authorization code. 4) The app exchanges the code plus the original code_verifier for tokens. Because only the real app knows the verifier, a stolen code is useless.",
+    "points": [
+      "Roles: user, client, auth server, resource server",
+      "Auth Code + PKCE = web, mobile, SPA",
+      "Client Credentials = machine to machine",
+      "Refresh Token, Device Code",
+      "Implicit + Password grants deprecated",
+      "PKCE: verifier → challenge → code → token",
+      "state parameter stops CSRF"
+    ],
+    "code": "import base64\nimport hashlib\nimport secrets\nfrom urllib.parse import urlencode\n\nimport httpx\n\nAUTH_SERVER = \"https://auth.example.com\"\nCLIENT_ID = \"orders-web\"\nREDIRECT_URI = \"https://app.example.com/callback\"\n\n# 1) Create PKCE verifier + challenge and a state value (store both in the user's session)\ncode_verifier = secrets.token_urlsafe(64)\ncode_challenge = base64.urlsafe_b64encode(\n    hashlib.sha256(code_verifier.encode()).digest()).rstrip(b\"=\").decode()\nstate = secrets.token_urlsafe(16)\n\n# 2) Redirect the user to the login page\nlogin_url = f\"{AUTH_SERVER}/authorize?\" + urlencode({\n    \"response_type\": \"code\", \"client_id\": CLIENT_ID, \"redirect_uri\": REDIRECT_URI,\n    \"scope\": \"openid email orders:read\", \"state\": state,\n    \"code_challenge\": code_challenge, \"code_challenge_method\": \"S256\",\n})\n\n# 3) Callback: check state, then 4) exchange the code + verifier for tokens\ndef handle_callback(code: str, returned_state: str) -> dict:\n    if returned_state != state:\n        raise ValueError(\"State mismatch (possible CSRF)\")\n    resp = httpx.post(f\"{AUTH_SERVER}/oauth/token\", data={\n        \"grant_type\": \"authorization_code\", \"code\": code, \"redirect_uri\": REDIRECT_URI,\n        \"client_id\": CLIENT_ID, \"code_verifier\": code_verifier,\n    }, timeout=10)\n    resp.raise_for_status()\n    return resp.json()      # access_token, refresh_token, id_token, expires_in",
+    "memory": "Remember: users → Auth Code + PKCE, services → Client Credentials",
+    "tip": "Draw the redirect flow on the whiteboard; it's much easier to explain with arrows."
+  },
+  {
+    "id": "rest-api-6627caa3",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "OAuth2 vs OpenID Connect: how do you add 'Login with Google' to FastAPI?",
+    "answer": "OAuth2 is about authorization: it gives an app an access token to call an API with certain scopes. It does not define how to identify the user. OpenID Connect (OIDC) is an identity layer on top of OAuth2: with the openid scope, the provider also returns an ID token (a JWT with the user's identity: sub, email, name), and offers a userinfo endpoint and a discovery document (.well-known/openid-configuration). So 'Login with Google' is OIDC. The access token is for calling APIs; the ID token is only for the client app to know who logged in. Don't send ID tokens to your API as access tokens. In FastAPI, a library like Authlib handles the redirect, state, PKCE and token validation. After Google confirms the user, find or create the user in your database by the stable sub value (not just email), then start your own session or issue your own tokens.",
+    "points": [
+      "OAuth2 = access to APIs (authorization)",
+      "OIDC = identity on top of OAuth2 (authentication)",
+      "openid scope → ID token (JWT with user info)",
+      "Access token for APIs, ID token for the client",
+      "Discovery: .well-known/openid-configuration",
+      "Match users by sub, then issue your own session"
+    ],
+    "code": "# pip install authlib httpx itsdangerous\nfrom authlib.integrations.starlette_client import OAuth\nfrom fastapi import FastAPI, Request\nfrom starlette.middleware.sessions import SessionMiddleware\n\napp = FastAPI()\napp.add_middleware(SessionMiddleware, secret_key=settings.session_secret)   # keeps state + PKCE\n\noauth = OAuth()\noauth.register(\n    name=\"google\",\n    server_metadata_url=\"https://accounts.google.com/.well-known/openid-configuration\",\n    client_id=settings.google_client_id,\n    client_secret=settings.google_client_secret,\n    client_kwargs={\"scope\": \"openid email profile\"},\n)\n\n@app.get(\"/auth/google/login\")\nasync def google_login(request: Request):\n    redirect_uri = request.url_for(\"google_callback\")\n    return await oauth.google.authorize_redirect(request, redirect_uri)\n\n@app.get(\"/auth/google/callback\")\nasync def google_callback(request: Request):\n    token = await oauth.google.authorize_access_token(request)    # validates state + ID token\n    info = token[\"userinfo\"]                                       # from the ID token\n    user = users.get_or_create_by_google_sub(info[\"sub\"], email=info[\"email\"], name=info.get(\"name\"))\n    return {\"access_token\": create_access_token(user.id), \"token_type\": \"bearer\"}",
+    "memory": "Remember: OAuth2 says what you can do, OIDC says who you are",
+    "tip": "This is a favourite trick question: 'Is OAuth2 an authentication protocol?' The precise answer is no; OpenID Connect adds authentication."
+  },
+  {
+    "id": "rest-api-04c86a27",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "What are OAuth2 scopes? How do you enforce scopes and roles in FastAPI?",
+    "answer": "Scopes are strings in the access token that limit what the token can do, for example orders:read, orders:write or admin. They describe the permissions granted to the client application, often chosen by what the user consented to. Roles (admin, manager, customer) describe what the user is allowed to do in your system. A good API checks both: the token has the required scope, and the user's role and ownership allow the action (a customer can read only their own orders). In FastAPI, declare scopes on OAuth2PasswordBearer and use Security(..., scopes=[...]) on endpoints; a dependency receives SecurityScopes and returns 403 if the token lacks a required scope. Keep authorization checks on the server for every request; hiding buttons in the UI is not security.",
+    "points": [
+      "Scopes = what the token / app may do",
+      "Roles = what the user may do",
+      "Check scope + role + ownership",
+      "FastAPI: Security(dep, scopes=[...])",
+      "SecurityScopes in the dependency",
+      "Missing scope → 403",
+      "Always enforce on the server"
+    ],
+    "code": "import jwt\nfrom fastapi import Depends, FastAPI, HTTPException, Security\nfrom fastapi.security import OAuth2PasswordBearer, SecurityScopes\n\noauth2_scheme = OAuth2PasswordBearer(\n    tokenUrl=\"/api/v1/auth/token\",\n    scopes={\"orders:read\": \"Read orders\", \"orders:write\": \"Create and change orders\"},\n)\napp = FastAPI()\n\ndef get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):\n    try:\n        payload = jwt.decode(token, SECRET_KEY, algorithms=[\"HS256\"], options={\"require\": [\"exp\", \"sub\"]})\n    except jwt.InvalidTokenError:\n        raise HTTPException(401, \"Invalid token\", headers={\"WWW-Authenticate\": \"Bearer\"})\n    granted = set(payload.get(\"scope\", \"\").split())\n    missing = [s for s in security_scopes.scopes if s not in granted]\n    if missing:\n        raise HTTPException(403, f\"Missing scope: {', '.join(missing)}\")\n    return users.get(int(payload[\"sub\"]))\n\n@app.get(\"/api/v1/orders/{order_id}\")\ndef get_order(order_id: int, user=Security(get_current_user, scopes=[\"orders:read\"])):\n    order = orders.get(order_id)\n    if order is None or (order.customer_id != user.id and user.role != \"admin\"):\n        raise HTTPException(404, \"Order not found\")     # ownership check (404 hides existence)\n    return order",
+    "memory": "Remember: scope limits the app, role limits the person, ownership limits the data",
+    "tip": "Mention ownership checks (does this order belong to this user?); missing them is the most common real-world API security bug (broken object-level authorization, #1 in the OWASP API Top 10)."
+  },
+  {
+    "id": "rest-api-f8bca42d",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "How do you authenticate service-to-service calls? API keys vs Client Credentials vs mTLS?",
+    "answer": "API keys: a long random secret sent in a header (X-API-Key). Simple for partners and internal tools, but a key has no expiry by default and no user context. Generate keys with a secure random generator, show them once, store only a hash (plus a visible prefix to identify them), allow several keys per client so they can rotate without downtime, scope and rate-limit each key, and revoke on leak. OAuth2 Client Credentials: the service exchanges its client ID and secret for a short-lived access token with scopes, and caches it until it expires; better for microservices because tokens expire, carry scopes and are verified like any JWT. mTLS (mutual TLS): both sides present certificates, so the network connection itself proves the service identity; strong, often added automatically by a service mesh (Istio, Linkerd). Cloud-native option: IAM roles or workload identity (AWS IAM roles, Azure managed identities, GCP service accounts) with no stored secrets at all.",
+    "points": [
+      "API key: simple, store only a hash, show once",
+      "Prefix + multiple keys for rotation",
+      "Client Credentials: short-lived scoped tokens",
+      "Cache the token until expiry",
+      "mTLS: certificates on both sides, service mesh",
+      "Cloud IAM roles: no stored secrets"
+    ],
+    "code": "import hashlib\nimport secrets\nimport time\n\nimport httpx\nfrom fastapi import HTTPException, Security\nfrom fastapi.security import APIKeyHeader\n\n# --- API keys: create once, store only the hash ---\ndef create_api_key() -> tuple[str, str]:\n    key = \"iph_live_\" + secrets.token_urlsafe(32)          # shown to the client ONCE\n    return key, hashlib.sha256(key.encode()).hexdigest()   # save the hash (+ prefix) in the DB\n\napi_key_header = APIKeyHeader(name=\"X-API-Key\")\n\ndef get_api_client(api_key: str = Security(api_key_header)):\n    client = clients.get_by_key_hash(hashlib.sha256(api_key.encode()).hexdigest())\n    if client is None or client.revoked:\n        raise HTTPException(401, \"Invalid API key\")\n    return client\n\n# --- OAuth2 Client Credentials: service A calling service B ---\n_token = {\"value\": None, \"expires_at\": 0}\n\ndef service_token() -> str:\n    if _token[\"value\"] and time.time() < _token[\"expires_at\"] - 60:   # reuse until near expiry\n        return _token[\"value\"]\n    resp = httpx.post(\"https://auth.example.com/oauth/token\",\n                      data={\"grant_type\": \"client_credentials\", \"scope\": \"inventory:read\"},\n                      auth=(CLIENT_ID, CLIENT_SECRET), timeout=5)\n    resp.raise_for_status()\n    data = resp.json()\n    _token.update(value=data[\"access_token\"], expires_at=time.time() + data[\"expires_in\"])\n    return _token[\"value\"]\n\nstock = httpx.get(\"https://inventory.internal/api/v1/stock/42\",\n                  headers={\"Authorization\": f\"Bearer {service_token()}\"}, timeout=5).json()",
+    "memory": "Remember: keys for partners, client credentials for services, mTLS for the network",
+    "tip": "Never put API keys in frontend JavaScript or mobile apps; anyone can extract them."
+  },
+  {
+    "id": "rest-api-b531db59",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "Compare rate limiting algorithms: fixed window, sliding log, sliding window counter, token bucket and leaky bucket.",
+    "answer": "Fixed window: count requests per key in fixed time slots (for example per minute) with INCR + EXPIRE. Very cheap, but allows bursts at the boundary: up to 2× the limit across the end of one window and the start of the next. Sliding window log: store the timestamp of every request (Redis sorted set) and count those in the last N seconds. Exact, but uses memory per request. Sliding window counter: combine the current and previous window counts weighted by time (for example 70% of the previous minute plus the current minute). Nearly exact with tiny memory, and a good default. Token bucket: a bucket holds up to C tokens and refills at R tokens per second; each request takes one token. It allows short bursts up to C while enforcing the average rate R; used by AWS API Gateway and Stripe-style APIs. Leaky bucket: requests enter a queue that drains at a fixed rate, producing a smooth output; good for protecting a fragile downstream system (Nginx limit_req works this way). Choose token bucket when bursts are fine, sliding window when you need accurate per-minute limits, and leaky bucket when you need smooth traffic.",
+    "points": [
+      "Fixed window: cheap, boundary bursts",
+      "Sliding log: exact, memory heavy",
+      "Sliding window counter: near exact, cheap",
+      "Token bucket: bursts up to capacity, average rate",
+      "Leaky bucket: smooth constant output",
+      "Store state in Redis for all servers"
+    ],
+    "code": "Algorithm               Memory     Accuracy      Bursts                 Good for\n----------------------  ---------  ------------  ---------------------  ------------------------------\nFixed window            tiny       low (edges)   2x at window edges     simple internal limits\nSliding window log      high       exact         no                     low-volume, strict limits\nSliding window counter  tiny       near exact    small                  public API per-minute limits\nToken bucket            tiny       good          yes, up to capacity    APIs that allow short bursts\nLeaky bucket (queue)    queue      good          smoothed out           protecting a slow downstream",
+    "memory": "Remember: Fixed is cheap, Sliding is fair, Token allows bursts, Leaky smooths",
+    "tip": "Draw the 2× burst problem of fixed windows on a timeline; it shows you understand why the other algorithms exist.",
+    "language": "plaintext"
+  },
+  {
+    "id": "rest-api-0c8106c6",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "Implement a token bucket rate limiter with Redis and Lua.",
+    "answer": "Each client key stores two values in a Redis hash: the current number of tokens and the time of the last update. On each request: add tokens for the time passed (elapsed seconds × refill rate, capped at the capacity), then take one token if available. Doing this in a Lua script makes the read-modify-write atomic, so concurrent requests on many API servers can't both take the last token. Set an expiry so idle keys disappear. Return whether the request is allowed and how many tokens are left, so the API can send rate limit headers. The example uses Redis server time to avoid clock differences between API servers.",
+    "points": [
+      "Hash per key: tokens + last timestamp",
+      "Refill = elapsed × rate, capped at capacity",
+      "Take 1 token or reject",
+      "Lua = atomic across servers",
+      "Redis TIME avoids clock drift",
+      "EXPIRE cleans idle keys",
+      "Return remaining tokens for headers"
+    ],
+    "code": "import redis\nfrom fastapi import Depends, FastAPI, HTTPException, Response\n\nr = redis.Redis(decode_responses=True)\napp = FastAPI()\n\nTOKEN_BUCKET = r.register_script(\"\"\"\nlocal key      = KEYS[1]\nlocal capacity = tonumber(ARGV[1])\nlocal rate     = tonumber(ARGV[2])               -- tokens added per second\nlocal t        = redis.call('TIME')\nlocal now      = tonumber(t[1]) + tonumber(t[2]) / 1000000\n\nlocal data   = redis.call('HMGET', key, 'tokens', 'ts')\nlocal tokens = tonumber(data[1]) or capacity\nlocal ts     = tonumber(data[2]) or now\ntokens = math.min(capacity, tokens + (now - ts) * rate)\n\nlocal allowed = 0\nif tokens >= 1 then\n  tokens = tokens - 1\n  allowed = 1\nend\nredis.call('HSET', key, 'tokens', tokens, 'ts', now)\nredis.call('EXPIRE', key, math.ceil(capacity / rate) * 2)\nreturn {allowed, math.floor(tokens)}\n\"\"\")\n\ndef rate_limit(response: Response, user=Depends(get_current_user)):\n    capacity, rate = 20, 5                       # burst of 20, then 5 requests per second\n    allowed, remaining = TOKEN_BUCKET(keys=[f\"bucket:user:{user.id}\"], args=[capacity, rate])\n    response.headers[\"RateLimit-Limit\"] = str(capacity)\n    response.headers[\"RateLimit-Remaining\"] = str(remaining)\n    if not allowed:\n        raise HTTPException(429, \"Too many requests\", headers={\"Retry-After\": \"1\"})\n\n@app.get(\"/api/v1/products\", dependencies=[Depends(rate_limit)])\ndef list_products():\n    return products.list()",
+    "memory": "Remember: refill, take, save; atomically in Lua",
+    "tip": "Explain why plain GET then SET in Python is wrong: two servers can read the same value at the same time (race condition)."
+  },
+  {
+    "id": "rest-api-1b0caa6f",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "What should an API return when a client is rate limited, and how should clients handle it?",
+    "answer": "Return 429 Too Many Requests with a clear JSON error and a Retry-After header (seconds to wait, or an HTTP date). Also send rate limit headers on normal responses so clients can slow down before hitting the limit: the common X-RateLimit-Limit, X-RateLimit-Remaining and X-RateLimit-Reset, or the newer standard-track RateLimit and RateLimit-Policy headers (from the IETF draft). Document the limits per plan and per endpoint. Clients should: read Retry-After and wait at least that long; otherwise use exponential backoff with jitter (1 s, 2 s, 4 s plus a random part) so thousands of clients don't retry at the same moment; cap the number of retries; retry only idempotent requests automatically (or use an Idempotency-Key for POST); and spread out their own batch jobs. 503 Service Unavailable with Retry-After is used when the whole server is overloaded, not a single client over its quota.",
+    "points": [
+      "429 Too Many Requests",
+      "Retry-After header",
+      "Limit / Remaining / Reset headers",
+      "Document limits per plan",
+      "Client: respect Retry-After",
+      "Exponential backoff + jitter",
+      "Cap retries, retry idempotent calls",
+      "503 = whole service overloaded"
+    ],
+    "code": "# Server response when limited\n# HTTP/1.1 429 Too Many Requests\n# Retry-After: 30\n# X-RateLimit-Limit: 100\n# X-RateLimit-Remaining: 0\n# X-RateLimit-Reset: 1767000000\n# {\"error\": {\"code\": \"RATE_LIMITED\", \"message\": \"Limit of 100 requests per minute reached.\"}}\n\n# Client: respect Retry-After, otherwise exponential backoff with jitter\nimport random\nimport time\n\nimport httpx\n\ndef get_with_retry(url: str, max_attempts: int = 5) -> httpx.Response:\n    for attempt in range(max_attempts):\n        resp = httpx.get(url, timeout=10)\n        if resp.status_code not in (429, 503):\n            return resp\n        retry_after = resp.headers.get(\"Retry-After\", \"\")\n        wait = float(retry_after) if retry_after.isdigit() else min(2 ** attempt, 30)\n        time.sleep(wait + random.uniform(0, 1))          # jitter spreads out the retries\n    raise RuntimeError(f\"Still rate limited after {max_attempts} attempts\")",
+    "memory": "Remember: 429 + Retry-After; clients back off with jitter",
+    "tip": "Mention jitter explicitly; without it, retries arrive in synchronized waves (the 'thundering herd')."
+  },
+  {
+    "id": "rest-api-6b391f5a",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "How do you add rate limiting to a FastAPI app (slowapi with Redis)?",
+    "answer": "slowapi is a rate-limiting library for Starlette and FastAPI (based on the 'limits' package). You create a Limiter with a key function (who is being limited: IP address, user ID or API key) and a storage backend. Use Redis in production so all app instances share the counters; in-memory storage only works for one process. Then decorate endpoints with limits like '100/minute' or '5/minute;50/hour', register the exception handler that returns 429, and optionally enable rate limit headers. Stricter limits go on expensive or sensitive endpoints such as login, OTP, search and report generation. Behind a proxy or load balancer, make sure the client IP comes from a trusted X-Forwarded-For header (for example with Uvicorn's --proxy-headers), otherwise every user looks like the load balancer's IP.",
+    "points": [
+      "slowapi = rate limits for FastAPI",
+      "Key: IP, user ID or API key",
+      "Redis storage for many instances",
+      "@limiter.limit('5/minute')",
+      "429 exception handler",
+      "Strict limits on login, OTP, search",
+      "Real client IP behind proxies"
+    ],
+    "code": "# pip install slowapi redis\nfrom fastapi import Depends, FastAPI, Request\nfrom fastapi.security import OAuth2PasswordRequestForm\nfrom slowapi import Limiter, _rate_limit_exceeded_handler\nfrom slowapi.errors import RateLimitExceeded\nfrom slowapi.util import get_remote_address\n\ndef client_key(request: Request) -> str:\n    # Limit by API key when present, otherwise by client IP\n    return request.headers.get(\"X-API-Key\") or get_remote_address(request)\n\nlimiter = Limiter(key_func=client_key,\n                  storage_uri=\"redis://localhost:6379/0\",   # shared by all app instances\n                  default_limits=[\"200/minute\"])\n\napp = FastAPI()\napp.state.limiter = limiter\napp.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)   # returns 429\n\n@app.get(\"/api/v1/products\")\n@limiter.limit(\"100/minute\")\ndef list_products(request: Request):                  # \"request\" parameter is required\n    return products.list()\n\n@app.post(\"/api/v1/auth/token\")\n@limiter.limit(\"5/minute;20/hour\")                     # strict: protects against brute force\ndef login(request: Request, form: OAuth2PasswordRequestForm = Depends()):\n    return authenticate(form.username, form.password)\n\n# Run behind a proxy with the real client IP:\n# uvicorn app.main:app --proxy-headers --forwarded-allow-ips=\"10.0.0.0/8\"",
+    "memory": "Remember: Limiter + key + Redis + decorator",
+    "tip": "Note that slowapi needs the request parameter in the endpoint signature; it is a common gotcha."
+  },
+  {
+    "id": "rest-api-2cea40c8",
+    "subject": "REST API",
+    "level": "Advanced",
+    "question": "Where should rate limiting happen (CDN, gateway, Nginx, app)? What key do you limit by?",
+    "answer": "Use layers, from outside in. 1) CDN / WAF (CloudFront with AWS WAF, Cloudflare): blocks floods and abusive IPs before they reach you; this is your DDoS protection. 2) API gateway (AWS API Gateway, Kong, Azure API Management): per-API-key quotas and usage plans, for example 10,000 requests per day for the free plan. 3) Reverse proxy (Nginx limit_req): cheap per-IP protection in front of your app servers. 4) Application (middleware or Redis): business-aware limits, such as per user, per endpoint, per tenant, 5 OTP requests per phone number per hour, or 3 login attempts per account. Limit keys: IP address for anonymous traffic (careful: offices and mobile networks share IPs behind NAT); user ID or API key for logged-in traffic (fairer); endpoint plus key for expensive operations; and tenant for multi-tenant SaaS. Decide what happens if Redis is down: fail open (allow traffic, risk overload) for normal endpoints, fail closed (block) for sensitive ones like OTP or payments.",
+    "points": [
+      "CDN / WAF: floods, DDoS",
+      "API gateway: per-key quotas, plans",
+      "Nginx limit_req: per-IP, cheap",
+      "App: per user / endpoint / tenant rules",
+      "IP keys: shared NAT problem",
+      "User / API key keys: fairer",
+      "Fail open vs fail closed"
+    ],
+    "code": "# Nginx: 10 requests/second per client IP, bursts of 20, answer 429 when exceeded\nhttp {\n    limit_req_zone $binary_remote_addr zone=api_per_ip:10m rate=10r/s;\n    limit_req_zone $binary_remote_addr zone=login_per_ip:10m rate=5r/m;\n\n    server {\n        location /api/ {\n            limit_req zone=api_per_ip burst=20 nodelay;\n            limit_req_status 429;\n            proxy_pass http://fastapi_upstream;\n        }\n\n        location = /api/v1/auth/token {\n            limit_req zone=login_per_ip burst=3;\n            limit_req_status 429;\n            proxy_pass http://fastapi_upstream;\n        }\n    }\n}",
+    "memory": "Remember: block floods at the edge, apply business limits in the app",
+    "tip": "'What if the rate limiter's Redis goes down?' is a common follow-up; answer with fail open vs fail closed per endpoint.",
+    "language": "nginx"
+  },
+  {
+    "id": "rest-api-3da3d23d",
+    "subject": "REST API",
+    "level": "Intermediate",
+    "question": "Rate limiting vs throttling vs quotas, and how do you protect login and OTP endpoints from brute force?",
+    "answer": "Rate limiting rejects requests above a limit in a short window (429). Throttling slows requests down or queues them instead of rejecting (for example delaying responses or processing at a fixed rate); people often use the two words loosely. Quotas are long-period allowances, usually per plan (for example 100,000 requests per month), and are tied to billing. Load shedding drops low-priority traffic when the whole system is overloaded. Brute-force protection for login and OTP: limit per IP and per account (attackers rotate IPs, so per-account limits matter); add increasing delays or a temporary lock after repeated failures (careful: permanent lockout lets attackers lock real users out); show a CAPTCHA after a few failures; return the same generic error for a wrong email or a wrong password; limit OTP sends per phone number and OTP verification attempts per code, make OTPs expire in a few minutes and store only their hash; offer MFA for sensitive accounts; and alert on unusual login patterns.",
+    "points": [
+      "Rate limiting = reject over the limit (429)",
+      "Throttling = slow down / queue",
+      "Quota = long-period allowance per plan",
+      "Load shedding = drop low-priority traffic",
+      "Login: limit per IP AND per account",
+      "Increasing delay or temporary lock, CAPTCHA",
+      "OTP: limit sends + attempts, short expiry, store hash",
+      "MFA, alerts"
+    ],
+    "code": "",
+    "memory": "Remember: reject, slow, allow per month; protect login per account, not only per IP",
+    "tip": "OTP abuse (SMS cost and account takeover) is a real problem for Indian apps; limiting OTP sends per phone number is a practical, impressive detail."
   }
 ]
